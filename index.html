@@ -512,7 +512,7 @@
             const canvas = document.getElementById('finance-canvas');
             const ctx = canvas.getContext('2d');
             let particles = [];
-            const symbols = ['$', '%', '▲', '▼', '📈', '📉'];
+            const symbols = ['$', '%', '▲', '▼', '📈', '📉', '€', '¥', '₿'];
             let mouse = { x: null, y: null, radius: 100 };
 
             function resizeCanvas() {
@@ -531,17 +531,37 @@
 
             function createParticles() {
                 particles = [];
-                let numberOfParticles = (canvas.width * canvas.height) / 9000;
+                let numberOfParticles = (canvas.width * canvas.height) / 10000;
                 for (let i = 0; i < numberOfParticles; i++) {
                     particles.push({
                         x: Math.random() * canvas.width,
                         y: Math.random() * canvas.height,
-                        vx: (Math.random() - 0.5) * 0.8, // Increased velocity
-                        vy: (Math.random() - 0.5) * 0.8, // Increased velocity
-                        size: Math.random() * 4 + 12, // Slightly larger symbols
+                        vx: (Math.random() - 0.5) * 1.2,
+                        vy: (Math.random() - 0.5) * 1.2,
+                        size: Math.random() * 5 + 12,
                         symbol: symbols[Math.floor(Math.random() * symbols.length)]
                     });
                 }
+            }
+
+            function drawTrendLine(p1, p2, opacity) {
+                const dx = p2.x - p1.x;
+                const dy = p2.y - p1.y;
+                const segments = 4;
+                
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+
+                for (let i = 1; i < segments; i++) {
+                    const x = p1.x + (dx * i) / segments;
+                    const y = p1.y + (dy * i) / segments + (Math.random() - 0.5) * 10;
+                    ctx.lineTo(x, y);
+                }
+
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba(156, 143, 167, ${opacity})`; // Muted color for lines
+                ctx.lineWidth = 0.7;
+                ctx.stroke();
             }
 
             function animate() {
@@ -567,11 +587,11 @@
                     if (p.x < 0 || p.x > canvas.width) p.vx = -p.vx;
                     if (p.y < 0 || p.y > canvas.height) p.vy = -p.vy;
 
-                    ctx.fillStyle = 'rgba(156, 143, 167, 0.4)'; // Muted color, increased opacity
+                    ctx.fillStyle = `rgba(209, 164, 110, 0.8)`; // Brighter Accent-soft color
                     ctx.font = `${p.size}px Montserrat`;
                     ctx.fillText(p.symbol, p.x, p.y);
 
-                    // Draw lines between nearby particles
+                    // Draw trend lines between nearby particles
                     for (let j = i; j < particles.length; j++) {
                         let p2 = particles[j];
                         let dx = p.x - p2.x;
@@ -579,12 +599,8 @@
                         let distance = Math.sqrt(dx * dx + dy * dy);
 
                         if (distance < 150) {
-                            ctx.beginPath();
-                            ctx.strokeStyle = `rgba(156, 143, 167, ${1 - distance/150})`; // Fading lines
-                            ctx.lineWidth = 0.5;
-                            ctx.moveTo(p.x, p.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.stroke();
+                            const opacity = 1 - distance / 150;
+                            drawTrendLine(p, p2, opacity);
                         }
                     }
                 }
