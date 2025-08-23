@@ -584,8 +584,12 @@
                     p.x += p.vx;
                     p.y += p.vy;
 
-                    if (p.x < 0 || p.x > canvas.width) p.vx = -p.vx;
-                    if (p.y < 0 || p.y > canvas.height) p.vy = -p.vy;
+                    // Screen wrapping for balanced animation
+                    if (p.x < 0) p.x = canvas.width;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height;
+                    if (p.y > canvas.height) p.y = 0;
+
 
                     ctx.fillStyle = `rgba(209, 164, 110, 0.3)`; // More subtle Accent-soft color
                     ctx.font = `${p.size}px Montserrat`;
