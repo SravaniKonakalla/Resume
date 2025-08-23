@@ -13,15 +13,15 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* --- NEW DARK COLOR PALETTE --- */
-        /* BG #111827 • Surface rgba(30, 41, 59, 0.5) • Text #E2E8F0 */
-        /* Accent #D1A46E • Accent-soft #9C8FA7 • Muted #94A3B8 */
+        /* --- COLOR PALETTE --- */
+        /* BG #F5F1EA • Surface #FFFFFF • Text #221C2A */
+        /* Accent #463863 • Accent-soft #D1A46E • Muted #9C8FA7 */
 
         /* Base styles with new font and color palette */
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #111827; /* Dark Slate BG */
-            color: #E2E8F0; /* Light Slate Text */
+            background-color: #F5F1EA; /* Darker Champagne BG */
+            color: #221C2A; /* Raisin Text */
             overflow-x: hidden;
         }
 
@@ -37,15 +37,14 @@
         
         /* Card effect with new colors */
         .card-effect {
-            background: rgba(30, 41, 59, 0.5); /* Semi-transparent dark surface */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #FFFFFF; /* Surface color */
+            border: 1px solid #e2e8f0; /* Subtle border */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
         }
         .card-effect:hover {
             transform: translateY(-6px);
-            box-shadow: 0 10px 15px -3px rgba(209, 164, 110, 0.1), 0 4px 6px -4px rgba(209, 164, 110, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(70, 56, 99, 0.1), 0 4px 6px -4px rgba(70, 56, 99, 0.1);
         }
 
         /* Auto-hiding header animation */
@@ -67,7 +66,7 @@
             content: '';
             position: absolute;
             width: 2px;
-            background-color: #334155; /* Darker gray line */
+            background-color: #e2e8f0; /* Light gray line */
             top: 0;
             bottom: 0;
             left: 0.75rem; /* Center the line */
@@ -84,15 +83,15 @@
             width: 1.75rem;
             height: 1.75rem;
             border-radius: 50%;
-            background-color: #D1A46E; /* Gold Accent */
-            border: 3px solid #111827; /* Match body background */
+            background-color: #463863; /* Raisin Accent */
+            border: 3px solid #F5F1EA; /* Match body background */
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1;
         }
         .timeline-icon i {
-            color: #111827; /* Dark icon */
+            color: #FFFFFF; /* White icon */
         }
         .timeline-content {
             opacity: 0;
@@ -112,13 +111,13 @@
         /* Navigation bar styles with new colors */
         .nav-container { 
             display: inline-block; 
-            background: rgba(30, 41, 59, 0.7); /* Dark semi-transparent */
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
             backdrop-filter: blur(10px); 
             -webkit-backdrop-filter: blur(10px); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border: 1px solid #e2e8f0; 
             border-radius: 9999px; 
             padding: 0.5rem; 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); 
             max-width: 100%;
         }
         
@@ -135,12 +134,12 @@
             border-radius: 9999px; 
             transition: all 0.3s ease; 
             font-weight: 500; 
-            color: #E2E8F0; /* Light Text */
+            color: #221C2A; /* Raisin Text */
             cursor: pointer; 
             font-size: 1rem;
         }
-        .nav-link.active { background-color: #111827; color: #D1A46E; font-weight: 700; }
-        .nav-link:not(.active):hover { background-color: #111827; }
+        .nav-link.active { background-color: #F5F1EA; color: #463863; font-weight: 700; }
+        .nav-link:not(.active):hover { background-color: #F5F1EA; }
 
         /* Success message toast */
         #success-toast {
@@ -202,7 +201,7 @@
                     name: "Bala Sravani Konakalla",
                     title: "Analytical Finance Professional",
                     summary: "Expertise in credit monitoring, financial modeling, and compliance. Skilled in SAP BPC and advanced Excel, with a proven track record of optimizing workflows and ensuring regulatory compliance.",
-                    imageUrl: "https://placehold.co/300x300/D1A46E/111827?text=BSK",
+                    imageUrl: "https://placehold.co/300x300/463863/F5F1EA?text=BSK",
                 },
                 experiences: [
                     { 
@@ -291,14 +290,14 @@
                     <section class="container mx-auto px-6 py-20 min-h-[80vh] flex items-center">
                         <div class="grid md:grid-cols-2 gap-12 items-center">
                             <div class="flex justify-center">
-                                <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-gray-700 shadow-2xl">
+                                <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-gray-200 shadow-2xl">
                             </div>
                             <div class="text-center md:text-left">
-                                <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #E2E8F0;">${portfolioData.home.name}</h1>
-                                <h2 class="text-2xl md:text-3xl mb-6" style="color: #D1A46E;">${portfolioData.home.title}</h2>
-                                <p class="text-lg" style="color: #94A3B8;">${portfolioData.home.summary}</p>
+                                <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
+                                <h2 class="text-2xl md:text-3xl mb-6" style="color: #463863;">${portfolioData.home.title}</h2>
+                                <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.summary}</p>
                                 <div class="mt-8">
-                                    <a href="mailto:${portfolioData.contact.email}" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-block" style="background-color: #D1A46E; color: #111827;">
+                                    <a href="mailto:${portfolioData.contact.email}" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-block" style="background-color: #463863; color: #FFFFFF;">
                                         Get In Touch
                                     </a>
                                 </div>
@@ -317,27 +316,27 @@
                     <div class="timeline-item">
                         <div class="timeline-icon"><i class="fas fa-briefcase"></i></div>
                         <div class="timeline-content card-effect p-6 rounded-lg">
-                            <p class="text-sm font-semibold mb-2" style="color: #9C8FA7;">${exp.date}</p>
-                            <h4 class="text-xl font-bold mb-1" style="color: #E2E8F0;">${exp.title}</h4>
-                            <p class="text-lg font-semibold mb-3" style="color: #D1A46E;">${exp.company}</p>
-                            <ul class="list-disc list-inside space-y-2" style="color: #94A3B8;">${exp.duties.map(duty => `<li>${duty}</li>`).join('')}</ul>
+                            <p class="text-sm font-semibold mb-2" style="color: #D1A46E;">${exp.date}</p>
+                            <h4 class="text-xl font-bold mb-1" style="color: #221C2A;">${exp.title}</h4>
+                            <p class="text-lg font-semibold mb-3" style="color: #463863;">${exp.company}</p>
+                            <ul class="list-disc list-inside space-y-2" style="color: #9C8FA7;">${exp.duties.map(duty => `<li>${duty}</li>`).join('')}</ul>
                         </div>
                     </div>`).join(''); 
                 const skillsHTML = portfolioData.skills.map(skill => `
                     <div class="p-4 rounded-lg card-effect flex items-center justify-center">
-                        <p class="text-md font-semibold text-center" style="color: #E2E8F0;">${skill}</p>
+                        <p class="text-md font-semibold text-center" style="color: #221C2A;">${skill}</p>
                     </div>`).join(''); 
                 page.innerHTML = `
                     <section class="py-16">
                         <div class="container mx-auto px-6">
-                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #E2E8F0;">Career & Skills</h3>
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Career & Skills</h3>
                             <div class="grid md:grid-cols-3 gap-12">
                                 <div class="md:col-span-2">
-                                    <h4 class="text-2xl font-bold mb-8" style="color: #E2E8F0;">Work Experience</h4>
+                                    <h4 class="text-2xl font-bold mb-8" style="color: #221C2A;">Work Experience</h4>
                                     <div class="timeline">${experiencesHTML}</div>
                                 </div>
                                 <div>
-                                    <h4 class="text-2xl font-bold mb-8" style="color: #E2E8F0;">Technical Skills</h4>
+                                    <h4 class="text-2xl font-bold mb-8" style="color: #221C2A;">Technical Skills</h4>
                                     <div class="grid grid-cols-2 gap-4">${skillsHTML}</div>
                                 </div>
                             </div>
@@ -352,19 +351,19 @@
                 page.className = 'page';
                 const projectsHTML = portfolioData.projects.map(proj => `
                     <div class="card-effect p-8 rounded-lg flex flex-col items-start">
-                         <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background-color: #111827;">
-                            <i class="${proj.icon} text-2xl" style="color: #D1A46E;"></i>
+                         <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background-color: #F5F1EA;">
+                            <i class="${proj.icon} text-2xl" style="color: #463863;"></i>
                         </div>
-                        <h4 class="text-xl font-bold mb-2" style="color: #E2E8F0;">${proj.title}</h4>
-                        <p class="font-semibold mb-4" style="color: #9C8FA7;">${proj.organization}</p>
-                        <p class="leading-relaxed" style="color: #94A3B8;">${proj.description}</p>
+                        <h4 class="text-xl font-bold mb-2" style="color: #221C2A;">${proj.title}</h4>
+                        <p class="font-semibold mb-4" style="color: #D1A46E;">${proj.organization}</p>
+                        <p class="leading-relaxed" style="color: #9C8FA7;">${proj.description}</p>
                     </div>
                 `).join('');
 
                 page.innerHTML = `
                     <section class="py-16">
                         <div class="container mx-auto px-6">
-                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #E2E8F0;">Key Projects</h3>
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Key Projects</h3>
                             <div class="max-w-4xl mx-auto grid md:grid-cols-1 gap-8">
                                 ${projectsHTML}
                             </div>
@@ -382,31 +381,31 @@
                     <div class="timeline-item">
                         <div class="timeline-icon"><i class="fas fa-graduation-cap"></i></div>
                         <div class="timeline-content card-effect p-6 rounded-lg">
-                            <p class="text-sm font-semibold mb-2" style="color: #9C8FA7;">${edu.date}</p>
-                            <h4 class="text-xl font-bold" style="color: #E2E8F0;">${edu.degree}</h4>
-                            <p class="text-lg mb-2" style="color: #D1A46E;">${edu.school}</p>
-                            <p style="color: #94A3B8;">${edu.details}</p>
+                            <p class="text-sm font-semibold mb-2" style="color: #D1A46E;">${edu.date}</p>
+                            <h4 class="text-xl font-bold" style="color: #221C2A;">${edu.degree}</h4>
+                            <p class="text-lg mb-2" style="color: #463863;">${edu.school}</p>
+                            <p style="color: #9C8FA7;">${edu.details}</p>
                         </div>
                     </div>`).join('');
                 const certificationsHTML = portfolioData.certifications.map(cert => `
                     <div class="card-effect p-4 rounded-lg flex items-center gap-4">
                         <i class="fas fa-certificate text-xl" style="color: #D1A46E;"></i>
                         <div>
-                            <h4 class="font-bold" style="color: #E2E8F0;">${cert.name}</h4>
-                            <p class="text-sm" style="color: #94A3B8;">${cert.issuer}</p>
+                            <h4 class="font-bold" style="color: #221C2A;">${cert.name}</h4>
+                            <p class="text-sm" style="color: #9C8FA7;">${cert.issuer}</p>
                         </div>
                     </div>`).join('');
                 page.innerHTML = `
                     <section class="py-16">
                         <div class="container mx-auto px-6">
-                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #E2E8F0;">Education & Certifications</h3>
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Education & Certifications</h3>
                             <div class="grid md:grid-cols-3 gap-12">
                                 <div class="md:col-span-2">
-                                    <h4 class="text-2xl font-bold mb-8" style="color: #E2E8F0;">Academic Background</h4>
+                                    <h4 class="text-2xl font-bold mb-8" style="color: #221C2A;">Academic Background</h4>
                                     <div class="timeline">${educationsHTML}</div>
                                 </div>
                                 <div>
-                                    <h4 class="text-2xl font-bold mb-8" style="color: #E2E8F0;">Certifications</h4>
+                                    <h4 class="text-2xl font-bold mb-8" style="color: #221C2A;">Certifications</h4>
                                     <div class="flex flex-col gap-4">${certificationsHTML}</div>
                                 </div>
                             </div>
@@ -422,24 +421,24 @@
                 page.innerHTML = `
                     <section class="py-16">
                         <div class="container mx-auto px-6 text-center">
-                            <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #E2E8F0;">Get In Touch</h3>
-                            <p class="max-w-xl mx-auto mb-12" style="color: #94A3B8;">I'm always open to discussing new opportunities. Feel free to send a message.</p>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">Get In Touch</h3>
+                            <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">I'm always open to discussing new opportunities. Feel free to send a message.</p>
                             <div class="max-w-2xl mx-auto">
                                 <form id="contact-form" action="${portfolioData.contact.formspree_url}" method="POST" class="w-full p-8 rounded-lg card-effect mb-8">
                                     <div class="space-y-4 text-left">
-                                        <input type="text" name="name" placeholder="Your Name" required class="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #E2E8F0; --tw-ring-color: #D1A46E;">
-                                        <input type="email" name="email" placeholder="Your Email" required class="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #E2E8F0; --tw-ring-color: #D1A46E;">
-                                        <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #E2E8F0; --tw-ring-color: #D1A46E;"></textarea>
+                                        <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                                        <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                                        <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
                                     </div>
                                     <div class="mt-8">
-                                        <button type="submit" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full" style="background-color: #D1A46E; color: #111827;">
+                                        <button type="submit" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full" style="background-color: #463863; color: #FFFFFF;">
                                             Send Message
                                         </button>
                                     </div>
                                 </form>
                                 <div class="flex justify-center items-center gap-6 mt-8">
-                                    <a href="mailto:${portfolioData.contact.email}" class="transition-colors text-2xl" style="color: #94A3B8; --hover-color: #D1A46E;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#94A3B8'"><i class="fas fa-envelope"></i></a>
-                                    <a href="${portfolioData.contact.linkedin}" target="_blank" class="transition-colors text-2xl" style="color: #94A3B8; --hover-color: #D1A46E;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#94A3B8'"><i class="fab fa-linkedin"></i></a>
+                                    <a href="mailto:${portfolioData.contact.email}" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fas fa-envelope"></i></a>
+                                    <a href="${portfolioData.contact.linkedin}" target="_blank" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fab fa-linkedin"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -532,14 +531,14 @@
 
             function createParticles() {
                 particles = [];
-                let numberOfParticles = (canvas.width * canvas.height) / 10000;
+                let numberOfParticles = (canvas.width * canvas.height) / 25000; // Reduced particle count
                 for (let i = 0; i < numberOfParticles; i++) {
                     particles.push({
                         x: Math.random() * canvas.width,
                         y: Math.random() * canvas.height,
-                        vx: (Math.random() - 0.5) * 1.2,
-                        vy: (Math.random() - 0.5) * 1.2,
-                        size: Math.random() * 5 + 12,
+                        vx: (Math.random() - 0.5) * 0.8, // Slower movement
+                        vy: (Math.random() - 0.5) * 0.8, // Slower movement
+                        size: Math.random() * 3 + 8, // Smaller symbols
                         symbol: symbols[Math.floor(Math.random() * symbols.length)]
                     });
                 }
@@ -555,13 +554,13 @@
 
                 for (let i = 1; i < segments; i++) {
                     const x = p1.x + (dx * i) / segments;
-                    const y = p1.y + (dy * i) / segments + (Math.random() - 0.5) * 5; // Reduced jaggedness
+                    const y = p1.y + (dy * i) / segments + (Math.random() - 0.5) * 3; // Smoother jaggedness
                     ctx.lineTo(x, y);
                 }
 
                 ctx.lineTo(p2.x, p2.y);
-                ctx.strokeStyle = `rgba(156, 143, 167, ${opacity})`; // Muted color for lines
-                ctx.lineWidth = 0.7;
+                ctx.strokeStyle = `rgba(156, 143, 167, ${opacity * 0.5})`; // Muted color, reduced opacity for lines
+                ctx.lineWidth = 0.5;
                 ctx.stroke();
             }
 
@@ -588,7 +587,7 @@
                     if (p.x < 0 || p.x > canvas.width) p.vx = -p.vx;
                     if (p.y < 0 || p.y > canvas.height) p.vy = -p.vy;
 
-                    ctx.fillStyle = `rgba(209, 164, 110, 0.8)`; // Brighter Accent-soft color
+                    ctx.fillStyle = `rgba(209, 164, 110, 0.3)`; // More subtle Accent-soft color
                     ctx.font = `${p.size}px Montserrat`;
                     ctx.fillText(p.symbol, p.x, p.y);
 
@@ -599,8 +598,8 @@
                         let dy = p.y - p2.y;
                         let distance = Math.sqrt(dx * dx + dy * dy);
 
-                        if (distance < 150) {
-                            const opacity = 1 - distance / 150;
+                        if (distance < 180) { // Increased distance for fewer lines
+                            const opacity = 1 - distance / 180;
                             drawTrendLine(p, p2, opacity);
                         }
                     }
