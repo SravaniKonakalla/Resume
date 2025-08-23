@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bala Sravani Konakalla</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a; /* A deep navy blue for a unique feel */
+            color: #e2e8f0; /* A soft, off-white for text */
+            overflow-x: hidden;
+        }
+        /* Animated background container */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        /* Glassmorphism effect for cards */
+        .glass-effect {
+            background: rgba(30, 41, 59, 0.7); /* Semi-transparent slate background */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-effect:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 25px rgba(34, 211, 238, 0.3); /* Cyan glow on hover */
+        }
+        /* Glow effect for important elements */
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.5), 0 0 30px rgba(34, 211, 238, 0.3);
+        }
+        
+        /* Auto-hiding header animation */
+        header {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        header.nav-hidden {
+            transform: translateY(-100%);
+        }
+
+        /* Timeline styles for Experience section */
+        .timeline-container {
+            position: relative;
+            width: 100%;
+            margin: auto;
+        }
+        .timeline-line {
+            position: absolute;
+            width: 2px;
+            background-color: #334155; /* Slate color for the timeline track */
+            top: 0;
+            bottom: 0;
+            left: 1rem;
+        }
+        .timeline-line-progress {
+            position: absolute;
+            width: 2px;
+            /* A gradient for the progress line */
+            background: linear-gradient(to bottom, #67e8f9, #22d3ee, #06b6d4);
+            top: 0;
+            left: 1rem;
+            height: 0;
+            transition: height 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 3rem; 
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            z-index: 1;
+        }
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .timeline-icon {
+            position: absolute;
+            width: 3.5rem; 
+            height: 3.5rem; 
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0f172a;
+            border: 2px solid #22d3ee;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.7);
+            z-index: 2;
+            animation: pulse 2s infinite;
+            overflow: hidden;
+            left: 1rem;
+            top: 0;
+            transform: translateX(-50%);
+        }
+        .timeline-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 8px;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 15px rgba(34, 211, 238, 0.7); }
+            50% { box-shadow: 0 0 25px rgba(34, 211, 238, 1); }
+            100% { box-shadow: 0 0 15px rgba(34, 211, 238, 0.7); }
+        }
+        
+        /* Responsive timeline for larger screens */
+        @media (min-width: 768px) {
+            .timeline-line, .timeline-line-progress {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .timeline-item { width: 50%; padding-left: 0; margin-bottom: 4rem; }
+            .timeline-item:nth-child(odd) { left: 0; padding-right: 3rem; text-align: right; }
+            .timeline-item:nth-child(even) { left: 50%; padding-left: 3rem; text-align: left; }
+            .timeline-icon { top: 0; left: 50%; }
+            .timeline-item:nth-child(odd) .timeline-icon {
+                left: auto;
+                right: -1.75rem;
+                transform: translateX(50%);
+            }
+            .timeline-item:nth-child(even) .timeline-icon {
+                left: -1.75rem;
+                transform: translateX(-50%);
+            }
+        }
+        
+        /* Page switching animation */
+        .page { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Navigation bar styles */
+        .nav-container { 
+            display: inline-block; 
+            background: rgba(15, 23, 42, 0.5); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 9999px; 
+            padding: 0.5rem; 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
+            max-width: 100%;
+        }
+        
+        #main-nav {
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            scrollbar-width: none; /* For Firefox */
+        }
+        #main-nav::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Opera */
+        }
+        .nav-link { 
+            flex-shrink: 0; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 9999px; 
+            transition: all 0.3s ease; 
+            font-weight: 500; 
+            color: #e2e8f0; 
+            cursor: pointer; 
+            font-size: 1rem;
+        }
+        .nav-link.active { background-color: rgba(34, 211, 238, 0.2); color: #fff; box-shadow: 0 0 10px rgba(34, 211, 238, 0.1); }
+        .nav-link:not(.active):hover { background-color: rgba(34, 211, 238, 0.1); color: #fff; }
+
+        /* Success message toast */
+        #success-toast {
+            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            background-color: #10b981; color: white; padding: 1rem 1.5rem;
+            border-radius: 0.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 100; opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+        #success-toast.show {
+            opacity: 1; visibility: visible; transform: translate(-50%, -10px);
+        }
+
+        /* Project Stepper Styles */
+        .project-stepper {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .project-stepper {
+                flex-direction: row;
+            }
+        }
+        .step-tabs {
+            display: flex;
+            flex-direction: row;
+            overflow-x: auto;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            .step-tabs {
+                flex-direction: column;
+                flex: 0 0 250px; /* Fixed width for tabs on desktop */
+            }
+        }
+        .step-tab {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #334155;
+            background-color: transparent;
+            color: #94a3b8;
+            text-align: left;
+            white-space: nowrap;
+        }
+        .step-tab.active {
+            background-color: rgba(34, 211, 238, 0.1);
+            color: #67e8f9;
+            border-color: #22d3ee;
+        }
+        .step-content {
+            display: none;
+            flex: 1;
+        }
+        .step-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- The animated particle background -->
+    <div id="particles-js"></div>
+    
+    <!-- Toast notification for form submission -->
+    <div id="success-toast">
+        <i class="fas fa-check-circle mr-2"></i> Message sent successfully! I'll get back to you soon.
+    </div>
+
+    <!-- Floating Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 py-4">
+        <div class="container mx-auto flex justify-center items-center px-4">
+            <div class="nav-container">
+                <nav id="main-nav">
+                    <!-- Navigation links will be dynamically inserted here by JavaScript -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content area where pages are rendered -->
+    <main class="pt-24 relative z-10">
+        <!-- All page content will be dynamically inserted here by JavaScript -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center text-gray-500 relative z-10">
+        <p>&copy; 2024 Bala Sravani Konakalla. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Particle.js library for the background effect -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- DATA SOURCE ---
+            // All website content is managed from this single object.
+            // To update the website, you just need to change the text here.
+            const portfolioData = {
+                pages: [
+                    { id: 'home', label: 'Home' },
+                    { id: 'experience', label: 'Experience' },
+                    { id: 'projects', label: 'Projects' },
+                    { id: 'certifications', label: 'Certifications' },
+                    { id: 'contact', label: 'Contact' }
+                ],
+                home: {
+                    name: "Bala Sravani Konakalla",
+                    title: "Analytical finance professional with expertise in credit monitoring, financial modeling, and compliance.",
+                    // A placeholder image. Replace the URL with a direct link to your photo.
+                    imageUrl: "https://placehold.co/256x256/0891b2/e0f2fe?text=BSK",
+                },
+                about: {
+                    title: "About Me",
+                    description: "I am a dedicated and analytical finance professional skilled in SAP BPC and advanced Excel. My experience has given me a proven track record of optimizing workflows and ensuring regulatory compliance. I am adept at analyzing financial statements, monitoring covenants, and collaborating with cross-functional teams to deliver data-driven insights under strict deadlines. I am passionate about leveraging my expertise to drive strategic financial decisions."
+                },
+                experiences: [
+                    { 
+                        date: 'Jun 2024 - Present', 
+                        title: 'Management Trainee', 
+                        company: 'Tata Consultancy Services', 
+                        duties: [
+                            'Executed Fixed Asset Runs and Role Forward using SAP BPC, ensuring 100% compliance.',
+                            'Monitored cost centers and role IDs, improving process efficiency by 15%.',
+                            'Resolved system discrepancies through root cause analysis to enhance data reliability.',
+                            'Developed and maintained financial performance dashboards for stakeholder decision-making.'
+                        ], 
+                        // Found a generic logo for TCS. You can replace this with a more specific one if you like.
+                        logoUrl: 'https://cdn.icon-icons.com/icons2/2699/PNG/512/tata_consultancy_services_logo_icon_169153.png' 
+                    },
+                    { 
+                        date: 'Jun 2023 - Jul 2023', 
+                        title: 'Sales Trainee (Internship)', 
+                        company: 'Silver Star Mercedes Benz', 
+                        duties: [
+                            'Performed credit risk assessments and analyzed financial statements.',
+                            'Managed end-to-end accounts payable, enhancing vendor relationships.',
+                            'Conducted detailed cost-benefit analyses for marketing campaigns.',
+                            'Collaborated to streamline accounts receivable processes and improve cash flow.'
+                        ], 
+                        // Found a generic logo for Mercedes-Benz.
+                        logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Benz_Logo_2010.svg/1200px-Mercedes-Benz_Logo_2010.svg.png' 
+                    }
+                ],
+                skills: ['SAP BPC', 'Financial Modeling', 'Tableau', 'Advanced Excel', 'Microsoft Office Suite', 'Canva', 'Python (Basics)', 'Compliance Management', 'Credit Monitoring', 'Data Analysis'],
+                projects: [
+                    {
+                        title: 'Investment Banking Job Simulation',
+                        organization: 'JP Morgan',
+                        logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/J.P._Morgan_logo_2008.svg/2560px-J.P._Morgan_logo_2008.svg.png',
+                        steps: [
+                            {
+                                title: 'Strategic Assessment',
+                                content: 'Performed comprehensive strategic and financial assessments to pinpoint an ideal M&A target. This process involved aligning potential acquisitions with the client\'s long-term goals and current market opportunities.'
+                            },
+                            {
+                                title: 'Valuation Modeling',
+                                content: 'Designed and implemented a detailed Discounted Cash Flow (DCF) valuation model. The model was built to be robust, integrating potential impacts from competitor bids and supply chain disruptions.'
+                            },
+                            {
+                                title: 'Data-Driven Insights',
+                                content: 'The final model delivered robust financial insights, providing a solid foundation for the client to make informed, strategic decisions regarding the merger and acquisition target.'
+                            }
+                        ]
+                    }
+                ],
+                educations: [
+                    { degree: 'Masters of Business Administration - Finance & Marketing', school: 'GITAM School of Business, Visakhapatnam', date: '2022 - 2024', details: 'CGPA: 8.19 (A Grade)' },
+                    { degree: 'Bachelor of Technology - Civil Engineering', school: 'Shri Vishnu Engineering College for Women, Bhimavaram', date: '2017 - 2021', details: 'CGPA: 8.29 (A+ Grade)' }
+                ],
+                certifications: [
+                    { name: 'Microsoft 365 Fundamentals', issuer: 'Microsoft on Coursera' },
+                    { name: 'SAP Professional Fundamentals', issuer: 'SAP on Coursera' },
+                    { name: 'PwC GST Taxation Certificate', issuer: 'PwC on Coursera' }
+                ],
+                contact: {
+                    email: 'sravikonakalla@gmail.com',
+                    linkedin: 'https://linkedin.com/in/kbalasravani',
+                    // IMPORTANT: Create a free account on formspree.io and replace this URL with your own.
+                    formspree_url: 'https://formspree.io/f/your_unique_id'
+                }
+            };
+
+            const mainContainer = document.querySelector('main');
+            const navContainer = document.getElementById('main-nav');
+
+            // --- PAGE NAVIGATION LOGIC ---
+            const showPage = (pageId) => {
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                // Show the selected page
+                const newPage = document.getElementById(`page-${pageId}`);
+                if (newPage) newPage.classList.add('active');
+                
+                // Update the active link in the navigation bar
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.pageId === pageId) {
+                        link.classList.add('active');
+                        // Scroll the active link into view on mobile
+                        link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    }
+                });
+                // Scroll to the top of the page on navigation
+                window.scrollTo(0, 0);
+            };
+
+            // --- DYNAMICALLY CREATE NAVIGATION LINKS ---
+            portfolioData.pages.forEach(page => {
+                const link = document.createElement('a');
+                link.className = 'nav-link';
+                if (page.id === 'home') link.classList.add('active');
+                link.textContent = page.label;
+                link.dataset.pageId = page.id;
+                link.onclick = () => showPage(page.id);
+                navContainer.appendChild(link);
+            });
+
+            // --- PAGE CREATION FUNCTIONS ---
+
+            const createHomePage = () => {
+                const page = document.createElement('div');
+                page.id = 'page-home';
+                page.className = 'page active'; // Home is active by default
+                page.innerHTML = `
+                    <section class="container mx-auto px-6 py-16 text-center">
+                        <div class="flex flex-col items-center justify-center gap-6">
+                            <div class="relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0">
+                                <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-full h-full object-cover border-4 border-cyan-500 glow-effect bg-slate-900">
+                            </div>
+                            <div>
+                                <h2 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight text-white">${portfolioData.home.name}</h2>
+                                <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto">${portfolioData.home.title}</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="py-12">
+                        <div class="container mx-auto px-6">
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">${portfolioData.about.title}</h3>
+                            <div class="max-w-4xl mx-auto text-base md:text-lg text-slate-300 leading-relaxed text-center p-8 rounded-lg glass-effect">
+                                ${portfolioData.about.description}
+                            </div>
+                        </div>
+                    </section>
+                `;
+                mainContainer.appendChild(page);
+            };
+
+            const createExperiencePage = () => { 
+                const page = document.createElement('div'); 
+                page.id = 'page-experience'; 
+                page.className = 'page'; 
+                const experiencesHTML = portfolioData.experiences.map(exp => `
+                    <div class="timeline-item">
+                        <div class="timeline-icon"><img src="${exp.logoUrl}" alt="${exp.company} logo"></div>
+                        <div class="p-6 rounded-lg glass-effect">
+                            <h4 class="text-xl font-bold mb-1 text-white">${exp.title}</h4>
+                            <p class="text-lg font-semibold text-slate-300 mb-2">${exp.company}</p>
+                            <p class="text-sm text-cyan-400 mb-3">${exp.date}</p>
+                            <ul class="list-disc list-inside text-slate-400 space-y-2">${exp.duties.map(duty => `<li>${duty}</li>`).join('')}</ul>
+                        </div>
+                    </div>`).join(''); 
+                const skillsHTML = portfolioData.skills.map(skill => `
+                    <div class="p-6 rounded-lg glass-effect flex items-center justify-center">
+                        <p class="text-lg font-semibold text-white">${skill}</p>
+                    </div>`).join(''); 
+                page.innerHTML = `
+                    <section class="py-16">
+                        <div class="container mx-auto px-6">
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-20 text-white">Work Experience</h3>
+                            <div class="relative timeline-container" id="experience-container">
+                                <div class="timeline-line"></div>
+                                <div class="timeline-line-progress" id="timeline-progress"></div>
+                                ${experiencesHTML}
+                                <div id="timeline-end" class="h-1"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="py-16">
+                        <div class="container mx-auto px-6">
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Technical Skills</h3>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 text-center">${skillsHTML}</div>
+                        </div>
+                    </section>`; 
+                mainContainer.appendChild(page); 
+            };
+
+            const createProjectsPage = () => {
+                const page = document.createElement('div');
+                page.id = 'page-projects';
+                page.className = 'page';
+                const project = portfolioData.projects[0]; // Assuming one main project for now
+                const tabsHTML = project.steps.map((step, index) => `
+                    <button class="step-tab ${index === 0 ? 'active' : ''}" data-step="${index + 1}">
+                        <span class="font-bold mr-2">${index + 1}.</span> ${step.title}
+                    </button>
+                `).join('');
+                const contentHTML = project.steps.map((step, index) => `
+                    <div class="step-content ${index === 0 ? 'active' : ''}" data-content="${index + 1}">
+                        <div class="p-8 rounded-lg glass-effect">
+                            <h4 class="text-2xl font-bold text-white mb-4">${step.title}</h4>
+                            <p class="text-slate-300 leading-relaxed">${step.content}</p>
+                        </div>
+                    </div>
+                `).join('');
+
+                page.innerHTML = `
+                    <section class="py-16">
+                        <div class="container mx-auto px-6">
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-4 text-white">${project.title}</h3>
+                            <p class="text-center text-cyan-400 text-lg mb-12">An overview of the ${project.organization} simulation.</p>
+                            
+                            <div class="max-w-6xl mx-auto project-stepper">
+                                <div class="step-tabs">
+                                    ${tabsHTML}
+                                </div>
+                                <div class="step-contents">
+                                    ${contentHTML}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+                mainContainer.appendChild(page);
+
+                // Add event listeners for the new stepper
+                const tabs = page.querySelectorAll('.step-tab');
+                const contents = page.querySelectorAll('.step-content');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const step = tab.dataset.step;
+                        tabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        contents.forEach(c => c.classList.remove('active'));
+                        page.querySelector(`.step-content[data-content="${step}"]`).classList.add('active');
+                    });
+                });
+            };
+
+            const createCertificationsPage = () => {
+                const page = document.createElement('div');
+                page.id = 'page-certifications';
+                page.className = 'page';
+                const certificationsHTML = portfolioData.certifications.map(cert => `
+                    <div class="p-6 rounded-lg glass-effect">
+                        <h4 class="text-lg font-bold text-white">${cert.name}</h4>
+                        <p class="text-cyan-400">${cert.issuer}</p>
+                    </div>`).join('');
+                const educationsHTML = portfolioData.educations.map(edu => `
+                    <div class="p-8 rounded-lg glass-effect text-center">
+                        <h4 class="text-xl font-bold text-white">${edu.degree}</h4>
+                        <p class="text-lg text-cyan-400 mb-2">${edu.school}</p>
+                        <p class="text-slate-400">${edu.date}</p>
+                        <p class="text-slate-400">${edu.details}</p>
+                    </div>`).join('');
+                page.innerHTML = `
+                    <section class="py-16">
+                        <div class="container mx-auto px-6">
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Certifications</h3>
+                            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">${certificationsHTML}</div>
+                        </div>
+                    </section>
+                    <section class="py-16">
+                        <div class="container mx-auto px-6">
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Education</h3>
+                            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">${educationsHTML}</div>
+                        </div>
+                    </section>`;
+                mainContainer.appendChild(page);
+            };
+
+            const createContactPage = () => {
+                const page = document.createElement('div');
+                page.id = 'page-contact';
+                page.className = 'page';
+                page.innerHTML = `
+                    <section class="py-16">
+                        <div class="container mx-auto px-6 text-center">
+                            <h3 class="text-3xl md:text-4xl font-bold mb-12 text-white">Let's Connect</h3>
+                            <div class="max-w-2xl mx-auto">
+                                <form id="contact-form" action="${portfolioData.contact.formspree_url}" method="POST" class="w-full p-8 rounded-lg glass-effect mb-8">
+                                    <p class="text-slate-300 text-lg mb-6">Have a question or want to work together? Send me a message!</p>
+                                    <div class="space-y-4 text-left">
+                                        <input type="text" name="name" placeholder="Your Name" required class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all">
+                                        <input type="email" name="email" placeholder="Your Email" required class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all">
+                                        <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"></textarea>
+                                    </div>
+                                    <div class="mt-8">
+                                        <button type="submit" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center gap-3 glow-effect w-full sm:w-auto justify-center">
+                                            <i class="fas fa-paper-plane"></i>Send Message
+                                        </button>
+                                    </div>
+                                </form>
+                                <div class="flex justify-center items-center gap-6 mt-8">
+                                    <a href="mailto:${portfolioData.contact.email}" class="text-slate-400 hover:text-cyan-400 transition-colors text-2xl"><i class="fas fa-envelope"></i></a>
+                                    <a href="${portfolioData.contact.linkedin}" target="_blank" class="text-slate-400 hover:text-cyan-400 transition-colors text-2xl"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>`;
+                mainContainer.appendChild(page);
+            };
+
+            // --- INITIALIZE ALL PAGES ---
+            createHomePage();
+            createExperiencePage();
+            createProjectsPage();
+            createCertificationsPage();
+            createContactPage();
+            
+            // --- ANIMATION OBSERVERS ---
+            // This observer animates the timeline items as you scroll them into view
+            const timelineContainer = document.getElementById('experience-container');
+            if (timelineContainer) {
+                const timelineProgress = document.getElementById('timeline-progress');
+                const timelineItems = Array.from(timelineContainer.querySelectorAll('.timeline-item'));
+                
+                const itemEntryObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(observerEntry => {
+                        observerEntry.target.classList.toggle('visible', observerEntry.isIntersecting);
+                    });
+                }, { threshold: 0.5, rootMargin: "0px 0px -50px 0px" });
+
+                const lineProgressObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(observerEntry => {
+                        if (observerEntry.isIntersecting) {
+                            const icon = observerEntry.target.querySelector('.timeline-icon');
+                            const newHeight = observerEntry.target.offsetTop + (icon.offsetHeight / 2);
+                            timelineProgress.style.height = `${newHeight}px`;
+                        }
+                    });
+                }, { threshold: 0.6 });
+
+                timelineItems.forEach(item => {
+                    itemEntryObserver.observe(item);
+                    lineProgressObserver.observe(item);
+                });
+
+                const timelineEnd = document.getElementById('timeline-end');
+                if (timelineEnd) {
+                    const lineEndObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(observerEntry => {
+                            if (observerEntry.isIntersecting) {
+                                timelineProgress.style.height = '100%';
+                            }
+                        });
+                    }, { threshold: 1.0 });
+                    lineEndObserver.observe(timelineEnd);
+                }
+            }
+
+            // --- CONTACT FORM SUBMISSION LOGIC ---
+            const contactForm = document.getElementById('contact-form');
+            const successToast = document.getElementById('success-toast');
+            if (contactForm) { 
+                contactForm.addEventListener('submit', function(e) { 
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    fetch(this.action, { 
+                        method: 'POST', body: formData, headers: { 'Accept': 'application/json' } 
+                    }).then(response => { 
+                        if (response.ok) { 
+                            successToast.classList.add('show'); 
+                            setTimeout(() => { successToast.classList.remove('show'); }, 4000);
+                            contactForm.reset(); 
+                        } else { 
+                            // You could add an error toast here as well
+                            console.error("Form submission error."); 
+                        } 
+                    }).catch(error => { console.error("Network error.", error); }); 
+                }); 
+            }
+            
+            // --- AUTO-HIDE NAVIGATION BAR ON SCROLL ---
+            const header = document.querySelector('header');
+            let lastScrollTop = 0;
+            const delta = 50; 
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (Math.abs(lastScrollTop - scrollTop) <= delta) return;
+                if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
+                    header.classList.add('nav-hidden');
+                } else {
+                    header.classList.remove('nav-hidden');
+                }
+                lastScrollTop = scrollTop;
+            }, false);
+
+            // --- PARTICLES.JS BACKGROUND CONFIGURATION ---
+            particlesJS("particles-js", {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#22d3ee" }, // Cyan particles
+                    shape: { type: "circle" },
+                    opacity: { value: 0.4, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: { enable: true, distance: 150, color: "#22d3ee", opacity: 0.2, width: 1 },
+                    move: { enable: true, speed: 2, direction: "none", out_mode: "out" }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true },
+                    modes: { grab: { distance: 140, line_opacity: 0.5 }, push: { particles_nb: 4 } }
+                },
+                retina_detect: true
+            });
+        
+            // Ensure the active nav link is visible on load
+            document.querySelector('.nav-link.active')?.scrollIntoView({ inline: 'center', block: 'nearest' });
+        });
+    </script>
+</body>
+</html>
