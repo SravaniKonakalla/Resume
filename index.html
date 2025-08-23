@@ -59,8 +59,9 @@
         .center-timeline-container {
             position: relative;
             width: 100%;
-            max-width: 56rem; /* 896px */
+            max-width: 64rem; /* Increased max-width for wider boxes */
             margin: auto;
+            padding: 2rem 0;
         }
         .center-timeline-line {
             position: absolute;
@@ -84,7 +85,7 @@
         .timeline-item {
             position: relative;
             width: 50%;
-            padding: 0 2rem; /* Adjusted padding for wider boxes */
+            padding: 0 2.5rem; /* Adjusted padding for wider boxes */
             margin-bottom: 3rem;
             opacity: 0;
             transform: translateY(20px);
@@ -519,32 +520,26 @@
             if (experienceTimelineContainer) {
                 const timelineProgress = document.getElementById('timeline-progress');
                 const movingIcon = document.getElementById('timeline-moving-icon');
-                const timelineItemsForCalc = experienceTimelineContainer.querySelectorAll('.timeline-item');
-                const lastItem = timelineItemsForCalc[timelineItemsForCalc.length - 1];
-
+                
                 window.addEventListener('scroll', () => {
-                    const containerTop = experienceTimelineContainer.offsetTop;
-                    const containerHeight = experienceTimelineContainer.offsetHeight;
-                    const lastItemTop = lastItem.offsetTop;
-                    const endPoint = lastItemTop + 40; // End point is near the top of the last item's content
-
-                    const scrollTop = window.scrollY;
+                    const containerRect = experienceTimelineContainer.getBoundingClientRect();
                     const windowHeight = window.innerHeight;
 
-                    // Calculate the scroll progress relative to when the container is in view
-                    const scrollStart = containerTop - windowHeight + 200; // Start animation a bit before it's fully in view
-                    const scrollEnd = containerTop + containerHeight - windowHeight;
-                    
-                    if (scrollTop > scrollStart) {
-                        let progress = (scrollTop - scrollStart) / (endPoint - scrollStart);
+                    // Start when the top of the container is visible, end when the bottom is visible
+                    const startPoint = containerRect.top;
+                    const endPoint = containerRect.bottom;
+                    const containerVisibleHeight = containerRect.height;
+
+                    if (startPoint < windowHeight && endPoint > 0) {
+                        // Calculate progress from 0 to 1 based on how much of the container has been scrolled past
+                        let progress = (windowHeight - startPoint) / (windowHeight + containerVisibleHeight);
                         progress = Math.min(1, Math.max(0, progress));
                         
-                        const currentPosition = progress * endPoint;
+                        const totalHeight = experienceTimelineContainer.offsetHeight;
+                        const currentPosition = progress * totalHeight;
+
                         timelineProgress.style.height = `${currentPosition}px`;
                         movingIcon.style.top = `${currentPosition}px`;
-                    } else {
-                        timelineProgress.style.height = `0px`;
-                        movingIcon.style.top = `0px`;
                     }
                 });
             }
