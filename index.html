@@ -80,7 +80,6 @@
             left: 50%;
             transform: translateX(-50%);
             height: 0;
-            transition: height 0.1s linear;
         }
         .timeline-item {
             position: relative;
@@ -122,7 +121,6 @@
             justify-content: center;
             font-size: 1.25rem;
             box-shadow: 0 0 15px rgba(209, 164, 110, 0.7);
-            transition: top 0.1s linear;
             z-index: 10;
         }
         
@@ -192,6 +190,23 @@
         #success-toast.show {
             opacity: 1; visibility: visible; transform: translate(-50%, -10px);
         }
+
+        /* Global Progress Bar */
+        #global-progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: rgba(70, 56, 99, 0.2);
+            z-index: 1000;
+        }
+        #global-progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: #463863;
+            transition: width 0.05s linear;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -224,6 +239,11 @@
     <footer class="py-6 text-center text-gray-500 relative z-10">
         <p>&copy; 2024 Bala Sravani Konakalla. All Rights Reserved.</p>
     </footer>
+
+    <!-- Global Progress Bar -->
+    <div id="global-progress-container">
+        <div id="global-progress-bar"></div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -515,42 +535,800 @@
                 });
             }
 
-            // --- TIMELINE SCROLL ANIMATION ---
+            // --- TIMELINE SCROLL ANIMATION & GLOBAL PROGRESS BAR---
             const experienceTimelineContainer = document.getElementById('experience-timeline-container');
-            if (experienceTimelineContainer) {
-                const timelineProgress = document.getElementById('timeline-progress');
-                const movingIcon = document.getElementById('timeline-moving-icon');
-                
-                window.addEventListener('scroll', () => {
+            const globalProgressBar = document.getElementById('global-progress-bar');
+            
+            window.addEventListener('scroll', () => {
+                // Timeline Animation
+                if (experienceTimelineContainer) {
+                    const timelineProgress = document.getElementById('timeline-progress');
+                    const movingIcon = document.getElementById('timeline-moving-icon');
                     const containerRect = experienceTimelineContainer.getBoundingClientRect();
                     const windowHeight = window.innerHeight;
 
-                    // The point where the animation should start (e.g., when the top of the container is 80% down the viewport)
-                    const animationStartPoint = windowHeight * 0.8;
-                    // The point where the animation should effectively end
-                    const animationEndPoint = 100; // A point near the top of the viewport
-
-                    // If the container is not in the animation viewport, do nothing or reset
-                    if (containerRect.bottom < animationEndPoint || containerRect.top > animationStartPoint) {
-                        // If we are above the timeline, reset to 0
-                        if (window.scrollY < experienceTimelineContainer.offsetTop) {
-                             timelineProgress.style.height = `0px`;
-                             movingIcon.style.top = `0px`;
-                        }
-                        return;
-                    }
+                    const startPoint = containerRect.top;
+                    const endPoint = containerRect.bottom;
                     
-                    // Calculate progress based on the container's top position within the animation window
-                    let progress = (animationStartPoint - containerRect.top) / (animationStartPoint - animationEndPoint);
-                    progress = Math.min(1, Math.max(0, progress)); // Clamp between 0 and 1
+                    if (startPoint < windowHeight && endPoint > 0) {
+                        let progress = (windowHeight - startPoint) / containerRect.height;
+                        progress = Math.min(1, Math.max(0, progress));
+                        
+                        const totalHeight = experienceTimelineContainer.offsetHeight;
+                        const currentPosition = progress * totalHeight;
 
-                    const totalHeight = experienceTimelineContainer.offsetHeight - 40; // Subtract icon height for buffer
-                    const currentPosition = progress * totalHeight;
+                        timelineProgress.style.height = `${currentPosition}px`;
+                        movingIcon.style.top = `${currentPosition}px`;
+                    }
+                }
 
-                    timelineProgress.style.height = `${currentPosition}px`;
-                    movingIcon.style.top = `${currentPosition}px`;
+                // Global Progress Bar Animation
+                const activePage = document.querySelector('.page.active');
+                if (!activePage || !globalProgressBar) return;
+
+                const pageTop = activePage.offsetTop;
+                const pageHeight = activePage.offsetHeight;
+                const windowHeight = window.innerHeight;
+                const scrollableHeight = pageHeight - windowHeight;
+                
+                const scrollTopInPage = window.scrollY - pageTop;
+
+                if (scrollableHeight <= 0) {
+                    globalProgressBar.style.width = '0%';
+                    return;
+                }
+
+                const progress = Math.max(0, Math.min(1, scrollTopInPage / scrollableHeight));
+                globalProgressBar.style.width = `${progress * 100}%`;
+            });
+
+
+            // --- CONTACT FORM SUBMISSION LOGIC ---
+            const contactForm = document.getElementById('contact-form');
+            const successToast = document.getElementById('success-toast');
+            if (contactForm) { 
+                contactForm.addEventListener('submit', function(e) { 
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    fetch(this.action, { 
+                        method: 'POST', body: formData, headers: { 'Accept': 'application/json' } 
+                    }).then(response => { 
+                        if (response.ok) { 
+                            successToast.classList.add('show'); 
+                            setTimeout(() => { successToast.classList.remove('show'); }, 4000);
+                            contactForm.reset(); 
+                        } else { 
+                            console.error("Form submission error."); 
+                        } 
+                    }).catch(error => { console.error("Network error.", error); }); 
+                }); 
+            }
+            
+            // --- AUTO-HIDE NAVIGATION BAR ON SCROLL ---
+            const header = document.querySelector('header');
+            let lastScrollTop = 0;
+            const delta = 50; 
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (Math.abs(lastScrollTop - scrollTop) <= delta) return;
+                if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
+                    header.classList.add('nav-hidden');
+                } else {
+                    header.classList.remove('nav-hidden');
+                }
+                lastScrollTop = scrollTop;
+            }, false);
+        
+            // Ensure the active nav link is visible on load
+            document.querySelector('.nav-link.active')?.scrollIntoView({ inline: 'center', block: 'nearest' });
+
+            // --- FINANCE BACKGROUND ANIMATION ---
+            const canvas = document.getElementById('finance-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            const symbols = ['$', '%', '▲', '▼', '📈', '📉', '€', '¥', '₿'];
+            let mouse = { x: null, y: null, radius: 100 };
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('mousemove', (event) => {
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+             window.addEventListener('mouseout', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            function createParticles() {
+                particles = [];
+                let numberOfParticles = (canvas.width * canvas.height) / 25000; // Reduced particle count
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        vx: (Math.random() - 0.5) * 0.8, // Slower movement
+                        vy: (Math.random() - 0.5) * 0.8, // Slower movement
+                        size: Math.random() * 3 + 8, // Smaller symbols
+                        symbol: symbols[Math.floor(Math.random() * symbols.length)]
+                    });
+                }
+            }
+
+            function drawTrendLine(p1, p2, opacity) {
+                const dx = p2.x - p1.x;
+                const dy = p2.y - p1.y;
+                const segments = 4;
+                
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+
+                for (let i = 1; i < segments; i++) {
+                    const x = p1.x + (dx * i) / segments;
+                    const y = p1.y + (dy * i) / segments + (Math.random() - 0.5) * 3; // Smoother jaggedness
+                    ctx.lineTo(x, y);
+                }
+
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba(156, 143, 167, ${opacity * 0.5})`; // Muted color, reduced opacity for lines
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                for (let i = 0; i < particles.length; i++) {
+                    let p = particles[i];
+
+                    // Mouse interaction
+                    if(mouse.x !== null && mouse.y !== null) {
+                        let dx = mouse.x - p.x;
+                        let dy = mouse.y - p.y;
+                        let distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < mouse.radius) {
+                            p.x -= dx * 0.03;
+                            p.y -= dy * 0.03;
+                        }
+                    }
+
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // Screen wrapping for balanced animation
+                    if (p.x < -20) p.x = canvas.width + 20;
+                    if (p.x > canvas.width + 20) p.x = -20;
+                    if (p.y < -20) p.y = canvas.height + 20;
+                    if (p.y > canvas.height + 20) p.y = -20;
+
+
+                    // Neon light effect for symbols
+                    const symbolColor = `rgba(209, 164, 110, 0.6)`; // Brighter, more visible color
+                    ctx.fillStyle = symbolColor;
+                    ctx.shadowColor = symbolColor;
+                    ctx.shadowBlur = 10;
+                    ctx.font = `${p.size}px Montserrat`;
+                    ctx.fillText(p.symbol, p.x, p.y);
+
+                    // Reset shadow for trend lines
+                    ctx.shadowBlur = 0;
+
+                    // Draw trend lines between nearby particles
+                    for (let j = i; j < particles.length; j++) {
+                        let p2 = particles[j];
+                        let dx = p.x - p2.x;
+                        let dy = p.y - p2.y;
+                        let distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < 180) { // Increased distance for fewer lines
+                            const opacity = 1 - distance / 180;
+                            drawTrendLine(p, p2, opacity);
+                        }
+                    }
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                createParticles();
+            });
+
+            resizeCanvas();
+            createParticles();
+            animate();
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bala Sravani Konakalla | Finance Professional</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* --- COLOR PALETTE --- */
+        /* BG #F5F1EA • Surface #FFFFFF • Text #221C2A */
+        /* Accent #463863 • Accent-soft #D1A46E • Muted #9C8FA7 */
+
+        /* Base styles with new font and color palette */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #F5F1EA; /* Darker Champagne BG */
+            color: #221C2A; /* Raisin Text */
+            overflow-x: hidden;
+        }
+
+        /* Canvas for background animation */
+        #finance-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place it behind all content */
+        }
+        
+        /* Card effect with new colors */
+        .card-effect {
+            background: #FFFFFF; /* Surface color */
+            border: 1px solid #e2e8f0; /* Subtle border */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+        .card-effect:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 15px -3px rgba(70, 56, 99, 0.1), 0 4px 6px -4px rgba(70, 56, 99, 0.1);
+        }
+
+        /* Auto-hiding header animation */
+        header {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        header.nav-hidden {
+            transform: translateY(-100%);
+        }
+
+        /* --- NEW Centered, Alternating Timeline --- */
+        .center-timeline-container {
+            position: relative;
+            width: 100%;
+            max-width: 64rem; /* Increased max-width for wider boxes */
+            margin: auto;
+            padding: 2rem 0;
+        }
+        .center-timeline-line {
+            position: absolute;
+            width: 4px;
+            background-color: #e2e8f0;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .center-timeline-line-progress {
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(to bottom, #D1A46E, #463863);
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 0;
+        }
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 0 2.5rem; /* Adjusted padding for wider boxes */
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+        .timeline-item-content {
+            position: relative;
+        }
+        
+        #timeline-moving-icon {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background-color: #463863;
+            color: #D1A46E;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: 0 0 15px rgba(209, 164, 110, 0.7);
+            z-index: 10;
+        }
+        
+        /* Responsive stacking for timeline on mobile */
+        @media (max-width: 768px) {
+            .center-timeline-line, .center-timeline-line-progress {
+                left: 20px;
+            }
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 3rem;
+                padding-right: 1rem;
+                text-align: left !important;
+            }
+            #timeline-moving-icon {
+                left: 20px;
+            }
+        }
+        
+        /* Page switching animation */
+        .page { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Navigation bar styles with new colors */
+        .nav-container { 
+            display: inline-block; 
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); 
+            border: 1px solid #e2e8f0; 
+            border-radius: 9999px; 
+            padding: 0.5rem; 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); 
+            max-width: 100%;
+        }
+        
+        #main-nav {
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        #main-nav::-webkit-scrollbar { display: none; }
+        .nav-link { 
+            flex-shrink: 0; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 9999px; 
+            transition: all 0.3s ease; 
+            font-weight: 500; 
+            color: #221C2A; /* Raisin Text */
+            cursor: pointer; 
+            font-size: 1rem;
+        }
+        .nav-link.active { background-color: #F5F1EA; color: #463863; font-weight: 700; }
+        .nav-link:not(.active):hover { background-color: #F5F1EA; }
+
+        /* Success message toast */
+        #success-toast {
+            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            background-color: #10b981; color: white; padding: 1rem 1.5rem;
+            border-radius: 0.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 100; opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+        #success-toast.show {
+            opacity: 1; visibility: visible; transform: translate(-50%, -10px);
+        }
+
+        /* Global Progress Bar */
+        #global-progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: rgba(70, 56, 99, 0.2);
+            z-index: 1000;
+        }
+        #global-progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: #463863;
+            transition: width 0.05s linear;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    
+    <!-- Canvas for background animation -->
+    <canvas id="finance-canvas"></canvas>
+
+    <!-- Toast notification for form submission -->
+    <div id="success-toast">
+        <i class="fas fa-check-circle mr-2"></i> Message sent successfully! I'll get back to you soon.
+    </div>
+
+    <!-- Floating Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 py-4">
+        <div class="container mx-auto flex justify-center items-center px-4">
+            <div class="nav-container">
+                <nav id="main-nav">
+                    <!-- Navigation links will be dynamically inserted here by JavaScript -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content area where pages are rendered -->
+    <main class="pt-24 relative z-10">
+        <!-- All page content will be dynamically inserted here by JavaScript -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center text-gray-500 relative z-10">
+        <p>&copy; 2024 Bala Sravani Konakalla. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Global Progress Bar -->
+    <div id="global-progress-container">
+        <div id="global-progress-bar"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- DATA SOURCE ---
+            const portfolioData = {
+                pages: [
+                    { id: 'home', label: 'Home' },
+                    { id: 'experience', label: 'Experience' },
+                    { id: 'projects', label: 'Projects' },
+                    { id: 'education', label: 'Education' },
+                    { id: 'contact', label: 'Contact' }
+                ],
+                home: {
+                    name: "Bala Sravani Konakalla",
+                    title: "Analytical Finance Professional",
+                    summary: "Expertise in credit monitoring, financial modeling, and compliance. Skilled in SAP BPC and advanced Excel, with a proven track record of optimizing workflows and ensuring regulatory compliance.",
+                    imageUrl: "https://placehold.co/300x300/463863/F5F1EA?text=BSK",
+                },
+                experiences: [
+                    { 
+                        date: 'Jun 2024 - Present', 
+                        title: 'Management Trainee', 
+                        company: 'Tata Consultancy Services', 
+                        logoUrl: 'https://placehold.co/100x100/F5F1EA/463863?text=TCS',
+                        duties: [
+                            'Executed Fixed Asset Runs and Role Forward using SAP BPC, ensuring 100% compliance.',
+                            'Monitored cost centers and role IDs, improving process efficiency by 15%.',
+                            'Resolved system discrepancies through root cause analysis to enhance data reliability.'
+                        ]
+                    },
+                    { 
+                        date: 'Jun 2023 - Jul 2023', 
+                        title: 'Sales Trainee (Internship)', 
+                        company: 'Silver Star Mercedes Benz', 
+                        logoUrl: 'https://placehold.co/100x100/F5F1EA/463863?text=MB',
+                        duties: [
+                            'Performed credit risk assessments and analyzed financial statements.',
+                            'Managed end-to-end accounts payable, enhancing vendor relationships.',
+                            'Conducted detailed cost-benefit analyses for marketing campaigns.'
+                        ]
+                    }
+                ],
+                skills: ['SAP BPC', 'Financial Modeling', 'Tableau', 'Advanced Excel', 'Microsoft Office Suite', 'Compliance Management', 'Credit Monitoring', 'Data Analysis'],
+                projects: [
+                    {
+                        title: 'Investment Banking Job Simulation',
+                        organization: 'JP Morgan',
+                        description: 'A comprehensive simulation involving strategic financial assessment, M&A target identification, and the design of a robust DCF valuation model to provide data-driven insights for decision-making.',
+                        icon: 'fas fa-chart-line' // Font Awesome icon class
+                    }
+                ],
+                educations: [
+                    { degree: 'Masters of Business Administration - Finance & Marketing', school: 'GITAM School of Business, Visakhapatnam', date: '2022 - 2024', details: 'CGPA: 8.19 (A Grade)' },
+                    { degree: 'Bachelor of Technology - Civil Engineering', school: 'Shri Vishnu Engineering College for Women, Bhimavaram', date: '2017 - 2021', details: 'CGPA: 8.29 (A+ Grade)' }
+                ],
+                certifications: [
+                    { name: 'Microsoft 365 Fundamentals', issuer: 'Microsoft' },
+                    { name: 'SAP Professional Fundamentals', issuer: 'SAP' },
+                    { name: 'PwC GST Taxation Certificate', issuer: 'PwC' }
+                ],
+                contact: {
+                    email: 'sravikonakalla@gmail.com',
+                    linkedin: 'https://linkedin.com/in/kbalasravani',
+                    formspree_url: 'https://formspree.io/f/your_unique_id'
+                }
+            };
+
+            const mainContainer = document.querySelector('main');
+            const navContainer = document.getElementById('main-nav');
+
+            // --- PAGE NAVIGATION LOGIC ---
+            const showPage = (pageId) => {
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                const newPage = document.getElementById(`page-${pageId}`);
+                if (newPage) newPage.classList.add('active');
+                
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.pageId === pageId) {
+                        link.classList.add('active');
+                        link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    }
+                });
+                window.scrollTo(0, 0);
+            };
+
+            // --- DYNAMICALLY CREATE NAVIGATION LINKS ---
+            portfolioData.pages.forEach(page => {
+                const link = document.createElement('a');
+                link.className = 'nav-link';
+                if (page.id === 'home') link.classList.add('active');
+                link.textContent = page.label;
+                link.dataset.pageId = page.id;
+                link.onclick = () => showPage(page.id);
+                navContainer.appendChild(link);
+            });
+
+            // --- PAGE CREATION FUNCTIONS ---
+
+            const createHomePage = () => {
+                const page = document.createElement('div');
+                page.id = 'page-home';
+                page.className = 'page active';
+                page.innerHTML = `
+                    <section class="container mx-auto px-6 py-20 min-h-[80vh] flex items-center">
+                        <div class="grid md:grid-cols-2 gap-12 items-center">
+                            <div class="flex justify-center">
+                                <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-gray-200 shadow-2xl">
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
+                                <h2 class="text-2xl md:text-3xl mb-6" style="color: #463863;">${portfolioData.home.title}</h2>
+                                <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.summary}</p>
+                                <div class="mt-8">
+                                    <a href="mailto:${portfolioData.contact.email}" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-block" style="background-color: #463863; color: #FFFFFF;">
+                                        Get In Touch
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+                mainContainer.appendChild(page);
+            };
+
+            const createExperiencePage = () => { 
+                const page = document.createElement('div'); 
+                page.id = 'page-experience'; 
+                page.className = 'page'; 
+                const experiencesHTML = portfolioData.experiences.map(exp => `
+                    <div class="timeline-item">
+                        <div class="timeline-item-content card-effect p-6 rounded-lg">
+                             <div class="flex items-center gap-4 mb-4">
+                                <img src="${exp.logoUrl}" alt="${exp.company} Logo" class="w-16 h-16 rounded-full border-2 border-gray-200 object-contain p-1">
+                                <div>
+                                    <h4 class="text-xl font-bold" style="color: #221C2A;">${exp.title}</h4>
+                                    <p class="text-lg font-semibold" style="color: #463863;">${exp.company}</p>
+                                </div>
+                            </div>
+                            <p class="text-sm font-semibold mb-3" style="color: #D1A46E;">${exp.date}</p>
+                            <ul class="list-disc list-inside space-y-2 text-left" style="color: #9C8FA7;">${exp.duties.map(duty => `<li>${duty}</li>`).join('')}</ul>
+                        </div>
+                    </div>`).join(''); 
+                const skillsHTML = portfolioData.skills.map(skill => `
+                    <div class="p-4 rounded-lg card-effect flex items-center justify-center">
+                        <p class="text-md font-semibold text-center" style="color: #221C2A;">${skill}</p>
+                    </div>`).join(''); 
+                page.innerHTML = `
+                    <section class="py-16">
+                        <div class="container mx-auto px-6">
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Work Experience</h3>
+                            <div id="experience-timeline-container" class="center-timeline-container">
+                                <div class="center-timeline-line"></div>
+                                <div id="timeline-progress" class="center-timeline-line-progress"></div>
+                                <div id="timeline-moving-icon"><i class="fas fa-briefcase"></i></div>
+                                ${experiencesHTML}
+                            </div>
+                            <div class="text-center mt-16">
+                                <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Technical Skills</h3>
+                                <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">${skillsHTML}</div>
+                            </div>
+                        </div>
+                    </section>`; 
+                mainContainer.appendChild(page); 
+            };
+
+            const createProjectsPage = () => {
+                const page = document.createElement('div');
+                page.id = 'page-projects';
+                page.className = 'page';
+                const projectsHTML = portfolioData.projects.map(proj => `
+                    <div class="card-effect p-8 rounded-lg flex flex-col items-start">
+                         <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background-color: #F5F1EA;">
+                            <i class="${proj.icon} text-2xl" style="color: #463863;"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2" style="color: #221C2A;">${proj.title}</h4>
+                        <p class="font-semibold mb-4" style="color: #D1A46E;">${proj.organization}</p>
+                        <p class="leading-relaxed" style="color: #9C8FA7;">${proj.description}</p>
+                    </div>
+                `).join('');
+
+                page.innerHTML = `
+                    <section class="py-16">
+                        <div class="container mx-auto px-6">
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Key Projects</h3>
+                            <div class="max-w-4xl mx-auto grid md:grid-cols-1 gap-8">
+                                ${projectsHTML}
+                            </div>
+                        </div>
+                    </section>
+                `;
+                mainContainer.appendChild(page);
+            };
+
+            const createEducationPage = () => {
+                const page = document.createElement('div');
+                page.id = 'page-education';
+                page.className = 'page';
+                const educationsHTML = portfolioData.educations.map(edu => `
+                    <div class="timeline-item">
+                        <div class="timeline-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="timeline-content card-effect p-6 rounded-lg">
+                            <p class="text-sm font-semibold mb-2" style="color: #D1A46E;">${edu.date}</p>
+                            <h4 class="text-xl font-bold" style="color: #221C2A;">${edu.degree}</h4>
+                            <p class="text-lg mb-2" style="color: #463863;">${edu.school}</p>
+                            <p style="color: #9C8FA7;">${edu.details}</p>
+                        </div>
+                    </div>`).join('');
+                const certificationsHTML = portfolioData.certifications.map(cert => `
+                    <div class="card-effect p-4 rounded-lg flex items-center gap-4">
+                        <i class="fas fa-certificate text-xl" style="color: #D1A46E;"></i>
+                        <div>
+                            <h4 class="font-bold" style="color: #221C2A;">${cert.name}</h4>
+                            <p class="text-sm" style="color: #9C8FA7;">${cert.issuer}</p>
+                        </div>
+                    </div>`).join('');
+                page.innerHTML = `
+                    <section class="py-16">
+                        <div class="container mx-auto px-6">
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Education & Certifications</h3>
+                            <div class="grid md:grid-cols-3 gap-12">
+                                <div class="md:col-span-2">
+                                    <h4 class="text-2xl font-bold mb-8" style="color: #221C2A;">Academic Background</h4>
+                                    <div class="timeline">${educationsHTML}</div>
+                                </div>
+                                <div>
+                                    <h4 class="text-2xl font-bold mb-8" style="color: #221C2A;">Certifications</h4>
+                                    <div class="flex flex-col gap-4">${certificationsHTML}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>`;
+                mainContainer.appendChild(page);
+            };
+
+            const createContactPage = () => {
+                const page = document.createElement('div');
+                page.id = 'page-contact';
+                page.className = 'page';
+                page.innerHTML = `
+                    <section class="py-16">
+                        <div class="container mx-auto px-6 text-center">
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">Get In Touch</h3>
+                            <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">I'm always open to discussing new opportunities. Feel free to send a message.</p>
+                            <div class="max-w-2xl mx-auto">
+                                <form id="contact-form" action="${portfolioData.contact.formspree_url}" method="POST" class="w-full p-8 rounded-lg card-effect mb-8">
+                                    <div class="space-y-4 text-left">
+                                        <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                                        <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                                        <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
+                                    </div>
+                                    <div class="mt-8">
+                                        <button type="submit" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full" style="background-color: #463863; color: #FFFFFF;">
+                                            Send Message
+                                        </button>
+                                    </div>
+                                </form>
+                                <div class="flex justify-center items-center gap-6 mt-8">
+                                    <a href="mailto:${portfolioData.contact.email}" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fas fa-envelope"></i></a>
+                                    <a href="${portfolioData.contact.linkedin}" target="_blank" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>`;
+                mainContainer.appendChild(page);
+            };
+
+            // --- INITIALIZE ALL PAGES ---
+            createHomePage();
+            createExperiencePage();
+            createProjectsPage();
+            createEducationPage();
+            createContactPage();
+            
+            // --- ANIMATION OBSERVERS ---
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            if (timelineItems.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.3 });
+
+                timelineItems.forEach(item => {
+                    observer.observe(item);
                 });
             }
+
+            // --- TIMELINE SCROLL ANIMATION & GLOBAL PROGRESS BAR---
+            const experienceTimelineContainer = document.getElementById('experience-timeline-container');
+            const globalProgressBar = document.getElementById('global-progress-bar');
+            
+            window.addEventListener('scroll', () => {
+                // Timeline Animation
+                if (experienceTimelineContainer) {
+                    const timelineProgress = document.getElementById('timeline-progress');
+                    const movingIcon = document.getElementById('timeline-moving-icon');
+                    const containerRect = experienceTimelineContainer.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+
+                    const startPoint = containerRect.top;
+                    const endPoint = containerRect.bottom;
+                    
+                    if (startPoint < windowHeight && endPoint > 0) {
+                        let progress = (windowHeight - startPoint) / containerRect.height;
+                        progress = Math.min(1, Math.max(0, progress));
+                        
+                        const totalHeight = experienceTimelineContainer.offsetHeight;
+                        const currentPosition = progress * totalHeight;
+
+                        timelineProgress.style.height = `${currentPosition}px`;
+                        movingIcon.style.top = `${currentPosition}px`;
+                    }
+                }
+
+                // Global Progress Bar Animation
+                const activePage = document.querySelector('.page.active');
+                if (!activePage || !globalProgressBar) return;
+
+                const pageTop = activePage.offsetTop;
+                const pageHeight = activePage.offsetHeight;
+                const windowHeight = window.innerHeight;
+                const scrollableHeight = pageHeight - windowHeight;
+                
+                const scrollTopInPage = window.scrollY - pageTop;
+
+                if (scrollableHeight <= 0) {
+                    globalProgressBar.style.width = '0%';
+                    return;
+                }
+
+                const progress = Math.max(0, Math.min(1, scrollTopInPage / scrollableHeight));
+                globalProgressBar.style.width = `${progress * 100}%`;
+            });
+
 
             // --- CONTACT FORM SUBMISSION LOGIC ---
             const contactForm = document.getElementById('contact-form');
