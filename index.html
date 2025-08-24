@@ -81,6 +81,7 @@
             left: 50%;
             transform: translateX(-50%);
             height: 0;
+            transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Added transition for smooth progress */
         }
         .timeline-item {
             position: relative;
@@ -135,19 +136,10 @@
             font-size: 1.25rem;
             box-shadow: 0 0 15px rgba(209, 164, 110, 0.7);
             z-index: 10;
-            animation: bounce 2s infinite ease-in-out;
-            transition: top 0.1s linear;
+            /* REMOVED the looping bounce animation */
+            transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* CHANGED for smoother scroll-based transition */
         }
         
-        @keyframes bounce {
-            0%, 100% {
-                transform: translate(-50%, -50%) translateY(0);
-            }
-            50% {
-                transform: translate(-50%, -50%) translateY(-10px);
-            }
-        }
-
         /* Responsive stacking for timeline on mobile */
         @media (max-width: 768px) {
             .center-timeline-container {
@@ -667,26 +659,47 @@
             const globalProgressBar = document.getElementById('global-progress-bar');
             
             function handleScrollAnimations() {
-                // Timeline Animation
+                // --- MODIFIED: Scroll-synced Timeline Animation ---
                 if (experienceTimelineContainer && document.getElementById('page-experience').classList.contains('active')) {
-                    const timelineProgress = document.getElementById('timeline-progress');
                     const movingIcon = document.getElementById('timeline-moving-icon');
+                    const timelineProgress = document.getElementById('timeline-progress');
+                    const timelineItems = document.querySelectorAll('#page-experience .timeline-item');
                     
+                    if (!movingIcon || !timelineProgress || timelineItems.length === 0) return;
+
                     const containerRect = experienceTimelineContainer.getBoundingClientRect();
                     const containerHeight = experienceTimelineContainer.offsetHeight;
                     const iconHeight = movingIcon.offsetHeight;
-                    const windowHeight = window.innerHeight;
+                    const viewportCenterY = window.innerHeight / 2;
 
-                    // Calculate the scroll progress relative to the timeline container
-                    const scrollStart = experienceTimelineContainer.offsetTop;
-                    const scrollEnd = scrollStart + containerHeight - windowHeight;
-                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    let targetTop = 0; // Default to top position
 
-                    let progress = (scrollTop - scrollStart) / (scrollEnd - scrollStart);
-                    progress = Math.max(0, Math.min(1, progress));
+                    // Find the last item that has scrolled past the viewport center
+                    for (let i = timelineItems.length - 1; i >= 0; i--) {
+                        const item = timelineItems[i];
+                        const itemRect = item.getBoundingClientRect();
 
-                    const finalPosition = progress * (containerHeight - iconHeight);
+                        // Check if the item's center has passed the viewport's center
+                        if (itemRect.top + (item.offsetHeight / 2) < viewportCenterY) {
+                            // Set the icon's target to the vertical middle of this item
+                            targetTop = item.offsetTop + (item.offsetHeight / 2) - (iconHeight / 2);
+                            break; // Stop after finding the most current active item
+                        }
+                    }
 
+                    // If user has scrolled completely past the end of the timeline
+                    if (containerRect.bottom < viewportCenterY) {
+                         targetTop = containerHeight - iconHeight;
+                    } 
+                    // If user is scrolled above the start of the timeline
+                    else if (containerRect.top > viewportCenterY) {
+                         targetTop = 0;
+                    }
+
+                    // Clamp the value to ensure it stays within the timeline's bounds
+                    const finalPosition = Math.max(0, Math.min(containerHeight - iconHeight, targetTop));
+
+                    // Apply the new position
                     movingIcon.style.top = `${finalPosition}px`;
                     timelineProgress.style.height = `${finalPosition}px`;
                 }
