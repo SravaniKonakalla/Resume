@@ -374,8 +374,10 @@
                 const newPage = document.getElementById(`page-${pageId}`);
                 if (newPage) {
                     newPage.classList.add('active');
+                    // FIX: Use a timeout to ensure the browser has rendered the new page
+                    // before we try to attach animations and charts to its elements.
                     if (pageId === 'projects') {
-                        setupProjectPageAnimations();
+                        setTimeout(setupProjectPageAnimations, 50);
                     }
                 }
                 
@@ -739,15 +741,15 @@
                             <h2 class="text-3xl md:text-4xl font-bold">Case Study – Starbucks FMVA® Project</h2>
                             <p class="mt-2 text-gray-600">A detailed walkthrough of the project's objective, process, and conclusions.</p>
                         </div>
-                        <article class="prose max-w-none prose-h3:font-bold prose-h3:text-xl prose-p:text-gray-700 prose-li:text-gray-700 space-y-8">
+                        <article class="space-y-8">
                             <div>
-                                <h3>Objective</h3>
-                                <p>Apply FMVA®-level modeling and valuation techniques to assess Starbucks’ intrinsic value, validate key performance drivers, and communicate a clear, data-driven investment narrative.</p>
+                                <h3 class="text-xl font-bold">Objective</h3>
+                                <p class="text-gray-700">Apply FMVA®-level modeling and valuation techniques to assess Starbucks’ intrinsic value, validate key performance drivers, and communicate a clear, data-driven investment narrative.</p>
                             </div>
                             <div>
-                                <h3>Methodology</h3>
-                                <p>The project was executed in a sequential manner, ensuring a logical flow from data gathering to final analysis:</p>
-                                <ul>
+                                <h3 class="text-xl font-bold">Methodology</h3>
+                                <p class="text-gray-700">The project was executed in a sequential manner, ensuring a logical flow from data gathering to final analysis:</p>
+                                <ul class="list-disc list-inside text-gray-700 space-y-2 mt-2">
                                     <li><strong>Research & Historicals:</strong> Began with a deep dive into SEC filings and industry reports to build a solid foundation.</li>
                                     <li><strong>Forecasting:</strong> Developed a granular forecast model based on key drivers like store growth, same-store sales, and margin assumptions.</li>
                                     <li><strong>3-Statement Integration:</strong> Constructed a fully integrated financial model linking the income statement, balance sheet, and cash flow statement.</li>
@@ -756,8 +758,8 @@
                                 </ul>
                             </div>
                             <div>
-                                <h3>Key Insights</h3>
-                                <ul>
+                                <h3 class="text-xl font-bold">Key Insights</h3>
+                                <ul class="list-disc list-inside text-gray-700 space-y-2 mt-2">
                                     <li>The base-case DCF analysis indicates an intrinsic value range of <strong>$90–$95 per share</strong>, suggesting the stock is modestly undervalued at current levels.</li>
                                     <li>Upside potential is primarily driven by continued high-margin growth in the digital and loyalty ecosystem, coupled with successful international expansion.</li>
                                     <li>Key risks to the valuation include sustained commodity price inflation impacting margins, increased competition in key markets, and potential slowdowns in consumer discretionary spending.</li>
