@@ -579,18 +579,26 @@
                     const containerRect = experienceTimelineContainer.getBoundingClientRect();
                     const windowHeight = window.innerHeight;
 
-                    const startPoint = containerRect.top;
-                    const endPoint = containerRect.bottom;
-                    
-                    if (startPoint < windowHeight && endPoint > 0) {
-                        let progress = (windowHeight - startPoint) / (containerRect.height);
-                        progress = Math.min(1, Math.max(0, progress));
-                        
+                    // Check if the timeline container is in the viewport at all
+                    if (containerRect.bottom > 0 && containerRect.top < windowHeight) {
+                        // This is a more robust way to calculate scroll progress for an element.
+                        // It calculates progress from 0 (when the top of the container enters the bottom of the view)
+                        // to 1 (when the bottom of the container leaves the top of the view).
+                        let progress = (windowHeight - containerRect.top) / (windowHeight + containerRect.height);
+                        progress = Math.min(1, Math.max(0, progress)); // Clamp progress between 0 and 1
+
                         const totalHeight = experienceTimelineContainer.offsetHeight;
-                        const currentPosition = progress * totalHeight;
+                        const iconHeight = movingIcon.offsetHeight;
+                        
+                        // Calculate the position, ensuring the icon stops at the very end of the line.
+                        const currentPosition = progress * (totalHeight - iconHeight);
 
                         timelineProgress.style.height = `${currentPosition}px`;
                         movingIcon.style.top = `${currentPosition}px`;
+                    } else if (containerRect.top >= windowHeight) {
+                        // If the container is below the viewport, reset to the top.
+                        timelineProgress.style.height = `0px`;
+                        movingIcon.style.top = `0px`;
                     }
                 }
 
