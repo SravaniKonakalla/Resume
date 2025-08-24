@@ -400,10 +400,10 @@
                 const page = document.createElement('div'); 
                 page.id = 'page-experience'; 
                 page.className = 'page'; 
-                const experiencesHTML = portfolioData.experiences.map((exp, index) => `
+                const experiencesHTML = portfolioData.experiences.map((exp) => `
                     <div class="timeline-item">
-                        <div class="timeline-item-content card-effect ${index === 1 ? 'md:w-[110%]' : ''}">
-                             <div class="timeline-logo">
+                        <div class="timeline-item-content card-effect">
+                            <div class="timeline-logo">
                                 <img src="${exp.logoUrl}" alt="${exp.company} Logo">
                             </div>
                             <div class="p-6 text-left">
@@ -576,16 +576,14 @@
                     const startPoint = containerRect.top;
                     const endPoint = containerRect.bottom;
                     
-                    if (startPoint < windowHeight && endPoint > 0) {
-                        let progress = (windowHeight - startPoint) / (containerRect.height);
-                        progress = Math.min(1, Math.max(0, progress));
-                        
-                        const totalHeight = experienceTimelineContainer.offsetHeight;
-                        const currentPosition = progress * totalHeight;
+                    let progress = (windowHeight - startPoint) / (containerRect.height);
+                    progress = Math.min(1, Math.max(0, progress));
+                    
+                    const totalHeight = experienceTimelineContainer.offsetHeight;
+                    const currentPosition = progress * totalHeight;
 
-                        timelineProgress.style.height = `${currentPosition}px`;
-                        movingIcon.style.top = `${currentPosition}px`;
-                    }
+                    timelineProgress.style.height = `${currentPosition}px`;
+                    movingIcon.style.top = `${currentPosition}px`;
                 }
 
                 // Global Progress Bar Animation
