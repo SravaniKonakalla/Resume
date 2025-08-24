@@ -402,7 +402,7 @@
                                         <p class="text-sm font-semibold mt-2" style="color: #D1A46E;">${exp.date}</p>
                                     </div>
                                 </div>
-                                <ul class="list-disc list-inside space-y-2 ${index % 2 !== 0 ? 'text-right' : 'text-left'}" style="color: #463863;">
+                                <ul class="list-disc list-outside pl-5 space-y-2 ${index % 2 !== 0 ? 'text-right' : 'text-left'}" style="color: #463863;">
                                     ${exp.duties.map(duty => `<li style="font-size: 0.875rem;">${duty}</li>`).join('')}
                                 </ul>
                             </div>
