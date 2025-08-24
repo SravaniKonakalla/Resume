@@ -322,7 +322,7 @@
         /* 1. Carousel */
         .cert-carousel .swiper-slide {
             transition: transform 0.3s ease-in-out;
-            padding-bottom: 2rem; /* Space for pagination */
+            padding-bottom: 2.5rem; /* Space for pagination */
         }
         .cert-carousel .swiper-slide:hover {
             transform: scale(1.05);
@@ -351,15 +351,21 @@
         .skill-map-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; cursor: pointer; }
         .skill-map-branch { position: absolute; top: 50%; left: 50%; transform-origin: center center; transition: all 0.4s ease-in-out; }
         .skill-map-node { transition: all 0.3s ease-in-out; }
+        .skill-map-branch, .skill-map-node { transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; }
+        .skill-map-container.dimmed .skill-map-branch:not(.highlight),
+        .skill-map-container.dimmed .skill-map-node:not(.highlight) {
+            opacity: 0.3;
+        }
         .skill-map-branch { opacity: 0; transform: translate(-50%, -50%) scale(0); }
         .skill-map-branch.visible { opacity: 1; transform: translate(var(--tx, -50%), var(--ty, -50%)) scale(1); }
         .skill-map-node:hover { transform: scale(1.15); z-index: 20; }
         .skill-map-node:hover .skill-map-tooltip { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(-5px); }
-        .skill-map-tooltip { position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); opacity: 0; visibility: hidden; transition: 0.3s; white-space: nowrap; background-color: #221C2A; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; z-index: 30; }
+        .skill-map-tooltip { position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); opacity: 0; visibility: hidden; transition: 0.3s; white-space: nowrap; background-color: #221C2A; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; z-index: 30; }
         @keyframes pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); } 50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(100, 150, 255, 0.9), 0 0 30px rgba(100, 150, 255, 0.7); } }
         .skill-map-node .logo-holder, .skill-map-center .logo-holder { animation: pulse 2.5s infinite ease-in-out; }
-        .branch-line { position: absolute; top: 50%; left: 50%; background-color: #9C8FA7; height: 2px; transform-origin: left center; transition: width 0.5s ease-in-out; width: 0; }
+        .branch-line { position: absolute; top: 50%; left: 50%; background-color: #9C8FA7; height: 2px; transform-origin: left center; transition: width 0.5s ease-in-out, opacity 0.3s ease-in-out; width: 0; }
         .skill-map-container.loaded .branch-line { width: var(--radius); }
+        .skill-map-container.dimmed .branch-line:not(.highlight) { opacity: 0.3; }
         .skill-map-fallback { display: none; }
         @media (max-width: 768px) {
             .skill-map-container { display: none; }
@@ -370,7 +376,7 @@
         .flipbook-container {
             position: relative;
             width: 100%;
-            max-width: 900px; /* Wider for two pages */
+            max-width: 900px;
             height: 550px;
             margin: auto;
         }
@@ -381,7 +387,7 @@
             transform-style: preserve-3d;
             perspective: 2500px;
         }
-        .flipbook-page {
+        .book-page {
             position: absolute;
             width: 50%;
             height: 100%;
@@ -391,22 +397,23 @@
             transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
             transform-style: preserve-3d;
         }
-        .flipbook-page.flipped {
+        .book-page.flipped {
             transform: rotateY(-180deg);
         }
-        .flipbook-page-front, .flipbook-page-back {
+        .page-front, .page-back {
             position: absolute;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 0.5rem;
         }
-        .flipbook-page-back {
+        .page-back {
             transform: rotateY(180deg);
         }
         @media (max-width: 768px) {
             .flipbook-container { height: 600px; max-width: 350px; }
-            .flipbook-page { width: 100%; right: 0; }
+            .book-page { width: 100%; right: 0; }
         }
     </style>
 </head>
@@ -720,9 +727,9 @@
                             <div class="logo-holder">
                                 <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
                             </div>
-                            <h4 class="font-bold text-lg">${cert.title}</h4>
-                            <p class="text-sm text-gray-500">by ${cert.issuer}</p>
-                            <p class="text-xs mt-2 text-yellow-600">Verified on Coursera</p>
+                            <h4 class="font-bold text-lg mt-4">${cert.title}</h4>
+                            <p class="text-sm text-gray-500">${cert.issuer}</p>
+                            <p class="text-xs mt-2 text-gray-400">Verified on Coursera</p>
                         </div>
                     </div>
                 `).join('');
@@ -759,37 +766,46 @@
 
                 // 3. Flipbook Layout
                 const pageContent = (cert) => `
-                    <div class="bg-white p-6 flex flex-col items-center justify-center text-center h-full rounded-lg">
+                    <div class="bg-white p-6 flex flex-col items-center justify-center text-center h-full">
                         <div class="logo-holder mx-auto mb-4 w-20 h-20">
                             <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
                         </div>
                         <h4 class="font-bold text-xl">${cert.title}</h4>
-                        <p class="text-md text-gray-600">by ${cert.issuer} - ${cert.issueDate}</p>
-                        <img src="${cert.certificateImageUrl}" alt="Certificate Preview" class="mx-auto mt-4 rounded-lg shadow-md max-h-48" onerror="this.src='https://placehold.co/400x250/FFFFFF/463863?text=Cert';">
-                        <ul class="text-sm mt-4 space-y-1 text-gray-500">
+                        <p class="text-md text-gray-600">${cert.issuer} - ${cert.issueDate}</p>
+                        <img src="${cert.certificateImageUrl}" alt="Certificate Preview" class="mx-auto my-4 rounded-lg shadow-md max-h-40" onerror="this.src='https://placehold.co/300x200/FFFFFF/463863?text=Cert';">
+                        <ul class="text-sm space-y-1 text-gray-500 list-disc list-inside">
                             ${cert.skills.map(skill => `<li>${skill}</li>`).join('')}
                         </ul>
                     </div>
                 `;
-
+                
                 let flipbookHTML = '';
-                for (let i = 0; i < portfolioData.certifications.length; i++) {
-                    const zIndex = portfolioData.certifications.length - i;
-                    const cert = portfolioData.certifications[i];
-                    const nextCert = portfolioData.certifications[i + 1];
+                // Create a cover page
+                flipbookHTML += `
+                    <div class="book-page" style="z-index: ${portfolioData.certifications.length + 1};">
+                        <div class="page-front bg-gray-200 flex items-center justify-center">
+                            <h3 class="text-2xl font-bold text-gray-700">My Certifications</h3>
+                        </div>
+                        <div class="page-back">
+                            ${portfolioData.certifications[0] ? pageContent(portfolioData.certifications[0]) : ''}
+                        </div>
+                    </div>
+                `;
 
-                    if (i % 2 === 0) { // This is a page (front and back)
-                        flipbookHTML += `
-                            <div class="flipbook-page" style="z-index: ${zIndex};">
-                                <div class="flipbook-page-front">
-                                    ${pageContent(cert)}
-                                </div>
-                                <div class="flipbook-page-back">
-                                    ${nextCert ? pageContent(nextCert) : ''}
-                                </div>
+                for (let i = 1; i < portfolioData.certifications.length; i += 2) {
+                    const zIndex = portfolioData.certifications.length - i;
+                    const cert1 = portfolioData.certifications[i];
+                    const cert2 = portfolioData.certifications[i + 1];
+                    flipbookHTML += `
+                        <div class="book-page" style="z-index: ${zIndex};">
+                            <div class="page-front">
+                                ${cert1 ? pageContent(cert1) : ''}
                             </div>
-                        `;
-                    }
+                            <div class="page-back">
+                                ${cert2 ? pageContent(cert2) : ''}
+                            </div>
+                        </div>
+                    `;
                 }
 
 
@@ -996,7 +1012,7 @@
                 const certCarousel = new Swiper('.cert-carousel', {
                     loop: true,
                     autoplay: {
-                        delay: 3500,
+                        delay: 4000,
                         disableOnInteraction: false,
                         pauseOnMouseEnter: true,
                     },
@@ -1034,12 +1050,14 @@
 
                         const branchEl = document.createElement('div');
                         branchEl.className = 'skill-map-branch text-center';
+                        branchEl.dataset.category = key;
                         branchEl.style.transitionDelay = `${index * 0.15}s`;
                         branchEl.style.setProperty('--tx', `${x}px`);
                         branchEl.style.setProperty('--ty', `${y}px`);
                         
                         const line = document.createElement('div');
                         line.className = 'branch-line';
+                        line.dataset.category = key;
                         line.style.setProperty('--radius', `${radius}px`);
                         line.style.transform = `rotate(${angle}deg)`;
                         skillMapContainer.appendChild(line);
@@ -1051,7 +1069,7 @@
                                     <div class="logo-holder">
                                         <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
                                     </div>
-                                    <div class="skill-map-tooltip">${cert.title}</div>
+                                    <div class="skill-map-tooltip">${cert.issuer} - ${cert.title}</div>
                                 </div>
                             `;
                         });
@@ -1061,6 +1079,17 @@
                         `;
                         
                         skillMapContainer.appendChild(branchEl);
+                    });
+
+                    document.querySelectorAll('.skill-map-branch').forEach(branch => {
+                        branch.addEventListener('mouseenter', () => {
+                            skillMapContainer.classList.add('dimmed');
+                            document.querySelectorAll(`[data-category='${branch.dataset.category}']`).forEach(el => el.classList.add('highlight'));
+                        });
+                        branch.addEventListener('mouseleave', () => {
+                            skillMapContainer.classList.remove('dimmed');
+                            document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+                        });
                     });
                     
                     const observer = new IntersectionObserver((entries) => {
@@ -1074,7 +1103,7 @@
                 }
 
                 // 3. Flipbook
-                const pages = document.querySelectorAll('.flipbook-page');
+                const pages = document.querySelectorAll('.book-page');
                 const prevBtn = document.getElementById('prev-page-btn');
                 const nextBtn = document.getElementById('next-page-btn');
                 let currentPage = 0;
@@ -1100,7 +1129,7 @@
             const canvas = document.getElementById('finance-canvas');
             const ctx = canvas.getContext('2d');
             let particles = [];
-            const symbols = ['$', '%', '▲', '▼', '📈', '📉', '€', '¥', '₿'];
+            const symbols = ['$', '%', '▲', '▼', '�', '📉', '€', '¥', '₿'];
             let mouse = { x: null, y: null, radius: 100 };
 
             function resizeCanvas() {
@@ -1213,3 +1242,4 @@
     </script>
 </body>
 </html>
+�
