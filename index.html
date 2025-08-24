@@ -136,7 +136,6 @@
             box-shadow: 0 0 15px rgba(209, 164, 110, 0.7);
             z-index: 10;
             animation: bounce 2s infinite ease-in-out;
-            transition: top 0.1s linear;
         }
         
         @keyframes bounce {
@@ -673,22 +672,23 @@
                     const movingIcon = document.getElementById('timeline-moving-icon');
                     
                     const containerRect = experienceTimelineContainer.getBoundingClientRect();
-                    const windowHeight = window.innerHeight;
                     const containerHeight = experienceTimelineContainer.offsetHeight;
                     const iconHeight = movingIcon.offsetHeight;
 
-                    // Calculate the scroll progress relative to the timeline container
-                    const scrollStart = experienceTimelineContainer.offsetTop;
-                    const scrollEnd = scrollStart + containerHeight - windowHeight;
-                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    // Calculate the visible portion of the timeline
+                    const visibleTop = Math.max(0, -containerRect.top);
+                    const visibleBottom = Math.min(containerHeight, window.innerHeight - containerRect.top);
+                    const visibleHeight = visibleBottom - visibleTop;
 
-                    let progress = (scrollTop - scrollStart) / (scrollEnd - scrollStart);
-                    progress = Math.max(0, Math.min(1, progress));
+                    if (visibleHeight > 0) {
+                        let progress = visibleTop / (containerHeight - visibleHeight);
+                        progress = Math.max(0, Math.min(1, progress));
+                        
+                        const finalPosition = progress * (containerHeight - iconHeight);
 
-                    const finalPosition = progress * (containerHeight - iconHeight);
-
-                    movingIcon.style.top = `${finalPosition}px`;
-                    timelineProgress.style.height = `${finalPosition}px`;
+                        movingIcon.style.top = `${finalPosition}px`;
+                        timelineProgress.style.height = `${finalPosition}px`;
+                    }
                 }
 
 
