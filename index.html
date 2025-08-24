@@ -301,7 +301,7 @@
             align-self: stretch; /* Stretches the div to the full height of the flex container */
             border-radius: 0;
             padding: 0; /* Remove padding to allow image to fill */
-            /* The box-shadow is inherited from the base .logo-holder class to ensure consistency */
+            box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5);
             overflow: hidden; /* Hide any part of the image that overflows */
         }
         .education-card .logo-holder img {
@@ -310,6 +310,31 @@
             height: 100%;
             object-fit: cover; /* This will fill the container, cropping if necessary */
         }
+        
+        /* --- NEW: Certifications Section Styles --- */
+        .cert-section {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        /* Accordion */
+        .cert-accordion-item { border: 1px solid #e2e8f0; border-radius: 1rem; margin-bottom: 1rem; overflow: hidden; }
+        .cert-accordion-header { display: flex; align-items: center; padding: 1rem 1.5rem; cursor: pointer; background-color: #FFFFFF; }
+        .cert-accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out; background: #fcfcfc; padding: 0 1.5rem; }
+        .cert-accordion-item.open .cert-accordion-content { max-height: 500px; padding: 1.5rem; }
+        .cert-accordion-arrow { transition: transform 0.3s ease; }
+        .cert-accordion-item.open .cert-accordion-arrow { transform: rotate(180deg); }
+        /* Flip Card */
+        .cert-flip-card { perspective: 1000px; width: 100%; height: 250px; }
+        .cert-flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
+        .cert-flip-card.is-flipped .cert-flip-card-inner { transform: rotateY(180deg); }
+        .cert-flip-card-front, .cert-flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1.5rem; text-align: center; }
+        .cert-flip-card-front { background-color: #FFFFFF; }
+        .cert-flip-card-back { background-color: #463863; color: #FFFFFF; transform: rotateY(180deg); }
+        .cert-flip-card-back img { max-height: 80px; margin-bottom: 1rem; border: 2px solid #D1A46E; border-radius: 0.5rem; }
+        /* Skills Matrix */
+        .skill-category-tag { background-color: #eef2ff; color: #4338ca; }
+        .skill-cert-tag { background-color: #f0fdf4; color: #166534; }
     </style>
 </head>
 <body class="antialiased">
@@ -419,9 +444,36 @@
                     }
                 ],
                 certifications: [
-                    { name: 'Microsoft 35 Fundamentals', issuer: 'Microsoft' },
-                    { name: 'SAP Professional Fundamentals', issuer: 'SAP' },
-                    { name: 'PwC GST Taxation Certificate', issuer: 'PwC' }
+                    { 
+                        title: 'Microsoft 365 Fundamentals', issuer: 'Microsoft', 
+                        logoUrl: './public/logos/microsoft-logo.png', issueDate: 'Jan 2024', credentialId: 'MS-123456',
+                        skills: ['Cloud Computing', 'MS Office 365', 'Collaboration Tools'], category: 'Systems',
+                        certificateImageUrl: 'https://placehold.co/300x200/FFFFFF/463863?text=MS-365+Cert'
+                    },
+                    { 
+                        title: 'SAP Professional Fundamentals', issuer: 'SAP',
+                        logoUrl: './public/logos/sap-logo.png', issueDate: 'Dec 2023', credentialId: 'SAP-789012',
+                        skills: ['ERP Systems', 'SAP BPC', 'Financial Planning'], category: 'Systems',
+                        certificateImageUrl: 'https://placehold.co/300x200/FFFFFF/463863?text=SAP+Cert'
+                    },
+                    { 
+                        title: 'GST Taxation Certificate', issuer: 'PwC',
+                        logoUrl: './public/logos/pwc-logo.png', issueDate: 'Nov 2023', credentialId: 'PWC-345678',
+                        skills: ['Taxation', 'GST Compliance', 'Financial Regulation'], category: 'Finance',
+                        certificateImageUrl: 'https://placehold.co/300x200/FFFFFF/463863?text=PwC+Cert'
+                    },
+                    {
+                        title: 'Investment Banking Simulation', issuer: 'JP Morgan',
+                        logoUrl: './public/logos/jpmorgan-logo.png', issueDate: 'Oct 2023', credentialId: 'JPM-987654',
+                        skills: ['Valuation', 'M&A', 'Financial Modeling'], category: 'Finance',
+                        certificateImageUrl: 'https://placehold.co/300x200/FFFFFF/463863?text=JPM+Cert'
+                    },
+                    {
+                        title: 'Tableau Specialist', issuer: 'Tableau',
+                        logoUrl: './public/logos/tableau-logo.png', issueDate: 'Sep 2023', credentialId: 'TAB-543210',
+                        skills: ['Data Visualization', 'Business Intelligence', 'Dashboarding'], category: 'Analytics & Tools',
+                        certificateImageUrl: 'https://placehold.co/300x200/FFFFFF/463863?text=Tableau+Cert'
+                    }
                 ],
                 contact: {
                     email: 'sravikonakalla@gmail.com',
@@ -585,14 +637,90 @@
                     </div>
                 `).join('');
 
-                const certificationsHTML = portfolioData.certifications.map(cert => `
-                    <div class="card-effect p-4 rounded-lg flex items-center gap-4">
-                        <i class="fas fa-certificate text-xl" style="color: #D1A46E;"></i>
-                        <div>
-                            <h4 class="font-bold" style="color: #221C2A;">${cert.name}</h4>
-                            <p class="text-sm" style="color: #9C8FA7;">${cert.issuer}</p>
+                // --- NEW: Certifications HTML Generation ---
+                
+                // 1. Badge Grid
+                const badgeGridHTML = portfolioData.certifications.map(cert => `
+                    <div class="card-effect text-center p-6 rounded-xl">
+                        <div class="logo-holder mx-auto mb-4">
+                            <img src="${cert.logoUrl}" alt="${cert.issuer} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=...';">
                         </div>
-                    </div>`).join('');
+                        <h4 class="font-bold text-lg" style="color: #221C2A;">${cert.title}</h4>
+                        <p class="text-sm" style="color: #9C8FA7;">by ${cert.issuer}</p>
+                        <p class="text-xs mt-2" style="color: #D1A46E;">Issued: ${cert.issueDate}</p>
+                    </div>
+                `).join('');
+
+                // 2. Timeline (Logic is complex, will be handled mainly in CSS/JS)
+                const timelineHTML = `<div class="text-center text-gray-500 italic">Timeline layout coming soon.</div>`; // Placeholder
+
+                // 3. Accordion
+                const accordionHTML = portfolioData.certifications.map(cert => `
+                    <div class="cert-accordion-item">
+                        <div class="cert-accordion-header">
+                            <div class="logo-holder mr-4">
+                                <img src="${cert.logoUrl}" alt="${cert.issuer} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=...';">
+                            </div>
+                            <div class="flex-grow">
+                                <h5 class="font-bold" style="color: #221C2A;">${cert.title}</h5>
+                                <p class="text-sm" style="color: #9C8FA7;">${cert.issuer}</p>
+                            </div>
+                            <i class="fas fa-chevron-down cert-accordion-arrow text-xl" style="color: #463863;"></i>
+                        </div>
+                        <div class="cert-accordion-content">
+                            <p class="mb-2"><span class="font-semibold">Issued:</span> ${cert.issueDate} | <span class="font-semibold">ID:</span> ${cert.credentialId}</p>
+                            <div class="flex flex-wrap gap-2">
+                                ${cert.skills.map(skill => `<span class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800">${skill}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // 4. Showcase (Flip Cards)
+                const showcaseHTML = portfolioData.certifications.map(cert => `
+                    <div class="cert-flip-card">
+                        <div class="cert-flip-card-inner">
+                            <div class="cert-flip-card-front card-effect">
+                                <div class="logo-holder mb-4">
+                                    <img src="${cert.logoUrl}" alt="${cert.issuer} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=...';">
+                                </div>
+                                <h4 class="font-bold text-lg" style="color: #221C2A;">${cert.title}</h4>
+                            </div>
+                            <div class="cert-flip-card-back card-effect">
+                                <img src="${cert.certificateImageUrl}" alt="${cert.title} Certificate" onerror="this.style.display='none'">
+                                <h5 class="font-bold text-lg">${cert.issuer}</h5>
+                                <p class="text-sm mb-2">Issued: ${cert.issueDate}</p>
+                                <div class="flex flex-wrap justify-center gap-1">
+                                     ${cert.skills.map(skill => `<span class="text-xs font-medium mr-1 px-2 py-0.5 rounded-full bg-gray-200 text-gray-800">${skill}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // 5. Skills Matrix
+                const skillsMatrix = portfolioData.certifications.reduce((acc, cert) => {
+                    if (!acc[cert.category]) {
+                        acc[cert.category] = [];
+                    }
+                    acc[cert.category].push(cert);
+                    return acc;
+                }, {});
+
+                const skillsMatrixHTML = Object.keys(skillsMatrix).map(category => `
+                    <div class="card-effect p-6 rounded-xl">
+                        <h4 class="font-bold text-xl mb-4 skill-category-tag inline-block px-3 py-1 rounded-lg">${category}</h4>
+                        <div class="flex flex-wrap gap-3">
+                            ${skillsMatrix[category].map(cert => `
+                                <div class="skill-cert-tag font-semibold px-4 py-2 rounded-lg flex items-center gap-2">
+                                    <div class="w-5 h-5"><img src="${cert.logoUrl}" class="rounded-full" alt="${cert.issuer} logo"></div>
+                                    <span>${cert.title}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+
 
                 page.innerHTML = `
                     <section class="py-16">
@@ -603,9 +731,34 @@
                             </div>
                             
                             <!-- Certifications Section -->
-                            <div class="text-center mt-20">
-                                <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications</h3>
-                                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">${certificationsHTML}</div>
+                            <div class="mt-20">
+                                <div class="cert-section">
+                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Badge Grid Layout</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                                        ${badgeGridHTML}
+                                    </div>
+                                </div>
+                                
+                                <div class="cert-section">
+                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Accordion Layout</h3>
+                                    <div class="max-w-3xl mx-auto">
+                                        ${accordionHTML}
+                                    </div>
+                                </div>
+
+                                <div class="cert-section">
+                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Showcase Layout</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                                        ${showcaseHTML}
+                                    </div>
+                                </div>
+
+                                <div class="cert-section">
+                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Skills Matrix Layout</h3>
+                                    <div class="space-y-8 max-w-3xl mx-auto">
+                                        ${skillsMatrixHTML}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>`;
@@ -674,6 +827,22 @@
                 }, { threshold: 0.2 });
                 educationCards.forEach(card => eduObserver.observe(card));
             }
+
+            // --- NEW: Accordion and Flip Card Listeners ---
+            document.getElementById('page-education').addEventListener('click', (e) => {
+                // Accordion logic
+                const accordionHeader = e.target.closest('.cert-accordion-header');
+                if (accordionHeader) {
+                    accordionHeader.parentElement.classList.toggle('open');
+                }
+
+                // Flip card logic
+                const flipCardInner = e.target.closest('.cert-flip-card-inner');
+                if (flipCardInner) {
+                    flipCardInner.parentElement.classList.toggle('is-flipped');
+                }
+            });
+
 
             const experienceTimelineContainer = document.getElementById('experience-timeline-container');
             const globalProgressBar = document.getElementById('global-progress-bar');
