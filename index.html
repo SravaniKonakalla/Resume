@@ -317,24 +317,17 @@
             padding-bottom: 3rem;
             border-top: 1px solid #e2e8f0;
         }
-        /* Accordion */
-        .cert-accordion-item { border: 1px solid #e2e8f0; border-radius: 1rem; margin-bottom: 1rem; overflow: hidden; }
-        .cert-accordion-header { display: flex; align-items: center; padding: 1rem 1.5rem; cursor: pointer; background-color: #FFFFFF; }
-        .cert-accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out; background: #fcfcfc; padding: 0 1.5rem; }
-        .cert-accordion-item.open .cert-accordion-content { max-height: 500px; padding: 1.5rem; }
-        .cert-accordion-arrow { transition: transform 0.3s ease; }
-        .cert-accordion-item.open .cert-accordion-arrow { transform: rotate(180deg); }
-        /* Flip Card */
-        .cert-flip-card { perspective: 1000px; width: 100%; height: 250px; }
-        .cert-flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
-        .cert-flip-card.is-flipped .cert-flip-card-inner { transform: rotateY(180deg); }
-        .cert-flip-card-front, .cert-flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1.5rem; text-align: center; }
-        .cert-flip-card-front { background-color: #FFFFFF; }
-        .cert-flip-card-back { background-color: #463863; color: #FFFFFF; transform: rotateY(180deg); }
-        .cert-flip-card-back img { max-height: 80px; margin-bottom: 1rem; border: 2px solid #D1A46E; border-radius: 0.5rem; }
-        /* Skills Matrix */
-        .skill-category-tag { background-color: #eef2ff; color: #4338ca; }
-        .skill-cert-tag { background-color: #f0fdf4; color: #166534; }
+        /* Carousel */
+        .carousel-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        .carousel-container::-webkit-scrollbar { display: none; }
+        .carousel-item { flex: 0 0 80%; scroll-snap-align: center; margin-right: 1rem; }
+        @media (min-width: 768px) { .carousel-item { flex-basis: 40%; } }
+        @media (min-width: 1024px) { .carousel-item { flex-basis: 30%; } }
+        .carousel-item:hover { transform: scale(1.05); }
+        /* Icon Row */
+        .icon-row-item { position: relative; }
+        .icon-tooltip { position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); visibility: hidden; opacity: 0; transition: opacity 0.3s, visibility 0.3s; }
+        .icon-row-item:hover .icon-tooltip { visibility: visible; opacity: 1; }
     </style>
 </head>
 <body class="antialiased">
@@ -639,87 +632,42 @@
 
                 // --- NEW: Certifications HTML Generation ---
                 
-                // 1. Badge Grid
-                const badgeGridHTML = portfolioData.certifications.map(cert => `
-                    <div class="card-effect text-center p-6 rounded-xl">
+                // 1. Carousel
+                const carouselHTML = portfolioData.certifications.map(cert => `
+                    <div class="carousel-item card-effect text-center p-6 rounded-xl transition-transform duration-300">
                         <div class="logo-holder mx-auto mb-4">
-                            <img src="${cert.logoUrl}" alt="${cert.issuer} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=...';">
+                            <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
                         </div>
-                        <h4 class="font-bold text-lg" style="color: #221C2A;">${cert.title}</h4>
-                        <p class="text-sm" style="color: #9C8FA7;">by ${cert.issuer}</p>
-                        <p class="text-xs mt-2" style="color: #D1A46E;">Issued: ${cert.issueDate}</p>
+                        <h4 class="font-bold text-lg">${cert.title}</h4>
+                        <p class="text-sm text-gray-500">by ${cert.issuer}</p>
+                        <p class="text-xs mt-2 text-yellow-600">Issued ${cert.issueDate}</p>
                     </div>
                 `).join('');
 
-                // 2. Timeline (Logic is complex, will be handled mainly in CSS/JS)
-                const timelineHTML = `<div class="text-center text-gray-500 italic">Timeline layout coming soon.</div>`; // Placeholder
+                // 2. Skill Map (Placeholder)
+                const skillMapHTML = `<div class="text-center text-gray-500 italic p-8 border-2 border-dashed rounded-lg">Interactive Skill Map coming soon.</div>`;
 
-                // 3. Accordion
-                const accordionHTML = portfolioData.certifications.map(cert => `
-                    <div class="cert-accordion-item">
-                        <div class="cert-accordion-header">
-                            <div class="logo-holder mr-4">
-                                <img src="${cert.logoUrl}" alt="${cert.issuer} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=...';">
-                            </div>
-                            <div class="flex-grow">
-                                <h5 class="font-bold" style="color: #221C2A;">${cert.title}</h5>
-                                <p class="text-sm" style="color: #9C8FA7;">${cert.issuer}</p>
-                            </div>
-                            <i class="fas fa-chevron-down cert-accordion-arrow text-xl" style="color: #463863;"></i>
+                // 3. Card Stack (Placeholder)
+                const cardStackHTML = `<div class="text-center text-gray-500 italic p-8 border-2 border-dashed rounded-lg">Vertical Card Stack coming soon.</div>`;
+
+                // 4. Icon Row
+                const iconRowHTML = portfolioData.certifications.map(cert => `
+                    <div class="icon-row-item">
+                        <div class="logo-holder">
+                            <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
                         </div>
-                        <div class="cert-accordion-content">
-                            <p class="mb-2"><span class="font-semibold">Issued:</span> ${cert.issueDate} | <span class="font-semibold">ID:</span> ${cert.credentialId}</p>
-                            <div class="flex flex-wrap gap-2">
-                                ${cert.skills.map(skill => `<span class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800">${skill}</span>`).join('')}
-                            </div>
+                        <div class="icon-tooltip w-48 bg-gray-800 text-white text-center text-sm rounded-lg py-2 px-3">
+                            <h5 class="font-bold">${cert.title}</h5>
+                            <p>${cert.issuer}</p>
                         </div>
                     </div>
                 `).join('');
+                
+                // 5. Journey Layout (Placeholder)
+                const journeyHTML = `<div class="text-center text-gray-500 italic p-8 border-2 border-dashed rounded-lg">Animated Progress Path coming soon.</div>`;
 
-                // 4. Showcase (Flip Cards)
-                const showcaseHTML = portfolioData.certifications.map(cert => `
-                    <div class="cert-flip-card">
-                        <div class="cert-flip-card-inner">
-                            <div class="cert-flip-card-front card-effect">
-                                <div class="logo-holder mb-4">
-                                    <img src="${cert.logoUrl}" alt="${cert.issuer} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=...';">
-                                </div>
-                                <h4 class="font-bold text-lg" style="color: #221C2A;">${cert.title}</h4>
-                            </div>
-                            <div class="cert-flip-card-back card-effect">
-                                <img src="${cert.certificateImageUrl}" alt="${cert.title} Certificate" onerror="this.style.display='none'">
-                                <h5 class="font-bold text-lg">${cert.issuer}</h5>
-                                <p class="text-sm mb-2">Issued: ${cert.issueDate}</p>
-                                <div class="flex flex-wrap justify-center gap-1">
-                                     ${cert.skills.map(skill => `<span class="text-xs font-medium mr-1 px-2 py-0.5 rounded-full bg-gray-200 text-gray-800">${skill}</span>`).join('')}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-
-                // 5. Skills Matrix
-                const skillsMatrix = portfolioData.certifications.reduce((acc, cert) => {
-                    if (!acc[cert.category]) {
-                        acc[cert.category] = [];
-                    }
-                    acc[cert.category].push(cert);
-                    return acc;
-                }, {});
-
-                const skillsMatrixHTML = Object.keys(skillsMatrix).map(category => `
-                    <div class="card-effect p-6 rounded-xl">
-                        <h4 class="font-bold text-xl mb-4 skill-category-tag inline-block px-3 py-1 rounded-lg">${category}</h4>
-                        <div class="flex flex-wrap gap-3">
-                            ${skillsMatrix[category].map(cert => `
-                                <div class="skill-cert-tag font-semibold px-4 py-2 rounded-lg flex items-center gap-2">
-                                    <div class="w-5 h-5"><img src="${cert.logoUrl}" class="rounded-full" alt="${cert.issuer} logo"></div>
-                                    <span>${cert.title}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `).join('');
+                // 6. Flipbook Layout (Placeholder)
+                const flipbookHTML = `<div class="text-center text-gray-500 italic p-8 border-2 border-dashed rounded-lg">Flipbook Showcase coming soon.</div>`;
 
 
                 page.innerHTML = `
@@ -733,30 +681,39 @@
                             <!-- Certifications Section -->
                             <div class="mt-20">
                                 <div class="cert-section">
-                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Badge Grid Layout</h3>
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                                        ${badgeGridHTML}
+                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Carousel Layout</h3>
+                                    <div class="carousel-container pb-4">
+                                        ${carouselHTML}
                                     </div>
                                 </div>
-                                
                                 <div class="cert-section">
-                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Accordion Layout</h3>
+                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Skill Map Layout</h3>
                                     <div class="max-w-3xl mx-auto">
-                                        ${accordionHTML}
+                                        ${skillMapHTML}
                                     </div>
                                 </div>
-
                                 <div class="cert-section">
-                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Showcase Layout</h3>
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                                        ${showcaseHTML}
+                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Stack Layout</h3>
+                                    <div class="max-w-3xl mx-auto">
+                                        ${cardStackHTML}
                                     </div>
                                 </div>
-
                                 <div class="cert-section">
-                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Skills Matrix Layout</h3>
-                                    <div class="space-y-8 max-w-3xl mx-auto">
-                                        ${skillsMatrixHTML}
+                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Icon Row Layout</h3>
+                                    <div class="flex justify-center items-center gap-8 flex-wrap max-w-3xl mx-auto">
+                                        ${iconRowHTML}
+                                    </div>
+                                </div>
+                                <div class="cert-section">
+                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Journey Layout</h3>
+                                    <div class="max-w-3xl mx-auto">
+                                        ${journeyHTML}
+                                    </div>
+                                </div>
+                                <div class="cert-section">
+                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Flipbook Layout</h3>
+                                    <div class="max-w-3xl mx-auto">
+                                        ${flipbookHTML}
                                     </div>
                                 </div>
                             </div>
@@ -827,22 +784,6 @@
                 }, { threshold: 0.2 });
                 educationCards.forEach(card => eduObserver.observe(card));
             }
-
-            // --- NEW: Accordion and Flip Card Listeners ---
-            document.getElementById('page-education').addEventListener('click', (e) => {
-                // Accordion logic
-                const accordionHeader = e.target.closest('.cert-accordion-header');
-                if (accordionHeader) {
-                    accordionHeader.parentElement.classList.toggle('open');
-                }
-
-                // Flip card logic
-                const flipCardInner = e.target.closest('.cert-flip-card-inner');
-                if (flipCardInner) {
-                    flipCardInner.parentElement.classList.toggle('is-flipped');
-                }
-            });
-
 
             const experienceTimelineContainer = document.getElementById('experience-timeline-container');
             const globalProgressBar = document.getElementById('global-progress-bar');
