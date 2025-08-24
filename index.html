@@ -318,23 +318,28 @@
             border-top: 1px solid #e2e8f0;
         }
         /* 1. Carousel */
-        .carousel-wrapper { overflow: hidden; position: relative; }
-        .carousel-container { display: flex; transition: transform 0.5s ease; }
-        .carousel-item { flex: 0 0 80%; scroll-snap-align: center; margin: 0 0.5rem; transition: transform 0.3s ease; }
-        @media (min-width: 768px) { .carousel-item { flex-basis: 40%; } }
-        @media (min-width: 1024px) { .carousel-item { flex-basis: 30%; } }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        .carousel-wrapper { overflow: hidden; position: relative; padding: 1rem 0; }
+        .carousel-container { display: flex; animation: scroll 30s linear infinite; }
+        .carousel-wrapper:hover .carousel-container { animation-play-state: paused; }
+        .carousel-item { flex-shrink: 0; width: 80%; margin: 0 1rem; transition: transform 0.3s ease; }
         .carousel-wrapper:hover .carousel-item { transform: scale(1.05); }
+        @media (min-width: 768px) { .carousel-item { width: 40%; } }
+        @media (min-width: 1024px) { .carousel-item { width: 30%; } }
 
         /* 2. Skill Map */
         .skill-map-container { position: relative; width: 100%; max-width: 500px; height: 500px; margin: auto; }
         .skill-map-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; }
         .skill-map-branch, .skill-map-node { position: absolute; top: 50%; left: 50%; transform-origin: center center; transition: transform 0.3s ease; }
-        .skill-map-node:hover { transform: scale(1.1); }
+        .skill-map-node:hover { transform: scale(1.1); z-index: 20; }
         .skill-map-node:hover .skill-map-tooltip { opacity: 1; visibility: visible; }
-        .skill-map-tooltip { position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); opacity: 0; visibility: hidden; transition: 0.3s; white-space: nowrap; background-color: #221C2A; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        .skill-map-tooltip { position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); opacity: 0; visibility: hidden; transition: 0.3s; white-space: nowrap; background-color: #221C2A; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; z-index: 30; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .skill-map-node .logo-holder { animation: pulse 2.5s infinite ease-in-out; }
-        .branch-line { position: absolute; top: 50%; left: 50%; background-color: #9C8FA7; }
+        .branch-line { position: absolute; top: 50%; left: 50%; background-color: #9C8FA7; height: 2px; transform-origin: left center; }
 
         /* 6. Flipbook */
         .flipbook-container { position: relative; width: 100%; max-width: 500px; height: 350px; margin: auto; perspective: 1500px;}
@@ -646,7 +651,7 @@
                 // --- NEW: Certifications HTML Generation ---
                 
                 // 1. Carousel
-                const carouselHTML = portfolioData.certifications.map(cert => `
+                const carouselHTML = [...portfolioData.certifications, ...portfolioData.certifications].map(cert => `
                     <div class="carousel-item card-effect text-center p-6 rounded-xl">
                         <div class="logo-holder mx-auto mb-4">
                             <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
@@ -876,22 +881,7 @@
             document.querySelector('.nav-link.active')?.scrollIntoView({ inline: 'center', block: 'nearest' });
 
             function initializeCertificationLayouts() {
-                // 1. Carousel
-                const carouselWrapper = document.querySelector('.carousel-wrapper');
-                if (carouselWrapper) {
-                    const carousel = carouselWrapper.querySelector('.carousel-container');
-                    let isPaused = false;
-                    carouselWrapper.addEventListener('mouseenter', () => isPaused = true);
-                    carouselWrapper.addEventListener('mouseleave', () => isPaused = false);
-                    setInterval(() => {
-                        if (!isPaused) {
-                            carousel.scrollLeft += 1;
-                            if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 1) {
-                                carousel.scrollTo({ left: 0, behavior: 'smooth' });
-                            }
-                        }
-                    }, 20);
-                }
+                // 1. Carousel - No JS needed for this CSS animation approach
 
                 // 2. Skill Map
                 const skillMapContainer = document.getElementById('skill-map-container');
@@ -906,23 +896,35 @@
                     
                     categoryKeys.forEach((key, index) => {
                         const angle = angleStep * index;
-                        const radius = 150;
+                        const radius = 180;
                         const x = radius * Math.cos(angle * Math.PI / 180);
                         const y = radius * Math.sin(angle * Math.PI / 180);
 
+                        // Draw line from center to branch
+                        const line = document.createElement('div');
+                        line.className = 'branch-line';
+                        line.style.width = `${radius}px`;
+                        line.style.transform = `rotate(${angle}deg)`;
+                        skillMapContainer.appendChild(line);
+
                         const branchEl = document.createElement('div');
-                        branchEl.className = 'skill-map-branch';
+                        branchEl.className = 'skill-map-branch text-center';
                         branchEl.style.transform = `translate(${x}px, ${y}px)`;
+                        branchEl.innerHTML = `<h4 class="font-bold text-lg mb-2">${key}</h4>`;
+
+                        // Add certification nodes to branch
+                        categories[key].forEach((cert, certIndex) => {
+                            const nodeEl = document.createElement('div');
+                            nodeEl.className = 'skill-map-node inline-block mx-1';
+                            nodeEl.innerHTML = `
+                                <div class="logo-holder">
+                                    <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
+                                </div>
+                                <div class="skill-map-tooltip">${cert.title}</div>
+                            `;
+                            branchEl.appendChild(nodeEl);
+                        });
                         
-                        const nodeEl = document.createElement('div');
-                        nodeEl.className = 'skill-map-node';
-                        nodeEl.innerHTML = `
-                            <div class="logo-holder">
-                                <i class="fas fa-layer-group"></i>
-                            </div>
-                            <div class="skill-map-tooltip">${key}</div>
-                        `;
-                        branchEl.appendChild(nodeEl);
                         skillMapContainer.appendChild(branchEl);
                     });
                 }
