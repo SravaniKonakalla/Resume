@@ -677,10 +677,12 @@
                     const containerHeight = experienceTimelineContainer.offsetHeight;
                     const iconHeight = movingIcon.offsetHeight;
 
-                    const scrollDistance = windowHeight + containerHeight;
-                    const journeyProgress = windowHeight - containerRect.top;
+                    // Calculate the scroll progress relative to the timeline container
+                    const scrollStart = experienceTimelineContainer.offsetTop;
+                    const scrollEnd = scrollStart + containerHeight - windowHeight;
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-                    let progress = journeyProgress / scrollDistance;
+                    let progress = (scrollTop - scrollStart) / (scrollEnd - scrollStart);
                     progress = Math.max(0, Math.min(1, progress));
 
                     const finalPosition = progress * (containerHeight - iconHeight);
