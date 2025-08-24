@@ -293,6 +293,20 @@
             font-weight: 700;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+
+        /* --- NEW: Overrides for Education Card Logo --- */
+        .education-card .logo-holder {
+            width: 120px;
+            height: auto;
+            align-self: stretch; /* Stretches the div to the full height of the flex container */
+            border-radius: 0;
+            padding: 1rem;
+            box-shadow: 4px 0 15px -4px rgba(70, 56, 99, 0.5); /* Neon glow on the right edge */
+        }
+        .education-card .logo-holder img {
+            border-radius: 0; /* Ensures the image itself is not rounded */
+            max-height: 80px; /* Prevents the logo from stretching too tall */
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -552,20 +566,18 @@
                 page.className = 'page';
 
                 const educationCardsHTML = portfolioData.educations.map(edu => `
-                    <div class="education-card bg-white rounded-2xl p-6 relative overflow-hidden w-full max-w-2xl mx-auto">
-                        <div class="flex items-start gap-6">
-                            <div class="logo-holder">
-                                <img src="${edu.logoUrl}" alt="${edu.school} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
-                            </div>
-                            <div class="flex-grow">
-                                <h4 class="text-xl font-bold" style="color: #221C2A;">${edu.degree}</h4>
-                                <p class="font-semibold text-md mb-1" style="color: #463863;">${edu.specialization}</p>
-                                <p class="text-sm" style="color: #9C8FA7;">${edu.school}, ${edu.location}</p>
-                                <p class="text-sm font-medium" style="color: #D1A46E;">${edu.date}</p>
-                            </div>
+                    <div class="education-card bg-white rounded-2xl flex overflow-hidden w-full max-w-2xl mx-auto">
+                        <div class="logo-holder">
+                            <img src="${edu.logoUrl}" alt="${edu.school} Logo" onerror="this.src='https://placehold.co/120x120/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
                         </div>
-                        <div class="absolute bottom-4 right-6">
-                            <span class="cgpa-badge">${edu.details}</span>
+                        <div class="p-6 relative flex-grow">
+                            <h4 class="text-xl font-bold" style="color: #221C2A;">${edu.degree}</h4>
+                            <p class="font-semibold text-md mb-1" style="color: #463863;">${edu.specialization}</p>
+                            <p class="text-sm" style="color: #9C8FA7;">${edu.school}, ${edu.location}</p>
+                            <p class="text-sm font-medium" style="color: #D1A46E;">${edu.date}</p>
+                            <div class="absolute bottom-6 right-6">
+                                <span class="cgpa-badge">${edu.details}</span>
+                            </div>
                         </div>
                     </div>
                 `).join('');
@@ -862,4 +874,3 @@
     </script>
 </body>
 </html>
-
