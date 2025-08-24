@@ -165,11 +165,59 @@
                 transition: height 1.6s cubic-bezier(0.645, 0.045, 0.355, 1);
             }
         }
+        /* Other original styles */
+        #success-toast {
+            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            background-color: #10b981; color: white; padding: 1rem 1.5rem;
+            border-radius: 0.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 100; opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+        #success-toast.show {
+            opacity: 1; visibility: visible; transform: translate(-50%, -10px);
+        }
+        .center-timeline-container { position: relative; width: 100%; max-width: 80rem; margin: auto; padding: 2rem 0; }
+        .center-timeline-line { position: absolute; width: 4px; background-color: #e2e8f0; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); }
+        .center-timeline-line-progress { position: absolute; width: 4px; background: linear-gradient(to bottom, #D1A46E, #463863); top: 0; left: 50%; transform: translateX(-50%); height: 0; transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .timeline-item { position: relative; width: 50%; padding: 0 1rem; margin-bottom: 3rem; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .timeline-item.visible { opacity: 1; transform: translateY(0); }
+        .timeline-item:nth-child(odd) { left: 0; }
+        .timeline-item:nth-child(even) { left: 50%; }
+        .timeline-item-content { position: relative; }
+        .logo-holder { width: 60px; height: 60px; background: #FFFFFF; border-radius: 50%; padding: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); transition: box-shadow 0.3s ease; }
+        .logo-holder img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
+        .skill-logo-holder { width: 48px; height: 48px; background: #FFFFFF; border-radius: 50%; padding: 4px; box-shadow: 0 0 8px rgba(100, 150, 255, 0.6), 0 0 15px rgba(100, 150, 255, 0.4); }
+        .skill-logo-holder img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
+        #timeline-moving-icon { position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%); width: 40px; height: 40px; background-color: #463863; color: #D1A46E; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; box-shadow: 0 0 15px rgba(209, 164, 110, 0.7); z-index: 10; transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .education-card { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease; }
+        .education-card.visible { opacity: 1; transform: translateY(0); }
+        .education-card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px -4px rgba(70, 56, 99, 0.15), 0 0 30px rgba(209, 164, 110, 0.7); }
+        .education-card .logo-holder { width: 120px; height: auto; align-self: stretch; border-radius: 0; padding: 0; box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); overflow: hidden; }
+        .education-card .logo-holder img { border-radius: 0; width: 100%; height: 100%; object-fit: cover; }
+        .cgpa-badge { background-color: #463863; color: #FFFFFF; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .accordion-item { background-color: #FFFFFF; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05); transition: margin 0.3s ease-in-out; }
+        .accordion-item:not(:last-child) { margin-bottom: 1rem; }
+        .accordion-header { width: 100%; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background-color: transparent; border: none; text-align: left; font-weight: 600; font-size: 1.125rem; color: #221C2A; transition: background-color 0.3s ease; }
+        .accordion-header:hover { background-color: #F5F1EA; }
+        .accordion-header .icon { transition: transform 0.3s ease-in-out; color: #463863; }
+        .accordion-item.active .accordion-header .icon { transform: rotate(45deg); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; padding: 0 1.5rem; }
+        .accordion-content-inner { padding-bottom: 1.5rem; }
+        .list-rtl { direction: rtl; list-style-position: inside; }
+        .list-rtl li { direction: ltr; }
+        @media (max-width: 768px) {
+            .center-timeline-line, .center-timeline-line-progress { left: 25px; }
+            .timeline-item { width: 100%; left: 0 !important; padding-left: 4rem; padding-right: 1rem; }
+            #timeline-moving-icon { left: 25px; }
+        }
     </style>
 </head>
 <body class="antialiased">
     
     <canvas id="finance-canvas"></canvas>
+    <div id="success-toast">
+        <i class="fas fa-check-circle mr-2"></i> Message sent successfully! I'll get back to you soon.
+    </div>
 
     <header class="fixed top-0 left-0 right-0 z-50 py-4">
         <div class="container mx-auto flex justify-center items-center px-4">
@@ -204,9 +252,96 @@
                     imageUrl: "https://placehold.co/300x300/463863/F5F1EA?text=BSK",
                 },
                 experiences: [
-                    // ... (experience data remains the same)
+                    { 
+                        date: 'Jun 2024 - Present', 
+                        title: 'Management Trainee', 
+                        company: 'Tata Consultancy Services', 
+                        logoUrl: 'TCS LOGO.svg.png',
+                        duties: [
+                            'Executed Fixed Asset Runs and Role Forward using SAP BPC, ensuring 100% compliance.',
+                            'Monitored cost centers and role IDs, improving process efficiency by 15%.',
+                            'Resolved system discrepancies through root cause analysis to enhance data reliability.'
+                        ]
+                    },
+                    { 
+                        date: 'Jun 2023 - Jul 2023', 
+                        title: 'Sales Trainee (Internship)', 
+                        company: 'Silver Star Mercedes Benz', 
+                        logoUrl: 'Benz Logo.svg.png',
+                        duties: [
+                            'Performed credit risk assessments and analyzed financial statements.',
+                            'Managed end-to-end accounts payable, enhancing vendor relationships.',
+                            'Conducted detailed cost-benefit analyses for marketing campaigns.'
+                        ]
+                    }
                 ],
-                // ... (other data sections)
+                skills: [
+                    { name: 'SAP BPC', logoUrl: './public/logos/sap-logo.png' },
+                    { name: 'Financial Modeling', logoUrl: './public/logos/financial-modeling-logo.png' },
+                    { name: 'Tableau', logoUrl: './public/logos/tableau-logo.png' },
+                    { name: 'Advanced Excel', logoUrl: './public/logos/excel-logo.png' },
+                    { name: 'MS Office Suite', logoUrl: './public/logos/office-logo.png' },
+                    { name: 'Compliance', logoUrl: './public/logos/compliance-logo.png' },
+                    { name: 'Credit Monitoring', logoUrl: './public/logos/credit-monitoring-logo.png' },
+                    { name: 'Data Analysis', logoUrl: './public/logos/data-analysis-logo.png' }
+                ],
+                educations: [
+                    { 
+                        degree: 'Bachelor of Technology', 
+                        specialization: 'Civil Engineering',
+                        school: 'Shri Vishnu Engineering College for Women', 
+                        location: 'Bhimavaram',
+                        date: '2017 - 2021', 
+                        details: 'CGPA: 8.29',
+                        logoUrl: 'Vishnu Logo.svg.png' 
+                    },
+                    { 
+                        degree: 'Masters of Business Administration', 
+                        specialization: 'Finance & Marketing',
+                        school: 'GITAM School of Business', 
+                        location: 'Visakhapatnam',
+                        date: '2022 - 2024', 
+                        details: 'CGPA: 8.19',
+                        logoUrl: 'Gitam Logo.svg.png' 
+                    }
+                ],
+                certifications: [
+                    { 
+                        title: 'Microsoft 365 Fundamentals', issuer: 'Microsoft', 
+                        logoUrl: './public/logos/microsoft-logo.png', issueDate: 'Jan 2024',
+                        skills: ['Cloud Computing', 'MS Office 365', 'Collaboration Tools'], category: 'Systems',
+                        certificateImageUrl: './public/certificates/MS-365-Cert.png'
+                    },
+                    { 
+                        title: 'SAP Professional Fundamentals', issuer: 'SAP',
+                        logoUrl: './public/logos/sap-logo.png', issueDate: 'Dec 2023',
+                        skills: ['ERP Systems', 'SAP BPC', 'Financial Planning'], category: 'Systems',
+                        certificateImageUrl: './public/certificates/SAP-Cert.png'
+                    },
+                    { 
+                        title: 'GST Taxation Certificate', issuer: 'PwC',
+                        logoUrl: './public/logos/pwc-logo.png', issueDate: 'Nov 2023',
+                        skills: ['Taxation', 'GST Compliance', 'Financial Regulation'], category: 'Finance',
+                        certificateImageUrl: './public/certificates/PwC-Cert.png'
+                    },
+                    {
+                        title: 'Investment Banking Simulation', issuer: 'JP Morgan',
+                        logoUrl: './public/logos/jpmorgan-logo.png', issueDate: 'Oct 2023',
+                        skills: ['Valuation', 'M&A', 'Financial Modeling'], category: 'Finance',
+                        certificateImageUrl: './public/certificates/JPM-Cert.png'
+                    },
+                    {
+                        title: 'Tableau Specialist', issuer: 'Tableau',
+                        logoUrl: './public/logos/tableau-logo.png', issueDate: 'Sep 2023',
+                        skills: ['Data Visualization', 'Business Intelligence', 'Dashboarding'], category: 'Analytics & Tools',
+                        certificateImageUrl: './public/certificates/Tableau-Cert.png'
+                    }
+                ],
+                contact: {
+                    email: 'sravikonakalla@gmail.com',
+                    linkedin: 'https://linkedin.com/in/kbalasravani',
+                    formspree_url: 'https://formspree.io/f/your_unique_id'
+                },
                 starbucksProject: {
                     dashboardData: {
                         valuationRange: "$85 – $102",
@@ -239,7 +374,6 @@
                 const newPage = document.getElementById(`page-${pageId}`);
                 if (newPage) {
                     newPage.classList.add('active');
-                    // Trigger animations for project page if it's the one being shown
                     if (pageId === 'projects') {
                         setupProjectPageAnimations();
                     }
@@ -253,6 +387,7 @@
                     }
                 });
                 window.scrollTo(0, 0);
+                handleScrollAnimations(); 
             };
 
             portfolioData.pages.forEach(page => {
@@ -265,10 +400,184 @@
                 navContainer.appendChild(link);
             });
 
-            const createHomePage = () => { /* ... Function remains the same ... */ };
-            const createExperiencePage = () => { /* ... Function remains the same ... */ };
-            const createEducationPage = () => { /* ... Function remains the same ... */ };
-            const createContactPage = () => { /* ... Function remains the same ... */ };
+            const createHomePage = () => {
+                const page = document.createElement('div');
+                page.id = 'page-home';
+                page.className = 'page active';
+                page.innerHTML = `
+                    <section class="container mx-auto px-6 py-20 min-h-[80vh] flex items-center">
+                        <div class="grid md:grid-cols-2 gap-12 items-center">
+                            <div class="flex justify-center">
+                                <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-gray-200 shadow-2xl">
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
+                                <h2 class="text-2xl md:text-3xl mb-6" style="color: #463863;">${portfolioData.home.title}</h2>
+                                <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.summary}</p>
+                                <div class="mt-8">
+                                    <a href="mailto:${portfolioData.contact.email}" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-block" style="background-color: #463863; color: #FFFFFF;">
+                                        Get In Touch
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+                mainContainer.appendChild(page);
+            };
+
+            const createExperiencePage = () => { 
+                const page = document.createElement('div'); 
+                page.id = 'page-experience'; 
+                page.className = 'page'; 
+                const experiencesHTML = portfolioData.experiences.map((exp, index) => `
+                    <div class="timeline-item" data-index="${index}">
+                        <div class="timeline-item-content card-effect">
+                            <div class="p-6">
+                                <div class="flex items-start gap-4 mb-4 ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}">
+                                    <div class="logo-holder">
+                                        <img src="${exp.logoUrl}" alt="${exp.company} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
+                                    </div>
+                                    <div class="flex-grow ${index % 2 !== 0 ? 'md:text-right' : 'text-left'}">
+                                        <h4 class="text-xl font-bold" style="color: #221C2A;">${exp.title}</h4>
+                                        <p class="text-lg font-semibold" style="color: #463863;">${exp.company}</p>
+                                        <p class="text-sm font-semibold mt-2" style="color: #D1A46E;">${exp.date}</p>
+                                    </div>
+                                </div>
+                                <ul class="list-disc ${index % 2 !== 0 ? 'list-rtl' : 'list-outside pl-5 text-left'} space-y-2" style="color: #463863;">
+                                    ${exp.duties.map(duty => `<li style="font-size: 0.875rem;">${duty}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>`).join(''); 
+                const skillsHTML = portfolioData.skills.map(skill => `
+                    <div class="p-4 rounded-lg card-effect flex flex-col items-center justify-center gap-4 text-center h-full">
+                        <div class="skill-logo-holder">
+                            <img src="${skill.logoUrl}" alt="${skill.name} Logo" onerror="this.src='https://placehold.co/48x48/FFFFFF/463863?text=Icon'; this.parentElement.style.boxShadow='none';">
+                        </div>
+                        <p class="text-sm font-semibold" style="color: #221C2A;">${skill.name}</p>
+                    </div>`).join(''); 
+                page.innerHTML = `
+                    <section class="py-16">
+                        <div class="container mx-auto px-6">
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Work Experience</h3>
+                            <div id="experience-timeline-container" class="center-timeline-container">
+                                <div class="center-timeline-line"></div>
+                                <div id="timeline-progress-exp" class="center-timeline-line-progress"></div>
+                                <div id="timeline-moving-icon"><i class="fas fa-briefcase"></i></div>
+                                ${experiencesHTML}
+                            </div>
+                            <div class="text-center mt-16">
+                                <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Technical Skills</h3>
+                                <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">${skillsHTML}</div>
+                            </div>
+                        </div>
+                    </section>`; 
+                mainContainer.appendChild(page); 
+            };
+
+            const createEducationPage = () => {
+                const page = document.createElement('div');
+                page.id = 'page-education';
+                page.className = 'page';
+
+                const educationCardsHTML = portfolioData.educations.map(edu => `
+                    <div class="education-card bg-white rounded-2xl flex overflow-hidden w-full max-w-2xl mx-auto">
+                        <div class="logo-holder">
+                            <img src="${edu.logoUrl}" alt="${edu.school} Logo" onerror="this.src='https://placehold.co/120x120/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
+                        </div>
+                        <div class="py-6 pr-6 pl-8 relative flex-grow">
+                            <h4 class="text-xl font-bold" style="color: #221C2A;">${edu.degree}</h4>
+                            <p class="font-semibold text-md mb-1" style="color: #463863;">${edu.specialization}</p>
+                            <p class="text-sm" style="color: #9C8FA7;">${edu.school}, ${edu.location}</p>
+                            <p class="text-sm font-medium" style="color: #D1A46E;">${edu.date}</p>
+                            <div class="absolute bottom-6 right-6">
+                                <span class="cgpa-badge">${edu.details}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                const accordionHTML = portfolioData.certifications.map(cert => `
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <div class="flex items-center gap-4">
+                                <div class="logo-holder w-10 h-10 text-sm">
+                                    <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
+                                </div>
+                                <span>${cert.title}</span>
+                            </div>
+                            <i class="fas fa-plus icon"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner grid md:grid-cols-3 gap-6 items-center">
+                                <div class="md:col-span-1">
+                                    <img src="${cert.certificateImageUrl}" alt="${cert.title} certificate" class="rounded-lg shadow-lg w-full" onerror="this.src='https://placehold.co/400x250/FFFFFF/463863?text=Cert';">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <h5 class="font-bold text-lg mb-2" style="color: #463863;">${cert.issuer}</h5>
+                                    <p class="text-sm text-gray-500 mb-4">Issued: ${cert.issueDate}</p>
+                                    <h6 class="font-semibold mb-2">Skills Covered:</h6>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        ${cert.skills.map(skill => `<li>${skill}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+
+                page.innerHTML = `
+                    <section class="py-16">
+                        <div class="container mx-auto px-6">
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Academic Background</h3>
+                            <div class="space-y-8">
+                                ${educationCardsHTML}
+                            </div>
+                            
+                            <div class="cert-section mt-20">
+                                <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications</h3>
+                                <div class="max-w-4xl mx-auto">
+                                    ${accordionHTML}
+                                </div>
+                            </div>
+                        </div>
+                    </section>`;
+                mainContainer.appendChild(page);
+            };
+
+            const createContactPage = () => {
+                const page = document.createElement('div');
+                page.id = 'page-contact';
+                page.className = 'page';
+                page.innerHTML = `
+                    <section class="py-16">
+                        <div class="container mx-auto px-6 text-center">
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">Get In Touch</h3>
+                            <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">I'm always open to discussing new opportunities. Feel free to send a message.</p>
+                            <div class="max-w-2xl mx-auto">
+                                <form id="contact-form" action="${portfolioData.contact.formspree_url}" method="POST" class="w-full p-8 rounded-lg card-effect mb-8">
+                                    <div class="space-y-4 text-left">
+                                        <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                                        <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                                        <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
+                                    </div>
+                                    <div class="mt-8">
+                                        <button type="submit" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full" style="background-color: #463863; color: #FFFFFF;">
+                                            Send Message
+                                        </button>
+                                    </div>
+                                </form>
+                                <div class="flex justify-center items-center gap-6 mt-8">
+                                    <a href="mailto:${portfolioData.contact.email}" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fas fa-envelope"></i></a>
+                                    <a href="${portfolioData.contact.linkedin}" target="_blank" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>`;
+                mainContainer.appendChild(page);
+            };
 
             // --- REBUILT PROJECTS PAGE ---
             const createProjectsPage = () => {
@@ -478,27 +787,22 @@
 
             // --- SETUP FOR PROJECT PAGE ---
             const setupProjectPageAnimations = () => {
-                // Intersection Observer for all project sections
                 const sections = document.querySelectorAll('.project-section-fade-in');
                 const sectionObserver = new IntersectionObserver((entries, observer) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             entry.target.classList.add('visible');
-                            observer.unobserve(entry.target); // Animate only once
+                            observer.unobserve(entry.target);
                         }
                     });
                 }, { threshold: 0.1 });
                 sections.forEach(section => sectionObserver.observe(section));
 
-                // Observer for Timeline animation
                 const timeline = document.getElementById('timeline');
                 const timelineObserver = new IntersectionObserver((entries) => {
                     if (entries[0].isIntersecting) {
-                        // Desktop
                         document.getElementById('timeline-progress').style.width = '100%';
-                        // Mobile
                         document.getElementById('timeline-progress-vertical').style.height = '100%';
-                        
                         document.querySelectorAll('.timeline-node').forEach(node => {
                             node.classList.add('visible');
                         });
@@ -506,22 +810,17 @@
                 }, { threshold: 0.5 });
                 if (timeline) timelineObserver.observe(timeline);
 
-                // Initialize Charts
                 initializeDashboardCharts();
             };
 
-            let charts = {}; // To hold chart instances and prevent re-rendering
+            let charts = {}; 
             const initializeDashboardCharts = () => {
                 const data = portfolioData.starbucksProject.dashboardData;
-
-                // Destroy existing charts if they exist
                 Object.values(charts).forEach(chart => chart.destroy());
 
-                // 1. DCF Chart
                 const dcfCtx = document.getElementById('dcfChart')?.getContext('2d');
                 if (dcfCtx) {
                     const dcfData = data.dcfAnalysis;
-                    const range = dcfData.high - dcfData.low;
                     charts.dcf = new Chart(dcfCtx, {
                         type: 'bar',
                         data: {
@@ -532,15 +831,10 @@
                                 { label: 'High', data: [dcfData.high - dcfData.base], backgroundColor: 'rgba(54, 162, 235, 0.2)', borderColor: 'rgba(54, 162, 235, 1)', borderWidth: 1 }
                             ]
                         },
-                        options: {
-                            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                            scales: { x: { stacked: true, title: { display: true, text: 'Value per Share ($)' } }, y: { stacked: true } },
-                            plugins: { legend: { display: false } }
-                        }
+                        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, title: { display: true, text: 'Value per Share ($)' } }, y: { stacked: true } }, plugins: { legend: { display: false } } }
                     });
                 }
 
-                // 2. Forecast Chart
                 const forecastCtx = document.getElementById('forecastChart')?.getContext('2d');
                 if (forecastCtx) {
                     charts.forecast = new Chart(forecastCtx, {
@@ -556,38 +850,27 @@
                     });
                 }
                 
-                // 3. Scenario Chart
                 const scenarioCtx = document.getElementById('scenarioChart')?.getContext('2d');
                 if (scenarioCtx) {
                     charts.scenario = new Chart(scenarioCtx, {
                         type: 'bar',
-                        data: {
-                            labels: ['Bear Case', 'Base Case', 'Bull Case'],
-                            datasets: [{ label: 'Value per Share', data: [data.scenarios.bear, data.scenarios.base, data.scenarios.bull], backgroundColor: ['#FF6384', '#36A2EB', '#4BC0C0'] }]
-                        },
+                        data: { labels: ['Bear Case', 'Base Case', 'Bull Case'], datasets: [{ label: 'Value per Share', data: [data.scenarios.bear, data.scenarios.base, data.scenarios.bull], backgroundColor: ['#FF6384', '#36A2EB', '#4BC0C0'] }] },
                         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
                     });
                 }
 
-                // 4. Comps Chart
                 const compsCtx = document.getElementById('compsChart')?.getContext('2d');
                 if (compsCtx) {
                     charts.comps = new Chart(compsCtx, {
                         type: 'bar',
-                        data: {
-                            labels: ['Starbucks', 'Peer A', 'Peer B', 'Peer C'],
-                            datasets: [{ label: 'EV/EBITDA', data: [data.comps.sbux, data.comps.peer1, data.comps.peer2, data.comps.peer3], backgroundColor: ['#463863', '#9C8FA7', '#9C8FA7', '#9C8FA7'] }]
-                        },
+                        data: { labels: ['Starbucks', 'Peer A', 'Peer B', 'Peer C'], datasets: [{ label: 'EV/EBITDA', data: [data.comps.sbux, data.comps.peer1, data.comps.peer2, data.comps.peer3], backgroundColor: ['#463863', '#9C8FA7', '#9C8FA7', '#9C8FA7'] }] },
                         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
                     });
                 }
             };
 
             // --- GLOBAL LOGIC ---
-            // Initial page load
             showPage('home');
-
-            // Header auto-hide logic
             const header = document.querySelector('header');
             let lastScrollTop = 0;
             window.addEventListener('scroll', function() {
@@ -596,7 +879,89 @@
                 lastScrollTop = scrollTop;
             }, false);
 
-            // Canvas background animation
+            const expTimelineItems = document.querySelectorAll('#page-experience .timeline-item');
+            if (expTimelineItems.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    });
+                }, { threshold: 0.3 });
+                expTimelineItems.forEach(item => observer.observe(item));
+            }
+
+            const educationCards = document.querySelectorAll('.education-card');
+            if (educationCards.length > 0) {
+                const eduObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    });
+                }, { threshold: 0.2 });
+                educationCards.forEach(card => eduObserver.observe(card));
+            }
+            
+            const contactForm = document.getElementById('contact-form');
+            const successToast = document.getElementById('success-toast');
+            if (contactForm) { 
+                contactForm.addEventListener('submit', function(e) { 
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    fetch(this.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
+                    .then(response => { 
+                        if (response.ok) { 
+                            successToast.classList.add('show'); 
+                            setTimeout(() => successToast.classList.remove('show'), 4000);
+                            contactForm.reset(); 
+                        } 
+                    }).catch(error => console.error("Error.", error)); 
+                }); 
+            }
+
+            function handleScrollAnimations() {
+                const expTimelineContainer = document.getElementById('experience-timeline-container');
+                if (expTimelineContainer && document.getElementById('page-experience').classList.contains('active')) {
+                    const movingIcon = document.getElementById('timeline-moving-icon');
+                    const timelineProgress = document.getElementById('timeline-progress-exp');
+                    const timelineItems = document.querySelectorAll('#page-experience .timeline-item');
+                    if (!movingIcon || !timelineProgress || timelineItems.length === 0) return;
+                    const containerRect = expTimelineContainer.getBoundingClientRect();
+                    const containerHeight = expTimelineContainer.offsetHeight;
+                    const iconHeight = movingIcon.offsetHeight;
+                    const viewportCenterY = window.innerHeight / 2;
+                    let targetTop = 0;
+                    for (let i = timelineItems.length - 1; i >= 0; i--) {
+                        const item = timelineItems[i];
+                        const itemRect = item.getBoundingClientRect();
+                        if (itemRect.top + (item.offsetHeight / 2) < viewportCenterY) {
+                            targetTop = item.offsetTop + (item.offsetHeight / 2) - (iconHeight / 2);
+                            break;
+                        }
+                    }
+                    if (containerRect.bottom < viewportCenterY) targetTop = containerHeight - iconHeight; 
+                    else if (containerRect.top > viewportCenterY) targetTop = 0;
+                    const finalPosition = Math.max(0, Math.min(containerHeight - iconHeight, targetTop));
+                    movingIcon.style.top = `${finalPosition}px`;
+                    timelineProgress.style.height = `${finalPosition}px`;
+                }
+            }
+            window.addEventListener('scroll', handleScrollAnimations);
+
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                const content = item.querySelector('.accordion-content');
+                header.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    accordionItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                    });
+                    if (!isActive) {
+                        item.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+
             const canvas = document.getElementById('finance-canvas');
             const ctx = canvas.getContext('2d');
             let particles = [];
