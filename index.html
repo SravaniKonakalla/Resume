@@ -13,6 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Swiper.js for Carousel -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <style>
         /* --- COLOR PALETTE --- */
         /* BG #F5F1EA • Surface #FFFFFF • Text #221C2A */
@@ -318,32 +320,100 @@
             border-top: 1px solid #e2e8f0;
         }
         /* 1. Carousel */
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-250px * 5))); } /* 250px is card width, 5 is number of cards */
+        .cert-carousel .swiper-slide {
+            transition: transform 0.3s ease-in-out;
+            padding-bottom: 2rem;
         }
-        .carousel-wrapper { overflow: hidden; position: relative; padding: 1rem 0; }
-        .carousel-container { display: flex; width: calc(250px * 10); animation: scroll 40s linear infinite; } /* 10 is double the cards for seamless loop */
-        .carousel-wrapper:hover .carousel-container { animation-play-state: paused; }
-        .carousel-item { flex-shrink: 0; width: 250px; margin: 0 1rem; transition: transform 0.3s ease; }
-        .carousel-item:hover { transform: scale(1.05); }
+        .cert-carousel .swiper-slide:hover {
+            transform: scale(1.05);
+        }
+        .cert-carousel .card-content {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+        }
+        .cert-carousel .logo-holder {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+        }
+        .cert-carousel .swiper-button-next,
+        .cert-carousel .swiper-button-prev {
+            color: #463863;
+        }
+        .cert-carousel .swiper-pagination-bullet-active {
+            background: #463863;
+        }
 
         /* 2. Skill Map */
-        .skill-map-container { position: relative; width: 100%; max-width: 500px; height: 500px; margin: auto; }
-        .skill-map-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; }
-        .skill-map-branch, .skill-map-node { position: absolute; top: 50%; left: 50%; transform-origin: center center; transition: transform 0.3s ease; }
-        .skill-map-node:hover { transform: scale(1.1); z-index: 20; }
-        .skill-map-node:hover .skill-map-tooltip { opacity: 1; visibility: visible; }
+        .skill-map-container { position: relative; width: 100%; max-width: 600px; height: 600px; margin: auto; }
+        .skill-map-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; cursor: pointer; }
+        .skill-map-branch, .skill-map-node { position: absolute; top: 50%; left: 50%; transform-origin: center center; transition: all 0.4s ease-in-out; }
+        .skill-map-branch { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+        .skill-map-branch.visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .skill-map-node:hover { transform: scale(1.15); z-index: 20; }
+        .skill-map-node:hover .skill-map-tooltip { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(-5px); }
         .skill-map-tooltip { position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); opacity: 0; visibility: hidden; transition: 0.3s; white-space: nowrap; background-color: #221C2A; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; z-index: 30; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .skill-map-node .logo-holder { animation: pulse 2.5s infinite ease-in-out; }
-        .branch-line { position: absolute; top: 50%; left: 50%; background-color: #9C8FA7; height: 2px; transform-origin: left center; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); } 50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(100, 150, 255, 0.9), 0 0 30px rgba(100, 150, 255, 0.7); } }
+        .skill-map-node .logo-holder, .skill-map-center .logo-holder { animation: pulse 2.5s infinite ease-in-out; }
+        .branch-line { position: absolute; top: 50%; left: 50%; background-color: #9C8FA7; height: 2px; transform-origin: left center; transition: width 0.5s ease-in-out; width: 0; }
+        .skill-map-branch.visible .branch-line { width: 100%; }
+        .skill-map-fallback { display: none; }
+        @media (max-width: 768px) {
+            .skill-map-container { display: none; }
+            .skill-map-fallback { display: block; }
+        }
 
-        /* 6. Flipbook */
-        .flipbook-container { position: relative; width: 100%; max-width: 500px; height: 350px; margin: auto; perspective: 1500px;}
-        .flipbook-page { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; transition: transform 0.8s; transform-style: preserve-3d; display: none; transform-origin: left center; }
-        .flipbook-page.active { display: block; z-index: 10; }
-        .flipbook-page.flipped { transform: rotateY(-180deg); z-index: 9; display: block; }
+        /* 3. Flipbook */
+        .flipbook-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px; /* Wider for two pages */
+            height: 500px;
+            margin: auto;
+            perspective: 2000px;
+        }
+        .flipbook {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+        .flipbook-page {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            backface-visibility: hidden;
+            transform-origin: left center;
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .flipbook-page-front, .flipbook-page-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+        }
+        .flipbook-page-back {
+            transform: rotateY(180deg);
+        }
+        .flipbook-page.flipped {
+            transform: rotateY(-180deg);
+        }
+        .flipbook-page:nth-child(odd) {
+            transform-origin: right center;
+        }
+        .flipbook-page:nth-child(odd).flipped {
+             transform: rotateY(180deg);
+        }
+        @media (max-width: 768px) {
+            .flipbook-container { height: 600px; max-width: 400px; }
+            .flipbook-page { width: 100%; }
+            .flipbook-page:nth-child(even) { display: none; } /* Show only one page at a time */
+            .flipbook-page:nth-child(odd) { transform-origin: right center; }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -371,7 +441,8 @@
     <div id="global-progress-container">
         <div id="global-progress-bar"></div>
     </div>
-
+    
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
@@ -395,7 +466,7 @@
                         date: 'Jun 2024 - Present', 
                         title: 'Management Trainee', 
                         company: 'Tata Consultancy Services', 
-                        logoUrl: 'TCS LOGO.svg.png',
+                        logoUrl: './public/logos/TCS_LOGO.svg.png',
                         duties: [
                             'Executed Fixed Asset Runs and Role Forward using SAP BPC, ensuring 100% compliance.',
                             'Monitored cost centers and role IDs, improving process efficiency by 15%.',
@@ -406,7 +477,7 @@
                         date: 'Jun 2023 - Jul 2023', 
                         title: 'Sales Trainee (Internship)', 
                         company: 'Silver Star Mercedes Benz', 
-                        logoUrl: 'Benz Logo.svg.png',
+                        logoUrl: './public/logos/Benz_Logo.svg.png',
                         duties: [
                             'Performed credit risk assessments and analyzed financial statements.',
                             'Managed end-to-end accounts payable, enhancing vendor relationships.',
@@ -440,7 +511,7 @@
                         location: 'Bhimavaram',
                         date: '2017 - 2021', 
                         details: 'CGPA: 8.29',
-                        logoUrl: 'Vishnu Logo.svg.png' 
+                        logoUrl: './public/logos/Vishnu_Logo.svg.png' 
                     },
                     { 
                         degree: 'Masters of Business Administration', 
@@ -449,7 +520,7 @@
                         location: 'Visakhapatnam',
                         date: '2022 - 2024', 
                         details: 'CGPA: 8.19',
-                        logoUrl: 'Gitam Logo.svg.png' 
+                        logoUrl: './public/logos/Gitam_Logo.svg.png' 
                     }
                 ],
                 certifications: [
@@ -457,31 +528,31 @@
                         title: 'Microsoft 365 Fundamentals', issuer: 'Microsoft', 
                         logoUrl: './public/logos/microsoft-logo.png', issueDate: 'Jan 2024', credentialId: 'MS-123456',
                         skills: ['Cloud Computing', 'MS Office 365', 'Collaboration Tools'], category: 'Systems',
-                        certificateImageUrl: 'https://placehold.co/400x250/FFFFFF/463863?text=MS-365+Cert'
+                        certificateImageUrl: './public/certificates/MS-365-Cert.png'
                     },
                     { 
                         title: 'SAP Professional Fundamentals', issuer: 'SAP',
                         logoUrl: './public/logos/sap-logo.png', issueDate: 'Dec 2023', credentialId: 'SAP-789012',
                         skills: ['ERP Systems', 'SAP BPC', 'Financial Planning'], category: 'Systems',
-                        certificateImageUrl: 'https://placehold.co/400x250/FFFFFF/463863?text=SAP+Cert'
+                        certificateImageUrl: './public/certificates/SAP-Cert.png'
                     },
                     { 
                         title: 'GST Taxation Certificate', issuer: 'PwC',
                         logoUrl: './public/logos/pwc-logo.png', issueDate: 'Nov 2023', credentialId: 'PWC-345678',
                         skills: ['Taxation', 'GST Compliance', 'Financial Regulation'], category: 'Finance',
-                        certificateImageUrl: 'https://placehold.co/400x250/FFFFFF/463863?text=PwC+Cert'
+                        certificateImageUrl: './public/certificates/PwC-Cert.png'
                     },
                     {
                         title: 'Investment Banking Simulation', issuer: 'JP Morgan',
                         logoUrl: './public/logos/jpmorgan-logo.png', issueDate: 'Oct 2023', credentialId: 'JPM-987654',
                         skills: ['Valuation', 'M&A', 'Financial Modeling'], category: 'Finance',
-                        certificateImageUrl: 'https://placehold.co/400x250/FFFFFF/463863?text=JPM+Cert'
+                        certificateImageUrl: './public/certificates/JPM-Cert.png'
                     },
                     {
                         title: 'Tableau Specialist', issuer: 'Tableau',
                         logoUrl: './public/logos/tableau-logo.png', issueDate: 'Sep 2023', credentialId: 'TAB-543210',
                         skills: ['Data Visualization', 'Business Intelligence', 'Dashboarding'], category: 'Analytics & Tools',
-                        certificateImageUrl: 'https://placehold.co/400x250/FFFFFF/463863?text=Tableau+Cert'
+                        certificateImageUrl: './public/certificates/Tableau-Cert.png'
                     }
                 ],
                 contact: {
@@ -649,14 +720,16 @@
                 // --- NEW: Certifications HTML Generation ---
                 
                 // 1. Carousel
-                const carouselHTML = [...portfolioData.certifications, ...portfolioData.certifications].map(cert => `
-                    <div class="carousel-item card-effect text-center p-6 rounded-xl">
-                        <div class="logo-holder mx-auto mb-4">
-                            <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
+                const carouselHTML = portfolioData.certifications.map(cert => `
+                    <div class="swiper-slide">
+                        <div class="card-content card-effect">
+                            <div class="logo-holder">
+                                <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
+                            </div>
+                            <h4 class="font-bold text-lg">${cert.title}</h4>
+                            <p class="text-sm text-gray-500">by ${cert.issuer}</p>
+                            <p class="text-xs mt-2 text-yellow-600">Verified on Coursera</p>
                         </div>
-                        <h4 class="font-bold text-lg">${cert.title}</h4>
-                        <p class="text-sm text-gray-500">by ${cert.issuer}</p>
-                        <p class="text-xs mt-2 text-yellow-600">Issued ${cert.issueDate}</p>
                     </div>
                 `).join('');
 
@@ -670,20 +743,55 @@
                         </div>
                     </div>
                 `;
-
-                // 6. Flipbook Layout
-                const flipbookHTML = portfolioData.certifications.map((cert, index) => `
-                    <div class="flipbook-page card-effect ${index === 0 ? 'active' : ''}" data-index="${index}">
-                        <div class="p-6 text-center flex flex-col justify-center items-center h-full">
-                            <div class="logo-holder mx-auto mb-4">
-                                <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
-                            </div>
-                            <h4 class="font-bold text-xl">${cert.title}</h4>
-                            <p class="text-md text-gray-600">by ${cert.issuer} - ${cert.issueDate}</p>
-                            <img src="${cert.certificateImageUrl}" alt="Certificate Preview" class="mx-auto mt-4 rounded-lg shadow-md max-h-32">
+                const skillMapFallbackHTML = Object.entries(portfolioData.certifications.reduce((acc, cert) => {
+                    if (!acc[cert.category]) acc[cert.category] = [];
+                    acc[cert.category].push(cert);
+                    return acc;
+                }, {})).map(([category, certs]) => `
+                    <div class="mb-6">
+                        <h4 class="text-xl font-bold mb-4 text-center" style="color: #463863;">${category}</h4>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            ${certs.map(cert => `
+                                <div class="text-center p-4 card-effect rounded-lg">
+                                    <div class="logo-holder w-16 h-16 mx-auto mb-2">
+                                        <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
+                                    </div>
+                                    <p class="font-semibold text-sm">${cert.title}</p>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
                 `).join('');
+
+                // 3. Flipbook Layout
+                let flipbookHTML = '';
+                for (let i = 0; i < portfolioData.certifications.length; i += 2) {
+                    const cert1 = portfolioData.certifications[i];
+                    const cert2 = portfolioData.certifications[i + 1];
+
+                    flipbookHTML += `
+                        <div class="flipbook-page">
+                            <div class="flipbook-page-front bg-white p-6 flex flex-col items-center justify-center text-center">
+                                <div class="logo-holder mx-auto mb-4">
+                                    <img src="${cert1.logoUrl}" alt="${cert1.issuer} Logo">
+                                </div>
+                                <h4 class="font-bold text-xl">${cert1.title}</h4>
+                                <p class="text-md text-gray-600">by ${cert1.issuer} - ${cert1.issueDate}</p>
+                                <img src="${cert1.certificateImageUrl}" alt="Certificate Preview" class="mx-auto mt-4 rounded-lg shadow-md max-h-48">
+                            </div>
+                            <div class="flipbook-page-back bg-white p-6 flex flex-col items-center justify-center text-center">
+                                ${cert2 ? `
+                                <div class="logo-holder mx-auto mb-4">
+                                    <img src="${cert2.logoUrl}" alt="${cert2.issuer} Logo">
+                                </div>
+                                <h4 class="font-bold text-xl">${cert2.title}</h4>
+                                <p class="text-md text-gray-600">by ${cert2.issuer} - ${cert2.issueDate}</p>
+                                <img src="${cert2.certificateImageUrl}" alt="Certificate Preview" class="mx-auto mt-4 rounded-lg shadow-md max-h-48">
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                }
 
 
                 page.innerHTML = `
@@ -698,26 +806,32 @@
                             <div class="mt-20">
                                 <div class="cert-section">
                                     <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Carousel Layout</h3>
-                                    <div class="carousel-wrapper">
-                                        <div class="carousel-container pb-4">
+                                    <div class="swiper-container cert-carousel relative">
+                                        <div class="swiper-wrapper">
                                             ${carouselHTML}
                                         </div>
+                                        <div class="swiper-button-next"></div>
+                                        <div class="swiper-button-prev"></div>
+                                        <div class="swiper-pagination"></div>
                                     </div>
                                 </div>
                                 <div class="cert-section">
                                     <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Skill Map Layout</h3>
                                     <div id="skill-map-wrapper" class="max-w-3xl mx-auto">
                                         ${skillMapHTML}
+                                        <div class="skill-map-fallback">${skillMapFallbackHTML}</div>
                                     </div>
                                 </div>
                                 <div class="cert-section">
                                     <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Flipbook Layout</h3>
                                     <div class="flipbook-container">
-                                        ${flipbookHTML}
+                                        <div class="flipbook">
+                                            ${flipbookHTML}
+                                        </div>
                                     </div>
-                                    <div class="flex justify-center gap-4 mt-4">
-                                        <button id="prev-page" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"><i class="fas fa-arrow-left"></i></button>
-                                        <button id="next-page" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"><i class="fas fa-arrow-right"></i></button>
+                                    <div class="flex justify-center gap-4 mt-8">
+                                        <button id="prev-page-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full transition-transform transform hover:scale-110"><i class="fas fa-arrow-left"></i></button>
+                                        <button id="next-page-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full transition-transform transform hover:scale-110"><i class="fas fa-arrow-right"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -879,7 +993,36 @@
             document.querySelector('.nav-link.active')?.scrollIntoView({ inline: 'center', block: 'nearest' });
 
             function initializeCertificationLayouts() {
-                // 1. Carousel - No JS needed for this CSS animation approach
+                // 1. Carousel
+                const certCarousel = new Swiper('.cert-carousel', {
+                    loop: true,
+                    autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    breakpoints: {
+                        320: {
+                            slidesPerView: 1,
+                            spaceBetween: 20
+                        },
+                        768: {
+                            slidesPerView: 2,
+                            spaceBetween: 30
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 40
+                        }
+                    }
+                });
 
                 // 2. Skill Map
                 const skillMapContainer = document.getElementById('skill-map-container');
@@ -891,80 +1034,69 @@
                     }, {});
                     const categoryKeys = Object.keys(categories);
                     const angleStep = 360 / categoryKeys.length;
+                    const radius = 220;
                     
                     categoryKeys.forEach((key, index) => {
                         const angle = angleStep * index;
-                        const radius = 180;
                         const x = radius * Math.cos(angle * Math.PI / 180);
                         const y = radius * Math.sin(angle * Math.PI / 180);
 
-                        // Draw line from center to branch
+                        const branchEl = document.createElement('div');
+                        branchEl.className = 'skill-map-branch text-center';
+                        branchEl.style.transitionDelay = `${index * 0.1}s`;
+                        branchEl.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+                        
                         const line = document.createElement('div');
                         line.className = 'branch-line';
                         line.style.width = `${radius}px`;
                         line.style.transform = `rotate(${angle}deg)`;
                         skillMapContainer.appendChild(line);
 
-                        const branchEl = document.createElement('div');
-                        branchEl.className = 'skill-map-branch text-center';
-                        branchEl.style.transform = `translate(${x}px, ${y}px)`;
-                        branchEl.innerHTML = `<h4 class="font-bold text-lg mb-2">${key}</h4>`;
-
-                        // Add certification nodes to branch
+                        let nodesHTML = '';
                         categories[key].forEach((cert, certIndex) => {
-                            const nodeEl = document.createElement('div');
-                            nodeEl.className = 'skill-map-node inline-block mx-1';
-                            nodeEl.innerHTML = `
-                                <div class="logo-holder">
-                                    <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
+                           nodesHTML += `
+                                <div class="skill-map-node inline-block mx-1" style="transition-delay: ${0.5 + certIndex * 0.1}s">
+                                    <div class="logo-holder">
+                                        <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
+                                    </div>
+                                    <div class="skill-map-tooltip">${cert.title}</div>
                                 </div>
-                                <div class="skill-map-tooltip">${cert.title}</div>
                             `;
-                            branchEl.appendChild(nodeEl);
                         });
+                        branchEl.innerHTML = `
+                            <h4 class="font-bold text-lg mb-2">${key}</h4>
+                            ${nodesHTML}
+                        `;
                         
                         skillMapContainer.appendChild(branchEl);
                     });
+                    
+                    setTimeout(() => {
+                        document.querySelectorAll('.skill-map-branch').forEach(el => el.classList.add('visible'));
+                    }, 100);
                 }
 
-                // 6. Flipbook
-                const prevBtn = document.getElementById('prev-page');
-                const nextBtn = document.getElementById('next-page');
+                // 3. Flipbook
+                const flipbook = document.querySelector('.flipbook');
                 const pages = document.querySelectorAll('.flipbook-page');
-                if (pages.length > 0) {
-                    let currentPage = 0;
-                    
-                    function showPage(index) {
-                        pages.forEach((page, i) => {
-                             page.classList.remove('active');
-                             if(i < index) {
-                                 page.style.transform = 'rotateY(-180deg)';
-                                 page.style.zIndex = i;
-                                 page.style.display = 'block';
-                             } else {
-                                 page.style.transform = 'rotateY(0deg)';
-                                 page.style.zIndex = pages.length - i;
-                                 page.style.display = i === index ? 'block' : 'none';
-                             }
-                        });
-                        pages[index].classList.add('active');
-                    }
-
+                const prevBtn = document.getElementById('prev-page-btn');
+                const nextBtn = document.getElementById('next-page-btn');
+                let currentPage = 0;
+                
+                if(pages.length > 0) {
                     nextBtn.addEventListener('click', () => {
-                        if (currentPage < pages.length - 1) {
+                        if (currentPage < pages.length) {
                             pages[currentPage].classList.add('flipped');
                             currentPage++;
-                            pages[currentPage].classList.add('active');
                         }
                     });
+
                     prevBtn.addEventListener('click', () => {
                         if (currentPage > 0) {
-                            pages[currentPage - 1].classList.remove('flipped');
-                            pages[currentPage].classList.remove('active');
                             currentPage--;
+                            pages[currentPage].classList.remove('flipped');
                         }
                     });
-                    showPage(0);
                 }
             }
 
