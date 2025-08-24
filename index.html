@@ -235,9 +235,12 @@
 
         /* --- Education Path Animation --- */
         #education-path-container {
-            position: relative;
-            width: 100%;
+            position: absolute;
+            top: 50%;
+            left: 25%;
+            width: 50%;
             height: 50px; /* Adjust as needed */
+            transform: translateY(-50%);
         }
 
         #education-path {
@@ -541,25 +544,25 @@
                     <section class="py-16">
                         <div class="container mx-auto px-6">
                             <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Academic Background</h3>
-                            <div class="grid md:grid-cols-2 gap-8 items-center relative">
+                            <div class="grid md:grid-cols-2 gap-x-16 gap-y-8 items-center relative">
                                 <!-- Bachelors Box -->
                                 <div class="card-effect p-6 rounded-lg text-center">
-                                    <p class="text-sm font-semibold mb-2" style="color: #D1A46E;">${bachelors.date}</p>
-                                    <h4 class="text-xl font-bold" style="color: #221C2A;">${bachelors.degree}</h4>
-                                    <p class="text-lg mb-2" style="color: #463863;">${bachelors.school}</p>
-                                    <p style="color: #9C8FA7;">${bachelors.details}</p>
+                                    <h4 class="font-bold" style="font-size: 1.1rem; color: #221C2A;">${bachelors.degree}</h4>
+                                    <p style="font-size: 1rem; color: #463863;" class="font-semibold">${bachelors.school}</p>
+                                    <p style="font-size: 0.9rem; color: #9C8FA7;">${bachelors.date}</p>
+                                    <p style="font-size: 0.8rem; color: #9C8FA7;">${bachelors.details}</p>
                                 </div>
 
                                 <!-- Masters Box -->
                                 <div class="card-effect p-6 rounded-lg text-center">
-                                    <p class="text-sm font-semibold mb-2" style="color: #D1A46E;">${masters.date}</p>
-                                    <h4 class="text-xl font-bold" style="color: #221C2A;">${masters.degree}</h4>
-                                    <p class="text-lg mb-2" style="color: #463863;">${masters.school}</p>
-                                    <p style="color: #9C8FA7;">${masters.details}</p>
+                                    <h4 class="font-bold" style="font-size: 1.1rem; color: #221C2A;">${masters.degree}</h4>
+                                    <p style="font-size: 1rem; color: #463863;" class="font-semibold">${masters.school}</p>
+                                    <p style="font-size: 0.9rem; color: #9C8FA7;">${masters.date}</p>
+                                    <p style="font-size: 0.8rem; color: #9C8FA7;">${masters.details}</p>
                                 </div>
                                 
                                 <!-- Animation Path -->
-                                <div id="education-path-container" class="absolute top-1/2 left-1/4 w-1/2 h-12 -translate-y-1/2">
+                                <div id="education-path-container">
                                     <div id="education-path"></div>
                                     <div id="education-icon"><i class="fas fa-graduation-cap"></i></div>
                                 </div>
