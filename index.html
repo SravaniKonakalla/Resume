@@ -59,7 +59,7 @@
         .center-timeline-container {
             position: relative;
             width: 100%;
-            max-width: 72rem; /* Wider container */
+            max-width: 80rem; /* Increased width for the whole timeline */
             margin: auto;
             padding: 2rem 0;
         }
@@ -84,7 +84,7 @@
         .timeline-item {
             position: relative;
             width: 50%;
-            padding: 0 1.5rem; /* Reduced padding to make boxes wider */
+            padding: 0 1rem; /* Reduced padding to make boxes wider */
             margin-bottom: 3rem;
             opacity: 0;
             transform: translateY(20px);
@@ -138,6 +138,9 @@
         
         /* Responsive stacking for timeline on mobile */
         @media (max-width: 768px) {
+            .center-timeline-container {
+                max-width: 100%;
+            }
             .center-timeline-line, .center-timeline-line-progress {
                 left: 25px;
             }
@@ -758,4 +761,4 @@
         });
     </script>
 </body>
-</html>
+</ht
