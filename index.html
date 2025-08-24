@@ -261,60 +261,80 @@
             background-color: #463863;
             transition: width 0.05s linear;
         }
-
-        /* --- Education Path Animation --- */
-        #education-path-container {
-            position: absolute;
-            top: 50%;
-            left: 25%;
-            width: 50%;
-            height: 50px;
-            transform: translateY(-50%);
-            padding: 0 2.5rem;
-            box-sizing: border-box;
-        }
-
-        #education-path {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background-color: #e2e8f0;
-        }
-
-        #education-icon {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            background-color: #463863;
-            color: #D1A46E;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            box-shadow: 0 0 15px rgba(209, 164, 110, 0.7);
-            z-index: 10;
-            transition: left 2s ease-in-out;
-        }
-
-        #education-path-container.animate #education-icon {
-            left: 100%;
-        }
-        .college-name {
-            color: #3b2d55;
-            text-shadow: 0 0 8px rgba(209, 164, 110, 0.7);
-        }
+        
         .list-rtl {
             direction: rtl;
             list-style-position: inside;
         }
         .list-rtl li {
             direction: ltr;
+        }
+        
+        /* --- NEW Education Section Styles --- */
+        .education-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+        }
+        .education-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .education-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px -4px rgba(70, 56, 99, 0.15), 0 0 30px rgba(209, 164, 110, 0.7);
+        }
+        .cgpa-badge {
+            background-color: #463863;
+            color: #FFFFFF;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .accordion-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            transition: box-shadow 0.3s ease;
+        }
+        .accordion-item:hover {
+            box-shadow: 0 8px 12px -2px rgb(0 0 0 / 0.1);
+        }
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            background-color: #FFFFFF;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-item:nth-child(odd) .accordion-header {
+             background-color: #fdfcfb;
+        }
+        .accordion-header:hover {
+            background-color: #F5F1EA;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #FFFFFF;
+            padding: 0 1.5rem;
+        }
+        .accordion-item.open .accordion-content {
+            max-height: 500px; /* Adjust as needed */
+            padding: 1.5rem;
+        }
+        .accordion-arrow {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .accordion-item.open .accordion-arrow {
+            transform: rotate(180deg);
         }
     </style>
 </head>
@@ -367,7 +387,6 @@
                         date: 'Jun 2024 - Present', 
                         title: 'Management Trainee', 
                         company: 'Tata Consultancy Services', 
-                        // MODIFIED: This is the unique image path for TCS.
                         logoUrl: 'TCS LOGO.svg.png',
                         duties: [
                             'Executed Fixed Asset Runs and Role Forward using SAP BPC, ensuring 100% compliance.',
@@ -379,7 +398,6 @@
                         date: 'Jun 2023 - Jul 2023', 
                         title: 'Sales Trainee (Internship)', 
                         company: 'Silver Star Mercedes Benz', 
-                        // MODIFIED: This is the unique image path for Mercedes Benz.
                         logoUrl: 'Benz Logo.svg.png',
                         duties: [
                             'Performed credit risk assessments and analyzed financial statements.',
@@ -389,7 +407,6 @@
                     }
                 ],
                 skills: [
-                    // MODIFIED: Each skill now has its own unique logoUrl path.
                     { name: 'SAP BPC', logoUrl: './public/logos/sap-logo.png' },
                     { name: 'Financial Modeling', logoUrl: './public/logos/financial-modeling-logo.png' },
                     { name: 'Tableau', logoUrl: './public/logos/tableau-logo.png' },
@@ -408,8 +425,24 @@
                     }
                 ],
                 educations: [
-                    { degree: 'Bachelor of Technology - Civil Engineering', school: 'Shri Vishnu Engineering College for Women, Bhimavaram', date: 'Jul 2017 - Aug 2021', details: 'CGPA: 8.29 (A+ Grade)' },
-                    { degree: 'Masters of Business Administration - Finance & Marketing', school: 'GITAM School of Business, Visakhapatnam', date: 'Aug 2022 - May 2024', details: 'CGPA: 8.19 (A Grade)' }
+                    { 
+                        degree: 'Bachelor of Technology', 
+                        specialization: 'Civil Engineering',
+                        school: 'Shri Vishnu Engineering College for Women', 
+                        location: 'Bhimavaram',
+                        date: '2017 - 2021', 
+                        details: 'CGPA: 8.29 (A+ Grade)',
+                        logoUrl: './public/logos/svcw-logo.png' 
+                    },
+                    { 
+                        degree: 'Masters of Business Administration', 
+                        specialization: 'Finance & Marketing',
+                        school: 'GITAM School of Business', 
+                        location: 'Visakhapatnam',
+                        date: '2022 - 2024', 
+                        details: 'CGPA: 8.19 (A Grade)',
+                        logoUrl: './public/logos/gitam-logo.png' 
+                    }
                 ],
                 certifications: [
                     { name: 'Microsoft 35 Fundamentals', issuer: 'Microsoft' },
@@ -560,8 +593,45 @@
                 const page = document.createElement('div');
                 page.id = 'page-education';
                 page.className = 'page';
-                const bachelors = portfolioData.educations[0];
-                const masters = portfolioData.educations[1];
+
+                const educationCardsHTML = portfolioData.educations.map(edu => `
+                    <div class="education-card bg-white rounded-2xl p-6 relative overflow-hidden w-full max-w-2xl mx-auto">
+                        <div class="flex items-start gap-6">
+                            <div class="logo-holder">
+                                <img src="${edu.logoUrl}" alt="${edu.school} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
+                            </div>
+                            <div class="flex-grow">
+                                <h4 class="text-xl font-bold" style="color: #221C2A;">${edu.degree}</h4>
+                                <p class="font-semibold text-md mb-1" style="color: #463863;">${edu.specialization}</p>
+                                <p class="text-sm" style="color: #9C8FA7;">${edu.school}, ${edu.location}</p>
+                                <p class="text-sm font-medium" style="color: #D1A46E;">${edu.date}</p>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-4 right-6">
+                            <span class="cgpa-badge">${edu.details}</span>
+                        </div>
+                    </div>
+                `).join('');
+                
+                const educationAccordionHTML = portfolioData.educations.map(edu => `
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <div class="logo-holder mr-4">
+                               <img src="${edu.logoUrl}" alt="${edu.school} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
+                            </div>
+                            <div class="flex-grow">
+                                <h5 class="font-bold" style="color: #221C2A;">${edu.degree}</h5>
+                                <p class="text-sm" style="color: #9C8FA7;">${edu.school} (${edu.date})</p>
+                            </div>
+                            <i class="fas fa-chevron-down accordion-arrow text-xl" style="color: #463863;"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p class="font-semibold mb-2" style="color: #463863;">Specialization: ${edu.specialization}</p>
+                            <p style="color: #221C2A;">${edu.details}</p>
+                            <p class="text-sm mt-2" style="color: #9C8FA7;">Located in ${edu.location}.</p>
+                        </div>
+                    </div>
+                `).join('');
 
                 const certificationsHTML = portfolioData.certifications.map(cert => `
                     <div class="card-effect p-4 rounded-lg flex items-center gap-4">
@@ -575,26 +645,20 @@
                 page.innerHTML = `
                     <section class="py-16">
                         <div class="container mx-auto px-6">
-                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Academic Background</h3>
-                            <div class="grid md:grid-cols-2 gap-x-16 gap-y-8 items-center relative">
-                                <div class="card-effect p-6 rounded-lg text-center">
-                                    <h4 class="font-bold" style="font-size: 1.1rem; color: #221C2A;">${bachelors.degree}</h4>
-                                    <p style="font-size: 1rem;" class="college-name">${bachelors.school}</p>
-                                    <p style="font-size: 0.9rem; color: #D1A46E;">${bachelors.date}</p>
-                                    <p style="font-size: 0.8rem; color: #4a4a4a;">${bachelors.details}</p>
-                                </div>
-                                <div class="card-effect p-6 rounded-lg text-center">
-                                    <h4 class="font-bold" style="font-size: 1.1rem; color: #221C2A;">${masters.degree}</h4>
-                                    <p style="font-size: 1rem;" class="college-name">${masters.school}</p>
-                                    <p style="font-size: 0.9rem; color: #D1A46E;">${masters.date}</p>
-                                    <p style="font-size: 0.8rem; color: #4a4a4a;">${masters.details}</p>
-                                </div>
-                                <div id="education-path-container">
-                                    <div id="education-path"></div>
-                                    <div id="education-icon"><i class="fas fa-graduation-cap"></i></div>
-                                </div>
+                            <!-- Section 1: Card Layout -->
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-8" style="color: #221C2A;">Education (Card Layout)</h3>
+                            <div class="space-y-8 mb-20">
+                                ${educationCardsHTML}
                             </div>
-                            <div class="text-center mt-16">
+
+                            <!-- Section 2: Accordion Layout -->
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-8" style="color: #221C2A;">Education (Accordion Layout)</h3>
+                            <div class="max-w-2xl mx-auto">
+                                ${educationAccordionHTML}
+                            </div>
+                            
+                            <!-- Certifications Section -->
+                            <div class="text-center mt-20">
                                 <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications</h3>
                                 <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">${certificationsHTML}</div>
                             </div>
@@ -653,19 +717,35 @@
                 expTimelineItems.forEach(item => observer.observe(item));
             }
             
-            const educationPathContainer = document.getElementById('education-path-container');
-            if (educationPathContainer) {
-                const educationObserver = new IntersectionObserver((entries) => {
+            // --- NEW: Intersection Observer for Education Cards ---
+            const educationCards = document.querySelectorAll('.education-card');
+            if (educationCards.length > 0) {
+                const eduObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            setTimeout(() => educationPathContainer.classList.add('animate'), 500);
-                        } else {
-                            educationPathContainer.classList.remove('animate');
+                            entry.target.classList.add('visible');
                         }
                     });
-                }, { threshold: 0.5 });
-                educationObserver.observe(educationPathContainer);
+                }, { threshold: 0.2 });
+                educationCards.forEach(card => eduObserver.observe(card));
             }
+
+            // --- NEW: Accordion Functionality ---
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    const isOpen = item.classList.contains('open');
+                    // Optional: Close other accordions when one is opened
+                    // accordionItems.forEach(i => i.classList.remove('open'));
+                    if (!isOpen) {
+                        item.classList.add('open');
+                    } else {
+                        item.classList.remove('open');
+                    }
+                });
+            });
+
 
             const experienceTimelineContainer = document.getElementById('experience-timeline-container');
             const globalProgressBar = document.getElementById('global-progress-bar');
@@ -869,4 +949,3 @@
     </script>
 </body>
 </html>
-
