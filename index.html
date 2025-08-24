@@ -298,21 +298,7 @@
                         valuationRange: "$85 – $102",
                         impliedUpside: "+12%",
                         wacc: "8.1%",
-                        terminalGrowth: "2.5%",
-                        dcfAnalysis: {
-                            low: 85, base: 92, high: 102, current: 82
-                        },
-                        forecasts: {
-                            years: ['2023', '2024F', '2025F', '2026F'],
-                            revenue: [36.0, 38.5, 41.2, 43.8],
-                            eps: [3.54, 3.88, 4.25, 4.65]
-                        },
-                        scenarios: {
-                            bear: 75, base: 92, bull: 115
-                        },
-                        comps: {
-                            sbux: 18.5, peer1: 16.2, peer2: 20.1, peer3: 17.8
-                        }
+                        terminalGrowth: "2.5%"
                     }
                 }
             };
@@ -650,8 +636,20 @@
                                     <p class="text-xs text-gray-500">Upload Image</p>
                                 </div>
                             </div>
-                            <div class="bg-white p-6 rounded-xl shadow-lg"><h3 class="font-bold mb-2">Scenario Analysis</h3><p class="text-xs text-gray-500 mb-4">Equity value per share under different growth and margin assumptions.</p><canvas id="scenarioChart"></canvas></div>
-                            <div class="bg-white p-6 rounded-xl shadow-lg"><h3 class="font-bold mb-2">Multiples Comparison</h3><p class="text-xs text-gray-500 mb-4">SBUX trades at a premium to peers on an EV/EBITDA basis.</p><canvas id="compsChart"></canvas></div>
+                            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
+                                <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
+                                    <i class="fas fa-chart-bar text-4xl text-gray-400 mb-2"></i>
+                                    <h3 class="font-bold">Scenario Analysis</h3>
+                                    <p class="text-xs text-gray-500">Upload Image</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
+                                <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
+                                    <i class="fas fa-balance-scale text-4xl text-gray-400 mb-2"></i>
+                                    <h3 class="font-bold">Multiples Comparison</h3>
+                                    <p class="text-xs text-gray-500">Upload Image</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -705,8 +703,6 @@
             createEducationPage();
             createContactPage();
 
-            let chartsInitialized = false;
-
             const setupProjectPage = () => {
                 const activePage = document.getElementById('page-projects');
                 if (!activePage) return;
@@ -743,43 +739,6 @@
                         }
                     });
                 });
-
-                // Dashboard Chart Logic
-                const dashboard = activePage.querySelector('#dashboard');
-                const dashboardObserver = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting && !chartsInitialized) {
-                            initializeDashboardCharts();
-                            chartsInitialized = true;
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.2 });
-                if(dashboard) dashboardObserver.observe(dashboard);
-            };
-
-            let charts = {}; 
-            const initializeDashboardCharts = () => {
-                const data = portfolioData.starbucksProject.dashboardData;
-                Object.values(charts).forEach(chart => chart.destroy());
-                
-                const scenarioCtx = document.getElementById('scenarioChart')?.getContext('2d');
-                if (scenarioCtx) {
-                    charts.scenario = new Chart(scenarioCtx, {
-                        type: 'bar',
-                        data: { labels: ['Bear Case', 'Base Case', 'Bull Case'], datasets: [{ label: 'Value per Share', data: [data.scenarios.bear, data.scenarios.base, data.scenarios.bull], backgroundColor: ['#FF6384', '#36A2EB', '#4BC0C0'] }] },
-                        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-                    });
-                }
-
-                const compsCtx = document.getElementById('compsChart')?.getContext('2d');
-                if (compsCtx) {
-                    charts.comps = new Chart(compsCtx, {
-                        type: 'bar',
-                        data: { labels: ['Starbucks', 'Peer A', 'Peer B', 'Peer C'], datasets: [{ label: 'EV/EBITDA', data: [data.comps.sbux, data.comps.peer1, data.comps.peer2, data.comps.peer3], backgroundColor: ['#463863', '#9C8FA7', '#9C8FA7', '#9C8FA7'] }] },
-                        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-                    });
-                }
             };
 
             // --- GLOBAL LOGIC ---
