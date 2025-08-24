@@ -84,7 +84,7 @@
         .timeline-item {
             position: relative;
             width: 50%;
-            padding: 0 3rem; /* Adjusted padding */
+            padding: 0 1.5rem; /* Reduced padding to make boxes wider */
             margin-bottom: 3rem;
             opacity: 0;
             transform: translateY(20px);
@@ -393,13 +393,13 @@
                                     <div class="timeline-logo">
                                         <img src="${exp.logoUrl}" alt="${exp.company} Logo">
                                     </div>
-                                    <div class="flex-grow text-left">
+                                    <div class="flex-grow ${index % 2 !== 0 ? 'md:text-right' : 'text-left'}">
                                         <h4 class="text-xl font-bold" style="color: #221C2A;">${exp.title}</h4>
                                         <p class="text-lg font-semibold" style="color: #463863;">${exp.company}</p>
                                         <p class="text-sm font-semibold mt-2" style="color: #D1A46E;">${exp.date}</p>
                                     </div>
                                 </div>
-                                <ul class="list-disc list-inside space-y-2 text-left" style="color: #9C8FA7;">${exp.duties.map(duty => `<li>${duty}</li>`).join('')}</ul>
+                                <ul class="list-disc list-inside space-y-2 ${index % 2 !== 0 ? 'text-right' : 'text-left'}" style="color: #9C8FA7;">${exp.duties.map(duty => `<li>${duty}</li>`).join('')}</ul>
                             </div>
                         </div>
                     </div>`).join(''); 
