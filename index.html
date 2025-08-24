@@ -102,7 +102,6 @@
         }
         .timeline-item-content {
             position: relative;
-            padding: 1.5rem;
         }
         .timeline-logo {
             width: 60px; /* Slightly larger logo */
@@ -390,16 +389,16 @@
                     <div class="timeline-item">
                         <div class="timeline-item-content card-effect">
                             <div class="p-6">
-                                <div class="flex items-center gap-4 mb-4 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}">
+                                <div class="flex items-center gap-4 mb-4 ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}">
                                     <div class="timeline-logo">
                                         <img src="${exp.logoUrl}" alt="${exp.company} Logo">
                                     </div>
-                                    <div class="flex-grow ${index % 2 === 0 ? 'text-right' : 'text-left'}">
+                                    <div class="flex-grow ${index % 2 !== 0 ? 'text-right' : 'text-left'}">
                                         <h4 class="text-xl font-bold" style="color: #221C2A;">${exp.title}</h4>
                                         <p class="text-lg font-semibold" style="color: #463863;">${exp.company}</p>
                                     </div>
                                 </div>
-                                <p class="text-sm font-semibold my-3 ${index % 2 === 0 ? 'text-right' : 'text-left'}" style="color: #D1A46E;">${exp.date}</p>
+                                <p class="text-sm font-semibold my-3 ${index % 2 !== 0 ? 'text-right' : 'text-left'}" style="color: #D1A46E;">${exp.date}</p>
                                 <ul class="list-disc list-inside space-y-2 text-left" style="color: #9C8FA7;">${exp.duties.map(duty => `<li>${duty}</li>`).join('')}</ul>
                             </div>
                         </div>
@@ -641,7 +640,7 @@
             const canvas = document.getElementById('finance-canvas');
             const ctx = canvas.getContext('2d');
             let particles = [];
-            const symbols = ['$', '%', '▲', '▼', '�', '📉', '€', '¥', '₿'];
+            const symbols = ['$', '%', '▲', '▼', '📈', '📉', '€', '¥', '₿'];
             let mouse = { x: null, y: null, radius: 100 };
 
             function resizeCanvas() {
@@ -760,4 +759,3 @@
     </script>
 </body>
 </html>
-�
