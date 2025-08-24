@@ -269,83 +269,29 @@
         .list-rtl li {
             direction: ltr;
         }
-
-        /* --- NEW Education Flip Card Styles --- */
-        .flip-card-container {
-            perspective: 1000px;
-            width: 100%;
-            max-width: 350px; /* Adjust card width */
-            height: 400px; /* Adjust card height */
-        }
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-            cursor: pointer;
-        }
-        .flip-card-container.is-flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden; /* Safari */
-            backface-visibility: hidden;
-            border-radius: 1.5rem; /* More rounded corners */
-            box-shadow: 0 8px 20px -6px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .flip-card-front {
-            background-color: #FFFFFF;
-            color: #221C2A;
-            transition: transform 0.3s ease;
-        }
-        .flip-card-container:hover .flip-card-front:not(.is-flipped) {
-            transform: scale(1.03);
-        }
-        .flip-card-front .degree-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #463863;
-        }
-        .flip-card-front .flip-icon {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-size: 1.2rem;
-            color: #D1A46E;
-            animation: tilt-shuttle 2s infinite ease-in-out;
-        }
-        @keyframes tilt-shuttle {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(15deg); }
-        }
-        .flip-card-back {
-            background-color: #FFFFFF;
-            color: #221C2A;
-            transform: rotateY(180deg);
-            padding: 2rem;
-        }
-        .flip-card-back .logo-holder {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1rem;
-        }
         
-        .initial-tilt.visible {
-            animation: gentle-tilt 1.5s ease-in-out;
+        /* --- Education Section Styles --- */
+        .education-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
         }
-        @keyframes gentle-tilt {
-            0% { transform: rotateY(0deg); }
-            50% { transform: rotateY(10deg); }
-            100% { transform: rotateY(0deg); }
+        .education-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .education-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px -4px rgba(70, 56, 99, 0.15), 0 0 30px rgba(209, 164, 110, 0.7);
+        }
+        .cgpa-badge {
+            background-color: #463863;
+            color: #FFFFFF;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
     </style>
 </head>
@@ -437,7 +383,7 @@
                 ],
                 educations: [
                     { 
-                        degree: 'B.Tech', 
+                        degree: 'Bachelor of Technology', 
                         specialization: 'Civil Engineering',
                         school: 'Shri Vishnu Engineering College for Women', 
                         location: 'Bhimavaram',
@@ -446,7 +392,7 @@
                         logoUrl: './public/logos/svcw-logo.png' 
                     },
                     { 
-                        degree: 'MBA', 
+                        degree: 'Masters of Business Administration', 
                         specialization: 'Finance & Marketing',
                         school: 'GITAM School of Business', 
                         location: 'Visakhapatnam',
@@ -605,24 +551,21 @@
                 page.id = 'page-education';
                 page.className = 'page';
 
-                const educationFlipCardsHTML = portfolioData.educations.map(edu => `
-                    <div class="flip-card-container initial-tilt" tabindex="0">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <h3 class="degree-title">${edu.degree}</h3>
-                                <div class="flip-icon">
-                                    <i class="fas fa-sync-alt"></i>
-                                </div>
+                const educationCardsHTML = portfolioData.educations.map(edu => `
+                    <div class="education-card bg-white rounded-2xl p-6 relative overflow-hidden w-full max-w-2xl mx-auto">
+                        <div class="flex items-start gap-6">
+                            <div class="logo-holder">
+                                <img src="${edu.logoUrl}" alt="${edu.school} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
                             </div>
-                            <div class="flip-card-back">
-                                <div class="logo-holder">
-                                    <img src="${edu.logoUrl}" alt="${edu.school} Logo" onerror="this.src='https://placehold.co/80x80/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
-                                </div>
-                                <h4 class="text-lg font-bold" style="color: #221C2A;">${edu.school}</h4>
-                                <p class="font-semibold mb-1" style="color: #463863;">${edu.specialization}</p>
-                                <p class="text-sm mb-3" style="color: #9C8FA7;">${edu.date}</p>
-                                <p class="text-md font-bold" style="color: #D1A46E;">${edu.details}</p>
+                            <div class="flex-grow">
+                                <h4 class="text-xl font-bold" style="color: #221C2A;">${edu.degree}</h4>
+                                <p class="font-semibold text-md mb-1" style="color: #463863;">${edu.specialization}</p>
+                                <p class="text-sm" style="color: #9C8FA7;">${edu.school}, ${edu.location}</p>
+                                <p class="text-sm font-medium" style="color: #D1A46E;">${edu.date}</p>
                             </div>
+                        </div>
+                        <div class="absolute bottom-4 right-6">
+                            <span class="cgpa-badge">${edu.details}</span>
                         </div>
                     </div>
                 `).join('');
@@ -640,8 +583,8 @@
                     <section class="py-16">
                         <div class="container mx-auto px-6">
                             <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Academic Background</h3>
-                            <div class="flex flex-wrap justify-center items-center gap-12">
-                                ${educationFlipCardsHTML}
+                            <div class="space-y-8">
+                                ${educationCardsHTML}
                             </div>
                             
                             <!-- Certifications Section -->
@@ -704,36 +647,18 @@
                 expTimelineItems.forEach(item => observer.observe(item));
             }
             
-            // --- NEW: Flip Card Functionality ---
-            const flipCards = document.querySelectorAll('.flip-card-container');
-            flipCards.forEach(card => {
-                const flipAction = () => card.classList.toggle('is-flipped');
-                card.addEventListener('click', flipAction);
-                card.addEventListener('keydown', (e) => {
-                    if (e.code === 'Enter' || e.code === 'Space') {
-                        e.preventDefault();
-                        flipAction();
-                    }
-                });
-            });
-
-            // --- NEW: Initial Tilt Animation for Flip Cards ---
-            const eduCards = document.querySelectorAll('.initial-tilt');
-            if (eduCards.length > 0) {
+            // --- Intersection Observer for Education Cards ---
+            const educationCards = document.querySelectorAll('.education-card');
+            if (educationCards.length > 0) {
                 const eduObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            setTimeout(() => {
-                                entry.target.classList.add('visible');
-                            }, 500);
-                            // Optional: unobserve after animation
-                            // eduObserver.unobserve(entry.target);
+                            entry.target.classList.add('visible');
                         }
                     });
-                }, { threshold: 0.5 });
-                eduCards.forEach(card => eduObserver.observe(card));
+                }, { threshold: 0.2 });
+                educationCards.forEach(card => eduObserver.observe(card));
             }
-
 
             const experienceTimelineContainer = document.getElementById('experience-timeline-container');
             const globalProgressBar = document.getElementById('global-progress-bar');
