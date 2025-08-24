@@ -636,8 +636,20 @@
                             <div><p class="text-2xl md:text-3xl font-bold text-[#463863]">${portfolioData.starbucksProject.dashboardData.terminalGrowth}</p><p class="text-sm font-semibold text-gray-500">Terminal Growth</p></div>
                         </div>
                         <div class="grid md:grid-cols-2 gap-8">
-                            <div class="bg-white p-6 rounded-xl shadow-lg"><h3 class="font-bold mb-2">Valuation Range</h3><p class="text-xs text-gray-500 mb-4">Base-case DCF valuation centered at $92/share.</p><canvas id="dcfChart"></canvas></div>
-                            <div class="bg-white p-6 rounded-xl shadow-lg"><h3 class="font-bold mb-2">Revenue & EPS Forecast</h3><p class="text-xs text-gray-500 mb-4">Projected 5-year CAGR of 5.8% for revenue.</p><canvas id="forecastChart"></canvas></div>
+                            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
+                                <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
+                                    <i class="fas fa-image text-4xl text-gray-400 mb-2"></i>
+                                    <h3 class="font-bold">Valuation Range</h3>
+                                    <p class="text-xs text-gray-500">Upload Image</p>
+                                </div>
+                            </div>
+                             <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
+                                <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
+                                    <i class="fas fa-chart-line text-4xl text-gray-400 mb-2"></i>
+                                    <h3 class="font-bold">Revenue & EPS Forecast</h3>
+                                    <p class="text-xs text-gray-500">Upload Image</p>
+                                </div>
+                            </div>
                             <div class="bg-white p-6 rounded-xl shadow-lg"><h3 class="font-bold mb-2">Scenario Analysis</h3><p class="text-xs text-gray-500 mb-4">Equity value per share under different growth and margin assumptions.</p><canvas id="scenarioChart"></canvas></div>
                             <div class="bg-white p-6 rounded-xl shadow-lg"><h3 class="font-bold mb-2">Multiples Comparison</h3><p class="text-xs text-gray-500 mb-4">SBUX trades at a premium to peers on an EV/EBITDA basis.</p><canvas id="compsChart"></canvas></div>
                         </div>
@@ -750,37 +762,6 @@
             const initializeDashboardCharts = () => {
                 const data = portfolioData.starbucksProject.dashboardData;
                 Object.values(charts).forEach(chart => chart.destroy());
-
-                const dcfCtx = document.getElementById('dcfChart')?.getContext('2d');
-                if (dcfCtx) {
-                    charts.dcf = new Chart(dcfCtx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Valuation'],
-                            datasets: [
-                                { label: 'Low', data: [data.dcfAnalysis.low], backgroundColor: 'rgba(255, 99, 132, 0.2)', borderColor: 'rgba(255, 99, 132, 1)', borderWidth: 1 },
-                                { label: 'Base', data: [data.dcfAnalysis.base - data.dcfAnalysis.low], backgroundColor: 'rgba(75, 192, 192, 0.2)', borderColor: 'rgba(75, 192, 192, 1)', borderWidth: 1 },
-                                { label: 'High', data: [data.dcfAnalysis.high - data.dcfAnalysis.base], backgroundColor: 'rgba(54, 162, 235, 0.2)', borderColor: 'rgba(54, 162, 235, 1)', borderWidth: 1 }
-                            ]
-                        },
-                        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, title: { display: true, text: 'Value per Share ($)' } }, y: { stacked: true } }, plugins: { legend: { display: false } } }
-                    });
-                }
-
-                const forecastCtx = document.getElementById('forecastChart')?.getContext('2d');
-                if (forecastCtx) {
-                    charts.forecast = new Chart(forecastCtx, {
-                        type: 'line',
-                        data: {
-                            labels: data.forecasts.years,
-                            datasets: [
-                                { label: 'Revenue ($B)', data: data.forecasts.revenue, borderColor: '#463863', tension: 0.1, yAxisID: 'y' },
-                                { label: 'EPS ($)', data: data.forecasts.eps, borderColor: '#D1A46E', tension: 0.1, yAxisID: 'y1' }
-                            ]
-                        },
-                        options: { responsive: true, maintainAspectRatio: false, scales: { y: { type: 'linear', display: true, position: 'left', title: {display: true, text: 'Revenue ($B)'} }, y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false }, title: {display: true, text: 'EPS ($)'} } } }
-                    });
-                }
                 
                 const scenarioCtx = document.getElementById('scenarioChart')?.getContext('2d');
                 if (scenarioCtx) {
