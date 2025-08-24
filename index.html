@@ -232,6 +232,45 @@
             background-color: #463863;
             transition: width 0.05s linear;
         }
+
+        /* --- Education Path Animation --- */
+        #education-path-container {
+            position: relative;
+            width: 100%;
+            height: 50px; /* Adjust as needed */
+        }
+
+        #education-path {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #e2e8f0;
+        }
+
+        #education-icon {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background-color: #463863;
+            color: #D1A46E;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: 0 0 15px rgba(209, 164, 110, 0.7);
+            z-index: 10;
+            transition: left 2s ease-in-out;
+        }
+
+        #education-path-container.animate #education-icon {
+            left: 100%;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -331,8 +370,8 @@
                     }
                 ],
                 educations: [
-                    { degree: 'Masters of Business Administration - Finance & Marketing', school: 'GITAM School of Business, Visakhapatnam', date: '2022 - 2024', details: 'CGPA: 8.19 (A Grade)' },
-                    { degree: 'Bachelor of Technology - Civil Engineering', school: 'Shri Vishnu Engineering College for Women, Bhimavaram', date: '2017 - 2021', details: 'CGPA: 8.29 (A+ Grade)' }
+                    { degree: 'Bachelor of Technology - Civil Engineering', school: 'Shri Vishnu Engineering College for Women, Bhimavaram', date: '2017 - 2021', details: 'CGPA: 8.29 (A+ Grade)' },
+                    { degree: 'Masters of Business Administration - Finance & Marketing', school: 'GITAM School of Business, Visakhapatnam', date: '2022 - 2024', details: 'CGPA: 8.19 (A Grade)' }
                 ],
                 certifications: [
                     { name: 'Microsoft 365 Fundamentals', issuer: 'Microsoft' },
@@ -486,16 +525,9 @@
                 const page = document.createElement('div');
                 page.id = 'page-education';
                 page.className = 'page';
-                const educationsHTML = portfolioData.educations.map(edu => `
-                    <div class="timeline-item">
-                        <div class="timeline-icon"><i class="fas fa-graduation-cap"></i></div>
-                        <div class="timeline-content card-effect p-6 rounded-lg">
-                            <p class="text-sm font-semibold mb-2" style="color: #D1A46E;">${edu.date}</p>
-                            <h4 class="text-xl font-bold" style="color: #221C2A;">${edu.degree}</h4>
-                            <p class="text-lg mb-2" style="color: #463863;">${edu.school}</p>
-                            <p style="color: #9C8FA7;">${edu.details}</p>
-                        </div>
-                    </div>`).join('');
+                const bachelors = portfolioData.educations[0];
+                const masters = portfolioData.educations[1];
+
                 const certificationsHTML = portfolioData.certifications.map(cert => `
                     <div class="card-effect p-4 rounded-lg flex items-center gap-4">
                         <i class="fas fa-certificate text-xl" style="color: #D1A46E;"></i>
@@ -504,19 +536,38 @@
                             <p class="text-sm" style="color: #9C8FA7;">${cert.issuer}</p>
                         </div>
                     </div>`).join('');
+
                 page.innerHTML = `
                     <section class="py-16">
                         <div class="container mx-auto px-6">
-                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Education & Certifications</h3>
-                            <div class="grid md:grid-cols-3 gap-12">
-                                <div class="md:col-span-2">
-                                    <h4 class="text-2xl font-bold mb-8" style="color: #221C2A;">Academic Background</h4>
-                                    <div class="timeline">${educationsHTML}</div>
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Academic Background</h3>
+                            <div class="grid md:grid-cols-2 gap-8 items-center relative">
+                                <!-- Bachelors Box -->
+                                <div class="card-effect p-6 rounded-lg text-center">
+                                    <p class="text-sm font-semibold mb-2" style="color: #D1A46E;">${bachelors.date}</p>
+                                    <h4 class="text-xl font-bold" style="color: #221C2A;">${bachelors.degree}</h4>
+                                    <p class="text-lg mb-2" style="color: #463863;">${bachelors.school}</p>
+                                    <p style="color: #9C8FA7;">${bachelors.details}</p>
                                 </div>
-                                <div>
-                                    <h4 class="text-2xl font-bold mb-8" style="color: #221C2A;">Certifications</h4>
-                                    <div class="flex flex-col gap-4">${certificationsHTML}</div>
+
+                                <!-- Masters Box -->
+                                <div class="card-effect p-6 rounded-lg text-center">
+                                    <p class="text-sm font-semibold mb-2" style="color: #D1A46E;">${masters.date}</p>
+                                    <h4 class="text-xl font-bold" style="color: #221C2A;">${masters.degree}</h4>
+                                    <p class="text-lg mb-2" style="color: #463863;">${masters.school}</p>
+                                    <p style="color: #9C8FA7;">${masters.details}</p>
                                 </div>
+                                
+                                <!-- Animation Path -->
+                                <div id="education-path-container" class="absolute top-1/2 left-1/4 w-1/2 h-12 -translate-y-1/2">
+                                    <div id="education-path"></div>
+                                    <div id="education-icon"><i class="fas fa-graduation-cap"></i></div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-16">
+                                <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications</h3>
+                                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">${certificationsHTML}</div>
                             </div>
                         </div>
                     </section>`;
@@ -576,6 +627,22 @@
                 timelineItems.forEach(item => {
                     observer.observe(item);
                 });
+            }
+            
+            const educationPathContainer = document.getElementById('education-path-container');
+            if (educationPathContainer) {
+                const educationObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            setTimeout(() => {
+                                educationPathContainer.classList.add('animate');
+                            }, 500);
+                        } else {
+                            educationPathContainer.classList.remove('animate');
+                        }
+                    });
+                }, { threshold: 0.5 });
+                educationObserver.observe(educationPathContainer);
             }
 
             // --- TIMELINE SCROLL ANIMATION & GLOBAL PROGRESS BAR---
