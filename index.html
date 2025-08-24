@@ -105,19 +105,56 @@
         .timeline-item-content {
             position: relative;
         }
-        .timeline-logo {
-            width: 60px; /* Slightly larger logo */
+
+        /* --- MODIFIED: Logo Holder with Neon Glow --- */
+        .logo-holder {
+            width: 60px;
             height: 60px;
             background: #FFFFFF;
             border-radius: 50%;
             padding: 4px;
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Soft blue glow for light theme */
+            box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5);
+            transition: box-shadow 0.3s ease;
         }
-        .timeline-logo img {
+        .logo-holder img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             object-fit: contain;
+        }
+        
+        /* Smaller logo holder for skills section */
+        .skill-logo-holder {
+             width: 48px;
+             height: 48px;
+             background: #FFFFFF;
+             border-radius: 50%;
+             padding: 4px;
+             /* Soft blue glow for light theme */
+             box-shadow: 0 0 8px rgba(100, 150, 255, 0.6), 0 0 15px rgba(100, 150, 255, 0.4);
+        }
+         .skill-logo-holder img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+        
+        /* Adaptive neon glow for dark theme */
+        @media (prefers-color-scheme: dark) {
+            .logo-holder {
+                 /* Neon cyan glow for dark theme */
+                 box-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5);
+            }
+             .skill-logo-holder {
+                 /* Neon cyan glow for dark theme */
+                 box-shadow: 0 0 8px rgba(0, 255, 255, 0.6), 0 0 15px rgba(0, 255, 255, 0.4);
+            }
         }
         
         #timeline-moving-icon {
@@ -136,8 +173,7 @@
             font-size: 1.25rem;
             box-shadow: 0 0 15px rgba(209, 164, 110, 0.7);
             z-index: 10;
-            /* REMOVED the looping bounce animation */
-            transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* CHANGED for smoother scroll-based transition */
+            transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* Responsive stacking for timeline on mobile */
@@ -164,10 +200,10 @@
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Navigation bar styles with new colors */
+        /* Navigation bar styles */
         .nav-container { 
             display: inline-block; 
-            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px); 
             -webkit-backdrop-filter: blur(10px); 
             border: 1px solid #e2e8f0; 
@@ -190,7 +226,7 @@
             border-radius: 9999px; 
             transition: all 0.3s ease; 
             font-weight: 500; 
-            color: #221C2A; /* Raisin Text */
+            color: #221C2A;
             cursor: pointer; 
             font-size: 1rem;
         }
@@ -232,9 +268,9 @@
             top: 50%;
             left: 25%;
             width: 50%;
-            height: 50px; /* Adjust as needed */
+            height: 50px;
             transform: translateY(-50%);
-            padding: 0 2.5rem; /* Prevents icon from overlapping boxes */
+            padding: 0 2.5rem;
             box-sizing: border-box;
         }
 
@@ -270,7 +306,7 @@
             left: 100%;
         }
         .college-name {
-            color: #3b2d55; /* A slightly darker shade of the accent color */
+            color: #3b2d55;
             text-shadow: 0 0 8px rgba(209, 164, 110, 0.7);
         }
         .list-rtl {
@@ -284,36 +320,26 @@
 </head>
 <body class="antialiased">
     
-    <!-- Canvas for background animation -->
     <canvas id="finance-canvas"></canvas>
 
-    <!-- Toast notification for form submission -->
     <div id="success-toast">
         <i class="fas fa-check-circle mr-2"></i> Message sent successfully! I'll get back to you soon.
     </div>
 
-    <!-- Floating Navigation Bar -->
     <header class="fixed top-0 left-0 right-0 z-50 py-4">
         <div class="container mx-auto flex justify-center items-center px-4">
             <div class="nav-container">
-                <nav id="main-nav">
-                    <!-- Navigation links will be dynamically inserted here by JavaScript -->
-                </nav>
+                <nav id="main-nav"></nav>
             </div>
         </div>
     </header>
 
-    <!-- Main content area where pages are rendered -->
-    <main class="pt-24 relative z-10">
-        <!-- All page content will be dynamically inserted here by JavaScript -->
-    </main>
+    <main class="pt-24 relative z-10"></main>
 
-    <!-- Footer -->
     <footer class="py-6 text-center text-gray-500 relative z-10">
         <p>&copy; 2024 Bala Sravani Konakalla. All Rights Reserved.</p>
     </footer>
 
-    <!-- Global Progress Bar -->
     <div id="global-progress-container">
         <div id="global-progress-bar"></div>
     </div>
@@ -341,7 +367,8 @@
                         date: 'Jun 2024 - Present', 
                         title: 'Management Trainee', 
                         company: 'Tata Consultancy Services', 
-                        logoUrl: 'https://placehold.co/100x100/F5F1EA/463863?text=TCS',
+                        // MODIFIED: Use local logo path
+                        logoUrl: './public/logos/tcs-logo.png',
                         duties: [
                             'Executed Fixed Asset Runs and Role Forward using SAP BPC, ensuring 100% compliance.',
                             'Monitored cost centers and role IDs, improving process efficiency by 15%.',
@@ -352,7 +379,8 @@
                         date: 'Jun 2023 - Jul 2023', 
                         title: 'Sales Trainee (Internship)', 
                         company: 'Silver Star Mercedes Benz', 
-                        logoUrl: 'https://placehold.co/100x100/F5F1EA/463863?text=MB',
+                        // MODIFIED: Use local logo path
+                        logoUrl: './public/logos/mercedes-benz-logo.png',
                         duties: [
                             'Performed credit risk assessments and analyzed financial statements.',
                             'Managed end-to-end accounts payable, enhancing vendor relationships.',
@@ -361,21 +389,22 @@
                     }
                 ],
                 skills: [
-                    { name: 'SAP BPC', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=SAP' },
-                    { name: 'Financial Modeling', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=FM' },
-                    { name: 'Tableau', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=T' },
-                    { name: 'Advanced Excel', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=XL' },
-                    { name: 'MS Office Suite', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=MS' },
-                    { name: 'Compliance', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=C' },
-                    { name: 'Credit Monitoring', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=CM' },
-                    { name: 'Data Analysis', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=DA' }
+                    // MODIFIED: Use local logo paths for skills
+                    { name: 'SAP BPC', logoUrl: './public/logos/sap-logo.png' },
+                    { name: 'Financial Modeling', logoUrl: './public/logos/financial-modeling-logo.png' },
+                    { name: 'Tableau', logoUrl: './public/logos/tableau-logo.png' },
+                    { name: 'Advanced Excel', logoUrl: './public/logos/excel-logo.png' },
+                    { name: 'MS Office Suite', logoUrl: './public/logos/office-logo.png' },
+                    { name: 'Compliance', logoUrl: './public/logos/compliance-logo.png' },
+                    { name: 'Credit Monitoring', logoUrl: './public/logos/credit-monitoring-logo.png' },
+                    { name: 'Data Analysis', logoUrl: './public/logos/data-analysis-logo.png' }
                 ],
                 projects: [
                     {
                         title: 'Investment Banking Job Simulation',
                         organization: 'JP Morgan',
                         description: 'A comprehensive simulation involving strategic financial assessment, M&A target identification, and the design of a robust DCF valuation model to provide data-driven insights for decision-making.',
-                        icon: 'fas fa-chart-line' // Font Awesome icon class
+                        icon: 'fas fa-chart-line'
                     }
                 ],
                 educations: [
@@ -397,7 +426,6 @@
             const mainContainer = document.querySelector('main');
             const navContainer = document.getElementById('main-nav');
 
-            // --- PAGE NAVIGATION LOGIC ---
             const showPage = (pageId) => {
                 document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
                 const newPage = document.getElementById(`page-${pageId}`);
@@ -411,11 +439,9 @@
                     }
                 });
                 window.scrollTo(0, 0);
-                // Refresh animations on page change to set initial positions
                 handleScrollAnimations(); 
             };
 
-            // --- DYNAMICALLY CREATE NAVIGATION LINKS ---
             portfolioData.pages.forEach(page => {
                 const link = document.createElement('a');
                 link.className = 'nav-link';
@@ -425,8 +451,6 @@
                 link.onclick = () => showPage(page.id);
                 navContainer.appendChild(link);
             });
-
-            // --- PAGE CREATION FUNCTIONS ---
 
             const createHomePage = () => {
                 const page = document.createElement('div');
@@ -463,8 +487,9 @@
                         <div class="timeline-item-content card-effect">
                             <div class="p-6">
                                 <div class="flex items-start gap-4 mb-4 ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}">
-                                    <div class="timeline-logo">
-                                        <img src="${exp.logoUrl}" alt="${exp.company} Logo">
+                                    <!-- MODIFIED: Use logo-holder div for the image -->
+                                    <div class="logo-holder">
+                                        <img src="${exp.logoUrl}" alt="${exp.company} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
                                     </div>
                                     <div class="flex-grow ${index % 2 !== 0 ? 'md:text-right' : 'text-left'}">
                                         <h4 class="text-xl font-bold" style="color: #221C2A;">${exp.title}</h4>
@@ -480,7 +505,10 @@
                     </div>`).join(''); 
                 const skillsHTML = portfolioData.skills.map(skill => `
                     <div class="p-4 rounded-lg card-effect flex flex-col items-center justify-center gap-4 text-center h-full">
-                        <img src="${skill.logoUrl}" alt="${skill.name} Logo" class="w-10 h-10 object-contain">
+                        <!-- MODIFIED: Use skill-logo-holder div for the image -->
+                        <div class="skill-logo-holder">
+                            <img src="${skill.logoUrl}" alt="${skill.name} Logo" onerror="this.src='https://placehold.co/48x48/FFFFFF/463863?text=Icon'; this.parentElement.style.boxShadow='none';">
+                        </div>
                         <p class="text-sm font-semibold" style="color: #221C2A;">${skill.name}</p>
                     </div>`).join(''); 
                 page.innerHTML = `
@@ -551,29 +579,23 @@
                         <div class="container mx-auto px-6">
                             <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Academic Background</h3>
                             <div class="grid md:grid-cols-2 gap-x-16 gap-y-8 items-center relative">
-                                <!-- Bachelors Box -->
                                 <div class="card-effect p-6 rounded-lg text-center">
                                     <h4 class="font-bold" style="font-size: 1.1rem; color: #221C2A;">${bachelors.degree}</h4>
                                     <p style="font-size: 1rem;" class="college-name">${bachelors.school}</p>
                                     <p style="font-size: 0.9rem; color: #D1A46E;">${bachelors.date}</p>
                                     <p style="font-size: 0.8rem; color: #4a4a4a;">${bachelors.details}</p>
                                 </div>
-
-                                <!-- Masters Box -->
                                 <div class="card-effect p-6 rounded-lg text-center">
                                     <h4 class="font-bold" style="font-size: 1.1rem; color: #221C2A;">${masters.degree}</h4>
                                     <p style="font-size: 1rem;" class="college-name">${masters.school}</p>
                                     <p style="font-size: 0.9rem; color: #D1A46E;">${masters.date}</p>
                                     <p style="font-size: 0.8rem; color: #4a4a4a;">${masters.details}</p>
                                 </div>
-                                
-                                <!-- Animation Path -->
                                 <div id="education-path-container">
                                     <div id="education-path"></div>
                                     <div id="education-icon"><i class="fas fa-graduation-cap"></i></div>
                                 </div>
                             </div>
-
                             <div class="text-center mt-16">
                                 <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications</h3>
                                 <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">${certificationsHTML}</div>
@@ -615,14 +637,12 @@
                 mainContainer.appendChild(page);
             };
 
-            // --- INITIALIZE ALL PAGES ---
             createHomePage();
             createExperiencePage();
             createProjectsPage();
             createEducationPage();
             createContactPage();
             
-            // --- ANIMATION OBSERVERS ---
             const expTimelineItems = document.querySelectorAll('#page-experience .timeline-item');
             if (expTimelineItems.length > 0) {
                 const observer = new IntersectionObserver((entries) => {
@@ -632,10 +652,7 @@
                         }
                     });
                 }, { threshold: 0.3 });
-
-                expTimelineItems.forEach(item => {
-                    observer.observe(item);
-                });
+                expTimelineItems.forEach(item => observer.observe(item));
             }
             
             const educationPathContainer = document.getElementById('education-path-container');
@@ -643,9 +660,7 @@
                 const educationObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            setTimeout(() => {
-                                educationPathContainer.classList.add('animate');
-                            }, 500);
+                            setTimeout(() => educationPathContainer.classList.add('animate'), 500);
                         } else {
                             educationPathContainer.classList.remove('animate');
                         }
@@ -654,12 +669,10 @@
                 educationObserver.observe(educationPathContainer);
             }
 
-            // --- TIMELINE SCROLL ANIMATION & GLOBAL PROGRESS BAR---
             const experienceTimelineContainer = document.getElementById('experience-timeline-container');
             const globalProgressBar = document.getElementById('global-progress-bar');
             
             function handleScrollAnimations() {
-                // --- MODIFIED: Scroll-synced Timeline Animation ---
                 if (experienceTimelineContainer && document.getElementById('page-experience').classList.contains('active')) {
                     const movingIcon = document.getElementById('timeline-moving-icon');
                     const timelineProgress = document.getElementById('timeline-progress');
@@ -672,51 +685,37 @@
                     const iconHeight = movingIcon.offsetHeight;
                     const viewportCenterY = window.innerHeight / 2;
 
-                    let targetTop = 0; // Default to top position
+                    let targetTop = 0;
 
-                    // Find the last item that has scrolled past the viewport center
                     for (let i = timelineItems.length - 1; i >= 0; i--) {
                         const item = timelineItems[i];
                         const itemRect = item.getBoundingClientRect();
-
-                        // Check if the item's center has passed the viewport's center
                         if (itemRect.top + (item.offsetHeight / 2) < viewportCenterY) {
-                            // Set the icon's target to the vertical middle of this item
                             targetTop = item.offsetTop + (item.offsetHeight / 2) - (iconHeight / 2);
-                            break; // Stop after finding the most current active item
+                            break;
                         }
                     }
 
-                    // If user has scrolled completely past the end of the timeline
                     if (containerRect.bottom < viewportCenterY) {
                          targetTop = containerHeight - iconHeight;
                     } 
-                    // If user is scrolled above the start of the timeline
                     else if (containerRect.top > viewportCenterY) {
                          targetTop = 0;
                     }
 
-                    // Clamp the value to ensure it stays within the timeline's bounds
                     const finalPosition = Math.max(0, Math.min(containerHeight - iconHeight, targetTop));
-
-                    // Apply the new position
                     movingIcon.style.top = `${finalPosition}px`;
                     timelineProgress.style.height = `${finalPosition}px`;
                 }
 
-
-                // Global Progress Bar Animation
                 const activePage = document.querySelector('.page.active');
                 if (!activePage || !globalProgressBar) return;
-
                 const pageRect = activePage.getBoundingClientRect();
                 const scrollableHeight = activePage.scrollHeight - window.innerHeight;
-
                 if (scrollableHeight <= 0) {
                     globalProgressBar.style.width = '0%';
                     return;
                 }
-                
                 const progress = -pageRect.top / scrollableHeight;
                 const clampedProgress = Math.min(1, Math.max(0, progress));
                 globalProgressBar.style.width = `${clampedProgress * 100}%`;
@@ -724,8 +723,6 @@
 
             window.addEventListener('scroll', handleScrollAnimations);
 
-
-            // --- CONTACT FORM SUBMISSION LOGIC ---
             const contactForm = document.getElementById('contact-form');
             const successToast = document.getElementById('success-toast');
             if (contactForm) { 
@@ -737,34 +734,27 @@
                     }).then(response => { 
                         if (response.ok) { 
                             successToast.classList.add('show'); 
-                            setTimeout(() => { successToast.classList.remove('show'); }, 4000);
+                            setTimeout(() => successToast.classList.remove('show'), 4000);
                             contactForm.reset(); 
                         } else { 
                             console.error("Form submission error."); 
                         } 
-                    }).catch(error => { console.error("Network error.", error); }); 
+                    }).catch(error => console.error("Network error.", error)); 
                 }); 
             }
             
-            // --- AUTO-HIDE NAVIGATION BAR ON SCROLL ---
             const header = document.querySelector('header');
             let lastScrollTop = 0;
             const delta = 50; 
             window.addEventListener('scroll', function() {
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 if (Math.abs(lastScrollTop - scrollTop) <= delta) return;
-                if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
-                    header.classList.add('nav-hidden');
-                } else {
-                    header.classList.remove('nav-hidden');
-                }
+                header.classList.toggle('nav-hidden', scrollTop > lastScrollTop && scrollTop > header.offsetHeight);
                 lastScrollTop = scrollTop;
             }, false);
         
-            // Ensure the active nav link is visible on load
             document.querySelector('.nav-link.active')?.scrollIntoView({ inline: 'center', block: 'nearest' });
 
-            // --- FINANCE BACKGROUND ANIMATION ---
             const canvas = document.getElementById('finance-canvas');
             const ctx = canvas.getContext('2d');
             let particles = [];
@@ -787,14 +777,14 @@
 
             function createParticles() {
                 particles = [];
-                let numberOfParticles = (canvas.width * canvas.height) / 25000; // Reduced particle count
+                let numberOfParticles = (canvas.width * canvas.height) / 25000;
                 for (let i = 0; i < numberOfParticles; i++) {
                     particles.push({
                         x: Math.random() * canvas.width,
                         y: Math.random() * canvas.height,
-                        vx: (Math.random() - 0.5) * 0.8, // Slower movement
-                        vy: (Math.random() - 0.5) * 0.8, // Slower movement
-                        size: Math.random() * 3 + 8, // Smaller symbols
+                        vx: (Math.random() - 0.5) * 0.8,
+                        vy: (Math.random() - 0.5) * 0.8,
+                        size: Math.random() * 3 + 8,
                         symbol: symbols[Math.floor(Math.random() * symbols.length)]
                     });
                 }
@@ -810,12 +800,12 @@
 
                 for (let i = 1; i < segments; i++) {
                     const x = p1.x + (dx * i) / segments;
-                    const y = p1.y + (dy * i) / segments + (Math.random() - 0.5) * 3; // Smoother jaggedness
+                    const y = p1.y + (dy * i) / segments + (Math.random() - 0.5) * 3;
                     ctx.lineTo(x, y);
                 }
 
                 ctx.lineTo(p2.x, p2.y);
-                ctx.strokeStyle = `rgba(156, 143, 167, ${opacity * 0.5})`; // Muted color, reduced opacity for lines
+                ctx.strokeStyle = `rgba(156, 143, 167, ${opacity * 0.5})`;
                 ctx.lineWidth = 0.5;
                 ctx.stroke();
             }
@@ -826,7 +816,6 @@
                 for (let i = 0; i < particles.length; i++) {
                     let p = particles[i];
 
-                    // Mouse interaction
                     if(mouse.x !== null && mouse.y !== null) {
                         let dx = mouse.x - p.x;
                         let dy = mouse.y - p.y;
@@ -840,32 +829,27 @@
                     p.x += p.vx;
                     p.y += p.vy;
 
-                    // Screen wrapping for balanced animation
                     if (p.x < -20) p.x = canvas.width + 20;
                     if (p.x > canvas.width + 20) p.x = -20;
                     if (p.y < -20) p.y = canvas.height + 20;
                     if (p.y > canvas.height + 20) p.y = -20;
 
-
-                    // Neon light effect for symbols
-                    const symbolColor = `rgba(209, 164, 110, 0.6)`; // Brighter, more visible color
+                    const symbolColor = `rgba(209, 164, 110, 0.6)`;
                     ctx.fillStyle = symbolColor;
                     ctx.shadowColor = symbolColor;
                     ctx.shadowBlur = 10;
                     ctx.font = `${p.size}px Montserrat`;
                     ctx.fillText(p.symbol, p.x, p.y);
 
-                    // Reset shadow for trend lines
                     ctx.shadowBlur = 0;
 
-                    // Draw trend lines between nearby particles
                     for (let j = i; j < particles.length; j++) {
                         let p2 = particles[j];
                         let dx = p.x - p2.x;
                         let dy = p.y - p2.y;
                         let distance = Math.sqrt(dx * dx + dy * dy);
 
-                        if (distance < 180) { // Increased distance for fewer lines
+                        if (distance < 180) {
                             const opacity = 1 - distance / 180;
                             drawTrendLine(p, p2, opacity);
                         }
