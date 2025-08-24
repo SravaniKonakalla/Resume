@@ -318,48 +318,29 @@
             border-top: 1px solid #e2e8f0;
         }
         /* 1. Carousel */
-        .carousel-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-        .carousel-container::-webkit-scrollbar { display: none; }
+        .carousel-wrapper { overflow: hidden; position: relative; }
+        .carousel-container { display: flex; transition: transform 0.5s ease; }
         .carousel-item { flex: 0 0 80%; scroll-snap-align: center; margin: 0 0.5rem; transition: transform 0.3s ease; }
         @media (min-width: 768px) { .carousel-item { flex-basis: 40%; } }
         @media (min-width: 1024px) { .carousel-item { flex-basis: 30%; } }
-        .carousel-item:hover { transform: scale(1.05); }
+        .carousel-wrapper:hover .carousel-item { transform: scale(1.05); }
 
         /* 2. Skill Map */
         .skill-map-container { position: relative; width: 100%; max-width: 500px; height: 500px; margin: auto; }
         .skill-map-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; }
-        .skill-map-branch, .skill-map-node { position: absolute; top: 50%; left: 50%; transform-origin: center center; }
+        .skill-map-branch, .skill-map-node { position: absolute; top: 50%; left: 50%; transform-origin: center center; transition: transform 0.3s ease; }
+        .skill-map-node:hover { transform: scale(1.1); }
         .skill-map-node:hover .skill-map-tooltip { opacity: 1; visibility: visible; }
-        .skill-map-tooltip { position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); opacity: 0; visibility: hidden; transition: 0.3s; white-space: nowrap; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .skill-map-tooltip { position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); opacity: 0; visibility: hidden; transition: 0.3s; white-space: nowrap; background-color: #221C2A; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .skill-map-node .logo-holder { animation: pulse 2.5s infinite ease-in-out; }
+        .branch-line { position: absolute; top: 50%; left: 50%; background-color: #9C8FA7; }
 
-        /* 3. Card Stack */
-        .card-stack-container { position: relative; height: 300px; max-width: 400px; margin: auto; perspective: 1000px; }
-        .stacked-card { position: absolute; width: 100%; height: 100%; border-radius: 1rem; transition: transform 0.5s ease, opacity 0.5s ease; cursor: pointer; }
-        .stacked-card.active { transform: translate(0, 0) scale(1); opacity: 1; z-index: 10; }
-        .stacked-card.next { transform: translate(0, 20px) scale(0.95); opacity: 1; z-index: 9; }
-        .stacked-card.hidden { transform: translate(0, 40px) scale(0.9); opacity: 0; z-index: 8; }
-        .stacked-card.flipped { transform: translateX(-150%) rotate(-20deg); opacity: 0; }
-
-        /* 4. Icon Row */
-        .icon-row-item { position: relative; }
-        .icon-tooltip { position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); visibility: hidden; opacity: 0; transition: opacity 0.3s, visibility 0.3s; }
-        .icon-row-item:hover .icon-tooltip { visibility: visible; opacity: 1; }
-
-        /* 5. Journey Path */
-        .journey-container { position: relative; padding: 2rem 0; }
-        .journey-path { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 4px; height: 100%; background-color: #e2e8f0; }
-        .journey-path-progress { position: absolute; top: 0; left: 0; width: 100%; height: 0; background: linear-gradient(to bottom, #D1A46E, #463863); transition: height 1s linear; }
-        .journey-milestone { position: relative; opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
-        .journey-milestone.visible { opacity: 1; transform: translateY(0); }
-        @media (max-width: 768px) { .journey-path { left: 20px; } .journey-milestone { padding-left: 4rem; text-align: left; } }
-        
         /* 6. Flipbook */
-        .flipbook-container { position: relative; width: 100%; max-width: 500px; height: 350px; margin: auto; }
-        .flipbook-page { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; transition: transform 0.8s; transform-style: preserve-3d; display: none; }
-        .flipbook-page.active { display: block; }
-        .flipbook-page.flipped { transform: rotateY(-180deg); }
+        .flipbook-container { position: relative; width: 100%; max-width: 500px; height: 350px; margin: auto; perspective: 1500px;}
+        .flipbook-page { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; transition: transform 0.8s; transform-style: preserve-3d; display: none; transform-origin: left center; }
+        .flipbook-page.active { display: block; z-index: 10; }
+        .flipbook-page.flipped { transform: rotateY(-180deg); z-index: 9; display: block; }
     </style>
 </head>
 <body class="antialiased">
@@ -666,7 +647,7 @@
                 
                 // 1. Carousel
                 const carouselHTML = portfolioData.certifications.map(cert => `
-                    <div class="carousel-item card-effect text-center p-6 rounded-xl transition-transform duration-300">
+                    <div class="carousel-item card-effect text-center p-6 rounded-xl">
                         <div class="logo-holder mx-auto mb-4">
                             <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
                         </div>
@@ -678,62 +659,19 @@
 
                 // 2. Skill Map
                 const skillMapHTML = `
-                    <div class="skill-map-container">
+                    <div id="skill-map-container" class="skill-map-container">
                         <div class="skill-map-center">
                             <div class="logo-holder w-24 h-24">
                                 <img src="${portfolioData.home.imageUrl}" alt="Bala Sravani Konakalla">
                             </div>
                         </div>
-                        <!-- Branches would be dynamically generated here -->
                     </div>
                 `;
-
-                // 3. Card Stack
-                const cardStackHTML = portfolioData.certifications.map((cert, index) => `
-                    <div class="stacked-card card-effect p-6 flex flex-col justify-center items-center text-center ${index === 0 ? 'active' : (index === 1 ? 'next' : 'hidden')}" data-index="${index}">
-                        <div class="logo-holder mx-auto mb-4">
-                            <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
-                        </div>
-                        <h4 class="font-bold text-xl">${cert.title}</h4>
-                        <p class="text-md text-gray-600">by ${cert.issuer}</p>
-                        <p class="text-sm mt-2 text-yellow-700">${cert.issueDate}</p>
-                    </div>
-                `).join('');
-
-                // 4. Icon Row
-                const iconRowHTML = portfolioData.certifications.map(cert => `
-                    <div class="icon-row-item">
-                        <div class="logo-holder">
-                            <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
-                        </div>
-                        <div class="icon-tooltip w-48 bg-gray-800 text-white text-center text-sm rounded-lg py-2 px-3">
-                            <h5 class="font-bold">${cert.title}</h5>
-                            <p>${cert.issuer}</p>
-                        </div>
-                    </div>
-                `).join('');
-                
-                // 5. Journey Layout
-                const journeyHTML = portfolioData.certifications.slice().reverse().map((cert, index) => `
-                    <div class="journey-milestone md:w-1/2 ${index % 2 === 0 ? 'md:self-start md:text-right md:pr-12' : 'md:self-end md:text-left md:pl-12'}">
-                        <div class="card-effect p-4 rounded-lg inline-block">
-                            <div class="flex items-center gap-3 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}">
-                                <div class="logo-holder">
-                                    <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
-                                </div>
-                                <div>
-                                    <h5 class="font-bold">${cert.title}</h5>
-                                    <p class="text-sm text-gray-500">${cert.issuer}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
 
                 // 6. Flipbook Layout
                 const flipbookHTML = portfolioData.certifications.map((cert, index) => `
                     <div class="flipbook-page card-effect ${index === 0 ? 'active' : ''}" data-index="${index}">
-                        <div class="p-6 text-center">
+                        <div class="p-6 text-center flex flex-col justify-center items-center h-full">
                             <div class="logo-holder mx-auto mb-4">
                                 <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
                             </div>
@@ -757,33 +695,16 @@
                             <div class="mt-20">
                                 <div class="cert-section">
                                     <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Carousel Layout</h3>
-                                    <div class="carousel-container pb-4">
-                                        ${carouselHTML}
+                                    <div class="carousel-wrapper">
+                                        <div class="carousel-container pb-4">
+                                            ${carouselHTML}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="cert-section">
                                     <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Skill Map Layout</h3>
                                     <div id="skill-map-wrapper" class="max-w-3xl mx-auto">
                                         ${skillMapHTML}
-                                    </div>
-                                </div>
-                                <div class="cert-section">
-                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Stack Layout</h3>
-                                    <div id="card-stack-wrapper" class="card-stack-container">
-                                        ${cardStackHTML}
-                                    </div>
-                                </div>
-                                <div class="cert-section">
-                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Icon Row Layout</h3>
-                                    <div class="flex justify-center items-center gap-8 flex-wrap max-w-3xl mx-auto">
-                                        ${iconRowHTML}
-                                    </div>
-                                </div>
-                                <div class="cert-section">
-                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Journey Layout</h3>
-                                    <div id="journey-wrapper" class="journey-container flex flex-col items-center">
-                                        <div class="journey-path"><div class="journey-path-progress"></div></div>
-                                        ${journeyHTML}
                                     </div>
                                 </div>
                                 <div class="cert-section">
@@ -956,24 +877,25 @@
 
             function initializeCertificationLayouts() {
                 // 1. Carousel
-                const carousel = document.querySelector('.carousel-container');
-                if (carousel) {
+                const carouselWrapper = document.querySelector('.carousel-wrapper');
+                if (carouselWrapper) {
+                    const carousel = carouselWrapper.querySelector('.carousel-container');
                     let isPaused = false;
-                    carousel.addEventListener('mouseenter', () => isPaused = true);
-                    carousel.addEventListener('mouseleave', () => isPaused = false);
+                    carouselWrapper.addEventListener('mouseenter', () => isPaused = true);
+                    carouselWrapper.addEventListener('mouseleave', () => isPaused = false);
                     setInterval(() => {
                         if (!isPaused) {
                             carousel.scrollLeft += 1;
-                            if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth -1) {
-                                carousel.scrollLeft = 0;
+                            if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 1) {
+                                carousel.scrollTo({ left: 0, behavior: 'smooth' });
                             }
                         }
                     }, 20);
                 }
 
                 // 2. Skill Map
-                const skillMapWrapper = document.getElementById('skill-map-wrapper');
-                if(skillMapWrapper) {
+                const skillMapContainer = document.getElementById('skill-map-container');
+                if(skillMapContainer) {
                     const categories = portfolioData.certifications.reduce((acc, cert) => {
                         if (!acc[cert.category]) acc[cert.category] = [];
                         acc[cert.category].push(cert);
@@ -984,73 +906,25 @@
                     
                     categoryKeys.forEach((key, index) => {
                         const angle = angleStep * index;
+                        const radius = 150;
+                        const x = radius * Math.cos(angle * Math.PI / 180);
+                        const y = radius * Math.sin(angle * Math.PI / 180);
+
                         const branchEl = document.createElement('div');
                         branchEl.className = 'skill-map-branch';
-                        branchEl.style.transform = `rotate(${angle}deg) translateX(180px)`;
+                        branchEl.style.transform = `translate(${x}px, ${y}px)`;
                         
                         const nodeEl = document.createElement('div');
                         nodeEl.className = 'skill-map-node';
-                        nodeEl.style.transform = `rotate(${-angle}deg)`;
-                        nodeEl.innerHTML = `<div class="logo-holder">${key.substring(0,1)}</div>`;
+                        nodeEl.innerHTML = `
+                            <div class="logo-holder">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                            <div class="skill-map-tooltip">${key}</div>
+                        `;
                         branchEl.appendChild(nodeEl);
-                        skillMapWrapper.querySelector('.skill-map-container').appendChild(branchEl);
+                        skillMapContainer.appendChild(branchEl);
                     });
-                }
-
-                // 3. Card Stack
-                const stackContainer = document.getElementById('card-stack-wrapper');
-                if (stackContainer) {
-                    let activeIndex = 0;
-                    const cards = stackContainer.querySelectorAll('.stacked-card');
-                    const totalCards = cards.length;
-
-                    function updateStack() {
-                        cards.forEach((card, i) => {
-                            card.classList.remove('active', 'next', 'hidden', 'flipped');
-                            if (i === activeIndex) {
-                                card.classList.add('active');
-                            } else if (i === (activeIndex + 1) % totalCards) {
-                                card.classList.add('next');
-                            } else {
-                                card.classList.add('hidden');
-                            }
-                        });
-                    }
-
-                    function flipCard() {
-                        const currentCard = cards[activeIndex];
-                        currentCard.classList.add('flipped');
-                        
-                        activeIndex = (activeIndex + 1) % totalCards;
-                        
-                        setTimeout(() => {
-                            currentCard.classList.remove('flipped');
-                            updateStack();
-                        }, 500);
-                    }
-                    
-                    stackContainer.addEventListener('click', flipCard);
-                    setInterval(flipCard, 4000);
-                    updateStack();
-                }
-
-                // 5. Journey Path
-                const journeyWrapper = document.getElementById('journey-wrapper');
-                if (journeyWrapper) {
-                    const progressPath = journeyWrapper.querySelector('.journey-path-progress');
-                    const milestones = journeyWrapper.querySelectorAll('.journey-milestone');
-                    const observer = new IntersectionObserver((entries) => {
-                        if (entries[0].isIntersecting) {
-                            progressPath.style.height = '100%';
-                            milestones.forEach((m, i) => {
-                                setTimeout(() => m.classList.add('visible'), i * 300);
-                            });
-                        } else {
-                             progressPath.style.height = '0%';
-                             milestones.forEach(m => m.classList.remove('visible'));
-                        }
-                    }, { threshold: 0.5 });
-                    observer.observe(journeyWrapper);
                 }
 
                 // 6. Flipbook
@@ -1062,26 +936,35 @@
                     
                     function showPage(index) {
                         pages.forEach((page, i) => {
-                            page.classList.remove('active', 'flipped');
-                            if (i < index) {
-                                page.classList.add('flipped');
-                            }
+                             page.classList.remove('active');
+                             if(i < index) {
+                                 page.style.transform = 'rotateY(-180deg)';
+                                 page.style.zIndex = i;
+                                 page.style.display = 'block';
+                             } else {
+                                 page.style.transform = 'rotateY(0deg)';
+                                 page.style.zIndex = pages.length - i;
+                                 page.style.display = i === index ? 'block' : 'none';
+                             }
                         });
                         pages[index].classList.add('active');
                     }
 
                     nextBtn.addEventListener('click', () => {
                         if (currentPage < pages.length - 1) {
+                            pages[currentPage].classList.add('flipped');
                             currentPage++;
-                            showPage(currentPage);
+                            pages[currentPage].classList.add('active');
                         }
                     });
                     prevBtn.addEventListener('click', () => {
                         if (currentPage > 0) {
+                            pages[currentPage - 1].classList.remove('flipped');
+                            pages[currentPage].classList.remove('active');
                             currentPage--;
-                            showPage(currentPage);
                         }
                     });
+                    showPage(0);
                 }
             }
 
