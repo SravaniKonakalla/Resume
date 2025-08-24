@@ -320,15 +320,13 @@
         /* 1. Carousel */
         @keyframes scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
+            100% { transform: translateX(calc(-250px * 5))); } /* 250px is card width, 5 is number of cards */
         }
         .carousel-wrapper { overflow: hidden; position: relative; padding: 1rem 0; }
-        .carousel-container { display: flex; animation: scroll 30s linear infinite; }
+        .carousel-container { display: flex; width: calc(250px * 10); animation: scroll 40s linear infinite; } /* 10 is double the cards for seamless loop */
         .carousel-wrapper:hover .carousel-container { animation-play-state: paused; }
-        .carousel-item { flex-shrink: 0; width: 80%; margin: 0 1rem; transition: transform 0.3s ease; }
-        .carousel-wrapper:hover .carousel-item { transform: scale(1.05); }
-        @media (min-width: 768px) { .carousel-item { width: 40%; } }
-        @media (min-width: 1024px) { .carousel-item { width: 30%; } }
+        .carousel-item { flex-shrink: 0; width: 250px; margin: 0 1rem; transition: transform 0.3s ease; }
+        .carousel-item:hover { transform: scale(1.05); }
 
         /* 2. Skill Map */
         .skill-map-container { position: relative; width: 100%; max-width: 500px; height: 500px; margin: auto; }
