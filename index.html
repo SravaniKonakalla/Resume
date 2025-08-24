@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
@@ -44,7 +45,7 @@
         }
         .card-effect:hover {
             transform: translateY(-6px);
-            box-shadow: 0 10px 15px -3px rgba(70, 56, 99, 0.1), 0 4px 6px -4px rgba(70, 56, 99, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(70, 56, 99, 0.1), 0 4px 6px -4px rgba(70, 56, 99, 0.1), 0 0 25px rgba(209, 164, 110, 0.8);
         }
 
         /* Auto-hiding header animation */
@@ -311,7 +312,16 @@
                         ]
                     }
                 ],
-                skills: ['SAP BPC', 'Financial Modeling', 'Tableau', 'Advanced Excel', 'Microsoft Office Suite', 'Compliance Management', 'Credit Monitoring', 'Data Analysis'],
+                skills: [
+                    { name: 'SAP BPC', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=SAP' },
+                    { name: 'Financial Modeling', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=FM' },
+                    { name: 'Tableau', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=T' },
+                    { name: 'Advanced Excel', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=XL' },
+                    { name: 'MS Office Suite', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=MS' },
+                    { name: 'Compliance', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=C' },
+                    { name: 'Credit Monitoring', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=CM' },
+                    { name: 'Data Analysis', logoUrl: 'https://placehold.co/40x40/FFFFFF/463863?text=DA' }
+                ],
                 projects: [
                     {
                         title: 'Investment Banking Job Simulation',
@@ -421,8 +431,9 @@
                         </div>
                     </div>`).join(''); 
                 const skillsHTML = portfolioData.skills.map(skill => `
-                    <div class="p-4 rounded-lg card-effect flex items-center justify-center">
-                        <p class="text-md font-semibold text-center" style="color: #221C2A;">${skill}</p>
+                    <div class="p-4 rounded-lg card-effect flex flex-col items-center justify-center gap-4 text-center h-full">
+                        <img src="${skill.logoUrl}" alt="${skill.name} Logo" class="w-10 h-10 object-contain">
+                        <p class="text-sm font-semibold" style="color: #221C2A;">${skill.name}</p>
                     </div>`).join(''); 
                 page.innerHTML = `
                     <section class="py-16">
