@@ -322,7 +322,7 @@
         /* 1. Carousel */
         .cert-carousel .swiper-slide {
             transition: transform 0.3s ease-in-out;
-            padding-bottom: 2rem;
+            padding-bottom: 2rem; /* Space for pagination */
         }
         .cert-carousel .swiper-slide:hover {
             transform: scale(1.05);
@@ -331,6 +331,7 @@
             text-align: center;
             padding: 1.5rem;
             border-radius: 0.75rem;
+            height: 100%;
         }
         .cert-carousel .logo-holder {
             width: 80px;
@@ -348,16 +349,17 @@
         /* 2. Skill Map */
         .skill-map-container { position: relative; width: 100%; max-width: 600px; height: 600px; margin: auto; }
         .skill-map-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; cursor: pointer; }
-        .skill-map-branch, .skill-map-node { position: absolute; top: 50%; left: 50%; transform-origin: center center; transition: all 0.4s ease-in-out; }
+        .skill-map-branch { position: absolute; top: 50%; left: 50%; transform-origin: center center; transition: all 0.4s ease-in-out; }
+        .skill-map-node { transition: all 0.3s ease-in-out; }
         .skill-map-branch { opacity: 0; transform: translate(-50%, -50%) scale(0); }
-        .skill-map-branch.visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .skill-map-branch.visible { opacity: 1; transform: translate(var(--tx, -50%), var(--ty, -50%)) scale(1); }
         .skill-map-node:hover { transform: scale(1.15); z-index: 20; }
         .skill-map-node:hover .skill-map-tooltip { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(-5px); }
         .skill-map-tooltip { position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); opacity: 0; visibility: hidden; transition: 0.3s; white-space: nowrap; background-color: #221C2A; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; z-index: 30; }
         @keyframes pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); } 50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(100, 150, 255, 0.9), 0 0 30px rgba(100, 150, 255, 0.7); } }
         .skill-map-node .logo-holder, .skill-map-center .logo-holder { animation: pulse 2.5s infinite ease-in-out; }
         .branch-line { position: absolute; top: 50%; left: 50%; background-color: #9C8FA7; height: 2px; transform-origin: left center; transition: width 0.5s ease-in-out; width: 0; }
-        .skill-map-branch.visible .branch-line { width: 100%; }
+        .skill-map-container.loaded .branch-line { width: var(--radius); }
         .skill-map-fallback { display: none; }
         @media (max-width: 768px) {
             .skill-map-container { display: none; }
@@ -368,51 +370,43 @@
         .flipbook-container {
             position: relative;
             width: 100%;
-            max-width: 800px; /* Wider for two pages */
-            height: 500px;
+            max-width: 900px; /* Wider for two pages */
+            height: 550px;
             margin: auto;
-            perspective: 2000px;
         }
         .flipbook {
+            position: relative;
             width: 100%;
             height: 100%;
-            position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.5s;
+            perspective: 2500px;
         }
         .flipbook-page {
             position: absolute;
             width: 50%;
             height: 100%;
-            backface-visibility: hidden;
+            top: 0;
+            right: 50%;
             transform-origin: left center;
             transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
             transform-style: preserve-3d;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .flipbook-page.flipped {
+            transform: rotateY(-180deg);
         }
         .flipbook-page-front, .flipbook-page-back {
             position: absolute;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         .flipbook-page-back {
             transform: rotateY(180deg);
         }
-        .flipbook-page.flipped {
-            transform: rotateY(-180deg);
-        }
-        .flipbook-page:nth-child(odd) {
-            transform-origin: right center;
-        }
-        .flipbook-page:nth-child(odd).flipped {
-             transform: rotateY(180deg);
-        }
         @media (max-width: 768px) {
-            .flipbook-container { height: 600px; max-width: 400px; }
-            .flipbook-page { width: 100%; }
-            .flipbook-page:nth-child(even) { display: none; } /* Show only one page at a time */
-            .flipbook-page:nth-child(odd) { transform-origin: right center; }
+            .flipbook-container { height: 600px; max-width: 350px; }
+            .flipbook-page { width: 100%; right: 0; }
         }
     </style>
 </head>
@@ -466,7 +460,7 @@
                         date: 'Jun 2024 - Present', 
                         title: 'Management Trainee', 
                         company: 'Tata Consultancy Services', 
-                        logoUrl: './public/logos/TCS_LOGO.svg.png',
+                        logoUrl: 'TCS LOGO.svg.png',
                         duties: [
                             'Executed Fixed Asset Runs and Role Forward using SAP BPC, ensuring 100% compliance.',
                             'Monitored cost centers and role IDs, improving process efficiency by 15%.',
@@ -477,7 +471,7 @@
                         date: 'Jun 2023 - Jul 2023', 
                         title: 'Sales Trainee (Internship)', 
                         company: 'Silver Star Mercedes Benz', 
-                        logoUrl: './public/logos/Benz_Logo.svg.png',
+                        logoUrl: 'Benz Logo.svg.png',
                         duties: [
                             'Performed credit risk assessments and analyzed financial statements.',
                             'Managed end-to-end accounts payable, enhancing vendor relationships.',
@@ -511,7 +505,7 @@
                         location: 'Bhimavaram',
                         date: '2017 - 2021', 
                         details: 'CGPA: 8.29',
-                        logoUrl: './public/logos/Vishnu_Logo.svg.png' 
+                        logoUrl: 'Vishnu Logo.svg.png' 
                     },
                     { 
                         degree: 'Masters of Business Administration', 
@@ -520,37 +514,37 @@
                         location: 'Visakhapatnam',
                         date: '2022 - 2024', 
                         details: 'CGPA: 8.19',
-                        logoUrl: './public/logos/Gitam_Logo.svg.png' 
+                        logoUrl: 'Gitam Logo.svg.png' 
                     }
                 ],
                 certifications: [
                     { 
                         title: 'Microsoft 365 Fundamentals', issuer: 'Microsoft', 
-                        logoUrl: './public/logos/microsoft-logo.png', issueDate: 'Jan 2024', credentialId: 'MS-123456',
+                        logoUrl: './public/logos/microsoft-logo.png', issueDate: 'Jan 2024',
                         skills: ['Cloud Computing', 'MS Office 365', 'Collaboration Tools'], category: 'Systems',
                         certificateImageUrl: './public/certificates/MS-365-Cert.png'
                     },
                     { 
                         title: 'SAP Professional Fundamentals', issuer: 'SAP',
-                        logoUrl: './public/logos/sap-logo.png', issueDate: 'Dec 2023', credentialId: 'SAP-789012',
+                        logoUrl: './public/logos/sap-logo.png', issueDate: 'Dec 2023',
                         skills: ['ERP Systems', 'SAP BPC', 'Financial Planning'], category: 'Systems',
                         certificateImageUrl: './public/certificates/SAP-Cert.png'
                     },
                     { 
                         title: 'GST Taxation Certificate', issuer: 'PwC',
-                        logoUrl: './public/logos/pwc-logo.png', issueDate: 'Nov 2023', credentialId: 'PWC-345678',
+                        logoUrl: './public/logos/pwc-logo.png', issueDate: 'Nov 2023',
                         skills: ['Taxation', 'GST Compliance', 'Financial Regulation'], category: 'Finance',
                         certificateImageUrl: './public/certificates/PwC-Cert.png'
                     },
                     {
                         title: 'Investment Banking Simulation', issuer: 'JP Morgan',
-                        logoUrl: './public/logos/jpmorgan-logo.png', issueDate: 'Oct 2023', credentialId: 'JPM-987654',
+                        logoUrl: './public/logos/jpmorgan-logo.png', issueDate: 'Oct 2023',
                         skills: ['Valuation', 'M&A', 'Financial Modeling'], category: 'Finance',
                         certificateImageUrl: './public/certificates/JPM-Cert.png'
                     },
                     {
                         title: 'Tableau Specialist', issuer: 'Tableau',
-                        logoUrl: './public/logos/tableau-logo.png', issueDate: 'Sep 2023', credentialId: 'TAB-543210',
+                        logoUrl: './public/logos/tableau-logo.png', issueDate: 'Sep 2023',
                         skills: ['Data Visualization', 'Business Intelligence', 'Dashboarding'], category: 'Analytics & Tools',
                         certificateImageUrl: './public/certificates/Tableau-Cert.png'
                     }
@@ -764,33 +758,38 @@
                 `).join('');
 
                 // 3. Flipbook Layout
-                let flipbookHTML = '';
-                for (let i = 0; i < portfolioData.certifications.length; i += 2) {
-                    const cert1 = portfolioData.certifications[i];
-                    const cert2 = portfolioData.certifications[i + 1];
-
-                    flipbookHTML += `
-                        <div class="flipbook-page">
-                            <div class="flipbook-page-front bg-white p-6 flex flex-col items-center justify-center text-center">
-                                <div class="logo-holder mx-auto mb-4">
-                                    <img src="${cert1.logoUrl}" alt="${cert1.issuer} Logo">
-                                </div>
-                                <h4 class="font-bold text-xl">${cert1.title}</h4>
-                                <p class="text-md text-gray-600">by ${cert1.issuer} - ${cert1.issueDate}</p>
-                                <img src="${cert1.certificateImageUrl}" alt="Certificate Preview" class="mx-auto mt-4 rounded-lg shadow-md max-h-48">
-                            </div>
-                            <div class="flipbook-page-back bg-white p-6 flex flex-col items-center justify-center text-center">
-                                ${cert2 ? `
-                                <div class="logo-holder mx-auto mb-4">
-                                    <img src="${cert2.logoUrl}" alt="${cert2.issuer} Logo">
-                                </div>
-                                <h4 class="font-bold text-xl">${cert2.title}</h4>
-                                <p class="text-md text-gray-600">by ${cert2.issuer} - ${cert2.issueDate}</p>
-                                <img src="${cert2.certificateImageUrl}" alt="Certificate Preview" class="mx-auto mt-4 rounded-lg shadow-md max-h-48">
-                                ` : ''}
-                            </div>
+                const pageContent = (cert) => `
+                    <div class="bg-white p-6 flex flex-col items-center justify-center text-center h-full rounded-lg">
+                        <div class="logo-holder mx-auto mb-4 w-20 h-20">
+                            <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
                         </div>
-                    `;
+                        <h4 class="font-bold text-xl">${cert.title}</h4>
+                        <p class="text-md text-gray-600">by ${cert.issuer} - ${cert.issueDate}</p>
+                        <img src="${cert.certificateImageUrl}" alt="Certificate Preview" class="mx-auto mt-4 rounded-lg shadow-md max-h-48" onerror="this.src='https://placehold.co/400x250/FFFFFF/463863?text=Cert';">
+                        <ul class="text-sm mt-4 space-y-1 text-gray-500">
+                            ${cert.skills.map(skill => `<li>${skill}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+
+                let flipbookHTML = '';
+                for (let i = 0; i < portfolioData.certifications.length; i++) {
+                    const zIndex = portfolioData.certifications.length - i;
+                    const cert = portfolioData.certifications[i];
+                    const nextCert = portfolioData.certifications[i + 1];
+
+                    if (i % 2 === 0) { // This is a page (front and back)
+                        flipbookHTML += `
+                            <div class="flipbook-page" style="z-index: ${zIndex};">
+                                <div class="flipbook-page-front">
+                                    ${pageContent(cert)}
+                                </div>
+                                <div class="flipbook-page-back">
+                                    ${nextCert ? pageContent(nextCert) : ''}
+                                </div>
+                            </div>
+                        `;
+                    }
                 }
 
 
@@ -806,7 +805,7 @@
                             <div class="mt-20">
                                 <div class="cert-section">
                                     <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Carousel Layout</h3>
-                                    <div class="swiper-container cert-carousel relative">
+                                    <div class="swiper-container cert-carousel relative max-w-6xl mx-auto">
                                         <div class="swiper-wrapper">
                                             ${carouselHTML}
                                         </div>
@@ -823,7 +822,7 @@
                                     </div>
                                 </div>
                                 <div class="cert-section">
-                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Flipbook Layout</h3>
+                                    <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications – Flipbook Showcase</h3>
                                     <div class="flipbook-container">
                                         <div class="flipbook">
                                             ${flipbookHTML}
@@ -997,8 +996,9 @@
                 const certCarousel = new Swiper('.cert-carousel', {
                     loop: true,
                     autoplay: {
-                        delay: 3000,
+                        delay: 3500,
                         disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
                     },
                     pagination: {
                         el: '.swiper-pagination',
@@ -1009,18 +1009,9 @@
                         prevEl: '.swiper-button-prev',
                     },
                     breakpoints: {
-                        320: {
-                            slidesPerView: 1,
-                            spaceBetween: 20
-                        },
-                        768: {
-                            slidesPerView: 2,
-                            spaceBetween: 30
-                        },
-                        1024: {
-                            slidesPerView: 3,
-                            spaceBetween: 40
-                        }
+                        320: { slidesPerView: 1, spaceBetween: 20 },
+                        768: { slidesPerView: 2, spaceBetween: 30 },
+                        1024: { slidesPerView: 3, spaceBetween: 40 }
                     }
                 });
 
@@ -1043,12 +1034,13 @@
 
                         const branchEl = document.createElement('div');
                         branchEl.className = 'skill-map-branch text-center';
-                        branchEl.style.transitionDelay = `${index * 0.1}s`;
-                        branchEl.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+                        branchEl.style.transitionDelay = `${index * 0.15}s`;
+                        branchEl.style.setProperty('--tx', `${x}px`);
+                        branchEl.style.setProperty('--ty', `${y}px`);
                         
                         const line = document.createElement('div');
                         line.className = 'branch-line';
-                        line.style.width = `${radius}px`;
+                        line.style.setProperty('--radius', `${radius}px`);
                         line.style.transform = `rotate(${angle}deg)`;
                         skillMapContainer.appendChild(line);
 
@@ -1071,21 +1063,26 @@
                         skillMapContainer.appendChild(branchEl);
                     });
                     
-                    setTimeout(() => {
-                        document.querySelectorAll('.skill-map-branch').forEach(el => el.classList.add('visible'));
-                    }, 100);
+                    const observer = new IntersectionObserver((entries) => {
+                        if (entries[0].isIntersecting) {
+                            skillMapContainer.classList.add('loaded');
+                            document.querySelectorAll('.skill-map-branch').forEach(el => el.classList.add('visible'));
+                            observer.disconnect();
+                        }
+                    }, { threshold: 0.5 });
+                    observer.observe(skillMapContainer);
                 }
 
                 // 3. Flipbook
-                const flipbook = document.querySelector('.flipbook');
                 const pages = document.querySelectorAll('.flipbook-page');
                 const prevBtn = document.getElementById('prev-page-btn');
                 const nextBtn = document.getElementById('next-page-btn');
                 let currentPage = 0;
+                const totalPages = pages.length;
                 
-                if(pages.length > 0) {
+                if(totalPages > 0) {
                     nextBtn.addEventListener('click', () => {
-                        if (currentPage < pages.length) {
+                        if (currentPage < totalPages) {
                             pages[currentPage].classList.add('flipped');
                             currentPage++;
                         }
