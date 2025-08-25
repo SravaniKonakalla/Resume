@@ -127,46 +127,19 @@
         #success-toast.show {
             opacity: 1; visibility: visible; transform: translate(-50%, -10px);
         }
-        
-        /* Glassmorphism Experience Card Styles */
-        .experience-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px 0 rgba(70, 56, 99, 0.1);
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: scale(0.95);
-        }
-        .experience-card.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-        .experience-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px 0 rgba(70, 56, 99, 0.2);
-        }
-        .experience-card .logo-holder {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            padding: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-        .experience-card:hover .logo-holder {
-            box-shadow: 0 0 20px rgba(209, 164, 110, 0.7);
-            transform: rotate(5deg);
-        }
-        @media (max-width: 768px) {
-            .experience-card .logo-holder {
-                width: 48px;
-                height: 48px;
-            }
-        }
-
+        .center-timeline-container { position: relative; width: 100%; max-width: 80rem; margin: auto; padding: 2rem 0; }
+        .center-timeline-line { position: absolute; width: 4px; background-color: #e2e8f0; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); }
+        .center-timeline-line-progress { position: absolute; width: 4px; background: linear-gradient(to bottom, #D1A46E, #463863); top: 0; left: 50%; transform: translateX(-50%); height: 0; transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .timeline-item { position: relative; width: 50%; padding: 0 1rem; margin-bottom: 3rem; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .timeline-item.visible { opacity: 1; transform: translateY(0); }
+        .timeline-item:nth-child(odd) { left: 0; }
+        .timeline-item:nth-child(even) { left: 50%; }
+        .timeline-item-content { position: relative; }
+        .logo-holder { width: 60px; height: 60px; background: #FFFFFF; border-radius: 50%; padding: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); transition: box-shadow 0.3s ease; }
+        .logo-holder img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
+        .skill-logo-holder { width: 48px; height: 48px; background: #FFFFFF; border-radius: 50%; padding: 4px; box-shadow: 0 0 8px rgba(100, 150, 255, 0.6), 0 0 15px rgba(100, 150, 255, 0.4); }
+        .skill-logo-holder img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
+        #timeline-moving-icon { position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%); width: 40px; height: 40px; background-color: #463863; color: #D1A46E; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; box-shadow: 0 0 15px rgba(209, 164, 110, 0.7); z-index: 10; transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .education-card { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease; }
         .education-card.visible { opacity: 1; transform: translateY(0); }
         .education-card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px -4px rgba(70, 56, 99, 0.15), 0 0 30px rgba(209, 164, 110, 0.7); }
@@ -181,6 +154,13 @@
         .accordion-item.active .accordion-header .icon { transform: rotate(45deg); }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; padding: 0 1.5rem; }
         .accordion-content-inner { padding-bottom: 1.5rem; }
+        .list-rtl { direction: rtl; list-style-position: inside; }
+        .list-rtl li { direction: ltr; }
+        @media (max-width: 768px) {
+            .center-timeline-line, .center-timeline-line-progress { left: 25px; }
+            .timeline-item { width: 100%; left: 0 !important; padding-left: 4rem; padding-right: 1rem; }
+            #timeline-moving-icon { left: 25px; }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -230,11 +210,8 @@
                         logoUrl: 'TCS LOGO.svg.png',
                         duties: [
                             'Executed Fixed Asset Runs and Role Forward using SAP BPC, ensuring 100% compliance.',
-                            'Monitored cost centers and role IDs to enhance data reliability.',
-                            'Resolved system discrepancies through detailed root cause analysis.'
-                        ],
-                        impact: [
-                            'Improved process efficiency by 15% through workflow automation.'
+                            'Monitored cost centers and role IDs, improving process efficiency by 15%.',
+                            'Resolved system discrepancies through root cause analysis to enhance data reliability.'
                         ]
                     },
                     { 
@@ -243,12 +220,9 @@
                         company: 'Silver Star Mercedes Benz', 
                         logoUrl: 'Benz Logo.svg.png',
                         duties: [
-                            'Performed credit risk assessments and analyzed financial statements for potential clients.',
-                            'Managed end-to-end accounts payable processes, enhancing vendor relationships.',
+                            'Performed credit risk assessments and analyzed financial statements.',
+                            'Managed end-to-end accounts payable, enhancing vendor relationships.',
                             'Conducted detailed cost-benefit analyses for marketing campaigns.'
-                        ],
-                        impact: [
-                            'Supported the sales team in a high-value luxury goods environment.'
                         ]
                     }
                 ],
@@ -337,8 +311,8 @@
                 const newPage = document.getElementById(`page-${pageId}`);
                 if (newPage) {
                     newPage.classList.add('active');
-                     if (pageId === 'projects' || pageId === 'experience') {
-                        setTimeout(() => setupInteractiveElements(pageId), 50);
+                    if (pageId === 'projects') {
+                        setTimeout(setupProjectPage, 50);
                     }
                 }
                 
@@ -350,6 +324,7 @@
                     }
                 });
                 window.scrollTo(0, 0);
+                handleScrollAnimations(); 
             };
 
             portfolioData.pages.forEach(page => {
@@ -388,51 +363,54 @@
                 mainContainer.appendChild(page);
             };
 
-            const createExperiencePage = () => {
-                const page = document.createElement('div');
-                page.id = 'page-experience';
-                page.className = 'page';
-                
+            const createExperiencePage = () => { 
+                const page = document.createElement('div'); 
+                page.id = 'page-experience'; 
+                page.className = 'page'; 
                 const experiencesHTML = portfolioData.experiences.map((exp, index) => `
-                    <div class="experience-card" style="transition-delay: ${index * 100}ms;">
-                        <div class="p-6">
-                            <div class="flex items-center gap-4 mb-4">
-                                <div class="logo-holder">
-                                    <img src="${exp.logoUrl}" alt="${exp.company} Logo" onerror="this.src='https://placehold.co/64x64/FFFFFF/463863?text=Logo';">
+                    <div class="timeline-item" data-index="${index}">
+                        <div class="timeline-item-content card-effect">
+                            <div class="p-6">
+                                <div class="flex items-start gap-4 mb-4 ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}">
+                                    <div class="logo-holder">
+                                        <img src="${exp.logoUrl}" alt="${exp.company} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
+                                    </div>
+                                    <div class="flex-grow ${index % 2 !== 0 ? 'md:text-right' : 'text-left'}">
+                                        <h4 class="text-xl font-bold" style="color: #221C2A;">${exp.title}</h4>
+                                        <p class="text-lg font-semibold" style="color: #463863;">${exp.company}</p>
+                                        <p class="text-sm font-semibold mt-2" style="color: #D1A46E;">${exp.date}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg md:text-xl font-bold text-gray-800">${exp.title}</h3>
-                                    <p class="text-sm text-gray-500">${exp.company}</p>
-                                    <p class="text-xs text-gray-400 mt-1">${exp.date}</p>
-                                </div>
-                            </div>
-                            <div class="mt-6">
-                                <h4 class="text-xs uppercase font-bold text-gray-400 tracking-wider">What I Did</h4>
-                                <ul class="list-disc list-inside mt-2 space-y-1 text-gray-600">
-                                    ${exp.duties.map(duty => `<li>${duty}</li>`).join('')}
-                                </ul>
-                            </div>
-                            <div class="mt-6">
-                                <h4 class="text-xs uppercase font-bold text-gray-400 tracking-wider">Impact Achieved</h4>
-                                <ul class="list-disc list-inside mt-2 space-y-1 text-green-700 italic">
-                                     ${exp.impact.map(item => `<li>${item}</li>`).join('')}
+                                <ul class="list-disc ${index % 2 !== 0 ? 'list-rtl' : 'list-outside pl-5 text-left'} space-y-2" style="color: #463863;">
+                                    ${exp.duties.map(duty => `<li style="font-size: 0.875rem;">${duty}</li>`).join('')}
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                `).join('');
-
+                    </div>`).join(''); 
+                const skillsHTML = portfolioData.skills.map(skill => `
+                    <div class="p-4 rounded-lg card-effect flex flex-col items-center justify-center gap-4 text-center h-full">
+                        <div class="skill-logo-holder">
+                            <img src="${skill.logoUrl}" alt="${skill.name} Logo" onerror="this.src='https://placehold.co/48x48/FFFFFF/463863?text=Icon'; this.parentElement.style.boxShadow='none';">
+                        </div>
+                        <p class="text-sm font-semibold" style="color: #221C2A;">${skill.name}</p>
+                    </div>`).join(''); 
                 page.innerHTML = `
-                    <section class="py-12 md:py-16">
-                        <div class="container mx-auto max-w-5xl px-6">
-                            <h2 class="text-2xl md:text-4xl font-bold text-center mb-12">Professional Experience</h2>
-                            <div class="grid md:grid-cols-2 gap-8">
+                    <section class="py-16">
+                        <div class="container mx-auto px-6">
+                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Work Experience</h3>
+                            <div id="experience-timeline-container" class="center-timeline-container">
+                                <div class="center-timeline-line"></div>
+                                <div id="timeline-progress-exp" class="center-timeline-line-progress"></div>
+                                <div id="timeline-moving-icon"><i class="fas fa-briefcase"></i></div>
                                 ${experiencesHTML}
                             </div>
+                            <div class="text-center mt-16">
+                                <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Technical Skills</h3>
+                                <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">${skillsHTML}</div>
+                            </div>
                         </div>
-                    </section>
-                `;
-                mainContainer.appendChild(page);
+                    </section>`; 
+                mainContainer.appendChild(page); 
             };
 
             const createEducationPage = () => {
@@ -763,26 +741,6 @@
                 });
             };
 
-            const setupInteractiveElements = (pageId) => {
-                const activePage = document.getElementById(`page-${pageId}`);
-                if (!activePage) return;
-
-                const animatedCards = activePage.querySelectorAll('.experience-card, .education-card');
-                const cardObserver = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.1 });
-                animatedCards.forEach(card => cardObserver.observe(card));
-
-                if (pageId === 'projects') {
-                    setupProjectPage();
-                }
-            };
-
             // --- GLOBAL LOGIC ---
             showPage('home');
             const header = document.querySelector('header');
@@ -792,6 +750,26 @@
                 header.classList.toggle('nav-hidden', scrollTop > lastScrollTop && scrollTop > header.offsetHeight);
                 lastScrollTop = scrollTop;
             }, false);
+
+            const expTimelineItems = document.querySelectorAll('#page-experience .timeline-item');
+            if (expTimelineItems.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    });
+                }, { threshold: 0.3 });
+                expTimelineItems.forEach(item => observer.observe(item));
+            }
+
+            const educationCards = document.querySelectorAll('.education-card');
+            if (educationCards.length > 0) {
+                const eduObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    });
+                }, { threshold: 0.2 });
+                educationCards.forEach(card => eduObserver.observe(card));
+            }
             
             const contactForm = document.getElementById('contact-form');
             const successToast = document.getElementById('success-toast');
@@ -809,6 +787,35 @@
                     }).catch(error => console.error("Error.", error)); 
                 }); 
             }
+
+            function handleScrollAnimations() {
+                const expTimelineContainer = document.getElementById('experience-timeline-container');
+                if (expTimelineContainer && document.getElementById('page-experience').classList.contains('active')) {
+                    const movingIcon = document.getElementById('timeline-moving-icon');
+                    const timelineProgress = document.getElementById('timeline-progress-exp');
+                    const timelineItems = document.querySelectorAll('#page-experience .timeline-item');
+                    if (!movingIcon || !timelineProgress || timelineItems.length === 0) return;
+                    const containerRect = expTimelineContainer.getBoundingClientRect();
+                    const containerHeight = expTimelineContainer.offsetHeight;
+                    const iconHeight = movingIcon.offsetHeight;
+                    const viewportCenterY = window.innerHeight / 2;
+                    let targetTop = 0;
+                    for (let i = timelineItems.length - 1; i >= 0; i--) {
+                        const item = timelineItems[i];
+                        const itemRect = item.getBoundingClientRect();
+                        if (itemRect.top + (item.offsetHeight / 2) < viewportCenterY) {
+                            targetTop = item.offsetTop + (item.offsetHeight / 2) - (iconHeight / 2);
+                            break;
+                        }
+                    }
+                    if (containerRect.bottom < viewportCenterY) targetTop = containerHeight - iconHeight; 
+                    else if (containerRect.top > viewportCenterY) targetTop = 0;
+                    const finalPosition = Math.max(0, Math.min(containerHeight - iconHeight, targetTop));
+                    movingIcon.style.top = `${finalPosition}px`;
+                    timelineProgress.style.height = `${finalPosition}px`;
+                }
+            }
+            window.addEventListener('scroll', handleScrollAnimations);
 
             const accordionItems = document.querySelectorAll('.accordion-item');
             accordionItems.forEach(item => {
