@@ -29,6 +29,7 @@
             background-color: #F5F1EA;
             color: #221C2A;
             overflow-x: hidden;
+            padding-bottom: 80px; /* Add padding to prevent content from being hidden by the bottom nav */
         }
         #finance-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
@@ -42,27 +43,89 @@
             transform: translateY(-6px);
             box-shadow: 0 10px 15px -3px rgba(70, 56, 99, 0.1), 0 4px 6px -4px rgba(70, 56, 99, 0.1), 0 0 25px rgba(209, 164, 110, 0.8);
         }
-        header { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        header.nav-hidden { transform: translateY(-100%); }
-        .page { display: none; }
-        .page.active { display: block; }
-        .nav-container { 
-            display: inline-block; background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); 
-            border: 1px solid #e2e8f0; border-radius: 9999px; 
-            padding: 0.5rem; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); 
-            max-width: 100%;
-        }
-        #main-nav { display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; }
-        #main-nav::-webkit-scrollbar { display: none; }
-        .nav-link { 
-            flex-shrink: 0; padding: 0.75rem 1.5rem; border-radius: 9999px; 
-            transition: all 0.3s ease; font-weight: 500; color: #221C2A;
-            cursor: pointer; font-size: 1rem;
-        }
-        .nav-link.active { background-color: #F5F1EA; color: #463863; font-weight: 700; }
-        .nav-link:not(.active):hover { background-color: #F5F1EA; }
         
+        /* --- BOTTOM NAVIGATION BAR --- */
+        #bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            transform: translateY(100%);
+            animation: slideUp 0.5s 0.2s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #9C8FA7;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+        .bottom-nav-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        .bottom-nav-item span {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .bottom-nav-item:hover {
+            color: #463863;
+        }
+        .bottom-nav-item.active {
+            color: #D1A46E;
+        }
+        .bottom-nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 3px;
+            background-color: #D1A46E;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 60px;
+            }
+            #bottom-nav {
+                height: 60px;
+            }
+            .bottom-nav-item i {
+                font-size: 24px;
+            }
+            .bottom-nav-item span {
+                display: none; /* Hide labels on mobile */
+            }
+            .bottom-nav-item.active span {
+                display: block; /* Show label for active item */
+                font-size: 10px;
+            }
+        }
+
         /* --- PROJECT PAGE SPECIFIC STYLES --- */
         .project-section-fade-in {
             opacity: 0;
@@ -170,31 +233,25 @@
         <i class="fas fa-check-circle mr-2"></i> Message sent successfully! I'll get back to you soon.
     </div>
 
-    <header class="fixed top-0 left-0 right-0 z-50 py-4">
-        <div class="container mx-auto flex justify-center items-center px-4">
-            <div class="nav-container">
-                <nav id="main-nav"></nav>
-            </div>
-        </div>
-    </header>
-
-    <main class="pt-24 relative z-10"></main>
+    <main class="relative z-10"></main>
 
     <footer class="py-6 text-center text-gray-500 relative z-10">
         <p>&copy; 2025 Bala Sravani Konakalla. All Rights Reserved.</p>
     </footer>
+
+    <nav id="bottom-nav"></nav>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
             // --- DATA SOURCE ---
             const portfolioData = {
-                pages: [
-                    { id: 'home', label: 'Home' },
-                    { id: 'experience', label: 'Experience' },
-                    { id: 'projects', label: 'Projects' },
-                    { id: 'education', label: 'Education' },
-                    { id: 'contact', label: 'Contact' }
+                sections: [
+                    { id: 'home', label: 'Home', icon: 'fa-home' },
+                    { id: 'experience', label: 'Experience', icon: 'fa-briefcase' },
+                    { id: 'projects', label: 'Projects', icon: 'fa-folder-open' },
+                    { id: 'education', label: 'Education', icon: 'fa-graduation-cap' },
+                    { id: 'contact', label: 'Contact', icon: 'fa-envelope' }
                 ],
                 home: {
                     name: "Bala Sravani Konakalla",
@@ -304,69 +361,39 @@
             };
 
             const mainContainer = document.querySelector('main');
-            const navContainer = document.getElementById('main-nav');
+            const bottomNavContainer = document.getElementById('bottom-nav');
 
-            const showPage = (pageId) => {
-                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-                const newPage = document.getElementById(`page-${pageId}`);
-                if (newPage) {
-                    newPage.classList.add('active');
-                    if (pageId === 'projects') {
-                        setTimeout(setupProjectPage, 50);
-                    }
-                }
-                
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active');
-                    if (link.dataset.pageId === pageId) {
-                        link.classList.add('active');
-                        link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-                    }
-                });
-                window.scrollTo(0, 0);
-                handleScrollAnimations(); 
+            const renderSections = () => {
+                mainContainer.innerHTML = `
+                    ${createHomePage()}
+                    ${createExperiencePage()}
+                    ${createProjectsPage()}
+                    ${createEducationPage()}
+                    ${createContactPage()}
+                `;
             };
 
-            portfolioData.pages.forEach(page => {
-                const link = document.createElement('a');
-                link.className = 'nav-link';
-                if (page.id === 'home') link.classList.add('active');
-                link.textContent = page.label;
-                link.dataset.pageId = page.id;
-                link.onclick = () => showPage(page.id);
-                navContainer.appendChild(link);
-            });
-
-            const createHomePage = () => {
-                const page = document.createElement('div');
-                page.id = 'page-home';
-                page.className = 'page active';
-                page.innerHTML = `
-                    <section class="container mx-auto px-6 py-20 min-h-[80vh] flex items-center">
-                        <div class="grid md:grid-cols-2 gap-12 items-center">
-                            <div class="flex justify-center">
-                                <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-gray-200 shadow-2xl">
-                            </div>
-                            <div class="text-center md:text-left">
-                                <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
-                                <h2 class="text-2xl md:text-3xl mb-6" style="color: #463863;">${portfolioData.home.title}</h2>
-                                <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.summary}</p>
-                                <div class="mt-8">
-                                    <a href="mailto:${portfolioData.contact.email}" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-block" style="background-color: #463863; color: #FFFFFF;">
-                                        Get In Touch
-                                    </a>
-                                </div>
+            const createHomePage = () => `
+                <section id="home" class="container mx-auto px-6 py-20 min-h-screen flex items-center">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="flex justify-center">
+                            <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-gray-200 shadow-2xl">
+                        </div>
+                        <div class="text-center md:text-left">
+                            <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
+                            <h2 class="text-2xl md:text-3xl mb-6" style="color: #463863;">${portfolioData.home.title}</h2>
+                            <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.summary}</p>
+                            <div class="mt-8">
+                                <a href="#contact" class="btn-primary font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-block">
+                                    Get In Touch
+                                </a>
                             </div>
                         </div>
-                    </section>
-                `;
-                mainContainer.appendChild(page);
-            };
+                    </div>
+                </section>
+            `;
 
             const createExperiencePage = () => { 
-                const page = document.createElement('div'); 
-                page.id = 'page-experience'; 
-                page.className = 'page'; 
                 const experiencesHTML = portfolioData.experiences.map((exp, index) => `
                     <div class="timeline-item" data-index="${index}">
                         <div class="timeline-item-content card-effect">
@@ -394,8 +421,8 @@
                         </div>
                         <p class="text-sm font-semibold" style="color: #221C2A;">${skill.name}</p>
                     </div>`).join(''); 
-                page.innerHTML = `
-                    <section class="py-16">
+                return `
+                    <section id="experience" class="py-16 min-h-screen">
                         <div class="container mx-auto px-6">
                             <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Work Experience</h3>
                             <div id="experience-timeline-container" class="center-timeline-container">
@@ -410,14 +437,9 @@
                             </div>
                         </div>
                     </section>`; 
-                mainContainer.appendChild(page); 
             };
 
             const createEducationPage = () => {
-                const page = document.createElement('div');
-                page.id = 'page-education';
-                page.className = 'page';
-
                 const educationCardsHTML = portfolioData.educations.map(edu => `
                     <div class="education-card bg-white rounded-2xl flex overflow-hidden w-full max-w-2xl mx-auto">
                         <div class="logo-holder">
@@ -465,8 +487,8 @@
                 `).join('');
 
 
-                page.innerHTML = `
-                    <section class="py-16">
+                return `
+                    <section id="education" class="py-16 min-h-screen">
                         <div class="container mx-auto px-6">
                             <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Academic Background</h3>
                             <div class="space-y-8">
@@ -481,46 +503,35 @@
                             </div>
                         </div>
                     </section>`;
-                mainContainer.appendChild(page);
             };
 
-            const createContactPage = () => {
-                const page = document.createElement('div');
-                page.id = 'page-contact';
-                page.className = 'page';
-                page.innerHTML = `
-                    <section class="py-16">
-                        <div class="container mx-auto px-6 text-center">
-                            <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">Get In Touch</h3>
-                            <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">I'm always open to discussing new opportunities. Feel free to send a message.</p>
-                            <div class="max-w-2xl mx-auto">
-                                <form id="contact-form" action="${portfolioData.contact.formspree_url}" method="POST" class="w-full p-8 rounded-lg card-effect mb-8">
-                                    <div class="space-y-4 text-left">
-                                        <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
-                                        <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
-                                        <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
-                                    </div>
-                                    <div class="mt-8">
-                                        <button type="submit" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full" style="background-color: #463863; color: #FFFFFF;">
-                                            Send Message
-                                        </button>
-                                    </div>
-                                </form>
-                                <div class="flex justify-center items-center gap-6 mt-8">
-                                    <a href="mailto:${portfolioData.contact.email}" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fas fa-envelope"></i></a>
-                                    <a href="${portfolioData.contact.linkedin}" target="_blank" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fab fa-linkedin"></i></a>
+            const createContactPage = () => `
+                <section id="contact" class="py-16 min-h-screen flex items-center">
+                    <div class="container mx-auto px-6 text-center">
+                        <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">Get In Touch</h3>
+                        <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">I'm always open to discussing new opportunities. Feel free to send a message.</p>
+                        <div class="max-w-2xl mx-auto">
+                            <form id="contact-form" action="${portfolioData.contact.formspree_url}" method="POST" class="w-full p-8 rounded-lg card-effect mb-8">
+                                <div class="space-y-4 text-left">
+                                    <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                                    <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                                    <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
                                 </div>
+                                <div class="mt-8">
+                                    <button type="submit" class="btn-primary font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full">
+                                        Send Message
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="flex justify-center items-center gap-6 mt-8">
+                                <a href="mailto:${portfolioData.contact.email}" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fas fa-envelope"></i></a>
+                                <a href="${portfolioData.contact.linkedin}" target="_blank" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </div>
-                    </section>`;
-                mainContainer.appendChild(page);
-            };
+                    </div>
+                </section>`;
             
             const createProjectsPage = () => {
-                const page = document.createElement('div');
-                page.id = 'page-projects';
-                page.className = 'page';
-
                 const timelineSteps = [
                     {icon: 'fa-search-dollar', label: 'Company & Industry Research', details: 'Analyzed 10-K filings, investor calls, and industry reports to understand SBUX\'s business model, competitive landscape, and macro trends.'},
                     {icon: 'fa-history', label: 'Historical Financials Analysis', details: 'Deconstructed revenue by segment and geography. Analyzed margin evolution, unit economics, and historical performance trends.'},
@@ -530,184 +541,224 @@
                     {icon: 'fa-lightbulb', label: 'Final Insights & Conclusion', details: 'Derived the intrinsic value range for SBUX. Performed sensitivity and scenario analysis to identify key value drivers, risks, and form a final investment thesis.'}
                 ];
 
-                page.innerHTML = `
-                <!-- 1. Project Header Section -->
-                <header id="project-header" class="project-section-fade-in relative overflow-hidden">
-                    <div class="absolute inset-0 z-0">
-                        <svg class="absolute bottom-0 right-0 h-1/2 w-1/2 text-gray-500 opacity-[0.03]" fill="currentColor" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 597.995c-113.003 0-204.8-91.797-204.8-204.8s91.797-204.8 204.8-204.8 204.8 91.797 204.8 204.8-91.797 204.8-204.8 204.8zM512 256c-79.508 0-144.37 64.862-144.37 144.37s64.862 144.37 144.37 144.37 144.37-64.862 144.37-144.37-64.862-144.37-144.37-144.37z"/><path d="M512 1024c-282.77 0-512-229.23-512-512s229.23-512 512-512 512 229.23 512 512-229.23 512-512 512zM512 61.44C264.604 61.44 61.44 264.604 61.44 512s203.164 450.56 450.56 450.56 450.56-203.164 450.56-450.56-203.164-450.56-450.56-450.56z"/><path d="M961.075 613.99c-30.822-1.946-59.597-10.138-85.3-23.757l-2.048-1.229c-10.138-6.042-19.866-12.7-28.979-20.07-8.806-6.963-16.896-14.541-24.166-22.733-1.434-1.638-2.867-3.277-4.301-4.915-28.365-32.358-49.152-70.554-59.802-112.947-3.277-13.005-5.325-26.317-6.554-39.834-0.614-10.138-0.614-20.378-0.205-30.515 1.536-25.805 6.758-50.995 15.36-74.957 14.848-41.472 40.55-78.131 74.547-107.008 33.382-28.365 73.626-47.309 117.555-55.296 5.837-1.024 11.674-1.843 17.613-2.458 35.84-3.79 72.192-0.307 106.803 10.138 34.099 10.24 65.638 27.238 93.39 49.971 2.867 2.355 5.632 4.813 8.397 7.27 34.816 30.618 60.006 70.144 72.909 114.176 15.36 52.634 15.053 108.954-0.819 161.792-12.902 43.11-37.376 81.92-69.837 114.176-32.051 31.846-70.963 56.525-114.074 71.373-35.635 12.288-73.421 18.227-111.821 17.408-10.138-0.205-20.275-0.819-30.31-1.843z"/></svg>
-                    </div>
-                    <div class="container mx-auto max-w-screen-xl px-6 md:px-8 py-10 md:py-16 relative z-10">
-                        <div class="grid md:grid-cols-5 gap-8 md:gap-12 items-center">
-                            <div class="md:col-span-2 text-center md:text-left">
-                                <div class="flex justify-center md:justify-start mb-6">
-                                    <div class="w-24 h-24 bg-white rounded-full p-2 starbucks-logo-glow flex items-center justify-center">
-                                        <img src="./public/logos/starbucks-logo.png" alt="Starbucks Company Logo" class="rounded-full" onerror="this.src='https://placehold.co/96x96/FFFFFF/1e3932?text=SBUX'">
+                return `
+                <section id="projects" class="py-16 min-h-screen">
+                    <!-- 1. Project Header Section -->
+                    <header id="project-header" class="project-section-fade-in relative overflow-hidden">
+                        <div class="absolute inset-0 z-0">
+                            <svg class="absolute bottom-0 right-0 h-1/2 w-1/2 text-gray-500 opacity-[0.03]" fill="currentColor" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 597.995c-113.003 0-204.8-91.797-204.8-204.8s91.797-204.8 204.8-204.8 204.8 91.797 204.8 204.8-91.797 204.8-204.8 204.8zM512 256c-79.508 0-144.37 64.862-144.37 144.37s64.862 144.37 144.37 144.37 144.37-64.862 144.37-144.37-64.862-144.37-144.37-144.37z"/><path d="M512 1024c-282.77 0-512-229.23-512-512s229.23-512 512-512 512 229.23 512 512-229.23 512-512 512zM512 61.44C264.604 61.44 61.44 264.604 61.44 512s203.164 450.56 450.56 450.56 450.56-203.164 450.56-450.56-203.164-450.56-450.56-450.56z"/><path d="M961.075 613.99c-30.822-1.946-59.597-10.138-85.3-23.757l-2.048-1.229c-10.138-6.042-19.866-12.7-28.979-20.07-8.806-6.963-16.896-14.541-24.166-22.733-1.434-1.638-2.867-3.277-4.301-4.915-28.365-32.358-49.152-70.554-59.802-112.947-3.277-13.005-5.325-26.317-6.554-39.834-0.614-10.138-0.614-20.378-0.205-30.515 1.536-25.805 6.758-50.995 15.36-74.957 14.848-41.472 40.55-78.131 74.547-107.008 33.382-28.365 73.626-47.309 117.555-55.296 5.837-1.024 11.674-1.843 17.613-2.458 35.84-3.79 72.192-0.307 106.803 10.138 34.099 10.24 65.638 27.238 93.39 49.971 2.867 2.355 5.632 4.813 8.397 7.27 34.816 30.618 60.006 70.144 72.909 114.176 15.36 52.634 15.053 108.954-0.819 161.792-12.902 43.11-37.376 81.92-69.837 114.176-32.051 31.846-70.963 56.525-114.074 71.373-35.635 12.288-73.421 18.227-111.821 17.408-10.138-0.205-20.275-0.819-30.31-1.843z"/></svg>
+                        </div>
+                        <div class="container mx-auto max-w-screen-xl px-6 md:px-8 py-10 md:py-16 relative z-10">
+                            <div class="grid md:grid-cols-5 gap-8 md:gap-12 items-center">
+                                <div class="md:col-span-2 text-center md:text-left">
+                                    <div class="flex justify-center md:justify-start mb-6">
+                                        <div class="w-24 h-24 bg-white rounded-full p-2 starbucks-logo-glow flex items-center justify-center">
+                                            <img src="./public/logos/starbucks-logo.png" alt="Starbucks Company Logo" class="rounded-full" onerror="this.src='https://placehold.co/96x96/FFFFFF/1e3932?text=SBUX'">
+                                        </div>
+                                    </div>
+                                    <h1 class="text-2xl md:text-4xl font-extrabold text-gray-900 leading-tight">Starbucks Financial Modeling & Valuation</h1>
+                                    <h2 class="text-lg md:text-xl font-semibold text-gray-600 mt-2">Starbucks Corporation (NASDAQ: SBUX)</h2>
+                                    <div class="flex flex-wrap justify-center md:justify-start gap-2 mt-6">
+                                        <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">FMVA® Techniques</span>
+                                        <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">DCF & Multiples</span>
+                                        <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">3-Statement Model</span>
+                                        <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Scenario Analysis</span>
                                     </div>
                                 </div>
-                                <h1 class="text-2xl md:text-4xl font-extrabold text-gray-900 leading-tight">Starbucks Financial Modeling & Valuation</h1>
-                                <h2 class="text-lg md:text-xl font-semibold text-gray-600 mt-2">Starbucks Corporation (NASDAQ: SBUX)</h2>
-                                <div class="flex flex-wrap justify-center md:justify-start gap-2 mt-6">
-                                    <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">FMVA® Techniques</span>
-                                    <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">DCF & Multiples</span>
-                                    <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">3-Statement Model</span>
-                                    <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Scenario Analysis</span>
+                                <div class="md:col-span-3">
+                                    <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200">
+                                        <h3 class="font-bold text-lg mb-2 text-gray-800">About the Company</h3>
+                                        <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                                            Starbucks is a global coffeehouse chain with over 35,000 stores worldwide. Revenue is driven by company-operated stores and licensed operations. Key levers include same-store sales, new store growth, product mix innovation, and its powerful digital ecosystem through the Starbucks Rewards program.
+                                        </p>
+                                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                                            <div><p class="font-bold text-gray-800">FY2023</p><p class="text-xs text-gray-500">Fiscal Basis</p></div>
+                                            <div><p class="font-bold text-gray-800">5-Year</p><p class="text-xs text-gray-500">Forecast</p></div>
+                                            <div><p class="font-bold text-gray-800">FCFF DCF</p><p class="text-xs text-gray-500">Model</p></div>
+                                            <div><p class="font-bold text-gray-800">$85-$102</p><p class="text-xs text-gray-500">Value Range</p></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="md:col-span-3">
-                                <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200">
-                                    <h3 class="font-bold text-lg mb-2 text-gray-800">About the Company</h3>
-                                    <p class="text-gray-600 text-sm leading-relaxed mb-6">
-                                        Starbucks is a global coffeehouse chain with over 35,000 stores worldwide. Revenue is driven by company-operated stores and licensed operations. Key levers include same-store sales, new store growth, product mix innovation, and its powerful digital ecosystem through the Starbucks Rewards program.
-                                    </p>
-                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-                                        <div><p class="font-bold text-gray-800">FY2023</p><p class="text-xs text-gray-500">Fiscal Basis</p></div>
-                                        <div><p class="font-bold text-gray-800">5-Year</p><p class="text-xs text-gray-500">Forecast</p></div>
-                                        <div><p class="font-bold text-gray-800">FCFF DCF</p><p class="text-xs text-gray-500">Model</p></div>
-                                        <div><p class="font-bold text-gray-800">$85-$102</p><p class="text-xs text-gray-500">Value Range</p></div>
+                             <div class="w-full border-t border-gray-300/60 my-8 md:my-12"></div>
+                             <div class="flex flex-wrap justify-center md:justify-start items-center gap-4">
+                                <a href="#" aria-label="Download Financial Model" class="btn-primary font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2">
+                                    <i class="fas fa-download"></i> Download Model (PDF/Excel)
+                                </a>
+                                <a href="#timeline" aria-label="View Project Methodology" class="btn-secondary font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2">
+                                    <i class="fas fa-stream"></i> View Methods
+                                </a>
+                                <a href="#" aria-label="View project on GitHub" class="btn-icon text-2xl"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- 2. Interactive Timeline Section -->
+                    <section id="timeline" class="py-12 md:py-20 bg-white project-section-fade-in">
+                        <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
+                            <div class="text-center mb-12">
+                                <h2 class="text-3xl md:text-4xl font-bold">Interactive Timeline - Project Methodology</h2>
+                                <p class="mt-2 text-gray-600 max-w-2xl mx-auto">This project follows a structured FMVA® process. Click on each step to see details.</p>
+                            </div>
+                            
+                            <div class="space-y-4">
+                            ${timelineSteps.map((item, index) => `
+                                <div class="timeline-accordion-item bg-white rounded-lg shadow-sm">
+                                    <button class="w-full p-4 text-left flex justify-between items-center transition hover:bg-gray-50">
+                                        <span class="font-semibold text-lg flex items-center">
+                                            <i class="fas ${item.icon} text-[#463863] w-8 text-center mr-4"></i>
+                                            Step ${index + 1}: ${item.label}
+                                        </span>
+                                        <i class="fas fa-chevron-down accordion-icon transition-transform"></i>
+                                    </button>
+                                    <div class="timeline-details bg-gray-50 text-gray-600 rounded-b-lg">
+                                        <p>${item.details}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 3. Dashboard View Section -->
+                    <section id="dashboard" class="py-12 md:py-20 project-section-fade-in">
+                        <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
+                            <div class="text-center mb-12">
+                                <h2 class="text-3xl md:text-4xl font-bold">Project Dashboard - Key Results</h2>
+                                <p class="mt-2 text-gray-600">A visual-first summary of valuation outcomes, forecasts, and scenario analysis.</p>
+                            </div>
+                            <div class="bg-white rounded-xl shadow-lg p-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-8">
+                                <div><p class="text-2xl md:text-3xl font-bold text-[#463863]">${portfolioData.starbucksProject.dashboardData.valuationRange}</p><p class="text-sm font-semibold text-gray-500">Intrinsic Value (Range)</p></div>
+                                <div><p class="text-2xl md:text-3xl font-bold text-green-600">${portfolioData.starbucksProject.dashboardData.impliedUpside}</p><p class="text-sm font-semibold text-gray-500">Implied Upside vs Spot</p></div>
+                                <div><p class="text-2xl md:text-3xl font-bold text-[#463863]">${portfolioData.starbucksProject.dashboardData.wacc}</p><p class="text-sm font-semibold text-gray-500">WACC</p></div>
+                                <div><p class="text-2xl md:text-3xl font-bold text-[#463863]">${portfolioData.starbucksProject.dashboardData.terminalGrowth}</p><p class="text-sm font-semibold text-gray-500">Terminal Growth</p></div>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
+                                    <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
+                                        <i class="fas fa-image text-4xl text-gray-400 mb-2"></i>
+                                        <h3 class="font-bold">Valuation Range</h3>
+                                        <p class="text-xs text-gray-500">Upload Image</p>
+                                    </div>
+                                </div>
+                                 <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
+                                    <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
+                                        <i class="fas fa-chart-line text-4xl text-gray-400 mb-2"></i>
+                                        <h3 class="font-bold">Revenue & EPS Forecast</h3>
+                                        <p class="text-xs text-gray-500">Upload Image</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
+                                    <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
+                                        <i class="fas fa-chart-bar text-4xl text-gray-400 mb-2"></i>
+                                        <h3 class="font-bold">Scenario Analysis</h3>
+                                        <p class="text-xs text-gray-500">Upload Image</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
+                                    <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
+                                        <i class="fas fa-balance-scale text-4xl text-gray-400 mb-2"></i>
+                                        <h3 class="font-bold">Multiples Comparison</h3>
+                                        <p class="text-xs text-gray-500">Upload Image</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                         <div class="w-full border-t border-gray-300/60 my-8 md:my-12"></div>
-                         <div class="flex flex-wrap justify-center md:justify-start items-center gap-4">
-                            <a href="#" aria-label="Download Financial Model" class="btn-primary font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2">
-                                <i class="fas fa-download"></i> Download Model (PDF/Excel)
-                            </a>
-                            <a href="#timeline" aria-label="View Project Methodology" class="btn-secondary font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2">
-                                <i class="fas fa-stream"></i> View Methods
-                            </a>
-                            <a href="#" aria-label="View project on GitHub" class="btn-icon text-2xl"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                </header>
-
-                <!-- 2. Interactive Timeline Section -->
-                <section id="timeline" class="py-12 md:py-20 bg-white project-section-fade-in">
-                    <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
-                        <div class="text-center mb-12">
-                            <h2 class="text-3xl md:text-4xl font-bold">Interactive Timeline - Project Methodology</h2>
-                            <p class="mt-2 text-gray-600 max-w-2xl mx-auto">This project follows a structured FMVA® process. Click on each step to see details.</p>
-                        </div>
-                        
-                        <div class="space-y-4">
-                        ${timelineSteps.map((item, index) => `
-                            <div class="timeline-accordion-item bg-white rounded-lg shadow-sm">
-                                <button class="w-full p-4 text-left flex justify-between items-center transition hover:bg-gray-50">
-                                    <span class="font-semibold text-lg flex items-center">
-                                        <i class="fas ${item.icon} text-[#463863] w-8 text-center mr-4"></i>
-                                        Step ${index + 1}: ${item.label}
-                                    </span>
-                                    <i class="fas fa-chevron-down accordion-icon transition-transform"></i>
-                                </button>
-                                <div class="timeline-details bg-gray-50 text-gray-600 rounded-b-lg">
-                                    <p>${item.details}</p>
+                    </section>
+                    
+                    <!-- 4. Case Study Section -->
+                    <section id="case-study" class="py-12 md:py-20 bg-white project-section-fade-in">
+                        <div class="container mx-auto max-w-4xl px-6 md:px-8">
+                            <div class="text-center mb-12">
+                                <h2 class="text-3xl md:text-4xl font-bold">Case Study – Starbucks FMVA® Project</h2>
+                                <p class="mt-2 text-gray-600">A detailed walkthrough of the project's objective, process, and conclusions.</p>
+                            </div>
+                            <article class="space-y-8">
+                                <div>
+                                    <h3 class="text-xl font-bold">Objective</h3>
+                                    <p class="text-gray-700 mt-2 leading-relaxed">Apply FMVA®-level modeling and valuation techniques to assess Starbucks’ intrinsic value, validate key performance drivers, and communicate a clear, data-driven investment narrative.</p>
                                 </div>
-                            </div>
-                        `).join('')}
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 3. Dashboard View Section -->
-                <section id="dashboard" class="py-12 md:py-20 project-section-fade-in">
-                    <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
-                        <div class="text-center mb-12">
-                            <h2 class="text-3xl md:text-4xl font-bold">Project Dashboard - Key Results</h2>
-                            <p class="mt-2 text-gray-600">A visual-first summary of valuation outcomes, forecasts, and scenario analysis.</p>
-                        </div>
-                        <div class="bg-white rounded-xl shadow-lg p-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-8">
-                            <div><p class="text-2xl md:text-3xl font-bold text-[#463863]">${portfolioData.starbucksProject.dashboardData.valuationRange}</p><p class="text-sm font-semibold text-gray-500">Intrinsic Value (Range)</p></div>
-                            <div><p class="text-2xl md:text-3xl font-bold text-green-600">${portfolioData.starbucksProject.dashboardData.impliedUpside}</p><p class="text-sm font-semibold text-gray-500">Implied Upside vs Spot</p></div>
-                            <div><p class="text-2xl md:text-3xl font-bold text-[#463863]">${portfolioData.starbucksProject.dashboardData.wacc}</p><p class="text-sm font-semibold text-gray-500">WACC</p></div>
-                            <div><p class="text-2xl md:text-3xl font-bold text-[#463863]">${portfolioData.starbucksProject.dashboardData.terminalGrowth}</p><p class="text-sm font-semibold text-gray-500">Terminal Growth</p></div>
-                        </div>
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
-                                <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
-                                    <i class="fas fa-image text-4xl text-gray-400 mb-2"></i>
-                                    <h3 class="font-bold">Valuation Range</h3>
-                                    <p class="text-xs text-gray-500">Upload Image</p>
+                                <div>
+                                    <h3 class="text-xl font-bold">Methodology</h3>
+                                    <p class="text-gray-700 mt-2 leading-relaxed">The project was executed in a sequential manner, ensuring a logical flow from data gathering to final analysis:</p>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-2 mt-2">
+                                        <li><strong>Research & Historicals:</strong> Began with a deep dive into SEC filings and industry reports to build a solid foundation.</li>
+                                        <li><strong>Forecasting:</strong> Developed a granular forecast model based on key drivers like store growth, same-store sales, and margin assumptions.</li>
+                                        <li><strong>3-Statement Integration:</strong> Constructed a fully integrated financial model linking the income statement, balance sheet, and cash flow statement.</li>
+                                        <li><strong>Valuation:</strong> Performed a Discounted Cash Flow (DCF) analysis using the Free Cash Flow to Firm (FCFF) method and corroborated findings with a trading comparables analysis.</li>
+                                        <li><strong>Sensitivities & Scenarios:</strong> Concluded with scenario modeling (Base, Bull, Bear) and sensitivity analysis to stress-test assumptions and identify key risks.</li>
+                                    </ul>
                                 </div>
-                            </div>
-                             <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
-                                <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
-                                    <i class="fas fa-chart-line text-4xl text-gray-400 mb-2"></i>
-                                    <h3 class="font-bold">Revenue & EPS Forecast</h3>
-                                    <p class="text-xs text-gray-500">Upload Image</p>
+                                <div>
+                                    <h3 class="text-xl font-bold">Key Insights</h3>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-2 mt-2">
+                                        <li>The base-case DCF analysis indicates an intrinsic value range of <strong>$90–$95 per share</strong>, suggesting the stock is modestly undervalued at current levels.</li>
+                                        <li>Upside potential is primarily driven by continued high-margin growth in the digital and loyalty ecosystem, coupled with successful international expansion.</li>
+                                        <li>Key risks to the valuation include sustained commodity price inflation impacting margins, increased competition in key markets, and potential slowdowns in consumer discretionary spending.</li>
+                                    </ul>
                                 </div>
-                            </div>
-                            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
-                                <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
-                                    <i class="fas fa-chart-bar text-4xl text-gray-400 mb-2"></i>
-                                    <h3 class="font-bold">Scenario Analysis</h3>
-                                    <p class="text-xs text-gray-500">Upload Image</p>
+                                <div class="w-full border-t border-gray-200 pt-8 mt-8 flex flex-wrap justify-center items-center gap-4">
+                                    <a href="#" aria-label="Download Full Financial Model" class="btn-primary font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2"><i class="fas fa-file-excel"></i> Download Full Model</a>
+                                    <a href="#" aria-label="Contact me about this project" class="btn-secondary font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2"><i class="fas fa-envelope"></i> Contact Me About This Project</a>
                                 </div>
-                            </div>
-                            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
-                                <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
-                                    <i class="fas fa-balance-scale text-4xl text-gray-400 mb-2"></i>
-                                    <h3 class="font-bold">Multiples Comparison</h3>
-                                    <p class="text-xs text-gray-500">Upload Image</p>
-                                </div>
-                            </div>
+                            </article>
                         </div>
-                    </div>
-                </section>
-                
-                <!-- 4. Case Study Section -->
-                <section id="case-study" class="py-12 md:py-20 bg-white project-section-fade-in">
-                    <div class="container mx-auto max-w-4xl px-6 md:px-8">
-                        <div class="text-center mb-12">
-                            <h2 class="text-3xl md:text-4xl font-bold">Case Study – Starbucks FMVA® Project</h2>
-                            <p class="mt-2 text-gray-600">A detailed walkthrough of the project's objective, process, and conclusions.</p>
-                        </div>
-                        <article class="space-y-8">
-                            <div>
-                                <h3 class="text-xl font-bold">Objective</h3>
-                                <p class="text-gray-700 mt-2 leading-relaxed">Apply FMVA®-level modeling and valuation techniques to assess Starbucks’ intrinsic value, validate key performance drivers, and communicate a clear, data-driven investment narrative.</p>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold">Methodology</h3>
-                                <p class="text-gray-700 mt-2 leading-relaxed">The project was executed in a sequential manner, ensuring a logical flow from data gathering to final analysis:</p>
-                                <ul class="list-disc list-inside text-gray-700 space-y-2 mt-2">
-                                    <li><strong>Research & Historicals:</strong> Began with a deep dive into SEC filings and industry reports to build a solid foundation.</li>
-                                    <li><strong>Forecasting:</strong> Developed a granular forecast model based on key drivers like store growth, same-store sales, and margin assumptions.</li>
-                                    <li><strong>3-Statement Integration:</strong> Constructed a fully integrated financial model linking the income statement, balance sheet, and cash flow statement.</li>
-                                    <li><strong>Valuation:</strong> Performed a Discounted Cash Flow (DCF) analysis using the Free Cash Flow to Firm (FCFF) method and corroborated findings with a trading comparables analysis.</li>
-                                    <li><strong>Sensitivities & Scenarios:</strong> Concluded with scenario modeling (Base, Bull, Bear) and sensitivity analysis to stress-test assumptions and identify key risks.</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold">Key Insights</h3>
-                                <ul class="list-disc list-inside text-gray-700 space-y-2 mt-2">
-                                    <li>The base-case DCF analysis indicates an intrinsic value range of <strong>$90–$95 per share</strong>, suggesting the stock is modestly undervalued at current levels.</li>
-                                    <li>Upside potential is primarily driven by continued high-margin growth in the digital and loyalty ecosystem, coupled with successful international expansion.</li>
-                                    <li>Key risks to the valuation include sustained commodity price inflation impacting margins, increased competition in key markets, and potential slowdowns in consumer discretionary spending.</li>
-                                </ul>
-                            </div>
-                            <div class="w-full border-t border-gray-200 pt-8 mt-8 flex flex-wrap justify-center items-center gap-4">
-                                <a href="#" aria-label="Download Full Financial Model" class="btn-primary font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2"><i class="fas fa-file-excel"></i> Download Full Model</a>
-                                <a href="#" aria-label="Contact me about this project" class="btn-secondary font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2"><i class="fas fa-envelope"></i> Contact Me About This Project</a>
-                            </div>
-                        </article>
-                    </div>
+                    </section>
                 </section>
                 `;
-                mainContainer.appendChild(page);
             };
             
-            // --- INITIALIZE ALL PAGES ---
-            createHomePage();
-            createExperiencePage();
-            createProjectsPage();
-            createEducationPage();
-            createContactPage();
+            const setupBottomNav = () => {
+                portfolioData.sections.forEach(section => {
+                    const item = document.createElement('a');
+                    item.href = `#${section.id}`;
+                    item.className = 'bottom-nav-item';
+                    item.dataset.sectionId = section.id;
+                    item.setAttribute('aria-label', `Go to ${section.label} section`);
+                    
+                    item.innerHTML = `
+                        <i class="fas ${section.icon}"></i>
+                        <span>${section.label}</span>
+                    `;
+                    bottomNavContainer.appendChild(item);
+                });
+            };
+
+            const setupScrollSpy = () => {
+                const sections = portfolioData.sections.map(s => document.getElementById(s.id));
+                const navItems = document.querySelectorAll('#bottom-nav .bottom-nav-item');
+
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                            const id = entry.target.getAttribute('id');
+                            navItems.forEach(item => {
+                                item.classList.remove('active');
+                                item.removeAttribute('aria-current');
+                                if (item.dataset.sectionId === id) {
+                                    item.classList.add('active');
+                                    item.setAttribute('aria-current', 'page');
+                                }
+                            });
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                sections.forEach(section => {
+                    if(section) observer.observe(section);
+                });
+            };
+
+            // --- INITIALIZE ALL FUNCTIONALITY ---
+            renderSections();
+            setupBottomNav();
+            setupScrollSpy();
 
             const setupProjectPage = () => {
-                const activePage = document.getElementById('page-projects');
-                if (!activePage) return;
+                const projectPage = document.getElementById('projects');
+                if (!projectPage) return;
 
-                const sections = activePage.querySelectorAll('.project-section-fade-in');
+                const sections = projectPage.querySelectorAll('.project-section-fade-in');
                 const sectionObserver = new IntersectionObserver((entries, observer) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
@@ -718,8 +769,7 @@
                 }, { threshold: 0.1 });
                 sections.forEach(section => sectionObserver.observe(section));
 
-                // Timeline Accordion Logic
-                const accordionItems = activePage.querySelectorAll('.timeline-accordion-item');
+                const accordionItems = projectPage.querySelectorAll('.timeline-accordion-item');
                 accordionItems.forEach(item => {
                     const button = item.querySelector('button');
                     const content = item.querySelector('.timeline-details');
@@ -729,47 +779,25 @@
                         const isActive = content.classList.contains('active');
                         
                         accordionItems.forEach(otherItem => {
-                            otherItem.querySelector('.timeline-details').classList.remove('active');
-                            otherItem.querySelector('.accordion-icon').classList.remove('rotate-180');
+                           if (otherItem !== item) {
+                                otherItem.querySelector('.timeline-details').classList.remove('active');
+                                otherItem.querySelector('.timeline-details').style.maxHeight = null;
+                                otherItem.querySelector('.accordion-icon').classList.remove('rotate-180');
+                            }
                         });
 
                         if (!isActive) {
                             content.classList.add('active');
+                            content.style.maxHeight = content.scrollHeight + 'px';
                             icon.classList.add('rotate-180');
+                        } else {
+                            content.classList.remove('active');
+                            content.style.maxHeight = null;
+                            icon.classList.remove('rotate-180');
                         }
                     });
                 });
             };
-
-            // --- GLOBAL LOGIC ---
-            showPage('home');
-            const header = document.querySelector('header');
-            let lastScrollTop = 0;
-            window.addEventListener('scroll', function() {
-                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                header.classList.toggle('nav-hidden', scrollTop > lastScrollTop && scrollTop > header.offsetHeight);
-                lastScrollTop = scrollTop;
-            }, false);
-
-            const expTimelineItems = document.querySelectorAll('#page-experience .timeline-item');
-            if (expTimelineItems.length > 0) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) entry.target.classList.add('visible');
-                    });
-                }, { threshold: 0.3 });
-                expTimelineItems.forEach(item => observer.observe(item));
-            }
-
-            const educationCards = document.querySelectorAll('.education-card');
-            if (educationCards.length > 0) {
-                const eduObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) entry.target.classList.add('visible');
-                    });
-                }, { threshold: 0.2 });
-                educationCards.forEach(card => eduObserver.observe(card));
-            }
             
             const contactForm = document.getElementById('contact-form');
             const successToast = document.getElementById('success-toast');
@@ -787,52 +815,6 @@
                     }).catch(error => console.error("Error.", error)); 
                 }); 
             }
-
-            function handleScrollAnimations() {
-                const expTimelineContainer = document.getElementById('experience-timeline-container');
-                if (expTimelineContainer && document.getElementById('page-experience').classList.contains('active')) {
-                    const movingIcon = document.getElementById('timeline-moving-icon');
-                    const timelineProgress = document.getElementById('timeline-progress-exp');
-                    const timelineItems = document.querySelectorAll('#page-experience .timeline-item');
-                    if (!movingIcon || !timelineProgress || timelineItems.length === 0) return;
-                    const containerRect = expTimelineContainer.getBoundingClientRect();
-                    const containerHeight = expTimelineContainer.offsetHeight;
-                    const iconHeight = movingIcon.offsetHeight;
-                    const viewportCenterY = window.innerHeight / 2;
-                    let targetTop = 0;
-                    for (let i = timelineItems.length - 1; i >= 0; i--) {
-                        const item = timelineItems[i];
-                        const itemRect = item.getBoundingClientRect();
-                        if (itemRect.top + (item.offsetHeight / 2) < viewportCenterY) {
-                            targetTop = item.offsetTop + (item.offsetHeight / 2) - (iconHeight / 2);
-                            break;
-                        }
-                    }
-                    if (containerRect.bottom < viewportCenterY) targetTop = containerHeight - iconHeight; 
-                    else if (containerRect.top > viewportCenterY) targetTop = 0;
-                    const finalPosition = Math.max(0, Math.min(containerHeight - iconHeight, targetTop));
-                    movingIcon.style.top = `${finalPosition}px`;
-                    timelineProgress.style.height = `${finalPosition}px`;
-                }
-            }
-            window.addEventListener('scroll', handleScrollAnimations);
-
-            const accordionItems = document.querySelectorAll('.accordion-item');
-            accordionItems.forEach(item => {
-                const header = item.querySelector('.accordion-header');
-                const content = item.querySelector('.accordion-content');
-                header.addEventListener('click', () => {
-                    const isActive = item.classList.contains('active');
-                    accordionItems.forEach(otherItem => {
-                        otherItem.classList.remove('active');
-                        otherItem.querySelector('.accordion-content').style.maxHeight = null;
-                    });
-                    if (!isActive) {
-                        item.classList.add('active');
-                        content.style.maxHeight = content.scrollHeight + 'px';
-                    }
-                });
-            });
 
             const canvas = document.getElementById('finance-canvas');
             const ctx = canvas.getContext('2d');
@@ -884,6 +866,7 @@
             resizeCanvas();
             createParticles();
             animate();
+            setupProjectPage();
         });
     </script>
 </body>
