@@ -815,6 +815,36 @@
                     }).catch(error => console.error("Error.", error)); 
                 }); 
             }
+            
+            function handleScrollAnimations() {
+                const expTimelineContainer = document.getElementById('experience-timeline-container');
+                if (expTimelineContainer) {
+                    const movingIcon = document.getElementById('timeline-moving-icon');
+                    const timelineProgress = document.getElementById('timeline-progress-exp');
+                    const timelineItems = document.querySelectorAll('#experience .timeline-item');
+                    if (!movingIcon || !timelineProgress || timelineItems.length === 0) return;
+                    const containerRect = expTimelineContainer.getBoundingClientRect();
+                    const containerHeight = expTimelineContainer.offsetHeight;
+                    const iconHeight = movingIcon.offsetHeight;
+                    const viewportCenterY = window.innerHeight / 2;
+                    let targetTop = 0;
+                    for (let i = timelineItems.length - 1; i >= 0; i--) {
+                        const item = timelineItems[i];
+                        const itemRect = item.getBoundingClientRect();
+                        if (itemRect.top + (item.offsetHeight / 2) < viewportCenterY) {
+                            targetTop = item.offsetTop + (item.offsetHeight / 2) - (iconHeight / 2);
+                            break;
+                        }
+                    }
+                    if (containerRect.bottom < viewportCenterY) targetTop = containerHeight - iconHeight; 
+                    else if (containerRect.top > viewportCenterY) targetTop = 0;
+                    const finalPosition = Math.max(0, Math.min(containerHeight - iconHeight, targetTop));
+                    movingIcon.style.top = `${finalPosition}px`;
+                    timelineProgress.style.height = `${finalPosition}px`;
+                }
+            }
+            window.addEventListener('scroll', handleScrollAnimations);
+
 
             const canvas = document.getElementById('finance-canvas');
             const ctx = canvas.getContext('2d');
