@@ -42,27 +42,80 @@
             transform: translateY(-6px);
             box-shadow: 0 10px 15px -3px rgba(70, 56, 99, 0.1), 0 4px 6px -4px rgba(70, 56, 99, 0.1), 0 0 25px rgba(209, 164, 110, 0.8);
         }
-        header { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        header.nav-hidden { transform: translateY(-100%); }
-        .page { display: none; }
-        .page.active { display: block; }
-        .nav-container { 
-            display: inline-block; background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); 
-            border: 1px solid #e2e8f0; border-radius: 9999px; 
-            padding: 0.5rem; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); 
-            max-width: 100%;
-        }
-        #main-nav { display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; }
-        #main-nav::-webkit-scrollbar { display: none; }
-        .nav-link { 
-            flex-shrink: 0; padding: 0.75rem 1.5rem; border-radius: 9999px; 
-            transition: all 0.3s ease; font-weight: 500; color: #221C2A;
-            cursor: pointer; font-size: 1rem;
-        }
-        .nav-link.active { background-color: #F5F1EA; color: #463863; font-weight: 700; }
-        .nav-link:not(.active):hover { background-color: #F5F1EA; }
         
+        /* --- VERTICAL DOT NAVIGATION --- */
+        #dot-nav {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Increased spacing between dots */
+        }
+        .dot-nav-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #9C8FA7; /* Muted color */
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .dot.active {
+            background-color: #D1A46E; /* Accent-soft color */
+            transform: scale(1.4);
+            box-shadow: 0 0 15px #D1A46E;
+        }
+        .dot:hover {
+            transform: scale(1.5);
+        }
+        .dot-tooltip {
+            position: absolute;
+            right: 100%;
+            margin-right: 15px;
+            padding: 6px 12px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #221C2A;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(10px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            pointer-events: none;
+        }
+        .dot-nav-item:hover .dot-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+        
+        @media (max-width: 768px) {
+            #dot-nav {
+                right: 10px;
+                gap: 15px;
+            }
+            .dot {
+                width: 12px;
+                height: 12px;
+            }
+             .dot-tooltip {
+                display: none; /* Hide tooltips on mobile for simplicity */
+            }
+        }
+
+
         /* --- PROJECT PAGE SPECIFIC STYLES --- */
         .project-section-fade-in {
             opacity: 0;
@@ -166,19 +219,16 @@
 <body class="antialiased">
     
     <canvas id="finance-canvas"></canvas>
+
+    <!-- Floating Dot Navigation -->
+    <nav id="dot-nav"></nav>
+
     <div id="success-toast">
         <i class="fas fa-check-circle mr-2"></i> Message sent successfully! I'll get back to you soon.
     </div>
 
-    <header class="fixed top-0 left-0 right-0 z-50 py-4">
-        <div class="container mx-auto flex justify-center items-center px-4">
-            <div class="nav-container">
-                <nav id="main-nav"></nav>
-            </div>
-        </div>
-    </header>
-
-    <main class="pt-24 relative z-10"></main>
+    <!-- Main content area where pages/sections will be rendered -->
+    <main class="relative z-10"></main>
 
     <footer class="py-6 text-center text-gray-500 relative z-10">
         <p>&copy; 2025 Bala Sravani Konakalla. All Rights Reserved.</p>
@@ -189,7 +239,8 @@
             
             // --- DATA SOURCE ---
             const portfolioData = {
-                pages: [
+                // The sections are now the pages
+                sections: [
                     { id: 'home', label: 'Home' },
                     { id: 'experience', label: 'Experience' },
                     { id: 'projects', label: 'Projects' },
@@ -304,69 +355,41 @@
             };
 
             const mainContainer = document.querySelector('main');
-            const navContainer = document.getElementById('main-nav');
+            const dotNavContainer = document.getElementById('dot-nav');
 
-            const showPage = (pageId) => {
-                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-                const newPage = document.getElementById(`page-${pageId}`);
-                if (newPage) {
-                    newPage.classList.add('active');
-                    if (pageId === 'projects') {
-                        setTimeout(setupProjectPage, 50);
-                    }
-                }
-                
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active');
-                    if (link.dataset.pageId === pageId) {
-                        link.classList.add('active');
-                        link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-                    }
-                });
-                window.scrollTo(0, 0);
-                handleScrollAnimations(); 
+            // --- RENDER ALL SECTIONS INTO THE MAIN CONTAINER ---
+            const renderSections = () => {
+                mainContainer.innerHTML = `
+                    ${createHomePage()}
+                    ${createExperiencePage()}
+                    ${createProjectsPage()}
+                    ${createEducationPage()}
+                    ${createContactPage()}
+                `;
             };
-
-            portfolioData.pages.forEach(page => {
-                const link = document.createElement('a');
-                link.className = 'nav-link';
-                if (page.id === 'home') link.classList.add('active');
-                link.textContent = page.label;
-                link.dataset.pageId = page.id;
-                link.onclick = () => showPage(page.id);
-                navContainer.appendChild(link);
-            });
-
-            const createHomePage = () => {
-                const page = document.createElement('div');
-                page.id = 'page-home';
-                page.className = 'page active';
-                page.innerHTML = `
-                    <section class="container mx-auto px-6 py-20 min-h-[80vh] flex items-center">
-                        <div class="grid md:grid-cols-2 gap-12 items-center">
-                            <div class="flex justify-center">
-                                <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-gray-200 shadow-2xl">
-                            </div>
-                            <div class="text-center md:text-left">
-                                <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
-                                <h2 class="text-2xl md:text-3xl mb-6" style="color: #463863;">${portfolioData.home.title}</h2>
-                                <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.summary}</p>
-                                <div class="mt-8">
-                                    <a href="mailto:${portfolioData.contact.email}" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-block" style="background-color: #463863; color: #FFFFFF;">
-                                        Get In Touch
-                                    </a>
-                                </div>
+            
+            // --- CREATE HTML FOR EACH SECTION ---
+            const createHomePage = () => `
+                <section id="home" class="container mx-auto px-6 py-20 min-h-screen flex items-center">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="flex justify-center">
+                            <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-gray-200 shadow-2xl">
+                        </div>
+                        <div class="text-center md:text-left">
+                            <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
+                            <h2 class="text-2xl md:text-3xl mb-6" style="color: #463863;">${portfolioData.home.title}</h2>
+                            <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.summary}</p>
+                            <div class="mt-8">
+                                <a href="mailto:${portfolioData.contact.email}" class="btn-primary font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-block">
+                                    Get In Touch
+                                </a>
                             </div>
                         </div>
-                    </section>
-                `;
-                mainContainer.appendChild(page);
-            };
+                    </div>
+                </section>
+            `;
 
             const createExperiencePage = () => { 
-                const page = document.createElement('div'); 
-                page.id = 'page-experience'; 
-                page.className = 'page'; 
                 const experiencesHTML = portfolioData.experiences.map((exp, index) => `
                     <div class="timeline-item" data-index="${index}">
                         <div class="timeline-item-content card-effect">
@@ -394,8 +417,8 @@
                         </div>
                         <p class="text-sm font-semibold" style="color: #221C2A;">${skill.name}</p>
                     </div>`).join(''); 
-                page.innerHTML = `
-                    <section class="py-16">
+                return `
+                    <section id="experience" class="py-16 min-h-screen">
                         <div class="container mx-auto px-6">
                             <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Work Experience</h3>
                             <div id="experience-timeline-container" class="center-timeline-container">
@@ -410,14 +433,9 @@
                             </div>
                         </div>
                     </section>`; 
-                mainContainer.appendChild(page); 
             };
 
             const createEducationPage = () => {
-                const page = document.createElement('div');
-                page.id = 'page-education';
-                page.className = 'page';
-
                 const educationCardsHTML = portfolioData.educations.map(edu => `
                     <div class="education-card bg-white rounded-2xl flex overflow-hidden w-full max-w-2xl mx-auto">
                         <div class="logo-holder">
@@ -465,8 +483,8 @@
                 `).join('');
 
 
-                page.innerHTML = `
-                    <section class="py-16">
+                return `
+                    <section id="education" class="py-16 min-h-screen">
                         <div class="container mx-auto px-6">
                             <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Academic Background</h3>
                             <div class="space-y-8">
@@ -481,46 +499,35 @@
                             </div>
                         </div>
                     </section>`;
-                mainContainer.appendChild(page);
             };
 
-            const createContactPage = () => {
-                const page = document.createElement('div');
-                page.id = 'page-contact';
-                page.className = 'page';
-                page.innerHTML = `
-                    <section class="py-16">
-                        <div class="container mx-auto px-6 text-center">
-                            <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">Get In Touch</h3>
-                            <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">I'm always open to discussing new opportunities. Feel free to send a message.</p>
-                            <div class="max-w-2xl mx-auto">
-                                <form id="contact-form" action="${portfolioData.contact.formspree_url}" method="POST" class="w-full p-8 rounded-lg card-effect mb-8">
-                                    <div class="space-y-4 text-left">
-                                        <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
-                                        <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
-                                        <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
-                                    </div>
-                                    <div class="mt-8">
-                                        <button type="submit" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full" style="background-color: #463863; color: #FFFFFF;">
-                                            Send Message
-                                        </button>
-                                    </div>
-                                </form>
-                                <div class="flex justify-center items-center gap-6 mt-8">
-                                    <a href="mailto:${portfolioData.contact.email}" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fas fa-envelope"></i></a>
-                                    <a href="${portfolioData.contact.linkedin}" target="_blank" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fab fa-linkedin"></i></a>
+            const createContactPage = () => `
+                <section id="contact" class="py-16 min-h-screen flex items-center">
+                    <div class="container mx-auto px-6 text-center">
+                        <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">Get In Touch</h3>
+                        <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">I'm always open to discussing new opportunities. Feel free to send a message.</p>
+                        <div class="max-w-2xl mx-auto">
+                            <form id="contact-form" action="${portfolioData.contact.formspree_url}" method="POST" class="w-full p-8 rounded-lg card-effect mb-8">
+                                <div class="space-y-4 text-left">
+                                    <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                                    <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                                    <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
                                 </div>
+                                <div class="mt-8">
+                                    <button type="submit" class="btn-primary font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full">
+                                        Send Message
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="flex justify-center items-center gap-6 mt-8">
+                                <a href="mailto:${portfolioData.contact.email}" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fas fa-envelope"></i></a>
+                                <a href="${portfolioData.contact.linkedin}" target="_blank" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </div>
-                    </section>`;
-                mainContainer.appendChild(page);
-            };
+                    </div>
+                </section>`;
             
             const createProjectsPage = () => {
-                const page = document.createElement('div');
-                page.id = 'page-projects';
-                page.className = 'page';
-
                 const timelineSteps = [
                     {icon: 'fa-search-dollar', label: 'Company & Industry Research', details: 'Analyzed 10-K filings, investor calls, and industry reports to understand SBUX\'s business model, competitive landscape, and macro trends.'},
                     {icon: 'fa-history', label: 'Historical Financials Analysis', details: 'Deconstructed revenue by segment and geography. Analyzed margin evolution, unit economics, and historical performance trends.'},
@@ -530,9 +537,10 @@
                     {icon: 'fa-lightbulb', label: 'Final Insights & Conclusion', details: 'Derived the intrinsic value range for SBUX. Performed sensitivity and scenario analysis to identify key value drivers, risks, and form a final investment thesis.'}
                 ];
 
-                page.innerHTML = `
+                return `
+                <section id="projects" class="min-h-screen">
                 <!-- 1. Project Header Section -->
-                <header id="project-header" class="project-section-fade-in relative overflow-hidden">
+                <header id="project-header" class="project-section-fade-in relative overflow-hidden pt-16">
                     <div class="absolute inset-0 z-0">
                         <svg class="absolute bottom-0 right-0 h-1/2 w-1/2 text-gray-500 opacity-[0.03]" fill="currentColor" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 597.995c-113.003 0-204.8-91.797-204.8-204.8s91.797-204.8 204.8-204.8 204.8 91.797 204.8 204.8-91.797 204.8-204.8 204.8zM512 256c-79.508 0-144.37 64.862-144.37 144.37s64.862 144.37 144.37 144.37 144.37-64.862 144.37-144.37-64.862-144.37-144.37-144.37z"/><path d="M512 1024c-282.77 0-512-229.23-512-512s229.23-512 512-512 512 229.23 512 512-229.23 512-512 512zM512 61.44C264.604 61.44 61.44 264.604 61.44 512s203.164 450.56 450.56 450.56 450.56-203.164 450.56-450.56-203.164-450.56-450.56-450.56z"/><path d="M961.075 613.99c-30.822-1.946-59.597-10.138-85.3-23.757l-2.048-1.229c-10.138-6.042-19.866-12.7-28.979-20.07-8.806-6.963-16.896-14.541-24.166-22.733-1.434-1.638-2.867-3.277-4.301-4.915-28.365-32.358-49.152-70.554-59.802-112.947-3.277-13.005-5.325-26.317-6.554-39.834-0.614-10.138-0.614-20.378-0.205-30.515 1.536-25.805 6.758-50.995 15.36-74.957 14.848-41.472 40.55-78.131 74.547-107.008 33.382-28.365 73.626-47.309 117.555-55.296 5.837-1.024 11.674-1.843 17.613-2.458 35.84-3.79 72.192-0.307 106.803 10.138 34.099 10.24 65.638 27.238 93.39 49.971 2.867 2.355 5.632 4.813 8.397 7.27 34.816 30.618 60.006 70.144 72.909 114.176 15.36 52.634 15.053 108.954-0.819 161.792-12.902 43.11-37.376 81.92-69.837 114.176-32.051 31.846-70.963 56.525-114.074 71.373-35.635 12.288-73.421 18.227-111.821 17.408-10.138-0.205-20.275-0.819-30.31-1.843z"/></svg>
                     </div>
@@ -692,22 +700,68 @@
                         </article>
                     </div>
                 </section>
+                </section>
                 `;
-                mainContainer.appendChild(page);
             };
             
-            // --- INITIALIZE ALL PAGES ---
-            createHomePage();
-            createExperiencePage();
-            createProjectsPage();
-            createEducationPage();
-            createContactPage();
+            // --- INITIALIZE DOT NAVIGATION ---
+            const setupDotNav = () => {
+                portfolioData.sections.forEach(section => {
+                    const item = document.createElement('div');
+                    item.className = 'dot-nav-item';
+                    
+                    const dot = document.createElement('a');
+                    dot.href = `#${section.id}`;
+                    dot.className = 'dot';
+                    dot.setAttribute('aria-label', `Go to ${section.label} section`);
+                    dot.dataset.sectionId = section.id;
+
+                    const tooltip = document.createElement('span');
+                    tooltip.className = 'dot-tooltip';
+                    tooltip.textContent = section.label;
+
+                    item.appendChild(dot);
+                    item.appendChild(tooltip);
+                    dotNavContainer.appendChild(item);
+                });
+            };
+
+            // --- SCROLLSPY TO UPDATE ACTIVE DOT ---
+            const setupScrollSpy = () => {
+                const sections = portfolioData.sections.map(s => document.getElementById(s.id));
+                const dots = document.querySelectorAll('#dot-nav .dot');
+
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                            const id = entry.target.getAttribute('id');
+                            dots.forEach(dot => {
+                                dot.classList.remove('active');
+                                dot.removeAttribute('aria-current');
+                                if (dot.dataset.sectionId === id) {
+                                    dot.classList.add('active');
+                                    dot.setAttribute('aria-current', 'true');
+                                }
+                            });
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                sections.forEach(section => {
+                    if (section) observer.observe(section);
+                });
+            };
+            
+            // --- INITIALIZE ALL FUNCTIONALITY ---
+            renderSections();
+            setupDotNav();
+            setupScrollSpy();
 
             const setupProjectPage = () => {
-                const activePage = document.getElementById('page-projects');
-                if (!activePage) return;
+                const projectPage = document.getElementById('projects');
+                if (!projectPage) return;
 
-                const sections = activePage.querySelectorAll('.project-section-fade-in');
+                const sections = projectPage.querySelectorAll('.project-section-fade-in');
                 const sectionObserver = new IntersectionObserver((entries, observer) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
@@ -719,7 +773,7 @@
                 sections.forEach(section => sectionObserver.observe(section));
 
                 // Timeline Accordion Logic
-                const accordionItems = activePage.querySelectorAll('.timeline-accordion-item');
+                const accordionItems = projectPage.querySelectorAll('.timeline-accordion-item');
                 accordionItems.forEach(item => {
                     const button = item.querySelector('button');
                     const content = item.querySelector('.timeline-details');
@@ -728,30 +782,30 @@
                     button.addEventListener('click', () => {
                         const isActive = content.classList.contains('active');
                         
+                        // Close all others
                         accordionItems.forEach(otherItem => {
-                            otherItem.querySelector('.timeline-details').classList.remove('active');
-                            otherItem.querySelector('.accordion-icon').classList.remove('rotate-180');
+                             if (otherItem !== item) {
+                                otherItem.querySelector('.timeline-details').classList.remove('active');
+                                otherItem.querySelector('.timeline-details').style.maxHeight = null;
+                                otherItem.querySelector('.accordion-icon').classList.remove('rotate-180');
+                            }
                         });
 
                         if (!isActive) {
                             content.classList.add('active');
+                            content.style.maxHeight = content.scrollHeight + "px";
                             icon.classList.add('rotate-180');
+                        } else {
+                            content.classList.remove('active');
+                            content.style.maxHeight = null;
+                            icon.classList.remove('rotate-180');
                         }
                     });
                 });
             };
 
             // --- GLOBAL LOGIC ---
-            showPage('home');
-            const header = document.querySelector('header');
-            let lastScrollTop = 0;
-            window.addEventListener('scroll', function() {
-                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                header.classList.toggle('nav-hidden', scrollTop > lastScrollTop && scrollTop > header.offsetHeight);
-                lastScrollTop = scrollTop;
-            }, false);
-
-            const expTimelineItems = document.querySelectorAll('#page-experience .timeline-item');
+            const expTimelineItems = document.querySelectorAll('#experience .timeline-item');
             if (expTimelineItems.length > 0) {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
@@ -790,10 +844,10 @@
 
             function handleScrollAnimations() {
                 const expTimelineContainer = document.getElementById('experience-timeline-container');
-                if (expTimelineContainer && document.getElementById('page-experience').classList.contains('active')) {
+                if (expTimelineContainer) {
                     const movingIcon = document.getElementById('timeline-moving-icon');
                     const timelineProgress = document.getElementById('timeline-progress-exp');
-                    const timelineItems = document.querySelectorAll('#page-experience .timeline-item');
+                    const timelineItems = document.querySelectorAll('#experience .timeline-item');
                     if (!movingIcon || !timelineProgress || timelineItems.length === 0) return;
                     const containerRect = expTimelineContainer.getBoundingClientRect();
                     const containerHeight = expTimelineContainer.offsetHeight;
@@ -816,8 +870,9 @@
                 }
             }
             window.addEventListener('scroll', handleScrollAnimations);
-
-            const accordionItems = document.querySelectorAll('.accordion-item');
+            
+            // Setup accordion for education page
+            const accordionItems = document.querySelectorAll('#education .accordion-item');
             accordionItems.forEach(item => {
                 const header = item.querySelector('.accordion-header');
                 const content = item.querySelector('.accordion-content');
@@ -833,6 +888,9 @@
                     }
                 });
             });
+
+            // Call project page setup after rendering
+            setupProjectPage();
 
             const canvas = document.getElementById('finance-canvas');
             const ctx = canvas.getContext('2d');
