@@ -63,6 +63,88 @@
         .nav-link.active { background-color: #F5F1EA; color: #463863; font-weight: 700; }
         .nav-link:not(.active):hover { background-color: #F5F1EA; }
         
+        /* --- PARALLAX BANNER STYLES --- */
+        .parallax-banner {
+            height: 55vh;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        .parallax-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(34, 28, 42, 0.6); /* Dark overlay for readability */
+        }
+        .parallax-content {
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .parallax-banner.visible .parallax-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- OVERLAY PANEL STYLES --- */
+        .overlay-panel-container {
+            padding: 4rem 0;
+        }
+        .overlay-panel {
+            height: 40vh;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .overlay-panel:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -10px rgba(70, 56, 99, 0.15);
+        }
+        .overlay-panel .heading-underline {
+            position: relative;
+            display: inline-block;
+        }
+        .overlay-panel .heading-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #D1A46E;
+            transition: width 0.4s ease;
+        }
+        .overlay-panel:hover .heading-underline::after {
+            width: 100%;
+        }
+        .overlay-panel .cta-button {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+        }
+        .overlay-panel:hover .cta-button {
+            transform: translateX(0);
+        }
+
         /* --- PROJECT PAGE SPECIFIC STYLES --- */
         .project-section-fade-in {
             opacity: 0;
@@ -76,11 +158,11 @@
         .starbucks-logo-glow {
             box-shadow: 0 0 25px rgba(13, 111, 60, 0.4);
         }
-        .btn-primary {
+        .btn-primary, .explore-btn {
             background-color: #463863; color: #FFFFFF;
             transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
         }
-        .btn-primary:hover {
+        .btn-primary:hover, .explore-btn:hover {
             transform: scale(1.02);
             box-shadow: 0 8px 20px -5px rgba(70, 56, 99, 0.4);
         }
@@ -341,6 +423,37 @@
                 const page = document.createElement('div');
                 page.id = 'page-home';
                 page.className = 'page active';
+
+                const sections = [
+                    { id: 'experience', title: 'Work Experience', text: 'A proven track record of optimizing financial workflows and ensuring regulatory compliance.', bg: 'https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=2070&auto=format&fit=crop' },
+                    { id: 'education', title: 'Academic Background', text: 'Grounded in a strong academic foundation in finance, marketing, and engineering.', bg: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop' },
+                    { id: 'projects', title: 'Key Projects', text: 'In-depth financial modeling and valuation projects showcasing analytical capabilities.', bg: 'https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?q=80&w=2089&auto=format&fit=crop' },
+                    { id: 'contact', title: 'Get in Touch', text: 'Open to discussing new opportunities and collaborations.', bg: 'https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?q=80&w=2070&auto=format&fit=crop' }
+                ];
+
+                const parallaxBannersHTML = sections.map(section => `
+                    <div class="parallax-banner" style="background-image: url('${section.bg}')">
+                        <div class="parallax-overlay"></div>
+                        <div class="parallax-content p-8">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4">${section.title}</h2>
+                            <p class="max-w-xl mx-auto mb-6">${section.text}</p>
+                            <button onclick="document.getElementById('main-nav').querySelector('[data-page-id=${section.id}]').click()" class="explore-btn font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center gap-2" aria-label="Explore ${section.title}">
+                                Explore <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+                const overlayPanelsHTML = sections.map(section => `
+                    <div class="overlay-panel">
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4 heading-underline">${section.title}</h2>
+                        <p class="text-gray-600 max-w-2xl">${section.text}</p>
+                        <button onclick="document.getElementById('main-nav').querySelector('[data-page-id=${section.id}]').click()" class="cta-button explore-btn font-bold py-2 px-5 rounded-lg transition-all duration-300 inline-flex items-center gap-2" aria-label="View more about ${section.title}">
+                            View More
+                        </button>
+                    </div>
+                `).join('');
+
                 page.innerHTML = `
                     <section class="container mx-auto px-6 py-20 min-h-[80vh] flex items-center">
                         <div class="grid md:grid-cols-2 gap-12 items-center">
@@ -351,14 +464,21 @@
                                 <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
                                 <h2 class="text-2xl md:text-3xl mb-6" style="color: #463863;">${portfolioData.home.title}</h2>
                                 <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.summary}</p>
-                                <div class="mt-8">
-                                    <a href="mailto:${portfolioData.contact.email}" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-block" style="background-color: #463863; color: #FFFFFF;">
-                                        Get In Touch
-                                    </a>
-                                </div>
                             </div>
                         </div>
                     </section>
+                    
+                    <div class="bg-gray-100 py-10">
+                        <h2 class="text-center text-3xl font-bold mb-4">A/B Test: Parallax Banners</h2>
+                        ${parallaxBannersHTML}
+                    </div>
+
+                    <div class="overlay-panel-container container mx-auto px-6">
+                         <h2 class="text-center text-3xl font-bold mb-8">A/B Test: Overlay Panels</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            ${overlayPanelsHTML}
+                        </div>
+                    </div>
                 `;
                 mainContainer.appendChild(page);
             };
@@ -501,7 +621,7 @@
                                         <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
                                     </div>
                                     <div class="mt-8">
-                                        <button type="submit" class="font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full" style="background-color: #463863; color: #FFFFFF;">
+                                        <button type="submit" class="btn-primary font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full">
                                             Send Message
                                         </button>
                                     </div>
@@ -749,6 +869,15 @@
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 header.classList.toggle('nav-hidden', scrollTop > lastScrollTop && scrollTop > header.offsetHeight);
                 lastScrollTop = scrollTop;
+
+                // Parallax visibility check
+                const parallaxBanners = document.querySelectorAll('.parallax-banner');
+                parallaxBanners.forEach(banner => {
+                    const rect = banner.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                        banner.classList.add('visible');
+                    }
+                });
             }, false);
 
             const expTimelineItems = document.querySelectorAll('#page-experience .timeline-item');
