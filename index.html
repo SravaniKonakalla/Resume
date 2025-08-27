@@ -31,7 +31,7 @@
             overflow-x: hidden;
         }
         #finance-canvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
         }
         .card-effect {
             background: #FFFFFF; border: 1px solid #e2e8f0;
@@ -449,7 +449,7 @@
             });
             
             const createGetInTouchHTML = () => `
-                <section class="py-20 bg-white/50">
+                <section class="py-20 relative z-10" style="background-color: rgba(255, 255, 255, 0.7);">
                     <div class="container mx-auto px-6 text-center">
                         <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">Get In Touch</h3>
                         <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">I'm always open to discussing new opportunities. Feel free to send a message.</p>
@@ -542,14 +542,14 @@
 
 
                 page.innerHTML = `
-                    <div class="min-h-screen flex flex-col" style="background-color: #F5F1EA;">
+                    <div class="min-h-screen flex flex-col relative" style="background-color: rgba(245, 241, 234, 0.85); backdrop-filter: blur(4px);">
                         <section class="flex-grow flex items-center pt-24 pb-12">
                             <div class="container mx-auto px-6">
-                               <div class="grid md:grid-cols-2 gap-8 items-center">
-                                    <div class="flex justify-center md:justify-start">
-                                        <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-48 h-48 md:w-64 md:h-64 object-cover border-4 border-gray-200 shadow-2xl">
+                               <div class="grid md:grid-cols-3 gap-8 items-center">
+                                    <div class="flex justify-center md:justify-end md:col-span-1">
+                                        <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-40 h-40 md:w-56 md:h-56 object-cover border-4 border-gray-200 shadow-2xl">
                                     </div>
-                                    <div class="text-center md:text-left">
+                                    <div class="text-center md:text-left md:col-span-2">
                                         <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
                                         <h2 class="text-2xl md:text-3xl mb-4" style="color: #463863;">${portfolioData.home.title}</h2>
                                         <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.about}</p>
@@ -557,16 +557,16 @@
                                 </div>
                             </div>
                         </section>
-                        <section class="py-20">
+                        <section class="py-16 md:py-24">
                             <div class="container mx-auto px-6 text-center">
-                                <h3 class="text-2xl md:text-3xl font-bold mb-4" style="color: #221C2A;">Profile Summary</h3>
-                                <p class="text-lg max-w-3xl mx-auto" style="color: #463863;">${portfolioData.home.summary}</p>
+                                <h3 class="text-3xl md:text-4xl font-bold mb-6" style="color: #221C2A;">Profile Summary</h3>
+                                <p class="text-lg md:text-xl max-w-4xl mx-auto leading-relaxed" style="color: #463863;">${portfolioData.home.summary}</p>
                             </div>
                         </section>
                     </div>
                     
                     <!-- Redesigned Parallax Section -->
-                    <div class="bg-gray-800">
+                    <div class="bg-gray-800 relative z-10">
                         ${parallaxBannersHTML}
                     </div>
 
@@ -1195,4 +1195,4 @@
         });
     </script>
 </body>
-</ht
+</html>
