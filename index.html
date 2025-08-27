@@ -83,7 +83,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(34, 28, 42, 0.6); /* Dark overlay for readability */
+            background-color: rgba(34, 28, 42, 0.65); /* Darker overlay for better readability */
         }
         .parallax-content {
             position: relative;
@@ -97,7 +97,7 @@
             transform: translateY(0);
         }
 
-        /* --- OVERLAY PANEL STYLES --- */
+        /* --- OVERLAY PANEL STYLES (Kept for potential future use) --- */
         .overlay-panel-container {
             padding: 4rem 0;
         }
@@ -174,11 +174,12 @@
         }
         .btn-primary, .explore-btn {
             background-color: #463863; color: #FFFFFF;
-            transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+            transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, background-color 0.2s ease;
         }
         .btn-primary:hover, .explore-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 20px -5px rgba(70, 56, 99, 0.4);
+            transform: scale(1.03);
+            background-color: #D1A46E; /* Muted gold on hover */
+            box-shadow: 0 8px 20px -5px rgba(209, 164, 110, 0.4);
         }
         .btn-secondary {
             background-color: #F5F1EA; color: #463863; border: 1px solid #463863;
@@ -471,35 +472,76 @@
                 page.id = 'page-home';
                 page.className = 'page active';
 
-                const sections = [
-                    { id: 'experience', title: 'Work Experience', text: 'A proven track record of optimizing financial workflows and ensuring regulatory compliance.', bg: 'https://images.unsplash.com/photo-1521737852577-6878c1a9282c?q=80&w=2070&auto=format&fit=crop' },
-                    { id: 'education', title: 'Academic Background', text: 'Grounded in a strong academic foundation in finance, marketing, and engineering.', bg: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop' },
-                    { id: 'projects', title: 'Key Projects', text: 'In-depth financial modeling and valuation projects showcasing analytical capabilities.', bg: 'https://images.unsplash.com/photo-1556740758-90de374c12ad?q=80&w=2070&auto=format&fit=crop' },
-                    { id: 'resume', title: 'My Resume', text: 'Download my resume for a detailed overview of my skills and experience.', bg: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop' }
+                // --- NEW: Redesigned Parallax Banner Data ---
+                const parallaxBanners = [
+                    { 
+                        id: 'profile-summary', 
+                        title: 'Profile Summary', 
+                        lines: [
+                            'Finance professional passionate about valuation, modeling, and strategy.',
+                            'Combining analytical rigor with business insight to create lasting value.'
+                        ],
+                        bg: 'https://images.unsplash.com/photo-1642139568393-e1e7f349386a?q=80&w=1920&auto=format&fit=crop',
+                        buttonPageId: 'experience' // Link to the next logical section
+                    },
+                    { 
+                        id: 'experience', 
+                        title: 'Work Experience', 
+                        lines: [
+                            'Hands-on experience across management, sales, and financial analysis roles.',
+                            'Developing expertise through progressive responsibilities and real-world problem-solving.'
+                        ],
+                        bg: 'https://images.unsplash.com/photo-1535303311164-664fc9ec6532?q=80&w=1920&auto=format&fit=crop',
+                        buttonPageId: 'experience'
+                    },
+                    { 
+                        id: 'education', 
+                        title: 'Academic Background', 
+                        lines: [
+                            'Academic foundation in business and technology, strengthened by an MBA.',
+                            'Blending quantitative skills with strategic thinking.'
+                        ],
+                        bg: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=1920&auto=format&fit=crop',
+                        buttonPageId: 'education'
+                    },
+                    { 
+                        id: 'projects', 
+                        title: 'Key Projects', 
+                        lines: [
+                            'Real-time financial modeling and valuation projects, including Starbucks FMVA® analysis.',
+                            'Transforming theory into practical, data-driven insights.'
+                        ],
+                        bg: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1920&auto=format&fit=crop',
+                        buttonPageId: 'projects'
+                    },
+                    { 
+                        id: 'resume', 
+                        title: 'Resume', 
+                        lines: [
+                            'Certified in financial modeling and valuation, continuously upskilling in finance.',
+                            'Explore my resume to see detailed experience and qualifications.'
+                        ],
+                        bg: 'https://images.unsplash.com/photo-1590955359425-9a35327db18f?q=80&w=1920&auto=format&fit=crop',
+                        buttonPageId: 'resume'
+                    }
                 ];
 
-                const parallaxBannersHTML = sections.map(section => `
+                const parallaxBannersHTML = parallaxBanners.map(section => `
                     <div class="parallax-banner" style="background-image: url('${section.bg}')">
                         <div class="parallax-overlay"></div>
                         <div class="parallax-content p-8">
                             <h2 class="text-3xl md:text-4xl font-bold mb-4">${section.title}</h2>
-                            <p class="max-w-xl mx-auto mb-6">${section.text}</p>
-                            <button onclick="document.getElementById('main-nav').querySelector('[data-page-id=${section.id}]').click()" class="explore-btn font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center gap-2" aria-label="Explore ${section.title}">
+                            <div class="max-w-2xl mx-auto mb-6 space-y-2 text-base md:text-lg">
+                                <p>${section.lines[0]}</p>
+                                <p>${section.lines[1]}</p>
+                            </div>
+                            <button onclick="document.getElementById('main-nav').querySelector('[data-page-id=${section.buttonPageId}]').click()" class="explore-btn font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center gap-2" aria-label="Explore ${section.title}">
                                 Explore <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
                 `).join('');
 
-                const overlayPanelsHTML = sections.map(section => `
-                    <div class="overlay-panel">
-                        <h2 class="text-2xl md:text-3xl font-bold mb-4 heading-underline">${section.title}</h2>
-                        <p class="text-gray-600 max-w-2xl">${section.text}</p>
-                        <button onclick="document.getElementById('main-nav').querySelector('[data-page-id=${section.id}]').click()" class="cta-button explore-btn font-bold py-2 px-5 rounded-lg transition-all duration-300 inline-flex items-center gap-2" aria-label="View more about ${section.title}">
-                            View More
-                        </button>
-                    </div>
-                `).join('');
 
                 page.innerHTML = `
                     <section class="container mx-auto px-6 py-20 min-h-[80vh] flex items-center">
@@ -515,17 +557,11 @@
                         </div>
                     </section>
                     
-                    <div class="bg-gray-100 py-10">
-                        <h2 class="text-center text-3xl font-bold mb-4">A/B Test: Parallax Banners</h2>
+                    <!-- Redesigned Parallax Section -->
+                    <div class="bg-gray-800">
                         ${parallaxBannersHTML}
                     </div>
 
-                    <div class="overlay-panel-container container mx-auto px-6">
-                         <h2 class="text-center text-3xl font-bold mb-8">A/B Test: Overlay Panels</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            ${overlayPanelsHTML}
-                        </div>
-                    </div>
                     ${createGetInTouchHTML()}
                 `;
                 mainContainer.appendChild(page);
