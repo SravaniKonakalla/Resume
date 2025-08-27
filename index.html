@@ -65,7 +65,7 @@
         
         /* --- PARALLAX BANNER STYLES --- */
         .parallax-banner {
-            height: 55vh;
+            height: 100vh; /* UPDATED: Make banner full screen height */
             background-attachment: fixed;
             background-position: center;
             background-repeat: no-repeat;
@@ -257,6 +257,9 @@
             .center-timeline-line, .center-timeline-line-progress { left: 25px; }
             .timeline-item { width: 100%; left: 0 !important; padding-left: 4rem; padding-right: 1rem; }
             #timeline-moving-icon { left: 25px; }
+            .parallax-banner {
+                background-attachment: scroll; /* UPDATED: Disable parallax on mobile for performance */
+            }
         }
     </style>
 </head>
@@ -534,15 +537,17 @@
 
 
                 page.innerHTML = `
-                    <section class="container mx-auto px-6 py-20 min-h-[80vh] flex items-center">
-                        <div class="grid md:grid-cols-2 gap-12 items-center">
-                            <div class="flex justify-center">
-                                <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-gray-200 shadow-2xl">
-                            </div>
-                            <div class="text-center md:text-left">
-                                <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
-                                <h2 class="text-2xl md:text-3xl mb-6" style="color: #463863;">${portfolioData.home.title}</h2>
-                                <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.summary}</p>
+                    <section class="h-screen flex items-center justify-center">
+                        <div class="container mx-auto px-6 text-center">
+                           <div class="flex flex-col items-center gap-8">
+                                <div class="flex justify-center">
+                                    <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-gray-200 shadow-2xl">
+                                </div>
+                                <div>
+                                    <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
+                                    <h2 class="text-2xl md:text-3xl mb-6" style="color: #463863;">${portfolioData.home.title}</h2>
+                                    <p class="text-lg max-w-2xl mx-auto" style="color: #9C8FA7;">${portfolioData.home.summary}</p>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -1177,4 +1182,4 @@
         });
     </script>
 </body>
-</html>
+</ht
