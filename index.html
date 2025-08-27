@@ -389,6 +389,11 @@
                         certificateImageUrl: './public/certificates/Tableau-Cert.png'
                     }
                 ],
+                contact: {
+                    email: 'sravikonakalla@gmail.com',
+                    linkedin: 'https://linkedin.com/in/kbalasravani',
+                    formspree_url: 'https://formspree.io/f/your_unique_id'
+                },
                 starbucksProject: {
                     dashboardData: {
                         valuationRange: "$85 – $102",
@@ -432,6 +437,34 @@
                 link.onclick = () => showPage(page.id);
                 navContainer.appendChild(link);
             });
+            
+            const createGetInTouchHTML = () => `
+                <section class="py-20 bg-white/50">
+                    <div class="container mx-auto px-6 text-center">
+                        <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">Get In Touch</h3>
+                        <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">I'm always open to discussing new opportunities. Feel free to send a message.</p>
+                        <div class="max-w-2xl mx-auto">
+                            <form class="contact-form w-full p-8 rounded-lg card-effect mb-8" action="${portfolioData.contact.formspree_url}" method="POST">
+                                <div class="space-y-4 text-left">
+                                    <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                                    <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                                    <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
+                                </div>
+                                <div class="mt-8">
+                                    <button type="submit" class="btn-primary font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full">
+                                        Send Message
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="flex justify-center items-center gap-6 mt-8">
+                                <a href="mailto:${portfolioData.contact.email}" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fas fa-envelope"></i></a>
+                                <a href="${portfolioData.contact.linkedin}" target="_blank" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+
 
             const createHomePage = () => {
                 const page = document.createElement('div');
@@ -493,6 +526,7 @@
                             ${overlayPanelsHTML}
                         </div>
                     </div>
+                    ${createGetInTouchHTML()}
                 `;
                 mainContainer.appendChild(page);
             };
@@ -543,7 +577,9 @@
                                 <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">${skillsHTML}</div>
                             </div>
                         </div>
-                    </section>`; 
+                    </section>
+                    ${createGetInTouchHTML()}
+                    `; 
                 mainContainer.appendChild(page); 
             };
 
@@ -614,7 +650,9 @@
                                 </div>
                             </div>
                         </div>
-                    </section>`;
+                    </section>
+                    ${createGetInTouchHTML()}
+                    `;
                 mainContainer.appendChild(page);
             };
 
@@ -646,6 +684,7 @@
                             <p class="text-xs text-gray-400 mt-4">Updated: August 2025</p>
                         </div>
                     </section>
+                    ${createGetInTouchHTML()}
                 `;
                 mainContainer.appendChild(page);
             };
@@ -826,6 +865,7 @@
                         </article>
                     </div>
                 </section>
+                ${createGetInTouchHTML()}
                 `;
                 mainContainer.appendChild(page);
             };
@@ -914,10 +954,10 @@
                 educationCards.forEach(card => eduObserver.observe(card));
             }
             
-            const contactForm = document.getElementById('contact-form');
             const successToast = document.getElementById('success-toast');
-            if (contactForm) { 
-                contactForm.addEventListener('submit', function(e) { 
+            const contactForms = document.querySelectorAll('.contact-form');
+            contactForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
                     e.preventDefault();
                     const formData = new FormData(this);
                     fetch(this.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
@@ -925,11 +965,11 @@
                         if (response.ok) { 
                             successToast.classList.add('show'); 
                             setTimeout(() => successToast.classList.remove('show'), 4000);
-                            contactForm.reset(); 
+                            form.reset(); 
                         } 
                     }).catch(error => console.error("Error.", error)); 
-                }); 
-            }
+                });
+            });
 
             function handleScrollAnimations() {
                 const expTimelineContainer = document.getElementById('experience-timeline-container');
