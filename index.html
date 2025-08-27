@@ -145,6 +145,19 @@
             transform: translateX(0);
         }
 
+        /* --- LIGHTBOX STYLES --- */
+        #lightbox {
+            transition: opacity 0.3s ease-in-out;
+        }
+        #lightbox-img {
+            transition: transform 0.3s ease-in-out;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+        #lightbox.hidden #lightbox-img {
+            transform: scale(0.9);
+        }
+
 
         /* --- PROJECT PAGE SPECIFIC STYLES --- */
         .project-section-fade-in {
@@ -266,6 +279,11 @@
     <footer class="py-6 text-center text-gray-500 relative z-10">
         <p>&copy; 2025 Bala Sravani Konakalla. All Rights Reserved.</p>
     </footer>
+
+    <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 z-[100] hidden items-center justify-center p-4">
+        <button id="lightbox-close" class="absolute top-4 right-4 text-white text-4xl opacity-80 hover:opacity-100 transition-opacity">&times;</button>
+        <img id="lightbox-img" src="" alt="Resume full view" class="max-w-full max-h-full rounded-lg shadow-2xl">
+    </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -605,17 +623,39 @@
                 page.id = 'page-resume';
                 page.className = 'page';
                 page.innerHTML = `
-                    <section class="py-16 min-h-[80vh] flex items-center justify-center">
-                        <div class="container mx-auto px-6 text-center">
-                            <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">My Resume</h3>
-                            <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">Feel free to download my resume for a more detailed look at my qualifications and experience.</p>
-                            <div class="max-w-2xl mx-auto">
-                                <a href="#" class="btn-primary font-bold py-4 px-8 rounded-lg transition-all duration-300 inline-flex items-center gap-3 text-lg">
-                                    <i class="fas fa-download"></i> Download Resume (PDF)
+                    <section class="py-16 min-h-[90vh] flex items-center">
+                        <div class="container mx-auto px-4 text-center max-w-4xl">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-2" style="color: #221C2A;">Resume</h2>
+                            <p class="max-w-xl mx-auto mb-8" style="color: #9C8FA7;">Preview my resume below or download the PDF version.</p>
+
+                            <div id="resume-viewer" class="relative bg-white rounded-2xl shadow-lg p-2 md:p-4">
+                                <div class="absolute top-4 right-4 z-20 hidden md:flex items-center gap-2">
+                                    <a href="https://linkedin.com/in/kbalasravani" target="_blank" class="btn-secondary font-bold py-2 px-4 rounded-lg transition-all duration-300 inline-flex items-center gap-2 text-sm" aria-label="View on LinkedIn">
+                                        <i class="fab fa-linkedin"></i> <span>View on LinkedIn</span>
+                                    </a>
+                                    <a href="./Bala_Sravani_Konakalla_Resume.pdf" download="Bala_Sravani_Konakalla_Resume.pdf" class="btn-primary font-bold py-2 px-4 rounded-lg transition-all duration-300 inline-flex items-center gap-2 text-sm" aria-label="Download Resume PDF">
+                                        <i class="fas fa-download"></i> <span>Download PDF</span>
+                                    </a>
+                                </div>
+
+                                <div class="overflow-auto rounded-lg" style="height: 70vh;">
+                                    <img src="https://placehold.co/827x1169/ffffff/221C2A?text=Resume+Preview" alt="Preview of Bala Sravani Konakalla’s Resume" class="w-full h-auto mx-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openLightbox(this.src)">
+                                </div>
+                            </div>
+
+                            <div class="mt-6 flex md:hidden flex-col items-center gap-4">
+                                 <a href="./Bala_Sravani_Konakalla_Resume.pdf" download="Bala_Sravani_Konakalla_Resume.pdf" class="btn-primary w-full font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2" aria-label="Download Resume PDF">
+                                    <i class="fas fa-download"></i> Download PDF
+                                </a>
+                                <a href="https://linkedin.com/in/kbalasravani" target="_blank" class="btn-secondary w-full font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2" aria-label="View on LinkedIn">
+                                    <i class="fab fa-linkedin"></i> View on LinkedIn
                                 </a>
                             </div>
+
+                            <p class="text-xs text-gray-400 mt-4">Updated: August 2025</p>
                         </div>
-                    </section>`;
+                    </section>
+                `;
                 mainContainer.appendChild(page);
             };
             
@@ -1041,6 +1081,42 @@
             resizeCanvas();
             createParticles();
             animate();
+            
+            // Lightbox functionality
+            const lightbox = document.getElementById('lightbox');
+            const lightboxClose = document.getElementById('lightbox-close');
+            
+            window.openLightbox = function(src) {
+                const lightboxImg = document.getElementById('lightbox-img');
+                if (lightbox && lightboxImg) {
+                    lightboxImg.src = src;
+                    lightbox.classList.remove('hidden');
+                    lightbox.classList.add('flex');
+                }
+            }
+
+            function closeLightbox() {
+                if (lightbox) {
+                    lightbox.classList.add('hidden');
+                    lightbox.classList.remove('flex');
+                }
+            }
+
+            if (lightbox && lightboxClose) {
+                lightboxClose.addEventListener('click', closeLightbox);
+                lightbox.addEventListener('click', (e) => {
+                    if (e.target === lightbox) {
+                        closeLightbox();
+                    }
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                }
+            });
+
         });
     </script>
 </body>
