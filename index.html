@@ -277,7 +277,7 @@
                     { id: 'experience', label: 'Experience' },
                     { id: 'projects', label: 'Projects' },
                     { id: 'education', label: 'Education' },
-                    { id: 'contact', label: 'Contact' }
+                    { id: 'resume', label: 'Resume' }
                 ],
                 home: {
                     name: "Bala Sravani Konakalla",
@@ -371,11 +371,6 @@
                         certificateImageUrl: './public/certificates/Tableau-Cert.png'
                     }
                 ],
-                contact: {
-                    email: 'sravikonakalla@gmail.com',
-                    linkedin: 'https://linkedin.com/in/kbalasravani',
-                    formspree_url: 'https://formspree.io/f/your_unique_id'
-                },
                 starbucksProject: {
                     dashboardData: {
                         valuationRange: "$85 – $102",
@@ -429,7 +424,7 @@
                     { id: 'experience', title: 'Work Experience', text: 'A proven track record of optimizing financial workflows and ensuring regulatory compliance.', bg: 'https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=2070&auto=format&fit=crop' },
                     { id: 'education', title: 'Academic Background', text: 'Grounded in a strong academic foundation in finance, marketing, and engineering.', bg: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop' },
                     { id: 'projects', title: 'Key Projects', text: 'In-depth financial modeling and valuation projects showcasing analytical capabilities.', bg: 'https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?q=80&w=2089&auto=format&fit=crop' },
-                    { id: 'contact', title: 'Get in Touch', text: 'Open to discussing new opportunities and collaborations.', bg: 'https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?q=80&w=2070&auto=format&fit=crop' }
+                    { id: 'resume', title: 'My Resume', text: 'Download my resume for a detailed overview of my skills and experience.', bg: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop' }
                 ];
 
                 const parallaxBannersHTML = sections.map(section => `
@@ -605,32 +600,19 @@
                 mainContainer.appendChild(page);
             };
 
-            const createContactPage = () => {
+            const createResumePage = () => {
                 const page = document.createElement('div');
-                page.id = 'page-contact';
+                page.id = 'page-resume';
                 page.className = 'page';
                 page.innerHTML = `
-                    <section class="py-16">
+                    <section class="py-16 min-h-[80vh] flex items-center justify-center">
                         <div class="container mx-auto px-6 text-center">
-                            <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">Get In Touch</h3>
-                            <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">I'm always open to discussing new opportunities. Feel free to send a message.</p>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">My Resume</h3>
+                            <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">Feel free to download my resume for a more detailed look at my qualifications and experience.</p>
                             <div class="max-w-2xl mx-auto">
-                                <form id="contact-form" action="${portfolioData.contact.formspree_url}" method="POST" class="w-full p-8 rounded-lg card-effect mb-8">
-                                    <div class="space-y-4 text-left">
-                                        <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
-                                        <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
-                                        <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
-                                    </div>
-                                    <div class="mt-8">
-                                        <button type="submit" class="btn-primary font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full">
-                                            Send Message
-                                        </button>
-                                    </div>
-                                </form>
-                                <div class="flex justify-center items-center gap-6 mt-8">
-                                    <a href="mailto:${portfolioData.contact.email}" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fas fa-envelope"></i></a>
-                                    <a href="${portfolioData.contact.linkedin}" target="_blank" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fab fa-linkedin"></i></a>
-                                </div>
+                                <a href="#" class="btn-primary font-bold py-4 px-8 rounded-lg transition-all duration-300 inline-flex items-center gap-3 text-lg">
+                                    <i class="fas fa-download"></i> Download Resume (PDF)
+                                </a>
                             </div>
                         </div>
                     </section>`;
@@ -822,7 +804,7 @@
             createExperiencePage();
             createProjectsPage();
             createEducationPage();
-            createContactPage();
+            createResumePage();
 
             const setupProjectPage = () => {
                 const activePage = document.getElementById('page-projects');
