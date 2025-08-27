@@ -542,14 +542,14 @@
 
 
                 page.innerHTML = `
-                    <div class="min-h-screen flex flex-col relative" style="background-color: rgba(245, 241, 234, 0.85); backdrop-filter: blur(4px);">
-                        <section class="flex-grow flex items-center pt-24 pb-12">
+                    <div class="min-h-screen flex flex-col relative" style="background-color: rgba(245, 241, 234, 0.8); backdrop-filter: blur(6px);">
+                        <section class="flex-grow flex items-center pt-40 pb-12">
                             <div class="container mx-auto px-6">
-                               <div class="grid md:grid-cols-3 gap-8 items-center">
-                                    <div class="flex justify-center md:justify-end md:col-span-1">
+                               <div class="grid md:grid-cols-5 gap-8 items-center">
+                                    <div class="flex justify-center md:justify-end md:col-span-2">
                                         <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-40 h-40 md:w-56 md:h-56 object-cover border-4 border-gray-200 shadow-2xl">
                                     </div>
-                                    <div class="text-center md:text-left md:col-span-2">
+                                    <div class="text-center md:text-left md:col-span-3">
                                         <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
                                         <h2 class="text-2xl md:text-3xl mb-4" style="color: #463863;">${portfolioData.home.title}</h2>
                                         <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.about}</p>
@@ -557,7 +557,7 @@
                                 </div>
                             </div>
                         </section>
-                        <section class="py-16 md:py-24">
+                        <section class="py-12 md:py-20">
                             <div class="container mx-auto px-6 text-center">
                                 <h3 class="text-3xl md:text-4xl font-bold mb-6" style="color: #221C2A;">Profile Summary</h3>
                                 <p class="text-lg md:text-xl max-w-4xl mx-auto leading-relaxed" style="color: #463863;">${portfolioData.home.summary}</p>
