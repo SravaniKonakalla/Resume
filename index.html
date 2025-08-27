@@ -870,6 +870,15 @@
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 header.classList.toggle('nav-hidden', scrollTop > lastScrollTop && scrollTop > header.offsetHeight);
                 lastScrollTop = scrollTop;
+
+                // Parallax visibility check
+                const parallaxBanners = document.querySelectorAll('.parallax-banner');
+                parallaxBanners.forEach(banner => {
+                    const rect = banner.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                        banner.classList.add('visible');
+                    }
+                });
             }, false);
 
             const expTimelineItems = document.querySelectorAll('#page-experience .timeline-item');
