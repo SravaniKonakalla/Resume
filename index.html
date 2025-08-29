@@ -542,14 +542,14 @@
 
 
                 page.innerHTML = `
-                    <div class="min-h-screen flex flex-col relative">
+                    <div class="min-h-screen flex flex-col relative" style="background-color: rgba(245, 241, 234, 0.8); backdrop-filter: blur(6px);">
                         <section class="flex-grow flex items-center pt-32 md:pt-40 pb-16">
                             <div class="container mx-auto px-6">
                                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-                                    <div class="md:col-span-4 flex justify-center md:justify-start">
+                                    <div class="md:col-span-5 flex justify-center md:justify-end">
                                         <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-40 h-40 md:w-56 md:h-56 object-cover border-4 border-gray-200 shadow-2xl">
                                     </div>
-                                    <div class="md:col-span-8 text-center md:text-left">
+                                    <div class="md:col-span-7 text-center md:text-left">
                                         <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
                                         <h2 class="text-2xl md:text-3xl mb-4" style="color: #463863;">${portfolioData.home.title}</h2>
                                         <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.about}</p>
@@ -1062,7 +1062,7 @@
             });
 
             const canvas = document.getElementById('finance-canvas');
-            const ctx = canvas.getContext('d');
+            const ctx = canvas.getContext('2d');
             let particles = [];
             const symbols = ['$', '%', '▲', '▼', '📈', '📉'];
             const mouse = {
