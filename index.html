@@ -562,9 +562,8 @@
 
 
                 page.innerHTML = `
-                    <div id="home-hero-section" class="min-h-screen flex flex-col relative" style="background-color: rgba(245, 241, 234, 0.8); backdrop-filter: blur(6px);">
-                        <canvas id="hero-background-canvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
-                        <section class="flex-grow flex items-center pt-40 pb-16 relative z-10">
+                    <div class="min-h-screen flex flex-col relative" style="background-color: rgba(245, 241, 234, 0.8); backdrop-filter: blur(6px);">
+                        <section class="flex-grow flex items-center pt-40 pb-16">
                             <div class="container mx-auto px-6">
                                <div class="grid grid-cols-1 md:grid-cols-10 gap-12 items-center">
                                     <div class="md:col-span-4 flex justify-center md:justify-end">
@@ -578,7 +577,7 @@
                                 </div>
                             </div>
                         </section>
-                        <section class="pb-16 md:pb-24 relative z-10">
+                        <section class="pb-16 md:pb-24">
                             <div class="container mx-auto px-6 text-center">
                                 <h3 class="text-3xl md:text-4xl font-bold mb-6" style="color: #221C2A;">Profile Summary</h3>
                                 <p class="text-lg md:text-xl max-w-4xl mx-auto leading-relaxed" style="color: #463863;">${portfolioData.home.summary}</p>
@@ -980,79 +979,8 @@
                 });
             };
 
-            // --- HERO BACKGROUND ANIMATION ---
-            function setupHeroAnimation() {
-                const heroCanvas = document.getElementById('hero-background-canvas');
-                if (!heroCanvas) return; 
-
-                const heroCtx = heroCanvas.getContext('2d');
-                const heroSection = document.getElementById('home-hero-section');
-                let heroParticles = [];
-
-                function resizeHeroCanvas() {
-                    if (heroSection && heroCanvas) {
-                        heroCanvas.width = heroSection.offsetWidth;
-                        heroCanvas.height = heroSection.offsetHeight;
-                    }
-                }
-
-                function createHeroParticles() {
-                    heroParticles = [];
-                    if (!heroCanvas) return;
-                    let numberOfParticles = (heroCanvas.width * heroCanvas.height) / 35000;
-                    for (let i = 0; i < numberOfParticles; i++) {
-                        heroParticles.push({
-                            x: Math.random() * heroCanvas.width,
-                            y: Math.random() * heroCanvas.height,
-                            vx: (Math.random() - 0.5) * 0.25,
-                            vy: (Math.random() - 0.5) * 0.25,
-                            radius: Math.random() * 2 + 1,
-                            color: 'rgba(70, 56, 99, 0.25)' 
-                        });
-                    }
-                }
-
-                function animateHero() {
-                    if (!document.getElementById('page-home').classList.contains('active')) {
-                        requestAnimationFrame(animateHero);
-                        return;
-                    }
-                    
-                    if (heroCtx && heroCanvas) {
-                        heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-                        for (let i = 0; i < heroParticles.length; i++) {
-                            let p = heroParticles[i];
-                            p.x += p.vx;
-                            p.y += p.vy;
-
-                            if (p.x < 0 || p.x > heroCanvas.width) p.vx *= -1;
-                            if (p.y < 0 || p.y > heroCanvas.height) p.vy *= -1;
-
-                            heroCtx.beginPath();
-                            heroCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                            heroCtx.fillStyle = p.color;
-                            heroCtx.fill();
-                        }
-                    }
-                    requestAnimationFrame(animateHero);
-                }
-
-                resizeHeroCanvas();
-                createHeroParticles();
-                animateHero();
-
-                const resizeObserver = new ResizeObserver(() => {
-                    resizeHeroCanvas();
-                    createHeroParticles();
-                });
-                if(heroSection) {
-                    resizeObserver.observe(heroSection);
-                }
-            }
-
             // --- GLOBAL LOGIC ---
             showPage('home');
-            setupHeroAnimation();
             const header = document.querySelector('header');
             let lastScrollTop = 0;
             window.addEventListener('scroll', function() {
@@ -1230,4 +1158,62 @@
                            p.x -= dx / 18;
                            p.y -= dy / 18;
                         }
+                    }
+
+                    ctx.fillStyle = `rgba(70, 56, 99, 0.5)`;
+                    ctx.font = `${p.size}px Montserrat`;
+                    ctx.fillText(p.symbol, p.x, p.y);
+                }
+                connectParticles();
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                createParticles();
+            });
+
+            resizeCanvas();
+            createParticles();
+            animate();
+            
+            // Lightbox functionality
+            const lightbox = document.getElementById('lightbox');
+            const lightboxClose = document.getElementById('lightbox-close');
+            
+            window.openLightbox = function(src) {
+                const lightboxImg = document.getElementById('lightbox-img');
+                if (lightbox && lightboxImg) {
+                    lightboxImg.src = src;
+                    lightbox.classList.remove('hidden');
+                    lightbox.classList.add('flex');
+                }
+            }
+
+            function closeLightbox() {
+                if (lightbox) {
+                    lightbox.classList.add('hidden');
+                    lightbox.classList.remove('flex');
+                }
+            }
+
+            if (lightbox && lightboxClose) {
+                lightboxClose.addEventListener('click', closeLightbox);
+                lightbox.addEventListener('click', (e) => {
+                    if (e.target === lightbox) {
+                        closeLightbox();
+                    }
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
 
