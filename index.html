@@ -294,6 +294,26 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
+            // --- CENTRALIZED LOGO URLS ---
+            const logos = {
+                tcs: 'TCS LOGO.svg.png',
+                mercedes: 'Benz Logo.svg.png',
+                sap: './public/logos/sap-logo.png',
+                financialModeling: './public/logos/financial-modeling-logo.png',
+                tableau: './public/logos/tableau-logo.png',
+                excel: './public/logos/excel-logo.png',
+                office: './public/logos/office-logo.png',
+                compliance: './public/logos/compliance-logo.png',
+                creditMonitoring: './public/logos/credit-monitoring-logo.png',
+                dataAnalysis: './public/logos/data-analysis-logo.png',
+                gitam: 'Gitam Logo.svg.png',
+                vishnu: 'Vishnu Logo.svg.png',
+                microsoft: './public/logos/microsoft-logo.png',
+                pwc: './public/logos/pwc-logo.png',
+                jpmorgan: './public/logos/jpmorgan-logo.png',
+                starbucks: './public/logos/starbucks-logo.png'
+            };
+
             // --- DATA SOURCE ---
             const portfolioData = {
                 pages: [
@@ -315,7 +335,7 @@
                         date: 'Jun 2024 - Present', 
                         title: 'Management Trainee', 
                         company: 'Tata Consultancy Services', 
-                        logoUrl: 'TCS LOGO.svg.png',
+                        logoUrl: logos.tcs,
                         duties: [
                             'Executed Fixed Asset Runs and Role Forward using SAP BPC, ensuring 100% compliance.',
                             'Monitored cost centers and role IDs, improving process efficiency by 15%.',
@@ -326,7 +346,7 @@
                         date: 'Jun 2023 - Jul 2023', 
                         title: 'Sales Trainee (Internship)', 
                         company: 'Silver Star Mercedes Benz', 
-                        logoUrl: 'Benz Logo.svg.png',
+                        logoUrl: logos.mercedes,
                         duties: [
                             'Performed credit risk assessments and analyzed financial statements.',
                             'Managed end-to-end accounts payable, enhancing vendor relationships.',
@@ -335,14 +355,14 @@
                     }
                 ],
                 skills: [
-                    { name: 'SAP BPC', logoUrl: './public/logos/sap-logo.png' },
-                    { name: 'Financial Modeling', logoUrl: './public/logos/financial-modeling-logo.png' },
-                    { name: 'Tableau', logoUrl: './public/logos/tableau-logo.png' },
-                    { name: 'Advanced Excel', logoUrl: './public/logos/excel-logo.png' },
-                    { name: 'MS Office Suite', logoUrl: './public/logos/office-logo.png' },
-                    { name: 'Compliance', logoUrl: './public/logos/compliance-logo.png' },
-                    { name: 'Credit Monitoring', logoUrl: './public/logos/credit-monitoring-logo.png' },
-                    { name: 'Data Analysis', logoUrl: './public/logos/data-analysis-logo.png' }
+                    { name: 'SAP BPC', logoUrl: logos.sap },
+                    { name: 'Financial Modeling', logoUrl: logos.financialModeling },
+                    { name: 'Tableau', logoUrl: logos.tableau },
+                    { name: 'Advanced Excel', logoUrl: logos.excel },
+                    { name: 'MS Office Suite', logoUrl: logos.office },
+                    { name: 'Compliance', logoUrl: logos.compliance },
+                    { name: 'Credit Monitoring', logoUrl: logos.creditMonitoring },
+                    { name: 'Data Analysis', logoUrl: logos.dataAnalysis }
                 ],
                 educations: [
                     { 
@@ -352,7 +372,7 @@
                         location: 'Visakhapatnam',
                         date: '2022 - 2024', 
                         details: 'CGPA: 8.19',
-                        logoUrl: 'Gitam Logo.svg.png' 
+                        logoUrl: logos.gitam
                     },
                     { 
                         degree: 'Bachelor of Technology', 
@@ -361,37 +381,37 @@
                         location: 'Bhimavaram',
                         date: '2017 - 2021', 
                         details: 'CGPA: 8.29',
-                        logoUrl: 'Vishnu Logo.svg.png' 
+                        logoUrl: logos.vishnu
                     }
                 ],
                 certifications: [
                     { 
                         title: 'Microsoft 365 Fundamentals', issuer: 'Microsoft', 
-                        logoUrl: './public/logos/microsoft-logo.png', issueDate: 'Jan 2024',
+                        logoUrl: logos.microsoft, issueDate: 'Jan 2024',
                         skills: ['Cloud Computing', 'MS Office 365', 'Collaboration Tools'], category: 'Systems',
                         certificateImageUrl: './public/certificates/MS-365-Cert.png'
                     },
                     { 
                         title: 'SAP Professional Fundamentals', issuer: 'SAP',
-                        logoUrl: './public/logos/sap-logo.png', issueDate: 'Dec 2023',
+                        logoUrl: logos.sap, issueDate: 'Dec 2023',
                         skills: ['ERP Systems', 'SAP BPC', 'Financial Planning'], category: 'Systems',
                         certificateImageUrl: './public/certificates/SAP-Cert.png'
                     },
                     { 
                         title: 'GST Taxation Certificate', issuer: 'PwC',
-                        logoUrl: './public/logos/pwc-logo.png', issueDate: 'Nov 2023',
+                        logoUrl: logos.pwc, issueDate: 'Nov 2023',
                         skills: ['Taxation', 'GST Compliance', 'Financial Regulation'], category: 'Finance',
                         certificateImageUrl: './public/certificates/PwC-Cert.png'
                     },
                     {
                         title: 'Investment Banking Simulation', issuer: 'JP Morgan',
-                        logoUrl: './public/logos/jpmorgan-logo.png', issueDate: 'Oct 2023',
+                        logoUrl: logos.jpmorgan, issueDate: 'Oct 2023',
                         skills: ['Valuation', 'M&A', 'Financial Modeling'], category: 'Finance',
                         certificateImageUrl: './public/certificates/JPM-Cert.png'
                     },
                     {
                         title: 'Tableau Specialist', issuer: 'Tableau',
-                        logoUrl: './public/logos/tableau-logo.png', issueDate: 'Sep 2023',
+                        logoUrl: logos.tableau, issueDate: 'Sep 2023',
                         skills: ['Data Visualization', 'Business Intelligence', 'Dashboarding'], category: 'Analytics & Tools',
                         certificateImageUrl: './public/certificates/Tableau-Cert.png'
                     }
@@ -489,7 +509,7 @@
                             'Hands-on experience across management, sales, and financial analysis roles.',
                             'Developing expertise through progressive responsibilities and real-world problem-solving.'
                         ],
-                        bg: 'https://images.unsplash.com/photo-1554224155-6726b_ff858f?q=80&w=1920&auto=format&fit=crop',
+                        bg: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1920&auto=format&fit=crop',
                         buttonPageId: 'experience'
                     },
                     { 
@@ -758,7 +778,7 @@
                             <div class="md:col-span-2 text-center md:text-left">
                                 <div class="flex justify-center md:justify-start mb-6">
                                     <div class="w-24 h-24 bg-white rounded-full p-2 starbucks-logo-glow flex items-center justify-center">
-                                        <img src="./public/logos/starbucks-logo.png" alt="Starbucks Company Logo" class="rounded-full" onerror="this.src='https://placehold.co/96x96/FFFFFF/1e3932?text=SBUX'">
+                                        <img src="${logos.starbucks}" alt="Starbucks Company Logo" class="rounded-full" onerror="this.src='https://placehold.co/96x96/FFFFFF/1e3932?text=SBUX'">
                                     </div>
                                 </div>
                                 <h1 class="text-2xl md:text-4xl font-extrabold text-gray-900 leading-tight">Starbucks Financial Modeling & Valuation</h1>
@@ -1196,4 +1216,3 @@
     </script>
 </body>
 </html>
-
