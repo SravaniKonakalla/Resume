@@ -265,6 +265,10 @@
 </head>
 <body class="antialiased">
     
+    <div id="progress-bar-container" class="fixed bottom-0 left-0 right-0 h-1.5 z-[60]">
+        <div id="progress-bar" class="h-full bg-[#463863] transition-all duration-100 ease-linear" style="width: 0%;"></div>
+    </div>
+
     <canvas id="finance-canvas"></canvas>
     <div id="success-toast">
         <i class="fas fa-check-circle mr-2"></i> Message sent successfully! I'll get back to you soon.
@@ -294,26 +298,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
-            // --- CENTRALIZED LOGO URLS ---
-            const logos = {
-                tcs: 'TCS LOGO.svg.png',
-                mercedes: 'Benz Logo.svg.png',
-                sap: './public/logos/sap-logo.png',
-                financialModeling: './public/logos/financial-modeling-logo.png',
-                tableau: './public/logos/tableau-logo.png',
-                excel: './public/logos/excel-logo.png',
-                office: './public/logos/office-logo.png',
-                compliance: './public/logos/compliance-logo.png',
-                creditMonitoring: './public/logos/credit-monitoring-logo.png',
-                dataAnalysis: './public/logos/data-analysis-logo.png',
-                gitam: 'Gitam Logo.svg.png',
-                vishnu: 'Vishnu Logo.svg.png',
-                microsoft: './public/logos/microsoft-logo.png',
-                pwc: './public/logos/pwc-logo.png',
-                jpmorgan: './public/logos/jpmorgan-logo.png',
-                starbucks: './public/logos/starbucks-logo.png'
-            };
-
             // --- DATA SOURCE ---
             const portfolioData = {
                 pages: [
@@ -330,12 +314,30 @@
                     summary: "Expertise in credit monitoring, financial modeling, and compliance. Skilled in SAP BPC and advanced Excel, with a proven track record of optimizing workflows and ensuring regulatory compliance.",
                     imageUrl: "https://placehold.co/300x300/463863/F5F1EA?text=BSK",
                 },
+                 logos: {
+                    tcs: 'TCS LOGO.svg.png',
+                    mercedes: 'Benz Logo.svg.png',
+                    gitam: 'Gitam Logo.svg.png',
+                    vishnu: 'Vishnu Logo.svg.png',
+                    sap: './public/logos/sap-logo.png',
+                    financialModeling: './public/logos/financial-modeling-logo.png',
+                    tableau: './public/logos/tableau-logo.png',
+                    excel: './public/logos/excel-logo.png',
+                    office: './public/logos/office-logo.png',
+                    compliance: './public/logos/compliance-logo.png',
+                    creditMonitoring: './public/logos/credit-monitoring-logo.png',
+                    dataAnalysis: './public/logos/data-analysis-logo.png',
+                    microsoft: './public/logos/microsoft-logo.png',
+                    pwc: './public/logos/pwc-logo.png',
+                    jpmorgan: './public/logos/jpmorgan-logo.png',
+                    starbucks: './public/logos/starbucks-logo.png'
+                },
                 experiences: [
                     { 
                         date: 'Jun 2024 - Present', 
                         title: 'Management Trainee', 
                         company: 'Tata Consultancy Services', 
-                        logoUrl: logos.tcs,
+                        logoUrl: 'tcs',
                         duties: [
                             'Executed Fixed Asset Runs and Role Forward using SAP BPC, ensuring 100% compliance.',
                             'Monitored cost centers and role IDs, improving process efficiency by 15%.',
@@ -346,7 +348,7 @@
                         date: 'Jun 2023 - Jul 2023', 
                         title: 'Sales Trainee (Internship)', 
                         company: 'Silver Star Mercedes Benz', 
-                        logoUrl: logos.mercedes,
+                        logoUrl: 'mercedes',
                         duties: [
                             'Performed credit risk assessments and analyzed financial statements.',
                             'Managed end-to-end accounts payable, enhancing vendor relationships.',
@@ -355,14 +357,14 @@
                     }
                 ],
                 skills: [
-                    { name: 'SAP BPC', logoUrl: logos.sap },
-                    { name: 'Financial Modeling', logoUrl: logos.financialModeling },
-                    { name: 'Tableau', logoUrl: logos.tableau },
-                    { name: 'Advanced Excel', logoUrl: logos.excel },
-                    { name: 'MS Office Suite', logoUrl: logos.office },
-                    { name: 'Compliance', logoUrl: logos.compliance },
-                    { name: 'Credit Monitoring', logoUrl: logos.creditMonitoring },
-                    { name: 'Data Analysis', logoUrl: logos.dataAnalysis }
+                    { name: 'SAP BPC', logoUrl: 'sap' },
+                    { name: 'Financial Modeling', logoUrl: 'financialModeling' },
+                    { name: 'Tableau', logoUrl: 'tableau' },
+                    { name: 'Advanced Excel', logoUrl: 'excel' },
+                    { name: 'MS Office Suite', logoUrl: 'office' },
+                    { name: 'Compliance', logoUrl: 'compliance' },
+                    { name: 'Credit Monitoring', logoUrl: 'creditMonitoring' },
+                    { name: 'Data Analysis', logoUrl: 'dataAnalysis' }
                 ],
                 educations: [
                     { 
@@ -372,7 +374,7 @@
                         location: 'Visakhapatnam',
                         date: '2022 - 2024', 
                         details: 'CGPA: 8.19',
-                        logoUrl: logos.gitam
+                        logoUrl: 'gitam' 
                     },
                     { 
                         degree: 'Bachelor of Technology', 
@@ -381,37 +383,37 @@
                         location: 'Bhimavaram',
                         date: '2017 - 2021', 
                         details: 'CGPA: 8.29',
-                        logoUrl: logos.vishnu
+                        logoUrl: 'vishnu'
                     }
                 ],
                 certifications: [
                     { 
                         title: 'Microsoft 365 Fundamentals', issuer: 'Microsoft', 
-                        logoUrl: logos.microsoft, issueDate: 'Jan 2024',
+                        logoUrl: 'microsoft', issueDate: 'Jan 2024',
                         skills: ['Cloud Computing', 'MS Office 365', 'Collaboration Tools'], category: 'Systems',
                         certificateImageUrl: './public/certificates/MS-365-Cert.png'
                     },
                     { 
                         title: 'SAP Professional Fundamentals', issuer: 'SAP',
-                        logoUrl: logos.sap, issueDate: 'Dec 2023',
+                        logoUrl: 'sap', issueDate: 'Dec 2023',
                         skills: ['ERP Systems', 'SAP BPC', 'Financial Planning'], category: 'Systems',
                         certificateImageUrl: './public/certificates/SAP-Cert.png'
                     },
                     { 
                         title: 'GST Taxation Certificate', issuer: 'PwC',
-                        logoUrl: logos.pwc, issueDate: 'Nov 2023',
+                        logoUrl: 'pwc', issueDate: 'Nov 2023',
                         skills: ['Taxation', 'GST Compliance', 'Financial Regulation'], category: 'Finance',
                         certificateImageUrl: './public/certificates/PwC-Cert.png'
                     },
                     {
                         title: 'Investment Banking Simulation', issuer: 'JP Morgan',
-                        logoUrl: logos.jpmorgan, issueDate: 'Oct 2023',
+                        logoUrl: 'jpmorgan', issueDate: 'Oct 2023',
                         skills: ['Valuation', 'M&A', 'Financial Modeling'], category: 'Finance',
                         certificateImageUrl: './public/certificates/JPM-Cert.png'
                     },
                     {
                         title: 'Tableau Specialist', issuer: 'Tableau',
-                        logoUrl: logos.tableau, issueDate: 'Sep 2023',
+                        logoUrl: 'tableau', issueDate: 'Sep 2023',
                         skills: ['Data Visualization', 'Business Intelligence', 'Dashboarding'], category: 'Analytics & Tools',
                         certificateImageUrl: './public/certificates/Tableau-Cert.png'
                     }
@@ -430,6 +432,9 @@
                     }
                 }
             };
+            
+            const getLogoUrl = (key) => portfolioData.logos[key] || `https://placehold.co/60x60/FFFFFF/463863?text=Logo`;
+
 
             const mainContainer = document.querySelector('main');
             const navContainer = document.getElementById('main-nav');
@@ -529,7 +534,7 @@
                             'Real-time financial modeling and valuation projects, including Starbucks FMVA® analysis.',
                             'Transforming theory into practical, data-driven insights.'
                         ],
-                        bg: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1920&auto-format&fit=crop',
+                        bg: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1920&auto=format&fit=crop',
                         buttonPageId: 'projects'
                     },
                     { 
@@ -539,7 +544,7 @@
                             'Certified in financial modeling and valuation, continuously upskilling in finance.',
                             'Explore my resume to see detailed experience and qualifications.'
                         ],
-                        bg: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=1920&auto-format&fit=crop',
+                         bg: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=1920&auto-format&fit=crop',
                         buttonPageId: 'resume'
                     }
                 ];
@@ -565,12 +570,12 @@
                     <div class="min-h-screen flex flex-col relative" style="background-color: rgba(245, 241, 234, 0.8); backdrop-filter: blur(6px);">
                         <section class="flex-grow flex items-center pt-40 pb-16">
                             <div class="container mx-auto px-6">
-                               <div class="grid grid-cols-1 md:grid-cols-10 gap-12 items-center">
-                                    <div class="md:col-span-4 flex justify-center md:justify-end">
+                               <div class="grid md:grid-cols-10 gap-8 items-center">
+                                    <div class="md:col-span-3 flex justify-center md:justify-end">
                                         <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-40 h-40 md:w-56 md:h-56 object-cover border-4 border-gray-200 shadow-2xl">
                                     </div>
-                                    <div class="md:col-span-6 text-center md:text-left">
-                                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
+                                    <div class="md:col-span-7 text-center md:text-left">
+                                        <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
                                         <h2 class="text-2xl md:text-3xl mb-4" style="color: #463863;">${portfolioData.home.title}</h2>
                                         <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.about}</p>
                                     </div>
@@ -605,7 +610,7 @@
                             <div class="p-6">
                                 <div class="flex items-start gap-4 mb-4 ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}">
                                     <div class="logo-holder">
-                                        <img src="${exp.logoUrl}" alt="${exp.company} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
+                                        <img src="${getLogoUrl(exp.logoUrl)}" alt="${exp.company} Logo" onerror="this.src='https://placehold.co/60x60/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
                                     </div>
                                     <div class="flex-grow ${index % 2 !== 0 ? 'md:text-right' : 'text-left'}">
                                         <h4 class="text-xl font-bold" style="color: #221C2A;">${exp.title}</h4>
@@ -622,7 +627,7 @@
                 const skillsHTML = portfolioData.skills.map(skill => `
                     <div class="p-4 rounded-lg card-effect flex flex-col items-center justify-center gap-4 text-center h-full">
                         <div class="skill-logo-holder">
-                            <img src="${skill.logoUrl}" alt="${skill.name} Logo" onerror="this.src='https://placehold.co/48x48/FFFFFF/463863?text=Icon'; this.parentElement.style.boxShadow='none';">
+                            <img src="${getLogoUrl(skill.logoUrl)}" alt="${skill.name} Logo" onerror="this.src='https://placehold.co/48x48/FFFFFF/463863?text=Icon'; this.parentElement.style.boxShadow='none';">
                         </div>
                         <p class="text-sm font-semibold" style="color: #221C2A;">${skill.name}</p>
                     </div>`).join(''); 
@@ -655,7 +660,7 @@
                 const educationCardsHTML = portfolioData.educations.map(edu => `
                     <div class="education-card bg-white rounded-2xl flex overflow-hidden w-full max-w-2xl mx-auto">
                         <div class="logo-holder">
-                            <img src="${edu.logoUrl}" alt="${edu.school} Logo" onerror="this.src='https://placehold.co/120x120/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
+                            <img src="${getLogoUrl(edu.logoUrl)}" alt="${edu.school} Logo" onerror="this.src='https://placehold.co/120x120/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
                         </div>
                         <div class="py-6 pr-6 pl-8 relative flex-grow">
                             <h4 class="text-xl font-bold" style="color: #221C2A;">${edu.degree}</h4>
@@ -674,7 +679,7 @@
                         <button class="accordion-header">
                             <div class="flex items-center gap-4">
                                 <div class="logo-holder w-10 h-10 text-sm">
-                                    <img src="${cert.logoUrl}" alt="${cert.issuer} Logo">
+                                    <img src="${getLogoUrl(cert.logoUrl)}" alt="${cert.issuer} Logo">
                                 </div>
                                 <span>${cert.title}</span>
                             </div>
@@ -778,7 +783,7 @@
                             <div class="md:col-span-2 text-center md:text-left">
                                 <div class="flex justify-center md:justify-start mb-6">
                                     <div class="w-24 h-24 bg-white rounded-full p-2 starbucks-logo-glow flex items-center justify-center">
-                                        <img src="${logos.starbucks}" alt="Starbucks Company Logo" class="rounded-full" onerror="this.src='https://placehold.co/96x96/FFFFFF/1e3932?text=SBUX'">
+                                        <img src="${getLogoUrl('starbucks')}" alt="Starbucks Company Logo" class="rounded-full" onerror="this.src='https://placehold.co/96x96/FFFFFF/1e3932?text=SBUX'">
                                     </div>
                                 </div>
                                 <h1 class="text-2xl md:text-4xl font-extrabold text-gray-900 leading-tight">Starbucks Financial Modeling & Valuation</h1>
@@ -982,11 +987,20 @@
             // --- GLOBAL LOGIC ---
             showPage('home');
             const header = document.querySelector('header');
+            const progressBar = document.getElementById('progress-bar');
             let lastScrollTop = 0;
             window.addEventListener('scroll', function() {
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 header.classList.toggle('nav-hidden', scrollTop > lastScrollTop && scrollTop > header.offsetHeight);
                 lastScrollTop = scrollTop;
+
+                // Update Progress Bar
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                // Avoid division by zero if content is not scrollable
+                const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+                if (progressBar) {
+                    progressBar.style.width = scrollPercent + '%';
+                }
 
                 // Parallax visibility check
                 const parallaxBanners = document.querySelectorAll('.parallax-banner');
@@ -1216,8 +1230,6 @@
     </script>
 </body>
 </html>
-
-
 
 
 
