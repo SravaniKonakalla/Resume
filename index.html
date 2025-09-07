@@ -261,6 +261,98 @@
                 background-attachment: scroll; /* UPDATED: Disable parallax on mobile for performance */
             }
         }
+
+        /* --- FAB and Modal Styles --- */
+        #contact-fab {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 50;
+            transition: all 0.3s ease-in-out;
+            animation: bounce-in 1s ease 1s 1;
+        }
+
+        @keyframes bounce-in {
+            0% { transform: scale(0.1); opacity: 0; }
+            60% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        #contact-fab .fab-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #463863;
+            color: white;
+            border-radius: 9999px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            width: 4rem; /* 64px */
+            height: 4rem; /* 64px */
+            overflow: hidden;
+        }
+
+        #contact-fab:hover .fab-content {
+            width: 12rem; /* 192px */
+            background-color: #D1A46E;
+        }
+
+        #contact-fab .fab-icon {
+            font-size: 1.75rem; /* 28px */
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        #contact-fab .fab-text {
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 0.3s ease-in-out 0.1s, transform 0.3s ease-in-out 0.1s;
+            margin-left: 0.75rem; /* 12px */
+            font-weight: 600;
+        }
+        
+        #contact-fab:hover .fab-text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        #contact-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        #contact-modal.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #contact-modal .modal-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+        }
+        #contact-modal .modal-content {
+            position: relative;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 32rem; /* 512px */
+            padding: 2rem;
+            transform: scale(0.95);
+            transition: transform 0.3s ease-in-out;
+        }
+        #contact-modal.visible .modal-content {
+            transform: scale(1);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -290,9 +382,42 @@
         <p>&copy; 2025 Bala Sravani Konakalla. All Rights Reserved.</p>
     </footer>
 
+    <!-- Lightbox for resume and certificates -->
     <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 z-[100] hidden items-center justify-center p-4">
         <button id="lightbox-close" class="absolute top-4 right-4 text-white text-4xl opacity-80 hover:opacity-100 transition-opacity">&times;</button>
         <img id="lightbox-img" src="" alt="Resume full view" class="max-w-full max-h-full rounded-lg shadow-2xl">
+    </div>
+
+    <!-- Floating Action Button -->
+    <div id="contact-fab">
+        <div class="fab-content">
+            <i class="fab-icon fas fa-envelope"></i>
+            <span class="fab-text">Get in Touch</span>
+        </div>
+    </div>
+    
+    <!-- Contact Modal -->
+    <div id="contact-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+             <button id="modal-close-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center" style="color: #221C2A;">Get In Touch</h3>
+            <p class="text-center mb-6" style="color: #9C8FA7;">I'm always open to discussing new opportunities.</p>
+             <form class="contact-form w-full" action="" method="POST">
+                <div class="space-y-4 text-left">
+                    <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                    <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
+                    <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
+                </div>
+                <div class="mt-6">
+                    <button type="submit" class="btn-primary font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full">
+                        Send Message
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
     
     <script>
@@ -473,34 +598,6 @@
                 navContainer.appendChild(link);
             });
             
-            const createGetInTouchHTML = () => `
-                <section class="py-20 relative z-10" style="background-color: rgba(255, 255, 255, 0.7);">
-                    <div class="container mx-auto px-6 text-center">
-                        <h3 class="text-3xl md:text-4xl font-bold mb-4" style="color: #221C2A;">Get In Touch</h3>
-                        <p class="max-w-xl mx-auto mb-12" style="color: #9C8FA7;">I'm always open to discussing new opportunities. Feel free to send a message.</p>
-                        <div class="max-w-2xl mx-auto">
-                            <form class="contact-form w-full p-8 rounded-lg card-effect mb-8" action="${portfolioData.contact.formspree_url}" method="POST">
-                                <div class="space-y-4 text-left">
-                                    <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
-                                    <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
-                                    <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
-                                </div>
-                                <div class="mt-8">
-                                    <button type="submit" class="btn-primary font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full">
-                                        Send Message
-                                    </button>
-                                </div>
-                            </form>
-                            <div class="flex justify-center items-center gap-6 mt-8">
-                                <a href="mailto:${portfolioData.contact.email}" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fas fa-envelope"></i></a>
-                                <a href="${portfolioData.contact.linkedin}" target="_blank" class="transition-colors text-2xl" style="color: #9C8FA7; --hover-color: #463863;" onmouseover="this.style.color=this.style.getPropertyValue('--hover-color')" onmouseout="this.style.color='#9C8FA7'"><i class="fab fa-linkedin"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `;
-
-
             const createHomePage = () => {
                 const page = document.createElement('div');
                 page.id = 'page-home';
@@ -554,7 +651,7 @@
                         <div class="parallax-overlay"></div>
                         <div class="parallax-content p-8">
                             <h2 class="text-3xl md:text-4xl font-bold mb-4">${section.title}</h2>
-                            <div class="max-w-2xl mx-auto mb-6 space-y-2 text-base md:text-lg">
+                            <div class="max-w-2xl mx-auto mb-6 space-y-2 text-base md:text-lg text-center md:text-left">
                                 <p>${section.lines[0]}</p>
                                 <p>${section.lines[1]}</p>
                             </div>
@@ -594,8 +691,6 @@
                     <div class="bg-gray-800 relative z-10">
                         ${parallaxBannersHTML}
                     </div>
-
-                    ${createGetInTouchHTML()}
                 `;
                 mainContainer.appendChild(page);
             };
@@ -647,7 +742,6 @@
                             </div>
                         </div>
                     </section>
-                    ${createGetInTouchHTML()}
                     `; 
                 mainContainer.appendChild(page); 
             };
@@ -688,7 +782,7 @@
                         <div class="accordion-content">
                             <div class="accordion-content-inner grid md:grid-cols-3 gap-6 items-center">
                                 <div class="md:col-span-1">
-                                    <img src="${cert.certificateImageUrl}" alt="${cert.title} certificate" class="rounded-lg shadow-lg w-full" onerror="this.src='https://placehold.co/400x250/FFFFFF/463863?text=Cert';">
+                                    <img src="${cert.certificateImageUrl}" alt="${cert.title} certificate" class="rounded-lg shadow-lg w-full cursor-pointer" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/400x250/FFFFFF/463863?text=Cert';">
                                 </div>
                                 <div class="md:col-span-2">
                                     <h5 class="font-bold text-lg mb-2" style="color: #463863;">${cert.issuer}</h5>
@@ -720,7 +814,6 @@
                             </div>
                         </div>
                     </section>
-                    ${createGetInTouchHTML()}
                     `;
                 mainContainer.appendChild(page);
             };
@@ -729,6 +822,17 @@
                 const page = document.createElement('div');
                 page.id = 'page-resume';
                 page.className = 'page';
+
+                const getLastSunday = () => {
+                    const today = new Date();
+                    const dayOfWeek = today.getDay(); // Sunday is 0, Monday is 1, ...
+                    const lastSunday = new Date(today);
+                    lastSunday.setDate(today.getDate() - dayOfWeek);
+                    return lastSunday.toLocaleDateString('en-US', {
+                        month: 'long', day: 'numeric', year: 'numeric'
+                    });
+                };
+
                 page.innerHTML = `
                     <section class="py-16 min-h-[90vh] flex items-center">
                         <div class="container mx-auto px-4 text-center max-w-4xl">
@@ -750,10 +854,9 @@
                                 </a>
                             </div>
 
-                            <p class="text-xs text-gray-400 mt-4">Updated: August 2025</p>
+                            <p id="resume-update-date" class="text-xs text-gray-400 mt-4">Last Updated on ${getLastSunday()}</p>
                         </div>
                     </section>
-                    ${createGetInTouchHTML()}
                 `;
                 mainContainer.appendChild(page);
             };
@@ -934,7 +1037,6 @@
                         </article>
                     </div>
                 </section>
-                ${createGetInTouchHTML()}
                 `;
                 mainContainer.appendChild(page);
             };
@@ -946,6 +1048,7 @@
             createEducationPage();
             createResumePage();
 
+            // --- SETUP FOR DYNAMIC PAGES/COMPONENTS ---
             const setupProjectPage = () => {
                 const activePage = document.getElementById('page-projects');
                 if (!activePage) return;
@@ -971,14 +1074,21 @@
                     button.addEventListener('click', () => {
                         const isActive = content.classList.contains('active');
                         
+                        // This logic closes other accordions when one is opened.
+                        // Remove this loop if you want multiple to be open at once.
                         accordionItems.forEach(otherItem => {
-                            otherItem.querySelector('.timeline-details').classList.remove('active');
-                            otherItem.querySelector('.accordion-icon').classList.remove('rotate-180');
+                             if (otherItem !== item) {
+                                otherItem.querySelector('.timeline-details').classList.remove('active');
+                                otherItem.querySelector('.accordion-icon').classList.remove('rotate-180');
+                             }
                         });
 
                         if (!isActive) {
                             content.classList.add('active');
                             icon.classList.add('rotate-180');
+                        } else {
+                            content.classList.remove('active');
+                            icon.classList.remove('rotate-180');
                         }
                     });
                 });
@@ -996,7 +1106,6 @@
 
                 // Update Progress Bar
                 const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                // Avoid division by zero if content is not scrollable
                 const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
                 if (progressBar) {
                     progressBar.style.width = scrollPercent + '%';
@@ -1010,6 +1119,7 @@
                         banner.classList.add('visible');
                     }
                 });
+                handleScrollAnimations();
             }, false);
 
             const expTimelineItems = document.querySelectorAll('#page-experience .timeline-item');
@@ -1033,21 +1143,31 @@
             }
             
             const successToast = document.getElementById('success-toast');
-            const contactForms = document.querySelectorAll('.contact-form');
-            contactForms.forEach(form => {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const formData = new FormData(this);
-                    fetch(this.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
-                    .then(response => { 
-                        if (response.ok) { 
-                            successToast.classList.add('show'); 
+            const contactModal = document.getElementById('contact-modal');
+            const contactForm = contactModal.querySelector('.contact-form');
+            contactForm.action = portfolioData.contact.formspree_url; // Set the formspree URL
+            
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                fetch(this.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
+                .then(response => { 
+                    if (response.ok) { 
+                        closeContactModal();
+                        setTimeout(() => {
+                           successToast.classList.add('show'); 
                             setTimeout(() => successToast.classList.remove('show'), 4000);
-                            form.reset(); 
-                        } 
-                    }).catch(error => console.error("Error.", error)); 
-                });
+                        }, 400); // show after modal fade out
+                        contactForm.reset(); 
+                    } else {
+                        alert("There was an error sending your message. Please try again.");
+                    }
+                }).catch(error => {
+                    console.error("Form submission error.", error);
+                    alert("There was an error sending your message. Please try again.");
+                }); 
             });
+
 
             function handleScrollAnimations() {
                 const expTimelineContainer = document.getElementById('experience-timeline-container');
@@ -1076,7 +1196,6 @@
                     timelineProgress.style.height = `${finalPosition}px`;
                 }
             }
-            window.addEventListener('scroll', handleScrollAnimations);
 
             const accordionItems = document.querySelectorAll('.accordion-item');
             accordionItems.forEach(item => {
@@ -1084,13 +1203,18 @@
                 const content = item.querySelector('.accordion-content');
                 header.addEventListener('click', () => {
                     const isActive = item.classList.contains('active');
+                    // Deactivate all items first to ensure only one is open
                     accordionItems.forEach(otherItem => {
                         otherItem.classList.remove('active');
                         otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                        otherItem.querySelector('.icon').classList.remove('fa-minus');
+                        otherItem.querySelector('.icon').classList.add('fa-plus');
                     });
                     if (!isActive) {
                         item.classList.add('active');
                         content.style.maxHeight = content.scrollHeight + 'px';
+                        header.querySelector('.icon').classList.remove('fa-plus');
+                        header.querySelector('.icon').classList.add('fa-minus');
                     }
                 });
             });
@@ -1099,20 +1223,10 @@
             const ctx = canvas.getContext('2d');
             let particles = [];
             const symbols = ['$', '%', '▲', '▼', '📈', '📉'];
-            const mouse = {
-                x: null,
-                y: null,
-                radius: 180
-            };
+            const mouse = { x: null, y: null, radius: 180 };
 
-            window.addEventListener('mousemove', (event) => {
-                mouse.x = event.x;
-                mouse.y = event.y;
-            });
-             window.addEventListener('mouseout', () => {
-                mouse.x = null;
-                mouse.y = null;
-            });
+            window.addEventListener('mousemove', (event) => { mouse.x = event.x; mouse.y = event.y; });
+            window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
 
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
@@ -1140,7 +1254,6 @@
                         let dx = particles[a].x - particles[b].x;
                         let dy = particles[a].y - particles[b].y;
                         let distance = Math.sqrt(dx * dx + dy * dy);
-
                         if (distance < 120) {
                             ctx.strokeStyle = 'rgba(209, 164, 110, ' + (1 - distance/120) + ')';
                             ctx.lineWidth = 0.6;
@@ -1157,23 +1270,15 @@
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 for (let i = 0; i < particles.length; i++) {
                     let p = particles[i];
-                    p.x += p.vx;
-                    p.y += p.vy;
-
+                    p.x += p.vx; p.y += p.vy;
                     if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
                     if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-                    // Mouse interaction
                     if (mouse.x && mouse.y) {
                         let dx = mouse.x - p.x;
                         let dy = mouse.y - p.y;
                         let distance = Math.sqrt(dx * dx + dy * dy);
-                        if (distance < mouse.radius) {
-                           p.x -= dx / 18;
-                           p.y -= dy / 18;
-                        }
+                        if (distance < mouse.radius) { p.x -= dx / 18; p.y -= dy / 18; }
                     }
-
                     ctx.fillStyle = `rgba(70, 56, 99, 0.5)`;
                     ctx.font = `${p.size}px Montserrat`;
                     ctx.fillText(p.symbol, p.x, p.y);
@@ -1182,19 +1287,12 @@
                 requestAnimationFrame(animate);
             }
 
-            window.addEventListener('resize', () => {
-                resizeCanvas();
-                createParticles();
-            });
-
-            resizeCanvas();
-            createParticles();
-            animate();
+            window.addEventListener('resize', () => { resizeCanvas(); createParticles(); });
+            resizeCanvas(); createParticles(); animate();
             
-            // Lightbox functionality
+            // --- Lightbox functionality ---
             const lightbox = document.getElementById('lightbox');
             const lightboxClose = document.getElementById('lightbox-close');
-            
             window.openLightbox = function(src) {
                 const lightboxImg = document.getElementById('lightbox-img');
                 if (lightbox && lightboxImg) {
@@ -1203,26 +1301,33 @@
                     lightbox.classList.add('flex');
                 }
             }
-
             function closeLightbox() {
                 if (lightbox) {
                     lightbox.classList.add('hidden');
                     lightbox.classList.remove('flex');
                 }
             }
-
             if (lightbox && lightboxClose) {
                 lightboxClose.addEventListener('click', closeLightbox);
-                lightbox.addEventListener('click', (e) => {
-                    if (e.target === lightbox) {
-                        closeLightbox();
-                    }
-                });
+                lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
             }
+
+            // --- Contact FAB and Modal Logic ---
+            const contactFab = document.getElementById('contact-fab');
+            const modalOverlay = contactModal.querySelector('.modal-overlay');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+
+            function openContactModal() { contactModal.classList.add('visible'); }
+            function closeContactModal() { contactModal.classList.remove('visible'); }
+
+            contactFab.addEventListener('click', openContactModal);
+            modalOverlay.addEventListener('click', closeContactModal);
+            modalCloseBtn.addEventListener('click', closeContactModal);
 
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     closeLightbox();
+                    closeContactModal();
                 }
             });
 
@@ -1230,7 +1335,3 @@
     </script>
 </body>
 </html>
-
-
-
-
