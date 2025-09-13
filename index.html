@@ -262,61 +262,93 @@
             }
         }
 
-        /* --- FAB and Modal Styles --- */
+        /* --- NEW FAB and Modal Styles --- */
         #contact-fab {
             position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
+            bottom: 1.5rem; /* bottom-6 */
+            left: 1.5rem;  /* left-6 */
             z-index: 50;
-            transition: all 0.3s ease-in-out;
-            animation: bounce-in 1s ease 1s 1;
-        }
-
-        @keyframes bounce-in {
-            0% { transform: scale(0.1); opacity: 0; }
-            60% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); }
         }
 
         #contact-fab .fab-content {
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #463863;
-            color: white;
-            border-radius: 9999px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            background-color: #008080; /* Deep Teal */
+            color: #FFFFFF; /* White */
+            border-radius: 9999px; /* rounded-full */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
             cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            width: 4rem; /* 64px */
-            height: 4rem; /* 64px */
+            width: 3rem; /* w-12 */
+            height: 3rem; /* h-12 */
             overflow: hidden;
+            transition: all 0.3s ease-in-out;
         }
 
-        #contact-fab:hover .fab-content {
-            width: 12rem; /* 192px */
-            background-color: #D1A46E;
+        /* Pulse animation for initial load */
+        @keyframes pulse-ring {
+          0% { box-shadow: 0 0 0 0 rgba(0, 128, 128, 0.7), 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+          70% { box-shadow: 0 0 0 20px rgba(0, 128, 128, 0), 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+          100% { box-shadow: 0 0 0 0 rgba(0, 128, 128, 0), 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        }
+        .fab-pulse {
+            animation: pulse-ring 2s 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) 1;
+        }
+
+        /* Gentle bobbing animation to attract attention */
+        @keyframes icon-bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
         }
 
         #contact-fab .fab-icon {
-            font-size: 1.75rem; /* 28px */
-            transition: opacity 0.2s ease-in-out;
+            font-size: 1.375rem; /* ~22px */
+            flex-shrink: 0;
+            animation: icon-bob 3s ease-in-out infinite; /* No delay */
         }
 
         #contact-fab .fab-text {
             white-space: nowrap;
             opacity: 0;
-            transform: translateX(-10px);
-            transition: opacity 0.3s ease-in-out 0.1s, transform 0.3s ease-in-out 0.1s;
-            margin-left: 0.75rem; /* 12px */
             font-weight: 600;
-        }
-        
-        #contact-fab:hover .fab-text {
-            opacity: 1;
-            transform: translateX(0);
+            margin-left: 0.75rem;
+            transition: opacity 0.3s ease-in-out;
         }
 
+        /* Scrolled state */
+        #contact-fab.fab-scrolled .fab-content {
+            width: 2.5rem; /* w-10 */
+            height: 2.5rem; /* h-10 */
+            opacity: 0.7;
+        }
+
+        /* Desktop and larger screens */
+        @media (min-width: 768px) {
+            #contact-fab {
+                bottom: auto;
+                left: auto;
+                right: 1.5rem; /* right-6 */
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            #contact-fab:hover .fab-content {
+                width: 10rem; /* w-40 */
+            }
+            
+            #contact-fab:hover .fab-text {
+                opacity: 1;
+            }
+            
+            /* On desktop, when scrolled, we prevent the hover morph effect */
+            #contact-fab.fab-scrolled:hover .fab-content {
+                 width: 2.5rem; /* stay small */
+            }
+            #contact-fab.fab-scrolled:hover .fab-text {
+                opacity: 0;
+            }
+        }
+        
         #contact-modal {
             position: fixed;
             inset: 0;
@@ -390,9 +422,9 @@
 
     <!-- Floating Action Button -->
     <div id="contact-fab">
-        <div class="fab-content">
+        <div class="fab-content fab-pulse">
             <i class="fab-icon fas fa-envelope"></i>
-            <span class="fab-text">Get in Touch</span>
+            <span class="fab-text">Let's discuss</span>
         </div>
     </div>
     
@@ -403,8 +435,7 @@
              <button id="modal-close-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl transition-colors">
                 <i class="fas fa-times"></i>
             </button>
-            <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center" style="color: #221C2A;">Get In Touch</h3>
-            <p class="text-center mb-6" style="color: #9C8FA7;">I'm always open to discussing new opportunities.</p>
+            <h3 class="text-2xl md:text-3xl font-bold mb-6 text-center" style="color: #221C2A;">Let’s talk — I’m open to new opportunities</h3>
              <form class="contact-form w-full" action="" method="POST">
                 <div class="space-y-4 text-left">
                     <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
@@ -1075,7 +1106,6 @@
                         const isActive = content.classList.contains('active');
                         
                         // This logic closes other accordions when one is opened.
-                        // Remove this loop if you want multiple to be open at once.
                         accordionItems.forEach(otherItem => {
                              if (otherItem !== item) {
                                 otherItem.querySelector('.timeline-details').classList.remove('active');
@@ -1099,10 +1129,26 @@
             const header = document.querySelector('header');
             const progressBar = document.getElementById('progress-bar');
             let lastScrollTop = 0;
+            
             window.addEventListener('scroll', function() {
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                header.classList.toggle('nav-hidden', scrollTop > lastScrollTop && scrollTop > header.offsetHeight);
-                lastScrollTop = scrollTop;
+                const contactFab = document.getElementById('contact-fab');
+                
+                const isScrollingDown = scrollTop > lastScrollTop;
+
+                // FAB scroll behavior
+                if (contactFab) {
+                    if (isScrollingDown && scrollTop > 100) {
+                        contactFab.classList.add('fab-scrolled');
+                    } else {
+                        contactFab.classList.remove('fab-scrolled');
+                    }
+                }
+
+                // Nav hide behavior
+                header.classList.toggle('nav-hidden', isScrollingDown && scrollTop > header.offsetHeight);
+                
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 
                 // Update Progress Bar
                 const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -1313,14 +1359,14 @@
             }
 
             // --- Contact FAB and Modal Logic ---
-            const contactFab = document.getElementById('contact-fab');
+            const contactFabElem = document.getElementById('contact-fab');
             const modalOverlay = contactModal.querySelector('.modal-overlay');
             const modalCloseBtn = document.getElementById('modal-close-btn');
 
             function openContactModal() { contactModal.classList.add('visible'); }
             function closeContactModal() { contactModal.classList.remove('visible'); }
 
-            contactFab.addEventListener('click', openContactModal);
+            contactFabElem.addEventListener('click', openContactModal);
             modalOverlay.addEventListener('click', closeContactModal);
             modalCloseBtn.addEventListener('click', closeContactModal);
 
@@ -1331,7 +1377,18 @@
                 }
             });
 
+            // --- Remove FAB pulse animation after it runs ---
+            const fabContent = document.querySelector('#contact-fab .fab-content');
+            if (fabContent) {
+                fabContent.addEventListener('animationend', () => {
+                    fabContent.classList.remove('fab-pulse');
+                }, { once: true });
+            }
         });
     </script>
 </body>
 </html>
+
+
+
+
