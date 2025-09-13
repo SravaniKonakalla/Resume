@@ -274,54 +274,54 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #008080; /* Deep Teal */
+            background-color: #463863; /* Accent Violet */
             color: #FFFFFF; /* White */
             border-radius: 9999px; /* rounded-full */
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
             cursor: pointer;
             width: 3rem; /* w-12 */
             height: 3rem; /* h-12 */
-            overflow: hidden;
-            transition: all 0.3s ease-in-out;
+            overflow: hidden; /* Crucial for the reveal effect */
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        #contact-fab:hover .fab-content {
+            width: 12rem; /* w-48 */
         }
 
         /* Pulse animation for initial load */
         @keyframes pulse-ring {
-          0% { box-shadow: 0 0 0 0 rgba(0, 128, 128, 0.7), 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-          70% { box-shadow: 0 0 0 20px rgba(0, 128, 128, 0), 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-          100% { box-shadow: 0 0 0 0 rgba(0, 128, 128, 0), 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+          0% { box-shadow: 0 0 0 0 rgba(70, 56, 99, 0.7), 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+          70% { box-shadow: 0 0 0 20px rgba(70, 56, 99, 0), 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+          100% { box-shadow: 0 0 0 0 rgba(70, 56, 99, 0), 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
         }
         .fab-pulse {
             animation: pulse-ring 2s 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) 1;
         }
 
-        /* Gentle bobbing animation to attract attention */
-        @keyframes icon-bob {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
-        }
-
         #contact-fab .fab-icon {
             font-size: 1.375rem; /* ~22px */
-            flex-shrink: 0;
-            animation: icon-bob 3s ease-in-out infinite; /* No delay */
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        #contact-fab:hover .fab-icon {
+            transform: translateX(-4.5rem);
         }
 
         #contact-fab .fab-text {
             white-space: nowrap;
             opacity: 0;
             font-weight: 600;
-            margin-left: 0.75rem;
-            transition: opacity 0.3s ease-in-out;
+            position: absolute;
+            transform: translateX(1rem);
+            transition: opacity 0.2s ease-in-out 0.1s; /* Delayed fade-in */
         }
-
-        /* Scrolled state */
-        #contact-fab.fab-scrolled .fab-content {
-            width: 2.5rem; /* w-10 */
-            height: 2.5rem; /* h-10 */
-            opacity: 0.7;
+        
+        #contact-fab:hover .fab-text {
+            opacity: 1;
         }
-
+        
         /* Desktop and larger screens */
         @media (min-width: 768px) {
             #contact-fab {
@@ -330,22 +330,6 @@
                 right: 1.5rem; /* right-6 */
                 top: 50%;
                 transform: translateY(-50%);
-            }
-
-            #contact-fab:hover .fab-content {
-                width: 10rem; /* w-40 */
-            }
-            
-            #contact-fab:hover .fab-text {
-                opacity: 1;
-            }
-            
-            /* On desktop, when scrolled, we prevent the hover morph effect */
-            #contact-fab.fab-scrolled:hover .fab-content {
-                 width: 2.5rem; /* stay small */
-            }
-            #contact-fab.fab-scrolled:hover .fab-text {
-                opacity: 0;
             }
         }
         
@@ -423,7 +407,7 @@
     <!-- Floating Action Button -->
     <div id="contact-fab">
         <div class="fab-content fab-pulse">
-            <i class="fab-icon fas fa-envelope"></i>
+            <i class="fab-icon fas fa-comments"></i>
             <span class="fab-text">Let's discuss</span>
         </div>
     </div>
@@ -1132,18 +1116,8 @@
             
             window.addEventListener('scroll', function() {
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const contactFab = document.getElementById('contact-fab');
                 
                 const isScrollingDown = scrollTop > lastScrollTop;
-
-                // FAB scroll behavior
-                if (contactFab) {
-                    if (isScrollingDown && scrollTop > 100) {
-                        contactFab.classList.add('fab-scrolled');
-                    } else {
-                        contactFab.classList.remove('fab-scrolled');
-                    }
-                }
 
                 // Nav hide behavior
                 header.classList.toggle('nav-hidden', isScrollingDown && scrollTop > header.offsetHeight);
@@ -1359,14 +1333,14 @@
             }
 
             // --- Contact FAB and Modal Logic ---
-            const contactFabElem = document.getElementById('contact-fab');
+            const contactFab = document.getElementById('contact-fab');
             const modalOverlay = contactModal.querySelector('.modal-overlay');
             const modalCloseBtn = document.getElementById('modal-close-btn');
 
             function openContactModal() { contactModal.classList.add('visible'); }
             function closeContactModal() { contactModal.classList.remove('visible'); }
 
-            contactFabElem.addEventListener('click', openContactModal);
+            if (contactFab) contactFab.addEventListener('click', openContactModal);
             modalOverlay.addEventListener('click', closeContactModal);
             modalCloseBtn.addEventListener('click', closeContactModal);
 
@@ -1388,6 +1362,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
