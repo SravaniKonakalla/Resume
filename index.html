@@ -415,27 +415,8 @@
             transform: scale(1);
         }
 
-        /* --- NEW: Chipotle Preview Variants Styles --- */
-        .chipotle-preview-variants .preview-badge {
-            background-color: #AD2F1F; /* Chipotle Red */
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 1rem;
-            border: 2px solid #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .chipotle-preview-variants .variant-container {
-            border: 2px dashed #D1A46E;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            margin-bottom: 2rem;
-            background-color: rgba(255, 255, 255, 0.5);
-        }
-        .chipotle-preview-variants .chart-frame {
+        /* --- NEW: Chipotle Historical Analysis Styles --- */
+        .historical-analysis-section .chart-frame {
             background-color: white;
             border-radius: 0.5rem;
             box-shadow: 0 6px 18px rgba(0,0,0,0.08);
@@ -443,88 +424,37 @@
             position: relative;
             overflow: hidden;
         }
-        .chipotle-preview-variants .chart-frame img {
+        .historical-analysis-section .chart-frame img {
             border-radius: 0.25rem;
             transition: opacity 0.4s ease-in-out;
         }
-        .chipotle-preview-variants .chart-summary {
+        .historical-analysis-section .chart-summary {
             padding: 0.5rem 0.25rem 0;
             font-size: 0.8rem;
             color: #9C8FA7;
         }
-
-        /* Variant 1: Layered Explorer */
-        .cpv-layered-explorer .mini-card-toggle {
+        .historical-analysis-section .mini-card-toggle {
             background-color: #fff;
             border: 2px solid transparent;
             transition: all 0.2s ease-in-out;
         }
-        .cpv-layered-explorer .mini-card-toggle[aria-pressed="true"] {
+        .historical-analysis-section .mini-card-toggle[aria-pressed="true"] {
             border-color: #463863;
             box-shadow: 0 4px 12px rgba(70, 56, 99, 0.2);
             transform: scale(1.03);
         }
         @media (max-width: 767px) {
-            .cpv-layered-explorer-nav {
+            .historical-analysis-nav {
                 display: flex;
                 overflow-x: auto;
                 padding-bottom: 1rem;
                 scrollbar-width: none;
             }
-             .cpv-layered-explorer-nav::-webkit-scrollbar {
+             .historical-analysis-nav::-webkit-scrollbar {
                 display: none;
             }
-            .cpv-layered-explorer-nav .mini-card-toggle {
+            .historical-analysis-nav .mini-card-toggle {
                 flex-shrink: 0;
-            }
-        }
-
-        /* Variant 2: Focus + Context */
-        .cpv-focus-context .range-btn {
-            background-color: #fff;
-            border: 2px solid #e2e8f0;
-            transition: all 0.2s ease-in-out;
-        }
-        .cpv-focus-context .range-btn:hover {
-            border-color: #9C8FA7;
-        }
-        .cpv-focus-context .range-btn[aria-pressed="true"] {
-            background-color: #463863;
-            color: #fff;
-            border-color: #463863;
-        }
-        .cpv-focus-context .focus-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(70, 56, 99, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-        .cpv-focus-context .focus-overlay.visible {
-            opacity: 1;
-        }
-        .cpv-focus-context .focus-label {
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: bold;
-        }
-        
-        /* Variant 3: Compact Casebook */
-        .cpv-compact-casebook .case-card {
-            background-color: white;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-        }
-        @media print {
-            .chipotle-preview-variants .case-card {
-                box-shadow: none;
-                border: 1px solid #ccc;
             }
         }
 
@@ -1127,103 +1057,47 @@
                     </div>
                 </div>
 
-                <!-- NEW: Preview Variants Section -->
-                <section class="chipotle-preview-variants py-12 md:py-16 bg-white/50">
-                    <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
+                <!-- Historical Analysis Section -->
+                <section class="historical-analysis-section py-12 md:py-16 bg-white/50">
+                     <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-8">
-                             <h2 class="text-3xl md:text-4xl font-bold">Preview — Layout Options</h2>
-                            <p class="mt-2 text-gray-600 max-w-3xl mx-auto">Below are three visual options for how the Historical section could look. These are preview variants only. Pick one to keep; remove the others. No other site parts were modified.</p>
+                             <h2 class="text-3xl md:text-4xl font-bold">Historical Analysis</h2>
+                             <p class="mt-2 text-gray-600 max-w-3xl mx-auto">An interactive view of financial performance and store expansion metrics.</p>
                         </div>
-
-                        <!-- Variant 1: Layered Explorer -->
-                        <div class="variant-container cpv-layered-explorer">
-                            <div class="preview-badge">Preview — Option 1: Layered Explorer</div>
-                            <div class="grid md:grid-cols-12 gap-6 md:gap-8">
-                                <!-- Nav -->
-                                <div class="md:col-span-2 cpv-layered-explorer-nav flex md:flex-col gap-4">
-                                    <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="financials" aria-pressed="true">
-                                        <h4 class="font-bold text-sm">Financials</h4>
-                                        <p class="text-xs text-gray-500">Revenue & Profit</p>
-                                    </button>
-                                    <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="stores" aria-pressed="false">
-                                        <h4 class="font-bold text-sm">Stores vs SSS</h4>
-                                        <p class="text-xs text-gray-500">Units & Comps</p>
-                                    </button>
-                                </div>
-                                <!-- Chart -->
-                                <div class="md:col-span-6">
-                                    <div class="chart-frame">
-                                        <img id="layered-explorer-img" src="./assets/chipotle_hist_financials@2x.png" width="1280" height="720" loading="lazy" alt="Historical financials: Revenue and Net Income, 2018–2024. Key takeaway: revenue grew at [HIST_REVENUE_CAGR]% CAGR.">
-                                    </div>
-                                </div>
-                                <!-- Interpretation -->
-                                <div id="layered-explorer-interp" class="md:col-span-4">
-                                    <h3 class="font-bold text-lg mb-2">Financial Performance</h3>
-                                    <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024). The chart shows a COVID-related dip in 2020 followed by digital-led recovery.</p>
-                                    <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
-                                        <li>Digital sales were a primary recovery driver post-2020.</li>
-                                        <li>Margin pressure from commodity inflation became evident in 2022.</li>
-                                        <li>Store-level profitability remains strong despite cost headwinds.</li>
-                                    </ul>
+                        <div class="grid md:grid-cols-12 gap-6 md:gap-8">
+                            <!-- Nav -->
+                            <div class="md:col-span-2 historical-analysis-nav flex md:flex-col gap-4">
+                                <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="financials" aria-pressed="true">
+                                    <h4 class="font-bold text-sm">Financials</h4>
+                                    <p class="text-xs text-gray-500">Revenue & Profit</p>
+                                </button>
+                                <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="stores" aria-pressed="false">
+                                    <h4 class="font-bold text-sm">Stores vs SSS</h4>
+                                    <p class="text-xs text-gray-500">Units & Comps</p>
+                                </button>
+                            </div>
+                            <!-- Chart -->
+                            <div class="md:col-span-6">
+                                <div class="chart-frame">
+                                    <img id="layered-explorer-img" src="./assets/chipotle_hist_financials@2x.png" width="1280" height="720" loading="lazy" alt="Historical financials: Revenue and Net Income, 2018–2024. Key takeaway: revenue grew at [HIST_REVENUE_CAGR]% CAGR.">
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Variant 2: Focus + Context -->
-                        <div class="variant-container cpv-focus-context">
-                             <div class="preview-badge">Preview — Option 2: Focus + Context</div>
-                             <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
-                                 <h3 class="text-lg font-bold">Focus on a Period</h3>
-                                 <div class="flex-shrink-0 flex flex-wrap gap-2 justify-center" role="group">
-                                    <button class="range-btn text-sm font-semibold py-2 px-4 rounded-full" data-range="full" aria-pressed="true">Full Range</button>
-                                    <button class="range-btn text-sm font-semibold py-2 px-4 rounded-full" data-range="2018-2020" aria-pressed="false">2018–2020</button>
-                                    <button class="range-btn text-sm font-semibold py-2 px-4 rounded-full" data-range="2020-2022" aria-pressed="false">2020–2022</button>
-                                    <button class="range-btn text-sm font-semibold py-2 px-4 rounded-full" data-range="2022-2024" aria-pressed="false">2022–2024</button>
-                                 </div>
-                             </div>
-                             <div class="chart-frame">
-                                <img src="./assets/chipotle_hist_financials@2x.png" width="1280" height="720" loading="lazy" alt="Historical financials: Revenue and Net Income, 2018–2024.">
-                                <div class="focus-overlay"><span class="focus-label"></span></div>
-                             </div>
-                             <div id="focus-context-interp" class="mt-4" aria-live="polite">
-                                 <p class="chart-summary font-semibold text-gray-700 text-sm">Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024), navigating a pandemic dip and a strong digital-led recovery.</p>
-                             </div>
-                        </div>
-
-                        <!-- Variant 3: Compact Casebook -->
-                        <div class="variant-container cpv-compact-casebook">
-                            <div class="preview-badge">Preview — Option 3: Compact Casebook</div>
-                            <div class="grid md:grid-cols-2 gap-8">
-                                <div class="case-card p-4 md:p-6 rounded-lg">
-                                    <h3 class="font-bold text-lg mb-3">Case Study: Financial Performance</h3>
-                                    <div class="chart-frame mb-3 !p-0">
-                                        <img src="./assets/chipotle_hist_financials@2x.png" width="1280" height="720" loading="lazy" alt="Historical financials: Revenue and Net Income, 2018–2024.">
-                                    </div>
-                                    <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Executive Summary: Revenue grew at [HIST_REVENUE_CAGR]% CAGR, with a COVID dip and a strong digital-led recovery.</p>
-                                    <ul class="list-disc list-inside space-y-1 text-xs text-gray-600 mb-4">
-                                        <li>Digital sales were a primary recovery driver post-2020.</li>
-                                        <li>Margin pressure from commodity inflation became evident in 2022.</li>
-                                    </ul>
-                                    <button class="btn-secondary w-full text-sm py-2 px-3">Download One-Pager (coming)</button>
-                                </div>
-                                <div class="case-card p-4 md:p-6 rounded-lg">
-                                    <h3 class="font-bold text-lg mb-3">Case Study: Stores vs SSS</h3>
-                                     <div class="chart-frame mb-3 !p-0">
-                                        <img src="./assets/chipotle_stores_vs_sss@2x.png" width="1280" height="720" loading="lazy" alt="Stores vs same-store-sales: 2018–2024.">
-                                    </div>
-                                    <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Executive Summary: Unit openings correlate with a modest decline in SSS growth, modeling mild negative elasticity.</p>
-                                    <ul class="list-disc list-inside space-y-1 text-xs text-gray-600 mb-4">
-                                        <li>Aggressive store opening strategy continues to expand footprint.</li>
-                                        <li>Same-store sales growth shows maturity but remains positive.</li>
-                                    </ul>
-                                    <button class="btn-secondary w-full text-sm py-2 px-3">Download One-Pager (coming)</button>
-                                </div>
+                            <!-- Interpretation -->
+                            <div id="layered-explorer-interp" class="md:col-span-4">
+                                <h3 class="font-bold text-lg mb-2">Financial Performance</h3>
+                                <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024). The chart shows a COVID-related dip in 2020 followed by digital-led recovery.</p>
+                                <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
+                                    <li>Digital sales were a primary recovery driver post-2020.</li>
+                                    <li>Margin pressure from commodity inflation became evident in 2022.</li>
+                                    <li>Store-level profitability remains strong despite cost headwinds.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </section>
+                
 
-                <!-- 2. Interactive Timeline Section -->
+                <!-- Interactive Timeline Section -->
                 <section id="timeline" class="py-12 md:py-20 bg-white project-section-fade-in">
                     <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-12">
@@ -1391,93 +1265,56 @@
             };
 
             const setupProjectPreviews = () => {
-                const previewContainer = document.querySelector('.chipotle-preview-variants');
-                if (!previewContainer) return;
+                const historicalAnalysisContainer = document.querySelector('.historical-analysis-section');
+                if (!historicalAnalysisContainer) return;
 
-                // --- Variant 1: Layered Explorer Logic ---
-                const explorer = previewContainer.querySelector('.cpv-layered-explorer');
-                if (explorer) {
-                    const toggles = explorer.querySelectorAll('.mini-card-toggle');
-                    const chartImg = explorer.querySelector('#layered-explorer-img');
-                    const interpContainer = explorer.querySelector('#layered-explorer-interp');
+                const toggles = historicalAnalysisContainer.querySelectorAll('.mini-card-toggle');
+                const chartImg = historicalAnalysisContainer.querySelector('#layered-explorer-img');
+                const interpContainer = historicalAnalysisContainer.querySelector('#layered-explorer-interp');
 
-                    const viewData = {
-                        financials: {
-                            imgSrc: './assets/chipotle_hist_financials@2x.png',
-                            alt: 'Historical financials: Revenue and Net Income, 2018–2024. Key takeaway: revenue grew at [HIST_REVENUE_CAGR]% CAGR.',
-                            interpHTML: `
-                                <h3 class="font-bold text-lg mb-2">Financial Performance</h3>
-                                <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024). The chart shows a COVID-related dip in 2020 followed by digital-led recovery.</p>
-                                <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
-                                    <li>Digital sales were a primary recovery driver post-2020.</li>
-                                    <li>Margin pressure from commodity inflation became evident in 2022.</li>
-                                    <li>Store-level profitability remains strong despite cost headwinds.</li>
-                                </ul>`
-                        },
-                        stores: {
-                            imgSrc: './assets/chipotle_stores_vs_sss@2x.png',
-                            alt: 'Stores vs same-store-sales: 2018–2024. Key takeaway: store growth linked to SSS movement.',
-                             interpHTML: `
-                                <h3 class="font-bold text-lg mb-2">Store Expansion vs SSS</h3>
-                                <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Unit openings correlate with a modest decline in SSS growth—we model mild negative elasticity in the Base case.</p>
-                                <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
-                                    <li>Aggressive store opening strategy continues to expand footprint.</li>
-                                    <li>Same-store sales growth shows maturity but remains positive.</li>
-                                    <li>"Chipotlanes" (drive-thrus) are a key part of the new store format.</li>
-                                </ul>`
-                        }
-                    };
+                const viewData = {
+                    financials: {
+                        imgSrc: './assets/chipotle_hist_financials@2x.png',
+                        alt: 'Historical financials: Revenue and Net Income, 2018–2024. Key takeaway: revenue grew at [HIST_REVENUE_CAGR]% CAGR.',
+                        interpHTML: `
+                            <h3 class="font-bold text-lg mb-2">Financial Performance</h3>
+                            <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024). The chart shows a COVID-related dip in 2020 followed by digital-led recovery.</p>
+                            <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
+                                <li>Digital sales were a primary recovery driver post-2020.</li>
+                                <li>Margin pressure from commodity inflation became evident in 2022.</li>
+                                <li>Store-level profitability remains strong despite cost headwinds.</li>
+                            </ul>`
+                    },
+                    stores: {
+                        imgSrc: './assets/chipotle_stores_vs_sss@2x.png',
+                        alt: 'Stores vs same-store-sales: 2018–2024. Key takeaway: store growth linked to SSS movement.',
+                         interpHTML: `
+                            <h3 class="font-bold text-lg mb-2">Store Expansion vs SSS</h3>
+                            <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Unit openings correlate with a modest decline in SSS growth—we model mild negative elasticity in the Base case.</p>
+                            <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
+                                <li>Aggressive store opening strategy continues to expand footprint.</li>
+                                <li>Same-store sales growth shows maturity but remains positive.</li>
+                                <li>"Chipotlanes" (drive-thrus) are a key part of the new store format.</li>
+                            </ul>`
+                    }
+                };
 
-                    toggles.forEach(toggle => {
-                        toggle.addEventListener('click', () => {
-                            const view = toggle.dataset.view;
-                            
-                            toggles.forEach(t => t.setAttribute('aria-pressed', 'false'));
-                            toggle.setAttribute('aria-pressed', 'true');
-                            
-                            chartImg.style.opacity = 0;
-                            setTimeout(() => {
-                                chartImg.src = viewData[view].imgSrc;
-                                chartImg.alt = viewData[view].alt;
-                                interpContainer.innerHTML = viewData[view].interpHTML;
-                                chartImg.style.opacity = 1;
-                            }, 400);
-                        });
+                toggles.forEach(toggle => {
+                    toggle.addEventListener('click', () => {
+                        const view = toggle.dataset.view;
+                        
+                        toggles.forEach(t => t.setAttribute('aria-pressed', 'false'));
+                        toggle.setAttribute('aria-pressed', 'true');
+                        
+                        chartImg.style.opacity = 0;
+                        setTimeout(() => {
+                            chartImg.src = viewData[view].imgSrc;
+                            chartImg.alt = viewData[view].alt;
+                            interpContainer.innerHTML = viewData[view].interpHTML;
+                            chartImg.style.opacity = 1;
+                        }, 400);
                     });
-                }
-
-                // --- Variant 2: Focus + Context Logic ---
-                const focusContext = previewContainer.querySelector('.cpv-focus-context');
-                if(focusContext) {
-                    const rangeBtns = focusContext.querySelectorAll('.range-btn');
-                    const interp = focusContext.querySelector('#focus-context-interp');
-                    const overlay = focusContext.querySelector('.focus-overlay');
-                    const label = focusContext.querySelector('.focus-label');
-
-                    const focusData = {
-                        full: "Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024), navigating a pandemic dip and a strong digital-led recovery.",
-                        "2018-2020": "Focus: Pre-pandemic growth was steady, followed by a sharp but brief decline in Q2 2020 due to lockdowns.",
-                        "2020-2022": "Focus: A rapid V-shaped recovery driven by the massive expansion of digital and delivery sales channels.",
-                        "2022-2024": "Focus: Growth normalizes, with margin pressure from inflation becoming a key narrative."
-                    };
-
-                    rangeBtns.forEach(btn => {
-                        btn.addEventListener('click', () => {
-                            const range = btn.dataset.range;
-                            rangeBtns.forEach(b => b.setAttribute('aria-pressed', 'false'));
-                            btn.setAttribute('aria-pressed', 'true');
-
-                            interp.innerHTML = `<p class="chart-summary font-semibold text-gray-700 text-sm">${focusData[range]}</p>`;
-
-                            if (range === 'full') {
-                                overlay.classList.remove('visible');
-                            } else {
-                                label.textContent = `Focus: ${range}`;
-                                overlay.classList.add('visible');
-                            }
-                        });
-                    });
-                }
+                });
             };
 
 
