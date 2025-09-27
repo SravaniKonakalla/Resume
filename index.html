@@ -417,7 +417,8 @@
 
         /* Chipotle Project Specific Styles */
         .chipotle-hero {
-            background-color: #f8f8f8;
+            background-color: rgba(245, 241, 234, 0.9); /* Semi-transparent to show animation */
+            backdrop-filter: blur(4px);
             border-bottom: 1px solid #e2e8f0;
         }
         .chipotle-kpi-card {
@@ -677,7 +678,7 @@
                 },
                 // NEW: Data for the Chipotle Project Page
                 chipotleProject: {
-                    title: "Chipotle Mexican Grill (CMG) — Historical Financial Performance, Store Expansion Trends, and 4-Year Scenario-Based Forecast",
+                    title: "Chipotle (CMG): Financial Model & 4-Year Forecast",
                     meta: {
                         date: "Sep 2025",
                         history: "2021 - 2024",
@@ -1096,7 +1097,6 @@
                                 <div class="md:col-span-3 text-center md:text-left">
                                     <div class="flex justify-center md:justify-start items-center gap-4 mb-4">
                                         <img src="${getLogoUrl('chipotle')}" alt="Chipotle Company Logo Placeholder" class="w-16 h-16">
-                                        <h2 class="text-xl md:text-2xl font-semibold text-gray-600">Chipotle Mexican Grill, Inc. (CMG)</h2>
                                     </div>
                                     <h1 class="text-2xl md:text-3xl font-bold text-gray-800 leading-tight mb-4">${data.title}</h1>
                                     <p class="text-sm text-gray-500 mb-6">
@@ -1108,9 +1108,9 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="md:col-span-2">
-                                    <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200">
-                                        <h3 class="font-bold text-lg mb-2 text-gray-800">About the Company</h3>
+                                <div class="md:col-span-2 h-full">
+                                    <div class="bg-white/70 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-gray-200 h-full flex flex-col justify-center">
+                                        <h3 class="font-bold text-lg mb-4 text-gray-800 text-center">About the Company</h3>
                                         <p class="text-gray-600 text-sm leading-relaxed">
                                             ${data.about}
                                         </p>
@@ -1620,5 +1620,6 @@
     </script>
 </body>
 </html>
+
 
 
