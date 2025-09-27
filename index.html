@@ -677,15 +677,15 @@
                 },
                 // NEW: Data for the Chipotle Project Page
                 chipotleProject: {
-                    title: "[PROJECT_TITLE]",
+                    title: "Chipotle Mexican Grill (CMG) — Historical Financial Performance, Store Expansion Trends, and 4-Year Scenario-Based Forecast",
                     meta: {
-                        date: "[ANALYSIS_DATE]",
-                        history: "[HISTORICAL_YEARS]",
-                        forecast: "[FORECAST_YEARS]",
-                        sources: "[DATA_SOURCES]"
+                        date: "Sep 2025",
+                        history: "2021 - 2024",
+                        forecast: "2025 - 2028",
+                        sources: "SEC 10-k filings of chipotle, Chipotle official website"
                     },
                     downloads: {
-                        pdf: "[REPORT_PDF_FILENAME]",
+                        excel: "[CHIPOTLE_MODEL.XLSX]",
                         csv: "[FORECAST_CSV_FILENAME]",
                         pptx: "[SUMMARY_PPTX_FILENAME]"
                     },
@@ -1090,35 +1090,37 @@
                 page.innerHTML = `
                 <div id="chipotle-project-container">
                     <!-- 1. Hero / Header -->
-                    <section class="chipotle-hero py-12 md:py-20">
-                        <div class="container mx-auto px-6 max-w-5xl">
-                            <div class="flex items-center gap-6 mb-6">
-                                <img src="${getLogoUrl('chipotle')}" alt="Chipotle Company Logo Placeholder" class="w-20 h-20">
-                                <div>
-                                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800">${data.title}</h1>
-                                    <p class="text-lg text-gray-600">Chipotle Mexican Grill, Inc. (CMG)</p>
+                    <section class="chipotle-hero py-12 md:py-16">
+                        <div class="container mx-auto px-6 max-w-6xl">
+                            <div class="grid md:grid-cols-5 gap-8 md:gap-12 items-center">
+                                <div class="md:col-span-3 text-center md:text-left">
+                                    <div class="flex justify-center md:justify-start items-center gap-4 mb-4">
+                                        <img src="${getLogoUrl('chipotle')}" alt="Chipotle Company Logo Placeholder" class="w-16 h-16">
+                                        <h2 class="text-xl md:text-2xl font-semibold text-gray-600">Chipotle Mexican Grill, Inc. (CMG)</h2>
+                                    </div>
+                                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 leading-tight mb-4">${data.title}</h1>
+                                    <p class="text-sm text-gray-500 mb-6">
+                                        Analysis: ${data.meta.date} &bull; History: ${data.meta.history} &bull; Forecast: ${data.meta.forecast} <br> Sources: ${data.meta.sources}
+                                    </p>
+                                    <div class="flex justify-center md:justify-start">
+                                        <a href="#" class="download-btn btn-primary font-bold py-3 px-5 rounded-lg inline-flex items-center gap-2" data-filename="${data.downloads.excel}" data-content="Full financial model, assumptions, and scenario data in Excel format.">
+                                            <i class="fas fa-file-excel"></i> Download Model (Excel)
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                            <p class="text-sm text-gray-500 mb-6">
-                                Analysis: ${data.meta.date} &bull; History: ${data.meta.history} &bull; Forecast: ${data.meta.forecast} &bull; Sources: ${data.meta.sources}
-                            </p>
-                            <div class="flex flex-wrap gap-4 items-center">
-                                <a href="#" class="download-btn btn-primary font-bold py-3 px-5 rounded-lg inline-flex items-center gap-2" data-filename="${data.downloads.pdf}" data-content="Full narrative, charts, assumptions, and raw model data.">
-                                    <i class="fas fa-file-pdf"></i> Download Full Report (PDF)
-                                </a>
-                                <a href="#" class="download-btn text-gray-600 font-semibold hover:text-gray-800 transition" data-filename="${data.downloads.csv}" data-content="Forecast data for all scenarios in CSV format.">
-                                    Download Forecast Data (CSV)
-                                </a>
+                                <div class="md:col-span-2">
+                                    <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200">
+                                        <h3 class="font-bold text-lg mb-2 text-gray-800">About the Company</h3>
+                                        <p class="text-gray-600 text-sm leading-relaxed">
+                                            ${data.about}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
                     
-                    <!-- About the company -->
-                    <section class="py-10">
-                         <div class="container mx-auto px-6 max-w-5xl">
-                            <p class="text-gray-700 leading-relaxed">${data.about}</p>
-                        </div>
-                    </section>
+                    <!-- About the company Section Removed as content is moved to hero -->
 
                     <!-- 2. Project dashboard — Key results -->
                     <section class="py-10 bg-gray-50">
@@ -1618,4 +1620,5 @@
     </script>
 </body>
 </html>
+
 
