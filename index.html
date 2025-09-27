@@ -415,7 +415,7 @@
             transform: scale(1);
         }
 
-        /* --- NEW: Chipotle Historical Analysis Styles --- */
+        /* --- Chipotle Historical Analysis Styles --- */
         .historical-analysis-section .chart-frame {
             background-color: white;
             border-radius: 0.5rem;
@@ -429,7 +429,7 @@
             transition: opacity 0.4s ease-in-out;
         }
         .historical-analysis-section .chart-summary {
-            padding: 0.5rem 0.25rem 0;
+            padding-top: 0.5rem;
             font-size: 0.8rem;
             color: #9C8FA7;
         }
@@ -456,6 +456,122 @@
             .historical-analysis-nav .mini-card-toggle {
                 flex-shrink: 0;
             }
+        }
+        
+        /* --- NEW: Chipotle Forecast Preview Variants --- */
+        .chipotle-preview-forecasts .preview-badge {
+            background-color: #AD2F1F; /* Chipotle Red */
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .chipotle-preview-forecasts .variant-container {
+            border: 2px dashed #D1A46E;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+         .chipotle-preview-forecasts .chart-frame {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            padding: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .chipotle-preview-forecasts .chart-frame img {
+            border-radius: 0.25rem;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .chipotle-preview-forecasts .chart-summary {
+            padding-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #9C8FA7;
+        }
+
+        /* Variant A: Slider */
+        .cpv-slider-kpi-band {
+            background: #fff;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .cpv-slider-kpi-band .kpi-value {
+            transition: color 0.3s ease;
+        }
+        .cpv-slider input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            outline: none;
+        }
+        .cpv-slider input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #463863;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .cpv-slider input[type=range]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: #463863;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        /* Variant B: Toggle */
+        .cpv-toggle-btn-group button[aria-pressed="true"] {
+            background-color: #463863;
+            color: #fff;
+        }
+        .cpv-toggle .chart-frame .reveal-mask {
+            position: absolute;
+            top:0; left:0; bottom:0;
+            width: 100%;
+            background: white;
+            transform-origin: left;
+            transform: scaleX(1);
+            transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+         .cpv-toggle .chart-frame.is-animating .reveal-mask {
+             transform: scaleX(0);
+         }
+
+        /* Variant C: Mini-map */
+        .cpv-minimap .minimap-container {
+            background: #fff;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .cpv-minimap .minimap-item {
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 0.25rem;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+        .cpv-minimap .minimap-item:hover {
+            transform: scale(1.05);
+        }
+        .cpv-minimap .minimap-item[aria-pressed="true"] {
+            border-color: #463863;
         }
 
     </style>
@@ -688,7 +804,6 @@
                     if (pageId === 'projects') {
                         setTimeout(() => {
                             setupProjectPage();
-                            setupProjectPreviews(); // NEW
                         }, 50);
                     }
                     if (pageId === 'experience') {
@@ -1058,7 +1173,7 @@
                 </div>
 
                 <!-- Historical Analysis Section -->
-                <section class="historical-analysis-section py-12 md:py-16 bg-white/50">
+                <section class="historical-analysis-section py-12 md:py-16 bg-white/50 project-section-fade-in">
                      <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-8">
                              <h2 class="text-3xl md:text-4xl font-bold">Historical Analysis</h2>
@@ -1079,11 +1194,11 @@
                             <!-- Chart -->
                             <div class="md:col-span-6">
                                 <div class="chart-frame">
-                                    <img id="layered-explorer-img" src="./assets/chipotle_hist_financials@2x.png" width="1280" height="720" loading="lazy" alt="Historical financials: Revenue and Net Income, 2018–2024. Key takeaway: revenue grew at [HIST_REVENUE_CAGR]% CAGR.">
+                                    <img id="historical-analysis-img" src="./assets/chipotle_hist_financials@2x.png" width="1280" height="720" loading="lazy" alt="Historical financials: Revenue and Net Income, 2018–2024. Key takeaway: revenue grew at [HIST_REVENUE_CAGR]% CAGR.">
                                 </div>
                             </div>
                             <!-- Interpretation -->
-                            <div id="layered-explorer-interp" class="md:col-span-4">
+                            <div id="historical-analysis-interp" class="md:col-span-4">
                                 <h3 class="font-bold text-lg mb-2">Financial Performance</h3>
                                 <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024). The chart shows a COVID-related dip in 2020 followed by digital-led recovery.</p>
                                 <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
@@ -1096,6 +1211,123 @@
                     </div>
                 </section>
                 
+                <!-- NEW: Forecast Previews Section -->
+                <section class="chipotle-preview-forecasts py-12 md:py-16 project-section-fade-in">
+                     <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
+                        <div class="text-center mb-12">
+                             <h2 class="text-3xl md:text-4xl font-bold">Forecast Previews — Bull / Base / Bear (2025–2028)</h2>
+                             <p class="mt-2 text-gray-600 max-w-3xl mx-auto">Below are three preview layout options for presenting the forecast scenarios. These are preview variants only — pick one to keep. No other site parts were modified.</p>
+                        </div>
+
+                        <!-- Variant A: Scenario Slider -->
+                        <div class="variant-container cpv-slider">
+                            <div class="preview-badge">Preview — Option A: Scenario Slider with Dynamic KPI Band</div>
+                            <div class="cpv-slider-kpi-band mb-4 grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <p class="text-xs text-gray-500">Implied Price</p>
+                                    <p id="kpi-price" class="font-bold text-xl md:text-2xl text-gray-800 kpi-value">$3150</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Revenue CAGR</p>
+                                    <p id="kpi-cagr" class="font-bold text-xl md:text-2xl text-gray-800 kpi-value">13.5%</p>
+                                </div>
+                                <div class="col-span-2 md:col-span-1">
+                                    <p class="text-xs text-gray-500">2028 EPS</p>
+                                    <p id="kpi-eps" class="font-bold text-xl md:text-2xl text-gray-800 kpi-value">$112.50</p>
+                                </div>
+                            </div>
+                            <div class="chart-frame mb-4">
+                                <img id="slider-chart-img" src="./assets/chipotle_forecast_revenue_base@2x.png" width="1280" height="720" loading="lazy" alt="Forecast — Net revenue (Base scenario), 2025–2028.">
+                            </div>
+                            <div class="flex justify-between text-xs font-bold text-gray-500 mb-2 px-1">
+                                <span>Bear</span>
+                                <span>Base</span>
+                                <span>Bull</span>
+                            </div>
+                            <input id="scenario-slider" type="range" min="0" max="2" value="1" step="1" class="w-full">
+                            <div id="slider-interp" class="mt-4 text-sm" aria-live="polite">
+                                <p class="chart-summary font-semibold text-gray-700 mb-2"><strong>Base Scenario:</strong> Assumes continued strong SSS growth and moderate margin expansion.</p>
+                                <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
+                                    <li>Store growth continues at ~250 new units per year.</li>
+                                    <li>Digital sales mix remains elevated above 40%.</li>
+                                    <li>Commodity inflation moderates but labor costs remain a headwind.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Variant B: Toggle + Timeline Animation -->
+                        <div class="variant-container cpv-toggle">
+                             <div class="preview-badge">Preview — Option B: Toggle + Timeline Animation</div>
+                             <div class="grid md:grid-cols-12 gap-6">
+                                <div class="md:col-span-3">
+                                    <div class="cpv-toggle-btn-group flex md:flex-col gap-2">
+                                        <button data-scenario="bear" class="btn-secondary w-full text-sm py-2">Bear — Downside</button>
+                                        <button data-scenario="base" class="btn-secondary w-full text-sm py-2" aria-pressed="true">Base — Central</button>
+                                        <button data-scenario="bull" class="btn-secondary w-full text-sm py-2">Bull — Upside</button>
+                                    </div>
+                                    <div class="text-right mt-4">
+                                        <label class="text-xs text-gray-500 flex items-center justify-end"><input type="checkbox" id="animation-toggle" class="mr-2" checked>Enable Animation</label>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-9">
+                                     <div class="chart-frame">
+                                        <img id="toggle-chart-img" src="./assets/chipotle_forecast_revenue_base@2x.png" width="1280" height="720" loading="lazy" alt="Forecast — Net revenue (Base scenario), 2025–2028.">
+                                        <div class="reveal-mask"></div>
+                                     </div>
+                                     <div id="toggle-interp" class="mt-2 text-sm" aria-live="polite">
+                                        <p class="chart-summary font-semibold text-gray-700"><strong>Base Scenario:</strong> Continued strong SSS growth and moderate margin expansion.</p>
+                                     </div>
+                                </div>
+                             </div>
+                        </div>
+                        
+                        <!-- Variant C: Mini-Map + Focus View -->
+                        <div class="variant-container cpv-minimap">
+                            <div class="preview-badge">Preview — Option C: Mini-Map + Focus View</div>
+                            <div class="grid md:grid-cols-12 gap-6">
+                                <div class="md:col-span-3">
+                                    <h4 class="font-bold mb-2">Scenario Mini-Map</h4>
+                                    <div class="minimap-container flex md:flex-col gap-2">
+                                        <div class="minimap-item p-1" data-scenario="bear" aria-pressed="false">
+                                            <img src="./assets/chipotle_forecast_revenue_bear@2x.png" loading="lazy" class="w-full h-auto" alt="Bear Scenario Thumbnail">
+                                            <p class="text-xs font-semibold text-center mt-1">Bear</p>
+                                        </div>
+                                        <div class="minimap-item p-1" data-scenario="base" aria-pressed="true">
+                                            <img src="./assets/chipotle_forecast_revenue_base@2x.png" loading="lazy" class="w-full h-auto" alt="Base Scenario Thumbnail">
+                                            <p class="text-xs font-semibold text-center mt-1">Base</p>
+                                        </div>
+                                         <div class="minimap-item p-1" data-scenario="bull" aria-pressed="false">
+                                            <img src="./assets/chipotle_forecast_revenue_bull@2x.png" loading="lazy" class="w-full h-auto" alt="Bull Scenario Thumbnail">
+                                            <p class="text-xs font-semibold text-center mt-1">Bull</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-9">
+                                    <h4 class="font-bold mb-2">Focus View</h4>
+                                    <div class="chart-frame">
+                                        <img id="minimap-chart-img" src="./assets/chipotle_forecast_revenue_base@2x.png" width="1280" height="720" loading="lazy" alt="Forecast — Net revenue (Base scenario), 2025–2028.">
+                                    </div>
+                                    <div id="minimap-interp" class="mt-2 text-sm" aria-live="polite">
+                                        <p class="chart-summary font-semibold text-gray-700"><strong>Base Scenario:</strong> Continued strong SSS growth and moderate margin expansion.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-8 pt-8 border-t border-gray-300/60">
+                             <h3 class="text-xl font-bold mb-4">Download Full Forecast</h3>
+                             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                <a href="#" class="btn-primary w-full sm:w-auto font-bold py-3 px-6 rounded-lg inline-flex items-center justify-center gap-2">
+                                    <i class="fas fa-file-pdf"></i> Download Report (PDF)
+                                </a>
+                                <a href="#" class="btn-secondary w-full sm:w-auto font-bold py-3 px-6 rounded-lg inline-flex items-center justify-center gap-2">
+                                    <i class="fas fa-file-csv"></i> Download Data (CSV)
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
 
                 <!-- Interactive Timeline Section -->
                 <section id="timeline" class="py-12 md:py-20 bg-white project-section-fade-in">
@@ -1245,7 +1477,6 @@
                     button.addEventListener('click', () => {
                         const isActive = content.classList.contains('active');
                         
-                        // This logic closes other accordions when one is opened.
                         accordionItems.forEach(otherItem => {
                              if (otherItem !== item) {
                                 otherItem.querySelector('.timeline-details').classList.remove('active');
@@ -1262,15 +1493,31 @@
                         }
                     });
                 });
+                
+                setupHistoricalAnalysis();
+
+                // Lazy load forecast previews JS
+                const forecastPreviewSection = document.querySelector('.chipotle-preview-forecasts');
+                if (forecastPreviewSection) {
+                    const forecastObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                setupProjectForecastPreviews();
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.1 });
+                    forecastObserver.observe(forecastPreviewSection);
+                }
             };
 
-            const setupProjectPreviews = () => {
+            const setupHistoricalAnalysis = () => {
                 const historicalAnalysisContainer = document.querySelector('.historical-analysis-section');
                 if (!historicalAnalysisContainer) return;
 
                 const toggles = historicalAnalysisContainer.querySelectorAll('.mini-card-toggle');
-                const chartImg = historicalAnalysisContainer.querySelector('#layered-explorer-img');
-                const interpContainer = historicalAnalysisContainer.querySelector('#layered-explorer-interp');
+                const chartImg = historicalAnalysisContainer.querySelector('#historical-analysis-img');
+                const interpContainer = historicalAnalysisContainer.querySelector('#historical-analysis-interp');
 
                 const viewData = {
                     financials: {
@@ -1316,6 +1563,91 @@
                     });
                 });
             };
+
+            function setupProjectForecastPreviews() {
+                // --- Variant A: Slider ---
+                const sliderEl = document.getElementById('scenario-slider');
+                if (sliderEl) {
+                    const kpiPrice = document.getElementById('kpi-price');
+                    const kpiCagr = document.getElementById('kpi-cagr');
+                    const kpiEps = document.getElementById('kpi-eps');
+                    const sliderImg = document.getElementById('slider-chart-img');
+                    const sliderInterp = document.getElementById('slider-interp');
+                    const scenarios = ['bear', 'base', 'bull'];
+                    const data = {
+                        bear: { price: '$2600', cagr: '11.0%', eps: '$95.00', interp: '<strong>Bear Scenario:</strong> Assumes recessionary pressures impacting SSS and persistent high inflation compressing margins.', alt:'Forecast — Net revenue (Bear scenario), 2025–2028.' },
+                        base: { price: '$3150', cagr: '13.5%', eps: '$112.50', interp: '<strong>Base Scenario:</strong> Assumes continued strong SSS growth and moderate margin expansion.', alt:'Forecast — Net revenue (Base scenario), 2025–2028.' },
+                        bull: { price: '$3700', cagr: '15.5%', eps: '$130.00', interp: '<strong>Bull Scenario:</strong> Assumes successful international expansion and new menu innovations driving higher traffic and margins.', alt:'Forecast — Net revenue (Bull scenario), 2025–2028.' }
+                    };
+
+                    sliderEl.addEventListener('input', () => {
+                        const scenario = scenarios[sliderEl.value];
+                        kpiPrice.textContent = data[scenario].price;
+                        kpiCagr.textContent = data[scenario].cagr;
+                        kpiEps.textContent = data[scenario].eps;
+                        sliderImg.src = `./assets/chipotle_forecast_revenue_${scenario}@2x.png`;
+                        sliderImg.alt = data[scenario].alt;
+                        sliderInterp.innerHTML = `<p class="chart-summary font-semibold text-gray-700 mb-2">${data[scenario].interp}</p><ul class="list-disc list-inside space-y-1 text-xs text-gray-600"><li>...</li></ul>`;
+                    });
+                }
+                
+                // --- Variant B: Toggle ---
+                const toggleContainer = document.querySelector('.cpv-toggle');
+                if (toggleContainer) {
+                    const toggleBtns = toggleContainer.querySelectorAll('.cpv-toggle-btn-group button');
+                    const toggleImg = document.getElementById('toggle-chart-img');
+                    const toggleInterp = document.getElementById('toggle-interp');
+                    const animationToggle = document.getElementById('animation-toggle');
+                    const chartFrame = toggleContainer.querySelector('.chart-frame');
+                    const data = {
+                         bear: { interp: '<strong>Bear Scenario:</strong> Recessionary pressures impact growth.', alt:'Forecast — Net revenue (Bear scenario), 2025–2028.' },
+                         base: { interp: '<strong>Base Scenario:</strong> Continued strong SSS growth.', alt:'Forecast — Net revenue (Base scenario), 2025–2028.' },
+                         bull: { interp: '<strong>Bull Scenario:</strong> International expansion succeeds.', alt:'Forecast — Net revenue (Bull scenario), 2025–2028.' }
+                    };
+
+                    toggleBtns.forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const scenario = btn.dataset.scenario;
+                            toggleBtns.forEach(b => b.setAttribute('aria-pressed', 'false'));
+                            btn.setAttribute('aria-pressed', 'true');
+
+                            toggleImg.src = `./assets/chipotle_forecast_revenue_${scenario}@2x.png`;
+                            toggleImg.alt = data[scenario].alt;
+                            toggleInterp.innerHTML = `<p class="chart-summary font-semibold text-gray-700">${data[scenario].interp}</p>`;
+                            
+                            if (animationToggle.checked) {
+                                chartFrame.classList.add('is-animating');
+                                setTimeout(() => chartFrame.classList.remove('is-animating'), 1000);
+                            }
+                        });
+                    });
+                }
+                
+                // --- Variant C: Mini-Map ---
+                const minimapContainer = document.querySelector('.cpv-minimap');
+                 if (minimapContainer) {
+                    const minimapItems = minimapContainer.querySelectorAll('.minimap-item');
+                    const minimapImg = document.getElementById('minimap-chart-img');
+                    const minimapInterp = document.getElementById('minimap-interp');
+                     const data = {
+                         bear: { interp: '<strong>Bear Scenario:</strong> Recessionary pressures impact growth.', alt:'Forecast — Net revenue (Bear scenario), 2025–2028.' },
+                         base: { interp: '<strong>Base Scenario:</strong> Continued strong SSS growth.', alt:'Forecast — Net revenue (Base scenario), 2025–2028.' },
+                         bull: { interp: '<strong>Bull Scenario:</strong> International expansion succeeds.', alt:'Forecast — Net revenue (Bull scenario), 2025–2028.' }
+                    };
+                    
+                    minimapItems.forEach(item => {
+                        item.addEventListener('click', () => {
+                            const scenario = item.dataset.scenario;
+                            minimapItems.forEach(i => i.setAttribute('aria-pressed', 'false'));
+                            item.setAttribute('aria-pressed', 'true');
+                            
+                            minimapImg.src = `./assets/chipotle_forecast_revenue_${scenario}@2x.png`;
+                            minimapImg.alt = data[scenario].alt;
+                            minimapInterp.innerHTML = `<p class="chart-summary font-semibold text-gray-700">${data[scenario].interp}</p>`;
+                        });
+                    });
+                 }
+            }
 
 
             const setupExperiencePage = () => {
