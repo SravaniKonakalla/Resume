@@ -1363,42 +1363,81 @@
                             <h2 class="text-3xl md:text-4xl font-bold">Project Dashboard - Key Results</h2>
                             <p class="mt-2 text-gray-600">A visual-first summary of valuation outcomes, forecasts, and scenario analysis.</p>
                         </div>
+                        
+                        <!-- Part 1: Top Highlight Row -->
                         <div class="bg-white rounded-xl shadow-lg p-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-8">
-                            <div><p class="text-2xl md:text-3xl font-bold text-[#463863]">${portfolioData.chipotleProject.dashboardData.valuationRange}</p><p class="text-sm font-semibold text-gray-500">Intrinsic Value (Range)</p></div>
-                            <div><p class="text-2xl md:text-3xl font-bold text-green-600">${portfolioData.chipotleProject.dashboardData.impliedUpside}</p><p class="text-sm font-semibold text-gray-500">Implied Upside vs Spot</p></div>
-                            <div><p class="text-2xl md:text-3xl font-bold text-[#463863]">${portfolioData.chipotleProject.dashboardData.wacc}</p><p class="text-sm font-semibold text-gray-500">WACC</p></div>
-                            <div><p class="text-2xl md:text-3xl font-bold text-[#463863]">${portfolioData.chipotleProject.dashboardData.terminalGrowth}</p><p class="text-sm font-semibold text-gray-500">Terminal Growth</p></div>
-                        </div>
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
-                                <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
-                                    <i class="fas fa-image text-4xl text-gray-400 mb-2"></i>
-                                    <h3 class="font-bold">Valuation Range</h3>
-                                    <p class="text-xs text-gray-500">Upload Image</p>
-                                </div>
+                            <div>
+                                <p class="text-2xl md:text-3xl font-bold text-[#463863]">[Upload Value]</p>
+                                <p class="text-sm font-semibold text-gray-500">2028 Net Revenues Forecast</p>
+                                <p class="text-xs text-gray-400 mt-1">Projected Revenues by 2028</p>
                             </div>
-                             <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
-                                <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
-                                    <i class="fas fa-chart-line text-4xl text-gray-400 mb-2"></i>
-                                    <h3 class="font-bold">Revenue & EPS Forecast</h3>
-                                    <p class="text-xs text-gray-500">Upload Image</p>
-                                </div>
+                            <div>
+                                <p class="text-2xl md:text-3xl font-bold text-green-600">[Upload Range]</p>
+                                <p class="text-sm font-semibold text-gray-500">Implied Share Price Range</p>
+                                 <p class="text-xs text-gray-400 mt-1">Scenario-based valuation outcomes</p>
                             </div>
-                            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
-                                <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
-                                    <i class="fas fa-chart-bar text-4xl text-gray-400 mb-2"></i>
-                                    <h3 class="font-bold">Scenario Analysis</h3>
-                                    <p class="text-xs text-gray-500">Upload Image</p>
-                                </div>
+                            <div>
+                                <p class="text-2xl md:text-3xl font-bold text-[#463863]">[Upload CAGR]</p>
+                                <p class="text-sm font-semibold text-gray-500">SSS Growth CAGR (25-28)</p>
+                                <p class="text-xs text-gray-400 mt-1">Sustained growth in comparable sales</p>
                             </div>
-                            <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-center text-center h-64">
-                                <div class="w-full h-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition">
-                                    <i class="fas fa-balance-scale text-4xl text-gray-400 mb-2"></i>
-                                    <h3 class="font-bold">Multiples Comparison</h3>
-                                    <p class="text-xs text-gray-500">Upload Image</p>
-                                </div>
+                            <div>
+                                <p class="text-2xl md:text-3xl font-bold text-[#463863]">[Upload CAGR]</p>
+                                <p class="text-sm font-semibold text-gray-500">Store Growth CAGR (25-28)</p>
+                                <p class="text-xs text-gray-400 mt-1">Expansion in restaurant count</p>
                             </div>
                         </div>
+
+                        <!-- Part 2: Five Analysis Boxes -->
+                        <div>
+                            <!-- Row 1: Historical Context -->
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div class="bg-white p-6 rounded-xl shadow-lg">
+                                    <h3 class="font-bold text-lg mb-2">Historical Financial Performance</h3>
+                                    <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
+                                        <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
+                                        <p class="text-xs text-gray-500">Graph 1: Revenues, Op Income, Net Income</p>
+                                    </div>
+                                    <p class="text-sm text-gray-600">Chipotle has delivered consistent revenue growth alongside improving margins and net income, reflecting strong operating leverage.</p>
+                                </div>
+                                <div class="bg-white p-6 rounded-xl shadow-lg">
+                                    <h3 class="font-bold text-lg mb-2">Store Expansion vs Same-Store Sales</h3>
+                                    <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
+                                         <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
+                                        <p class="text-xs text-gray-500">Graph 2: Store Expansion vs SSS</p>
+                                    </div>
+                                    <p class="text-sm text-gray-600">Expansion in store count has complemented steady same-store sales, highlighting the dual drivers of Chipotle’s growth.</p>
+                                </div>
+                            </div>
+                            <!-- Row 2: Forward Forecasts -->
+                            <div class="grid md:grid-cols-3 gap-8 mt-8">
+                               <div class="bg-white p-6 rounded-xl shadow-lg">
+                                    <h3 class="font-bold text-lg mb-2">Bull Case Forecast</h3>
+                                    <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
+                                         <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
+                                        <p class="text-xs text-gray-500">Graph: Bull Case Forecast</p>
+                                    </div>
+                                    <p class="text-sm text-gray-600">In the Bull case, accelerated store expansion and stronger same-store sales drive higher revenues and valuations.</p>
+                                </div>
+                                <div class="bg-white p-6 rounded-xl shadow-lg">
+                                    <h3 class="font-bold text-lg mb-2">Base Case Forecast</h3>
+                                    <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
+                                         <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
+                                        <p class="text-xs text-gray-500">Graph: Base Case Forecast</p>
+                                    </div>
+                                    <p class="text-sm text-gray-600">The Base case reflects a balanced trajectory with sustainable growth in revenues and a moderate valuation outlook.</p>
+                                </div>
+                                 <div class="bg-white p-6 rounded-xl shadow-lg">
+                                    <h3 class="font-bold text-lg mb-2">Bear Case Forecast</h3>
+                                    <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
+                                         <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
+                                        <p class="text-xs text-gray-500">Graph: Bear Case Forecast</p>
+                                    </div>
+                                    <p class="text-sm text-gray-600">In the Bear case, slower store expansion and weaker sales result in downside risks to revenues and valuations.</p>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </section>
                 
