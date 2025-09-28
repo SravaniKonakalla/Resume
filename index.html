@@ -415,6 +415,24 @@
             transform: scale(1);
         }
 
+        /* --- NEW: Profile Image Placeholder --- */
+        .profile-image-placeholder {
+            border-radius: 50%;
+            box-shadow:
+                0 0 5px rgba(209, 164, 110, 0.8),  /* #D1A46E - Muted Gold */
+                0 0 10px rgba(209, 164, 110, 0.6),
+                0 0 20px rgba(70, 56, 99, 0.5),   /* #463863 - Accent Violet */
+                0 0 40px rgba(70, 56, 99, 0.4);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .profile-image-placeholder:hover {
+            box-shadow:
+                0 0 8px rgba(209, 164, 110, 1),
+                0 0 15px rgba(209, 164, 110, 0.8),
+                0 0 30px rgba(70, 56, 99, 0.7),
+                0 0 60px rgba(70, 56, 99, 0.5);
+        }
+
         /* --- Chipotle Historical Analysis Styles --- */
         .historical-analysis-section .chart-frame {
             background-color: white;
@@ -459,26 +477,7 @@
         }
         
         /* --- NEW: Chipotle Forecast Preview Variants --- */
-        .chipotle-preview-forecasts .preview-badge {
-            background-color: #AD2F1F; /* Chipotle Red */
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 1rem;
-            border: 2px solid #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .chipotle-preview-forecasts .variant-container {
-            border: 2px dashed #D1A46E;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            margin-bottom: 2rem;
-            background-color: rgba(255, 255, 255, 0.5);
-        }
-         .chipotle-preview-forecasts .chart-frame {
+        .chipotle-forecast-section .chart-frame {
             background-color: white;
             border-radius: 0.5rem;
             box-shadow: 0 6px 18px rgba(0,0,0,0.08);
@@ -486,27 +485,27 @@
             position: relative;
             overflow: hidden;
         }
-        .chipotle-preview-forecasts .chart-frame img {
+        .chipotle-forecast-section .chart-frame img {
             border-radius: 0.25rem;
             transition: opacity 0.4s ease-in-out;
         }
-        .chipotle-preview-forecasts .chart-summary {
+        .chipotle-forecast-section .chart-summary {
             padding-top: 0.5rem;
             font-size: 0.8rem;
             color: #9C8FA7;
         }
 
-        /* Variant A: Slider */
-        .cpv-slider-kpi-band {
+        /* Scenario Slider */
+        .scenario-slider-kpi-band {
             background: #fff;
             border-radius: 0.5rem;
             padding: 0.75rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-        .cpv-slider-kpi-band .kpi-value {
+        .scenario-slider-kpi-band .kpi-value {
             transition: color 0.3s ease;
         }
-        .cpv-slider input[type=range] {
+        .scenario-slider input[type=range] {
             -webkit-appearance: none;
             appearance: none;
             width: 100%;
@@ -515,7 +514,7 @@
             border-radius: 5px;
             outline: none;
         }
-        .cpv-slider input[type=range]::-webkit-slider-thumb {
+        .scenario-slider input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
             width: 24px;
@@ -526,7 +525,7 @@
             border: 4px solid #fff;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .cpv-slider input[type=range]::-moz-range-thumb {
+        .scenario-slider input[type=range]::-moz-range-thumb {
             width: 24px;
             height: 24px;
             background: #463863;
@@ -534,44 +533,6 @@
             border-radius: 50%;
             border: 4px solid #fff;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        
-        /* Variant B: Toggle */
-        .cpv-toggle-btn-group button[aria-pressed="true"] {
-            background-color: #463863;
-            color: #fff;
-        }
-        .cpv-toggle .chart-frame .reveal-mask {
-            position: absolute;
-            top:0; left:0; bottom:0;
-            width: 100%;
-            background: white;
-            transform-origin: left;
-            transform: scaleX(1);
-            transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
-        }
-         .cpv-toggle .chart-frame.is-animating .reveal-mask {
-             transform: scaleX(0);
-         }
-
-        /* Variant C: Mini-map */
-        .cpv-minimap .minimap-container {
-            background: #fff;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .cpv-minimap .minimap-item {
-            cursor: pointer;
-            border: 2px solid transparent;
-            border-radius: 0.25rem;
-            transition: border-color 0.2s ease, transform 0.2s ease;
-        }
-        .cpv-minimap .minimap-item:hover {
-            transform: scale(1.05);
-        }
-        .cpv-minimap .minimap-item[aria-pressed="true"] {
-            border-color: #463863;
         }
 
     </style>
@@ -657,7 +618,7 @@
                     title: "Analytical Finance Professional",
                     about: "A dedicated and detail-oriented finance professional with a passion for uncovering insights from data. Eager to apply my skills in a challenging and growth-oriented environment.",
                     summary: "Expertise in credit monitoring, financial modeling, and compliance. Skilled in SAP BPC and advanced Excel, with a proven track record of optimizing workflows and ensuring regulatory compliance.",
-                    imageUrl: "https://placehold.co/300x300/463863/F5F1EA?text=BSK",
+                    imageUrl: "https://placehold.co/224x224/F5F1EA/9C8FA7?text=Upload",
                 },
                  logos: {
                     tcs: 'TCS LOGO.svg.png',
@@ -895,7 +856,15 @@
                             <div class="container mx-auto px-6">
                                <div class="grid md:grid-cols-10 gap-8 items-center">
                                     <div class="md:col-span-3 flex justify-center md:justify-end">
-                                        <img src="${portfolioData.home.imageUrl}" alt="${portfolioData.home.name}" class="rounded-full w-40 h-40 md:w-56 md:h-56 object-cover border-4 border-gray-200 shadow-2xl">
+                                        <div class="relative profile-image-placeholder w-40 h-40 md:w-56 md:h-56">
+                                            <img src="${portfolioData.home.imageUrl}" alt="Profile image placeholder" class="rounded-full w-full h-full object-cover border-4 border-white/50">
+                                            <div class="absolute inset-0 bg-black/30 rounded-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
+                                                <div class="text-center text-white">
+                                                    <i class="fas fa-camera text-2xl"></i>
+                                                    <p class="text-sm font-semibold">Upload Image</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="md:col-span-7 text-center md:text-left">
                                         <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
@@ -1200,18 +1169,17 @@
                     </div>
                 </section>
                 
-                <!-- NEW: Forecast Previews Section -->
-                <section class="chipotle-preview-forecasts py-12 md:py-16 project-section-fade-in">
+                <!-- NEW: Forecast Section -->
+                <section class="chipotle-forecast-section py-12 md:py-16 project-section-fade-in">
                      <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-12">
-                             <h2 class="text-3xl md:text-4xl font-bold">Forecast Previews — Bull / Base / Bear (2025–2028)</h2>
-                             <p class="mt-2 text-gray-600 max-w-3xl mx-auto">Below are three preview layout options for presenting the forecast scenarios. These are preview variants only — pick one to keep. No other site parts were modified.</p>
+                             <h2 class="text-3xl md:text-4xl font-bold">Forecast Scenarios — Bull / Base / Bear (2025–2028)</h2>
+                             <p class="mt-2 text-gray-600 max-w-3xl mx-auto">An interactive slider to explore different forecast scenarios and their impact on key performance indicators.</p>
                         </div>
 
-                        <!-- Variant A: Scenario Slider -->
-                        <div class="variant-container cpv-slider">
-                            <div class="preview-badge">Preview — Option A: Scenario Slider with Dynamic KPI Band</div>
-                            <div class="cpv-slider-kpi-band mb-4 grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+                        <!-- Scenario Slider -->
+                        <div class="scenario-slider">
+                            <div class="scenario-slider-kpi-band mb-4 grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
                                 <div>
                                     <p class="text-xs text-gray-500">Implied Price</p>
                                     <p id="kpi-price" class="font-bold text-xl md:text-2xl text-gray-800 kpi-value">$3150</p>
@@ -1241,65 +1209,6 @@
                                     <li>Digital sales mix remains elevated above 40%.</li>
                                     <li>Commodity inflation moderates but labor costs remain a headwind.</li>
                                 </ul>
-                            </div>
-                        </div>
-
-                        <!-- Variant B: Toggle + Timeline Animation -->
-                        <div class="variant-container cpv-toggle">
-                             <div class="preview-badge">Preview — Option B: Toggle + Timeline Animation</div>
-                             <div class="grid md:grid-cols-12 gap-6">
-                                <div class="md:col-span-3">
-                                    <div class="cpv-toggle-btn-group flex md:flex-col gap-2">
-                                        <button data-scenario="bear" class="btn-secondary w-full text-sm py-2">Bear — Downside</button>
-                                        <button data-scenario="base" class="btn-secondary w-full text-sm py-2" aria-pressed="true">Base — Central</button>
-                                        <button data-scenario="bull" class="btn-secondary w-full text-sm py-2">Bull — Upside</button>
-                                    </div>
-                                    <div class="text-right mt-4">
-                                        <label class="text-xs text-gray-500 flex items-center justify-end"><input type="checkbox" id="animation-toggle" class="mr-2" checked>Enable Animation</label>
-                                    </div>
-                                </div>
-                                <div class="md:col-span-9">
-                                     <div class="chart-frame">
-                                        <img id="toggle-chart-img" src="./assets/chipotle_forecast_revenue_base@2x.png" width="1280" height="720" loading="lazy" alt="Forecast — Net revenue (Base scenario), 2025–2028.">
-                                        <div class="reveal-mask"></div>
-                                     </div>
-                                     <div id="toggle-interp" class="mt-2 text-sm" aria-live="polite">
-                                        <p class="chart-summary font-semibold text-gray-700"><strong>Base Scenario:</strong> Continued strong SSS growth and moderate margin expansion.</p>
-                                     </div>
-                                </div>
-                             </div>
-                        </div>
-                        
-                        <!-- Variant C: Mini-Map + Focus View -->
-                        <div class="variant-container cpv-minimap">
-                            <div class="preview-badge">Preview — Option C: Mini-Map + Focus View</div>
-                            <div class="grid md:grid-cols-12 gap-6">
-                                <div class="md:col-span-3">
-                                    <h4 class="font-bold mb-2">Scenario Mini-Map</h4>
-                                    <div class="minimap-container flex md:flex-col gap-2">
-                                        <div class="minimap-item p-1" data-scenario="bear" aria-pressed="false">
-                                            <img src="./assets/chipotle_forecast_revenue_bear@2x.png" loading="lazy" class="w-full h-auto" alt="Bear Scenario Thumbnail">
-                                            <p class="text-xs font-semibold text-center mt-1">Bear</p>
-                                        </div>
-                                        <div class="minimap-item p-1" data-scenario="base" aria-pressed="true">
-                                            <img src="./assets/chipotle_forecast_revenue_base@2x.png" loading="lazy" class="w-full h-auto" alt="Base Scenario Thumbnail">
-                                            <p class="text-xs font-semibold text-center mt-1">Base</p>
-                                        </div>
-                                         <div class="minimap-item p-1" data-scenario="bull" aria-pressed="false">
-                                            <img src="./assets/chipotle_forecast_revenue_bull@2x.png" loading="lazy" class="w-full h-auto" alt="Bull Scenario Thumbnail">
-                                            <p class="text-xs font-semibold text-center mt-1">Bull</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="md:col-span-9">
-                                    <h4 class="font-bold mb-2">Focus View</h4>
-                                    <div class="chart-frame">
-                                        <img id="minimap-chart-img" src="./assets/chipotle_forecast_revenue_base@2x.png" width="1280" height="720" loading="lazy" alt="Forecast — Net revenue (Base scenario), 2025–2028.">
-                                    </div>
-                                    <div id="minimap-interp" class="mt-2 text-sm" aria-live="polite">
-                                        <p class="chart-summary font-semibold text-gray-700"><strong>Base Scenario:</strong> Continued strong SSS growth and moderate margin expansion.</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         
@@ -1525,12 +1434,12 @@
                 setupHistoricalAnalysis();
 
                 // Lazy load forecast previews JS
-                const forecastPreviewSection = document.querySelector('.chipotle-preview-forecasts');
+                const forecastPreviewSection = document.querySelector('.chipotle-forecast-section');
                 if (forecastPreviewSection) {
                     const forecastObserver = new IntersectionObserver((entries, observer) => {
                         entries.forEach(entry => {
                             if (entry.isIntersecting) {
-                                setupProjectForecastPreviews();
+                                setupProjectForecasts();
                                 observer.unobserve(entry.target);
                             }
                         });
@@ -1592,8 +1501,7 @@
                 });
             };
 
-            function setupProjectForecastPreviews() {
-                // --- Variant A: Slider ---
+            function setupProjectForecasts() {
                 const sliderEl = document.getElementById('scenario-slider');
                 if (sliderEl) {
                     const kpiPrice = document.getElementById('kpi-price');
@@ -1618,63 +1526,6 @@
                         sliderInterp.innerHTML = `<p class="chart-summary font-semibold text-gray-700 mb-2">${data[scenario].interp}</p><ul class="list-disc list-inside space-y-1 text-xs text-gray-600"><li>...</li></ul>`;
                     });
                 }
-                
-                // --- Variant B: Toggle ---
-                const toggleContainer = document.querySelector('.cpv-toggle');
-                if (toggleContainer) {
-                    const toggleBtns = toggleContainer.querySelectorAll('.cpv-toggle-btn-group button');
-                    const toggleImg = document.getElementById('toggle-chart-img');
-                    const toggleInterp = document.getElementById('toggle-interp');
-                    const animationToggle = document.getElementById('animation-toggle');
-                    const chartFrame = toggleContainer.querySelector('.chart-frame');
-                    const data = {
-                         bear: { interp: '<strong>Bear Scenario:</strong> Recessionary pressures impact growth.', alt:'Forecast — Net revenue (Bear scenario), 2025–2028.' },
-                         base: { interp: '<strong>Base Scenario:</strong> Continued strong SSS growth.', alt:'Forecast — Net revenue (Base scenario), 2025–2028.' },
-                         bull: { interp: '<strong>Bull Scenario:</strong> International expansion succeeds.', alt:'Forecast — Net revenue (Bull scenario), 2025–2028.' }
-                    };
-
-                    toggleBtns.forEach(btn => {
-                        btn.addEventListener('click', () => {
-                            const scenario = btn.dataset.scenario;
-                            toggleBtns.forEach(b => b.setAttribute('aria-pressed', 'false'));
-                            btn.setAttribute('aria-pressed', 'true');
-
-                            toggleImg.src = `./assets/chipotle_forecast_revenue_${scenario}@2x.png`;
-                            toggleImg.alt = data[scenario].alt;
-                            toggleInterp.innerHTML = `<p class="chart-summary font-semibold text-gray-700">${data[scenario].interp}</p>`;
-                            
-                            if (animationToggle.checked) {
-                                chartFrame.classList.add('is-animating');
-                                setTimeout(() => chartFrame.classList.remove('is-animating'), 1000);
-                            }
-                        });
-                    });
-                }
-                
-                // --- Variant C: Mini-Map ---
-                const minimapContainer = document.querySelector('.cpv-minimap');
-                 if (minimapContainer) {
-                    const minimapItems = minimapContainer.querySelectorAll('.minimap-item');
-                    const minimapImg = document.getElementById('minimap-chart-img');
-                    const minimapInterp = document.getElementById('minimap-interp');
-                     const data = {
-                         bear: { interp: '<strong>Bear Scenario:</strong> Recessionary pressures impact growth.', alt:'Forecast — Net revenue (Bear scenario), 2025–2028.' },
-                         base: { interp: '<strong>Base Scenario:</strong> Continued strong SSS growth.', alt:'Forecast — Net revenue (Base scenario), 2025–2028.' },
-                         bull: { interp: '<strong>Bull Scenario:</strong> International expansion succeeds.', alt:'Forecast — Net revenue (Bull scenario), 2025–2028.' }
-                    };
-                    
-                    minimapItems.forEach(item => {
-                        item.addEventListener('click', () => {
-                            const scenario = item.dataset.scenario;
-                            minimapItems.forEach(i => i.setAttribute('aria-pressed', 'false'));
-                            item.setAttribute('aria-pressed', 'true');
-                            
-                            minimapImg.src = `./assets/chipotle_forecast_revenue_${scenario}@2x.png`;
-                            minimapImg.alt = data[scenario].alt;
-                            minimapInterp.innerHTML = `<p class="chart-summary font-semibold text-gray-700">${data[scenario].interp}</p>`;
-                        });
-                    });
-                 }
             }
 
 
