@@ -197,22 +197,6 @@
             transform: scale(1.05);
             color: #D1A46E;
         }
-
-        /* Interactive Timeline Accordion */
-        .timeline-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
-            padding: 0 1rem;
-        }
-        .timeline-details.active {
-            max-height: 500px; /* Increased max-height */
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-        .accordion-icon.rotate-180 {
-            transform: rotate(180deg);
-        }
         
         /* Other original styles */
         #success-toast {
@@ -226,65 +210,6 @@
             opacity: 1; visibility: visible; transform: translate(-50%, -10px);
         }
         
-        /* --- NEW EXPERIENCE TIMELINE STYLES --- */
-        .experience-timeline { position: relative; max-width: 768px; margin: 0 auto; }
-        .experience-timeline::after {
-            content: '';
-            position: absolute;
-            width: 4px;
-            background-color: #e5e7eb;
-            top: 0; bottom: 0;
-            left: 50%;
-            margin-left: -2px;
-        }
-        .timeline-item-container { 
-            position: relative; 
-            width: 50%;
-            padding: 10px 40px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .timeline-item-container.visible {
-            opacity: 1;
-            transform: translateY(0px);
-        }
-        .timeline-item-container:nth-child(odd) { left: 0; }
-        .timeline-item-container:nth-child(even) { left: 50%; }
-        .timeline-item-container::after { /* The dot on the timeline */
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            right: -10px;
-            background-color: white;
-            border: 4px solid #9C8FA7;
-            top: 25px;
-            border-radius: 50%;
-            z-index: 1;
-            transition: all 0.3s ease;
-        }
-        .timeline-item-container:nth-child(even)::after { left: -10px; }
-        .timeline-item-container.active::after {
-            border-color: #463863;
-            transform: scale(1.2);
-            box-shadow: 0 0 15px rgba(70, 56, 99, 0.6);
-        }
-
-        .timeline-content-wrapper { cursor: pointer; }
-        
-        /* Mobile timeline styles */
-        @media (max-width: 768px) {
-            .experience-timeline::after { left: 31px; }
-            .timeline-item-container {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-            .timeline-item-container:nth-child(even) { left: 0%; }
-            .timeline-item-container::after { left: 21px; }
-        }
-
         .logo-holder { width: 60px; height: 60px; background: #FFFFFF; border-radius: 50%; padding: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); transition: box-shadow 0.3s ease; }
         .logo-holder img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
         .skill-logo-holder { width: 48px; height: 48px; background: #FFFFFF; border-radius: 50%; padding: 4px; box-shadow: 0 0 8px rgba(100, 150, 255, 0.6), 0 0 15px rgba(100, 150, 255, 0.4); }
@@ -425,93 +350,72 @@
                 0 0 40px rgba(70, 56, 99, 0.4);
             transition: box-shadow 0.3s ease-in-out;
         }
-        .profile-image-placeholder:hover {
-            box-shadow:
-                0 0 8px rgba(209, 164, 110, 1),
-                0 0 15px rgba(209, 164, 110, 0.8),
-                0 0 30px rgba(70, 56, 99, 0.7),
-                0 0 60px rgba(70, 56, 99, 0.5);
+       
+        /* --- Experience Page Preview Styles --- */
+        .exp-preview-container {
+            border: 2px dashed #D1A46E;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 2.5rem;
+            background-color: rgba(255, 255, 255, 0.5);
         }
-
-        /* --- Chipotle Historical Analysis Styles --- */
-        .historical-analysis-section .chart-frame {
-            background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-            padding: 0.75rem;
-            position: relative;
-            overflow: hidden;
-        }
-        .historical-analysis-section .chart-frame img {
-            border-radius: 0.25rem;
-            transition: opacity 0.4s ease-in-out;
-        }
-        .historical-analysis-section .chart-summary {
-            padding-top: 0.5rem;
-            font-size: 0.8rem;
-            color: #9C8FA7;
-        }
-        .historical-analysis-section .mini-card-toggle {
-            background-color: #fff;
-            border: 2px solid transparent;
-            transition: all 0.2s ease-in-out;
-        }
-        .historical-analysis-section .mini-card-toggle[aria-pressed="true"] {
-            border-color: #463863;
-            box-shadow: 0 4px 12px rgba(70, 56, 99, 0.2);
-            transform: scale(1.03);
-        }
-        @media (max-width: 767px) {
-            .historical-analysis-nav {
-                display: flex;
-                overflow-x: auto;
-                padding-bottom: 1rem;
-                scrollbar-width: none;
-            }
-             .historical-analysis-nav::-webkit-scrollbar {
-                display: none;
-            }
-            .historical-analysis-nav .mini-card-toggle {
-                flex-shrink: 0;
-            }
-        }
-        
-        /* --- Chipotle Forecast Section Styles --- */
-        .chipotle-forecast-section .chart-frame {
-            background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-            padding: 0.75rem;
-            position: relative;
-            overflow: hidden;
-        }
-        .chipotle-forecast-section .chart-frame img {
-            border-radius: 0.25rem;
-            transition: opacity 0.4s ease-in-out;
-        }
-        .chipotle-forecast-section .chart-summary {
-            padding-top: 0.5rem;
-            font-size: 0.8rem;
-            color: #9C8FA7;
-        }
-
-        /* Finalized Forecast Toggle Styles */
-        .forecast-toggle-btn-group button[aria-pressed="true"] {
+        .exp-preview-badge {
             background-color: #463863;
-            color: #fff;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        .forecast-toggle .chart-frame .reveal-mask {
-            position: absolute;
-            top:0; left:0; bottom:0;
-            width: 100%;
-            background: white;
-            transform-origin: left;
-            transform: scaleX(1);
-            transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
+
+        /* --- Idea 1: Role Explorer --- */
+        .exp-role-explorer-list button {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
         }
-         .forecast-toggle .chart-frame.is-animating .reveal-mask {
-             transform: scaleX(0);
-         }
+        .exp-role-explorer-list button:hover {
+            background-color: #FFFFFF;
+            border-left-color: #D1A46E;
+        }
+        .exp-role-explorer-list button.active {
+            background-color: #FFFFFF;
+            border-left-color: #463863;
+            transform: translateX(4px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .exp-role-explorer-content {
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* --- Idea 2: Modal Timeline --- */
+        .exp-modal-timeline .timeline-item-container:after {
+            cursor: pointer;
+        }
+        #experience-modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #experience-modal .modal-content {
+             transition: transform 0.3s ease;
+        }
+        #experience-modal.visible .modal-content {
+             transform: scale(1);
+        }
+
+        /* --- Idea 3: Classic View --- */
+        .exp-classic-card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .exp-classic-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(70, 56, 99, 0.1);
+        }
 
     </style>
 </head>
@@ -557,9 +461,9 @@
     </div>
     
     <!-- Contact Modal -->
-    <div id="contact-modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
+    <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[100] hidden items-center justify-center p-4">
+        <div class="modal-overlay absolute inset-0"></div>
+        <div class="modal-content relative bg-white rounded-lg shadow-2xl p-8 w-full max-w-lg">
              <button id="modal-close-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl transition-colors">
                 <i class="fas fa-times"></i>
             </button>
@@ -596,7 +500,7 @@
                     title: "Analytical Finance Professional",
                     about: "A dedicated and detail-oriented finance professional with a passion for uncovering insights from data. Eager to apply my skills in a challenging and growth-oriented environment.",
                     summary: "Expertise in credit monitoring, financial modeling, and compliance. Skilled in SAP BPC and advanced Excel, with a proven track record of optimizing workflows and ensuring regulatory compliance.",
-                    imageUrl: "Profile pic.svg.png",
+                    imageUrl: "https://i.imgur.com/your-image-code.jpg", // <-- PASTE YOUR IMAGE LINK HERE
                 },
                  logos: {
                     tcs: 'TCS LOGO.svg.png',
@@ -735,7 +639,7 @@
                         }, 50);
                     }
                     if (pageId === 'experience') {
-                        setTimeout(setupExperiencePage, 50);
+                        setTimeout(setupExperiencePreviews, 50);
                     }
                 }
                 
@@ -866,63 +770,141 @@
                 const page = document.createElement('div');
                 page.id = 'page-experience';
                 page.className = 'page';
-                
-                const experiencesHTML = portfolioData.experiences.map(exp => {
-                    const iconClass = exp.type === 'job' ? 'fa-briefcase' : 'fa-user-graduate';
-                    return `
-                    <div class="timeline-item-container">
-                        <div class="timeline-content-wrapper">
-                            <div class="bg-white p-6 rounded-xl shadow-md card-effect">
-                                <div class="flex items-start gap-4">
-                                    <div class="logo-holder !w-14 !h-14">
-                                        <img src="${getLogoUrl(exp.logoUrl)}" alt="${exp.company} Logo">
-                                    </div>
-                                    <div class="flex-grow">
-                                        <div class="flex justify-between items-center">
-                                            <h3 class="text-xl font-bold text-gray-900">${exp.title}</h3>
-                                            <i class="fas ${iconClass} text-gray-400 hidden md:block"></i>
+
+                const experiencesHTML = portfolioData.experiences.map((exp, index) => {
+                    const dutiesHTML = exp.duties.map(duty => `<li>${duty}</li>`).join('');
+                    const domainHTML = exp.domain.map(d => `<li>${d}</li>`).join('');
+
+                    return {
+                        id: index,
+                        html: {
+                            explorerListItem: `
+                                <button class="exp-role-explorer-list-item text-left p-4 rounded-lg w-full ${index === 0 ? 'active' : ''}" data-id="${index}">
+                                    <div class="flex items-center gap-3">
+                                        <div class="logo-holder !w-10 !h-10">
+                                            <img src="${getLogoUrl(exp.logoUrl)}" alt="${exp.company} Logo">
                                         </div>
-                                        <p class="font-semibold" style="color: #463863;">${exp.company}</p>
+                                        <div>
+                                            <h4 class="font-bold text-sm">${exp.title}</h4>
+                                            <p class="text-xs text-gray-500">${exp.company}</p>
+                                        </div>
+                                    </div>
+                                </button>`,
+                            explorerContent: `
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-xl font-bold text-gray-900">${exp.title}</h3>
                                         <p class="text-sm text-gray-500 mt-1">${exp.date}</p>
                                     </div>
-                                </div>
-                                <div class="timeline-details">
-                                    <div class="border-t border-gray-200 my-4"></div>
-                                    <h4 class="font-bold mb-2">Responsibilities:</h4>
-                                    <ul class="list-disc pl-5 space-y-1 text-gray-600">
-                                        ${exp.duties.map(duty => `<li>${duty}</li>`).join('')}
-                                    </ul>
-                                    <h4 class="font-bold mt-4 mb-2">Domain Expertise:</h4>
-                                    <ul class="list-disc pl-5 space-y-1 text-gray-600">
-                                        ${exp.domain.map(d => `<li>${d}</li>`).join('')}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `}).join('');
-
-                const skillsHTML = portfolioData.skills.map(skill => `
-                    <div class="p-4 rounded-lg card-effect flex flex-col items-center justify-center gap-4 text-center h-full">
-                        <div class="skill-logo-holder">
-                            <img src="${getLogoUrl(skill.logoUrl)}" alt="${skill.name} Logo" onerror="this.src='https://placehold.co/48x48/FFFFFF/463863?text=Icon'; this.parentElement.style.boxShadow='none';">
-                        </div>
-                        <p class="text-sm font-semibold" style="color: #221C2A;">${skill.name}</p>
-                    </div>`).join('');
+                                    <p class="font-semibold mb-4" style="color: #463863;">${exp.company}</p>
+                                    <h4 class="font-bold mb-2">Key Responsibilities:</h4>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${dutiesHTML}</ul>
+                                    <h4 class="font-bold mb-2">Domain Expertise:</h4>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-600">${domainHTML}</ul>
+                                </div>`,
+                            timelineItem: `
+                                <div class="timeline-item-container exp-modal-timeline-item" data-id="${index}">
+                                    <div class="timeline-content-wrapper">
+                                        <div class="bg-white p-6 rounded-xl shadow-md card-effect">
+                                            <div class="flex items-start gap-4">
+                                                <div class="logo-holder !w-14 !h-14">
+                                                    <img src="${getLogoUrl(exp.logoUrl)}" alt="${exp.company} Logo">
+                                                </div>
+                                                <div class="flex-grow">
+                                                    <div class="flex justify-between items-center">
+                                                        <h3 class="text-xl font-bold text-gray-900">${exp.title}</h3>
+                                                        <i class="fas fa-info-circle text-gray-400"></i>
+                                                    </div>
+                                                    <p class="font-semibold" style="color: #463863;">${exp.company}</p>
+                                                    <p class="text-sm text-gray-500 mt-1">${exp.date}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`,
+                            classicCard: `
+                                <div class="exp-classic-card p-6 flex flex-col md:flex-row gap-6">
+                                    <div class="w-full md:w-1/4">
+                                        <div class="logo-holder !w-16 !h-16 mx-auto md:mx-0 mb-2">
+                                            <img src="${getLogoUrl(exp.logoUrl)}" alt="${exp.company} Logo">
+                                        </div>
+                                        <h3 class="text-lg font-bold text-center md:text-left">${exp.title}</h3>
+                                        <p class="font-semibold text-center md:text-left" style="color: #463863;">${exp.company}</p>
+                                        <p class="text-sm text-gray-500 text-center md:text-left mt-1">${exp.date}</p>
+                                    </div>
+                                    <div class="w-full md:w-3/4">
+                                        <h4 class="font-bold mb-2">Key Responsibilities:</h4>
+                                        <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${dutiesHTML}</ul>
+                                        <h4 class="font-bold mb-2">Domain Expertise:</h4>
+                                        <ul class="list-disc pl-5 space-y-1 text-gray-600">${domainHTML}</ul>
+                                    </div>
+                                </div>`
+                        }
+                    };
+                });
 
                 page.innerHTML = `
                     <section class="pt-28 pb-16">
                         <div class="container mx-auto px-6">
-                            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16" style="color: #221C2A;">Work Experience</h3>
-                            <div class="experience-timeline">
-                                ${experiencesHTML}
+                            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4" style="color: #221C2A;">Work Experience</h2>
+                            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Below are three interactive layout options for presenting professional experience. Please review them and decide which one you'd like to keep for the final design.</p>
+
+                            <!-- Idea 1: Interactive Role Explorer -->
+                            <div class="exp-preview-container">
+                                <div class="exp-preview-badge">Preview — Option 1: Interactive Role Explorer</div>
+                                <div class="bg-white/70 p-4 rounded-lg shadow-inner">
+                                    <div class="grid md:grid-cols-12 gap-6">
+                                        <div class="md:col-span-4 lg:col-span-3">
+                                            <div class="exp-role-explorer-list space-y-2">
+                                                ${experiencesHTML.map(exp => exp.html.explorerListItem).join('')}
+                                            </div>
+                                        </div>
+                                        <div class="md:col-span-8 lg:col-span-9 bg-white p-6 rounded-lg shadow-md">
+                                            <div id="exp-role-explorer-content">${experiencesHTML[0].html.explorerContent}</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            
+                            <!-- Idea 2: Focused Detail Timeline -->
+                            <div class="exp-preview-container exp-modal-timeline">
+                                <div class="exp-preview-badge">Preview — Option 2: Focused Detail Timeline</div>
+                                <div class="experience-timeline">
+                                    ${experiencesHTML.map(exp => exp.html.timelineItem).join('')}
+                                </div>
+                            </div>
+                            
+                            <!-- Idea 3: Classic Professional View -->
+                            <div class="exp-preview-container">
+                                <div class="exp-preview-badge">Preview — Option 3: Classic Professional View</div>
+                                <div class="space-y-8">
+                                    ${experiencesHTML.map(exp => exp.html.classicCard).join('')}
+                                </div>
+                            </div>
+                            
                             <div class="text-center mt-16">
                                 <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Technical Skills</h3>
-                                <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">${skillsHTML}</div>
+                                <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    ${portfolioData.skills.map(skill => `
+                                    <div class="p-4 rounded-lg card-effect flex flex-col items-center justify-center gap-4 text-center h-full">
+                                        <div class="skill-logo-holder">
+                                            <img src="${getLogoUrl(skill.logoUrl)}" alt="${skill.name} Logo" onerror="this.src='https://placehold.co/48x48/FFFFFF/463863?text=Icon'; this.parentElement.style.boxShadow='none';">
+                                        </div>
+                                        <p class="text-sm font-semibold" style="color: #221C2A;">${skill.name}</p>
+                                    </div>`).join('')}
+                                </div>
                             </div>
                         </div>
                     </section>
+                    
+                    <!-- Modal for Idea 2 -->
+                    <div id="experience-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[100] hidden items-center justify-center p-4">
+                        <div class="modal-overlay absolute inset-0"></div>
+                        <div class="modal-content relative bg-white rounded-lg shadow-2xl p-8 w-full max-w-2xl transform scale-95">
+                             <button id="experience-modal-close-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl transition-colors"><i class="fas fa-times"></i></button>
+                             <div id="experience-modal-content"></div>
+                        </div>
+                    </div>
                 `;
                 mainContainer.appendChild(page);
             };
@@ -1141,15 +1123,13 @@
                     </div>
                 </section>
                 
-                <!-- NEW: Forecast Section -->
+                <!-- Forecast Section -->
                  <section class="chipotle-forecast-section py-12 md:py-16 project-section-fade-in">
                      <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-12">
                              <h2 class="text-3xl md:text-4xl font-bold">Forecast Scenarios — Bull / Base / Bear (2025–2028)</h2>
                              <p class="mt-2 text-gray-600 max-w-3xl mx-auto">Toggle between scenarios to see an animated reveal of the forecast and the key underlying assumptions.</p>
                         </div>
-
-                        <!-- Finalized Forecast Section (formerly Variant B) -->
                         <div class="forecast-toggle">
                              <div class="grid md:grid-cols-12 gap-6">
                                 <div class="md:col-span-3">
@@ -1173,7 +1153,6 @@
                                 </div>
                              </div>
                         </div>
-                        
                         <div class="text-center mt-8 pt-8 border-t border-gray-300/60">
                              <h3 class="text-xl font-bold mb-4">Download Full Forecast</h3>
                              <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -1185,7 +1164,6 @@
                                 </a>
                             </div>
                         </div>
-
                     </div>
                 </section>
 
@@ -1497,48 +1475,91 @@
             }
 
 
-            const setupExperiencePage = () => {
-                const timelineItems = document.querySelectorAll('.timeline-item-container');
-                if(timelineItems.length === 0) return;
+            function setupExperiencePreviews() {
+                const experiencesData = portfolioData.experiences.map((exp, index) => {
+                    const dutiesHTML = exp.duties.map(duty => `<li>${duty}</li>`).join('');
+                    const domainHTML = exp.domain.map(d => `<li>${d}</li>`).join('');
+                    return {
+                        id: index,
+                        ...exp,
+                        dutiesHTML,
+                        domainHTML
+                    };
+                });
 
-                // Scroll observer for fade-in effect
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                        }
+                // --- Idea 1: Role Explorer ---
+                const explorerList = document.querySelector('.exp-role-explorer-list');
+                const explorerContent = document.getElementById('exp-role-explorer-content');
+                if (explorerList && explorerContent) {
+                    explorerList.addEventListener('click', (e) => {
+                        const button = e.target.closest('button');
+                        if (!button) return;
+
+                        explorerList.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        
+                        const expId = parseInt(button.dataset.id);
+                        const exp = experiencesData.find(ex => ex.id === expId);
+
+                        explorerContent.style.opacity = 0;
+                        setTimeout(() => {
+                            explorerContent.innerHTML = `
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h3 class="text-xl font-bold text-gray-900">${exp.title}</h3>
+                                        <p class="text-sm text-gray-500 mt-1">${exp.date}</p>
+                                    </div>
+                                    <p class="font-semibold mb-4" style="color: #463863;">${exp.company}</p>
+                                    <h4 class="font-bold mb-2">Key Responsibilities:</h4>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${exp.dutiesHTML}</ul>
+                                    <h4 class="font-bold mb-2">Domain Expertise:</h4>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-600">${exp.domainHTML}</ul>
+                                </div>`;
+                            explorerContent.style.opacity = 1;
+                        }, 300);
                     });
-                }, { threshold: 0.2 });
-                timelineItems.forEach(item => observer.observe(item));
+                }
 
-                // Accordion logic
-                timelineItems.forEach(item => {
-                    const wrapper = item.querySelector('.timeline-content-wrapper');
-                    const details = item.querySelector('.timeline-details');
+                // --- Idea 2: Modal Timeline ---
+                const modal = document.getElementById('experience-modal');
+                const modalContent = document.getElementById('experience-modal-content');
+                const modalCloseBtn = document.getElementById('experience-modal-close-btn');
 
-                    wrapper.addEventListener('click', () => {
-                        const isActive = item.classList.contains('active');
-
-                        // Close all other items
-                        timelineItems.forEach(otherItem => {
-                            if (otherItem !== item) {
-                                otherItem.classList.remove('active');
-                                otherItem.querySelector('.timeline-details').classList.remove('active');
-                            }
-                        });
-
-                        // Toggle the clicked item
-                        if (isActive) {
-                            item.classList.remove('active');
-                            details.classList.remove('active');
-                        } else {
-                            item.classList.add('active');
-                            details.classList.add('active');
-                        }
+                document.querySelectorAll('.exp-modal-timeline-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const expId = parseInt(item.dataset.id);
+                        const exp = experiencesData.find(ex => ex.id === expId);
+                        modalContent.innerHTML = `
+                            <div class="flex items-start gap-4">
+                                <div class="logo-holder !w-16 !h-16">
+                                    <img src="${getLogoUrl(exp.logoUrl)}" alt="${exp.company} Logo">
+                                </div>
+                                <div class="flex-grow">
+                                    <h3 class="text-2xl font-bold text-gray-900">${exp.title}</h3>
+                                    <p class="font-semibold text-lg" style="color: #463863;">${exp.company}</p>
+                                    <p class="text-sm text-gray-500 mt-1">${exp.date}</p>
+                                </div>
+                            </div>
+                            <div class="border-t my-4"></div>
+                            <h4 class="font-bold mb-2">Key Responsibilities:</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${exp.dutiesHTML}</ul>
+                            <h4 class="font-bold mb-2">Domain Expertise:</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-600">${exp.domainHTML}</ul>
+                        `;
+                        modal.classList.remove('hidden');
+                        modal.classList.add('flex');
+                        setTimeout(() => modal.classList.add('visible'), 10);
                     });
                 });
-            };
-
+                
+                const closeModal = () => {
+                    modal.classList.remove('visible');
+                    setTimeout(() => modal.classList.add('hidden'), 300);
+                }
+                modalCloseBtn.addEventListener('click', closeModal);
+                modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
+            }
+            
             // --- GLOBAL LOGIC ---
             showPage('home');
             
@@ -1735,12 +1756,22 @@
             const modalOverlay = contactModal.querySelector('.modal-overlay');
             const modalCloseBtn = document.getElementById('modal-close-btn');
 
-            function openContactModal() { contactModal.classList.add('visible'); }
-            function closeContactModal() { contactModal.classList.remove('visible'); }
+            function openContactModal() {
+                 contactModal.classList.remove('hidden');
+                 contactModal.classList.add('flex');
+                 setTimeout(() => contactModal.classList.add('visible'), 10);
+            }
+            function closeContactModal() {
+                contactModal.classList.remove('visible');
+                setTimeout(() => {
+                    contactModal.classList.add('hidden');
+                    contactModal.classList.remove('flex');
+                }, 300);
+            }
 
             if (contactFab) contactFab.addEventListener('click', openContactModal);
-            modalOverlay.addEventListener('click', closeContactModal);
-            modalCloseBtn.addEventListener('click', closeContactModal);
+            if (modalOverlay) modalOverlay.addEventListener('click', closeContactModal);
+            if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeContactModal);
 
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
@@ -1760,5 +1791,4 @@
     </script>
 </body>
 </html>
-
 
