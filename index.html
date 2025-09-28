@@ -606,19 +606,22 @@
                 experiences: [
                     { 
                         type: 'job',
-                        date: 'Jun 2024 - Present', 
-                        title: 'Management Trainee', 
+                        date: 'Jun 2024 – Present', 
+                        title: 'Financial Systems & Business Analyst', 
                         company: 'Tata Consultancy Services', 
                         logoUrl: 'tcs',
                         duties: [
-                            'Executed Fixed Asset Runs and Role Forward using SAP BPC, ensuring 100% compliance.',
-                            'Monitored cost centers and role IDs, improving process efficiency by 15%.',
-                            'Resolved system discrepancies through root cause analysis to enhance data reliability.'
+                           '<strong>Financial Forecasting & Analysis:</strong> Integrated the real-time foreign exchange (FX) data into SAP BPC, enhancing the accuracy of multi-currency financial forecasts and empowering clients with robust scenario-planning and risk assessment capabilities.',
+                           '<strong>Data Integrity & Financial Close:</strong> Executed critical Role Forward activities with 100% accuracy by transferring prior-period closing balances into new periods for month-end and quarter-end closes safeguarding data integrity for regulatory reporting.',
+                           '<strong>Advanced Financial Modeling & Automation:</strong> Re-engineered logic scripts to automate complex financial calculations and currency translations, directly improving the speed and reliability of the core consolidation process.',
+                           '<strong>Functional Testing & Controls Validation:</strong> Led comprehensive functional checkouts of the environment, validating system integrity across all financial planning, budgeting, and consolidation modules to ensure unwavering system reliability for stakeholders.',
+                           '<strong>Role ID Administration & Access Controls:</strong> Created and updated Role IDs and “cost-center mappings” within the BPC security model, applying Excel automation to accelerate provisioning and audit readiness.',
+                           '<strong>Strategic Innovation:</strong> Proposed a pioneering "Finance Digital Twin" concept—an AI-driven, real-time virtual replica of a company\'s financial ecosystem—to enable dynamic what-if analysis.'
                         ],
                         domain: [
-                            'Financial Reporting',
-                            'SAP Business Planning & Consolidation',
-                            'Internal Controls'
+                           '<strong>Finance:</strong> Financial Forecasting, Multi-Currency & FX Modeling, Regulatory Reporting & Compliance',
+                           '<strong>Analytics:</strong> Scenario Planning, Consolidation Accuracy & Data Integrity, What-If Analysis (FinanceDigitalTwin)',
+                           '<strong>Technology:</strong> SAP BPC, Logic Script Automation, Excel Automation, Access Controls & Audit Readiness'
                         ]
                     },
                     { 
@@ -854,8 +857,8 @@
                 page.className = 'page';
 
                 const experiencesHTML = portfolioData.experiences.map((exp, index) => {
-                    const dutiesHTML = exp.duties.map(duty => `<li>${duty}</li>`).join('');
-                    const domainHTML = exp.domain.map(d => `<li>${d}</li>`).join('');
+                    const dutiesHTML = exp.duties.map(duty => `<li class="mb-2">${duty}</li>`).join('');
+                    const domainHTML = exp.domain.map(d => `<li class="mb-2">${d}</li>`).join('');
 
                     return {
                         id: index,
@@ -879,7 +882,7 @@
                                         <p class="text-sm text-gray-500 mt-1">${exp.date}</p>
                                     </div>
                                     <p class="font-semibold mb-4" style="color: #463863;">${exp.company}</p>
-                                    <h4 class="font-bold mb-2">Key Responsibilities:</h4>
+                                    <h4 class="font-bold mb-2">Core Responsibilities:</h4>
                                     <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${dutiesHTML}</ul>
                                     <h4 class="font-bold mb-2">Domain Expertise:</h4>
                                     <ul class="list-disc pl-5 space-y-1 text-gray-600">${domainHTML}</ul>
@@ -915,7 +918,7 @@
                                         <p class="text-sm text-gray-500 text-center md:text-left mt-1">${exp.date}</p>
                                     </div>
                                     <div class="w-full md:w-3/4">
-                                        <h4 class="font-bold mb-2">Key Responsibilities:</h4>
+                                        <h4 class="font-bold mb-2">Core Responsibilities:</h4>
                                         <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${dutiesHTML}</ul>
                                         <h4 class="font-bold mb-2">Domain Expertise:</h4>
                                         <ul class="list-disc pl-5 space-y-1 text-gray-600">${domainHTML}</ul>
@@ -1540,8 +1543,17 @@
                     toggleBtns.forEach(btn => {
                         btn.addEventListener('click', () => {
                             const scenario = btn.dataset.scenario;
-                            toggleBtns.forEach(b => b.setAttribute('aria-pressed', 'false'));
+                            toggleBtns.forEach(b => {
+                                b.setAttribute('aria-pressed', 'false');
+                                // Make sure to restore the secondary button class
+                                b.classList.add('btn-secondary');
+                                b.classList.remove('btn-primary');
+                            });
                             btn.setAttribute('aria-pressed', 'true');
+                             // Change to primary button class for active state
+                            btn.classList.remove('btn-secondary');
+                            btn.classList.add('btn-primary');
+
 
                             toggleImg.src = `./assets/chipotle_forecast_revenue_${scenario}@2x.png`;
                             toggleImg.alt = data[scenario].alt;
@@ -1553,14 +1565,21 @@
                             }
                         });
                     });
+                     // Set initial active button style
+                    toggleBtns.forEach(b => {
+                        if(b.getAttribute('aria-pressed') === 'true'){
+                            b.classList.remove('btn-secondary');
+                            b.classList.add('btn-primary');
+                        }
+                    })
                 }
             }
 
 
             function setupExperiencePreviews() {
                 const experiencesData = portfolioData.experiences.map((exp, index) => {
-                    const dutiesHTML = exp.duties.map(duty => `<li>${duty}</li>`).join('');
-                    const domainHTML = exp.domain.map(d => `<li>${d}</li>`).join('');
+                    const dutiesHTML = exp.duties.map(duty => `<li class="mb-2">${duty}</li>`).join('');
+                    const domainHTML = exp.domain.map(d => `<li class="mb-2">${d}</li>`).join('');
                     return {
                         id: index,
                         ...exp,
@@ -1592,7 +1611,7 @@
                                         <p class="text-sm text-gray-500 mt-1">${exp.date}</p>
                                     </div>
                                     <p class="font-semibold mb-4" style="color: #463863;">${exp.company}</p>
-                                    <h4 class="font-bold mb-2">Key Responsibilities:</h4>
+                                    <h4 class="font-bold mb-2">Core Responsibilities:</h4>
                                     <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${exp.dutiesHTML}</ul>
                                     <h4 class="font-bold mb-2">Domain Expertise:</h4>
                                     <ul class="list-disc pl-5 space-y-1 text-gray-600">${exp.domainHTML}</ul>
@@ -1623,7 +1642,7 @@
                                 </div>
                             </div>
                             <div class="border-t my-4"></div>
-                            <h4 class="font-bold mb-2">Key Responsibilities:</h4>
+                            <h4 class="font-bold mb-2">Core Responsibilities:</h4>
                             <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${exp.dutiesHTML}</ul>
                             <h4 class="font-bold mb-2">Domain Expertise:</h4>
                             <ul class="list-disc pl-5 space-y-1 text-gray-600">${exp.domainHTML}</ul>
