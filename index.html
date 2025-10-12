@@ -225,6 +225,12 @@
         .accordion-item:not(:last-child) { margin-bottom: 1rem; }
         .accordion-header { width: 100%; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; background-color: transparent; border: none; text-align: left; font-weight: 600; font-size: 1.125rem; color: #221C2A; transition: background-color 0.3s ease; }
         .accordion-header:hover { background-color: #F5F1EA; }
+        .accordion-header .icon { transition: transform 0.3s ease-in-out; color: #463863; }
+        .accordion-item.active .accordion-header .icon { transform: rotate(45deg); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; padding: 0 1.5rem; }
+        .accordion-content-inner { padding-bottom: 1.5rem; }
+        .list-rtl { direction: rtl; list-style-position: inside; }
+        .list-rtl li { direction: ltr; }
         
         /* --- NEW FAB and Modal Styles --- */
         #contact-fab {
@@ -504,7 +510,7 @@
     </main>
 
     <footer class="py-6 text-center text-gray-500 relative z-10">
-        <p>&copy; 2025 Bala Sravani Konakalla. All Rights Reserved.</p>
+        <p>&copy; <span id="copyright-year"></span> Bala Sravani Konakalla. All Rights Reserved.</p>
     </footer>
 
     <!-- Lightbox for resume and certificates -->
@@ -567,31 +573,28 @@
                     certFinancialModeling: 'https://placehold.co/400x250/F5F1EA/9C8FA7?text=Upload+Certificate',
                     certBloomberg: 'https://placehold.co/400x250/F5F1EA/9C8FA7?text=Upload+Certificate',
                     certMicrosoft: 'https://placehold.co/400x250/F5F1EA/9C8FA7?text=Upload+Certificate',
-                    resumePreview: "Resume.png",
+                    resumePreview: "https://placehold.co/827x1169/ffffff/221C2A?text=Resume+Preview",
                     chipotleHistFinancials: './assets/chipotle_hist_financials@2x.png',
                     chipotleStoresVsSss: './assets/chipotle_stores_vs_sss@2x.png',
                     chipotleForecastBase: './assets/chipotle_forecast_revenue_base@2x.png',
                     chipotleForecastBear: './assets/chipotle_forecast_revenue_bear@2x.png',
                     chipotleForecastBull: './assets/chipotle_forecast_revenue_bull@2x.png',
-                },
-                 logos: {
-                    tcs: 'TCS LOGO.svg.png',
-                    mercedes: 'Benz Logo.svg.png',
-                    gitam: 'Gitam Logo.svg.png',
-                    vishnu: 'Vishnu Logo.svg.png',
-                    sap: './public/logos/sap-logo.png',
-                    financialModeling: './public/logos/financial-modeling-logo.png',
-                    tableau: './public/logos/tableau-logo.png',
-                    excel: './public/logos/excel-logo.png',
-                    office: './public/logos/office-logo.png',
-                    compliance: './public/logos/compliance-logo.png',
-                    creditMonitoring: './public/logos/credit-monitoring-logo.png',
-                    dataAnalysis: './public/logos/data-analysis-logo.png',
-                    microsoft: 'Microsoft Logo.jpg',
-                    pwc: 'CGI Logo.jpg',
-                    jpmorgan: './public/logos/jpmorgan-logo.png',
-                    chipotle: './public/logos/chipotle-logo.png',
-                    bloomberg: 'Bloomberg Logo.jpg'
+                    // Logos
+                    logoTcs: 'https://placehold.co/60x60/FFFFFF/463863?text=TCS',
+                    logoMercedes: 'https://placehold.co/60x60/FFFFFF/463863?text=MB',
+                    logoGitam: 'https://placehold.co/60x60/FFFFFF/463863?text=GITAM',
+                    logoVishnu: 'https://placehold.co/60x60/FFFFFF/463863?text=VISHNU',
+                    logoSap: 'https://placehold.co/60x60/FFFFFF/463863?text=SAP',
+                    logoFinancialModeling: 'https://placehold.co/60x60/FFFFFF/463863?text=CFI',
+                    logoTableau: 'https://placehold.co/60x60/FFFFFF/463863?text=Tableau',
+                    logoExcel: 'https://placehold.co/60x60/FFFFFF/463863?text=Excel',
+                    logoOffice: 'https://placehold.co/60x60/FFFFFF/463863?text=Office',
+                    logoCompliance: 'https://placehold.co/60x60/FFFFFF/463863?text=Comp',
+                    logoCreditMonitoring: 'https://placehold.co/60x60/FFFFFF/463863?text=CM',
+                    logoDataAnalysis: 'https://placehold.co/60x60/FFFFFF/463863?text=DA',
+                    logoMicrosoft: 'https://placehold.co/60x60/FFFFFF/463863?text=MS',
+                    logoChipotle: 'https://placehold.co/60x60/FFFFFF/463863?text=CMG',
+                    logoBloomberg: 'https://placehold.co/60x60/FFFFFF/463863?text=BB'
                 },
                 experiences: [
                     { 
@@ -600,7 +603,7 @@
                         title: 'Financial Systems & Business Analyst', 
                         company: 'Tata Consultancy Services',
                         companyFull: 'Tata Consultancy Services | Hyderabad',
-                        logoUrl: 'tcs',
+                        logoUrlKey: 'logoTcs',
                         duties: [
                            '<strong>Financial Forecasting & Analysis:</strong> Integrated the real-time foreign exchange (FX) data into SAP BPC, enhancing the accuracy of multi-currency financial forecasts and empowering clients with robust scenario-planning and risk assessment capabilities.',
                            '<strong>Data Integrity & Financial Close:</strong> Executed critical Role Forward activities with 100% accuracy by transferring prior-period closing balances into new periods for month-end and quarter-end closes safeguarding data integrity for regulatory reporting.',
@@ -622,7 +625,7 @@
                         title: 'Sales Trainee - Internship', 
                         company: 'Silver Star Mercedes Benz', 
                         companyFull: 'Silver Star Mercedes Benz | Hyderabad',
-                        logoUrl: 'mercedes',
+                        logoUrlKey: 'logoMercedes',
                         duties: [
                             '<strong>Credit & Working capital analysis:</strong> Conducted financial-statement analysis and risk scoring to assess customer creditworthiness, prioritising collections and cutting payment delays by 10%. Reviewed receivables and payables and recommended actions that tightened the cash-conversion cycle and strengthened short-term liquidity.',
                             '<strong>Accounts payable & vendor management:</strong> Managed full AP lifecycle—invoice validation, dispute resolution and vendor reconciliation—reducing late fees and strengthening supplier relationships.',
@@ -639,18 +642,18 @@
                 ],
                 skillsByCategory: { 
                     "Software & Platforms": [
-                        { name: 'SAP BPC', logoUrl: 'sap' },
-                        { name: 'Tableau', logoUrl: 'tableau' },
-                        { name: 'MS Office Suite', logoUrl: 'office' },
+                        { name: 'SAP BPC', logoUrlKey: 'logoSap' },
+                        { name: 'Tableau', logoUrlKey: 'logoTableau' },
+                        { name: 'MS Office Suite', logoUrlKey: 'logoOffice' },
                     ],
                     "Core Competencies": [
-                        { name: 'Financial Modeling', logoUrl: 'financialModeling' },
-                        { name: 'Data Analysis', logoUrl: 'dataAnalysis' },
-                        { name: 'Compliance', logoUrl: 'compliance' },
-                        { name: 'Credit Monitoring', logoUrl: 'creditMonitoring' },
+                        { name: 'Financial Modeling', logoUrlKey: 'logoFinancialModeling' },
+                        { name: 'Data Analysis', logoUrlKey: 'logoDataAnalysis' },
+                        { name: 'Compliance', logoUrlKey: 'logoCompliance' },
+                        { name: 'Credit Monitoring', logoUrlKey: 'logoCreditMonitoring' },
                     ],
                     "Technical Skills": [
-                         { name: 'Advanced Excel', logoUrl: 'excel' },
+                         { name: 'Advanced Excel', logoUrlKey: 'logoExcel' },
                     ]
                 },
                 educations: [
@@ -661,7 +664,7 @@
                         location: 'Visakhapatnam',
                         date: '2022 - 2024', 
                         details: 'CGPA: 8.19',
-                        logoUrl: 'gitam' 
+                        logoUrlKey: 'logoGitam' 
                     },
                     { 
                         degree: 'Bachelor of Technology', 
@@ -670,26 +673,26 @@
                         location: 'Bhimavaram',
                         date: '2017 - 2021', 
                         details: 'CGPA: 8.29',
-                        logoUrl: 'vishnu'
+                        logoUrlKey: 'logoVishnu'
                     }
                 ],
                 certifications: [
                     { 
                         id: 'fmva',
                         title: 'Financial Modeling & Valuation Analyst (FMVA)', issuer: 'Corporate Finance Institute (CFI)',
-                        logoUrl: 'financialModeling', issueDate: 'Jun 2025',
+                        logoUrlKey: 'logoFinancialModeling', issueDate: 'Jun 2025',
                         imageUrlKey: 'certFinancialModeling'
                     },
                      { 
                         id: 'bloomberg',
                         title: 'Bloomberg Market Concepts', issuer: 'Bloomberg',
-                        logoUrl: 'bloomberg', issueDate: 'Sep 2025',
+                        logoUrlKey: 'logoBloomberg', issueDate: 'Sep 2025',
                         imageUrlKey: 'certBloomberg'
                     },
                     { 
                         id: 'microsoft',
                         title: 'Microsoft 365 Fundamentals', issuer: 'Microsoft (Coursera)', 
-                        logoUrl: 'microsoft', issueDate: 'Apr 2023',
+                        logoUrlKey: 'logoMicrosoft', issueDate: 'Apr 2023',
                         imageUrlKey: 'certMicrosoft'
                     }
                 ],
@@ -698,7 +701,7 @@
                     linkedin: 'https://linkedin.com/in/kbalasravani',
                     formspree_url: 'https://formspree.io/f/your_unique_id'
                 },
-                chipotleProject: {
+                 chipotleProject: {
                     dashboardData: {
                         valuationRange: "$2800 – $3200",
                         impliedUpside: "+8%",
@@ -707,12 +710,167 @@
                     }
                 }
             };
-            
-            const getLogoUrl = (key) => portfolioData.logos[key] || `https://placehold.co/60x60/FFFFFF/463863?text=Logo`;
-
 
             const mainContainer = document.querySelector('main');
             const navContainer = document.getElementById('main-nav');
+            
+            // --- SETUP FUNCTIONS ---
+            const setupProjectPage = () => {
+                const activePage = document.getElementById('page-projects');
+                if (!activePage) return;
+
+                const sections = activePage.querySelectorAll('.project-section-fade-in');
+                const sectionObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                sections.forEach(section => sectionObserver.observe(section));
+
+                const timelineAccordionItems = activePage.querySelectorAll('.timeline-accordion-item');
+                timelineAccordionItems.forEach(item => {
+                    const button = item.querySelector('button');
+                    const content = item.querySelector('.timeline-details');
+                    const icon = item.querySelector('.accordion-icon');
+
+                    button.addEventListener('click', () => {
+                        const isActive = content.classList.contains('active');
+                        
+                        timelineAccordionItems.forEach(otherItem => {
+                             if (otherItem !== item) {
+                                otherItem.querySelector('.timeline-details').classList.remove('active');
+                                otherItem.querySelector('.accordion-icon').classList.remove('rotate-180');
+                             }
+                        });
+
+                        if (!isActive) {
+                            content.classList.add('active');
+                            icon.classList.add('rotate-180');
+                        } else {
+                            content.classList.remove('active');
+                            icon.classList.remove('rotate-180');
+                        }
+                    });
+                });
+                
+                setupHistoricalAnalysis();
+
+                const forecastSection = document.querySelector('.chipotle-forecast-section');
+                if (forecastSection) {
+                    const forecastObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                setupProjectForecasts();
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.1 });
+                    forecastObserver.observe(forecastSection);
+                }
+            };
+
+            const setupHistoricalAnalysis = () => {
+                const historicalAnalysisContainer = document.querySelector('.historical-analysis-section');
+                if (!historicalAnalysisContainer) return;
+
+                const toggles = historicalAnalysisContainer.querySelectorAll('.mini-card-toggle');
+                const chartImg = historicalAnalysisContainer.querySelector('#historical-analysis-img');
+                const interpContainer = historicalAnalysisContainer.querySelector('#historical-analysis-interp');
+
+                const viewData = {
+                    financials: {
+                        imgSrc: portfolioData.imageUrls.chipotleHistFinancials,
+                        alt: 'Historical financials: Revenue and Net Income, 2018–2024. Key takeaway: revenue grew at [HIST_REVENUE_CAGR]% CAGR.',
+                        interpHTML: `
+                            <h3 class="font-bold text-lg mb-2">Financial Performance</h3>
+                            <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024). The chart shows a COVID-related dip in 2020 followed by digital-led recovery.</p>
+                            <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
+                                <li>Digital sales were a primary recovery driver post-2020.</li>
+                                <li>Margin pressure from commodity inflation became evident in 2022.</li>
+                                <li>Store-level profitability remains strong despite cost headwinds.</li>
+                            </ul>`
+                    },
+                    stores: {
+                        imgSrc: portfolioData.imageUrls.chipotleStoresVsSss,
+                        alt: 'Stores vs same-store-sales: 2018–2024. Key takeaway: store growth linked to SSS movement.',
+                         interpHTML: `
+                            <h3 class="font-bold text-lg mb-2">Store Expansion vs SSS</h3>
+                            <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Unit openings correlate with a modest decline in SSS growth—we model mild negative elasticity in the Base case.</p>
+                            <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
+                                <li>Aggressive store opening strategy continues to expand footprint.</li>
+                                <li>Same-store sales growth shows maturity but remains positive.</li>
+                                <li>"Chipotlanes" (drive-thrus) are a key part of the new store format.</li>
+                            </ul>`
+                    }
+                };
+
+                toggles.forEach(toggle => {
+                    toggle.addEventListener('click', () => {
+                        const view = toggle.dataset.view;
+                        
+                        toggles.forEach(t => t.setAttribute('aria-pressed', 'false'));
+                        toggle.setAttribute('aria-pressed', 'true');
+                        
+                        chartImg.style.opacity = 0;
+                        setTimeout(() => {
+                            chartImg.src = viewData[view].imgSrc;
+                            chartImg.alt = viewData[view].alt;
+                            interpContainer.innerHTML = viewData[view].interpHTML;
+                            chartImg.style.opacity = 1;
+                        }, 400);
+                    });
+                });
+            };
+
+            function setupProjectForecasts() {
+                const toggleContainer = document.querySelector('.forecast-toggle');
+                if (toggleContainer) {
+                    const toggleBtns = toggleContainer.querySelectorAll('.forecast-toggle-btn-group button');
+                    const toggleImg = document.getElementById('toggle-chart-img');
+                    const toggleInterp = document.getElementById('toggle-interp');
+                    const animationToggle = document.getElementById('animation-toggle');
+                    const chartFrame = toggleContainer.querySelector('.chart-frame');
+                    const data = {
+                         bear: { interp: '<strong>Bear Scenario:</strong> Recessionary pressures impact growth.', alt:'Forecast — Net revenue (Bear scenario), 2025–2028.', src: portfolioData.imageUrls.chipotleForecastBear },
+                         base: { interp: '<strong>Base Scenario:</strong> Continued strong SSS growth.', alt:'Forecast — Net revenue (Base scenario), 2025–2028.', src: portfolioData.imageUrls.chipotleForecastBase },
+                         bull: { interp: '<strong>Bull Scenario:</strong> International expansion succeeds.', alt:'Forecast — Net revenue (Bull scenario), 2025–2028.', src: portfolioData.imageUrls.chipotleForecastBull }
+                    };
+
+                    toggleBtns.forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const scenario = btn.dataset.scenario;
+                            toggleBtns.forEach(b => {
+                                b.setAttribute('aria-pressed', 'false');
+                                b.classList.add('btn-secondary');
+                                b.classList.remove('btn-primary');
+                            });
+                            btn.setAttribute('aria-pressed', 'true');
+                            btn.classList.remove('btn-secondary');
+                            btn.classList.add('btn-primary');
+
+                            toggleImg.src = data[scenario].src;
+                            toggleImg.alt = data[scenario].alt;
+                            toggleInterp.innerHTML = `<p class="chart-summary font-semibold text-gray-700">${data[scenario].interp}</p>`;
+                            
+                            if (animationToggle.checked) {
+                                chartFrame.classList.add('is-animating');
+                                setTimeout(() => chartFrame.classList.remove('is-animating'), 1000);
+                            }
+                        });
+                    });
+                     // Set initial active button style
+                    toggleBtns.forEach(b => {
+                        if(b.getAttribute('aria-pressed') === 'true'){
+                            b.classList.remove('btn-secondary');
+                            b.classList.add('btn-primary');
+                        }
+                    })
+                }
+            }
+
 
             const showPage = (pageId) => {
                 document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
@@ -723,9 +881,6 @@
                         setTimeout(() => {
                             setupProjectPage();
                         }, 50);
-                    }
-                    if (pageId === 'experience') {
-                        setTimeout(setupExperiencePreviews, 50);
                     }
                 }
                 
@@ -739,7 +894,6 @@
 
                 sessionStorage.setItem('activePage', pageId);
 
-                // Do not scroll to top for home page to preserve parallax scroll position
                 if (pageId !== 'home') {
                     window.scrollTo(0, 0);
                 }
@@ -872,7 +1026,7 @@
                                 <button class="exp-role-explorer-list-item text-left p-4 rounded-lg w-full ${index === 0 ? 'active' : ''}" data-id="${index}">
                                     <div class="flex items-center gap-3">
                                         <div class="logo-holder !w-10 !h-10">
-                                            <img src="${getLogoUrl(exp.logoUrl)}" alt="${exp.company} Logo">
+                                            <img src="${portfolioData.imageUrls[exp.logoUrlKey]}" alt="${exp.company} Logo">
                                         </div>
                                         <div>
                                             <h4 class="font-bold text-sm">${exp.title}</h4>
@@ -896,17 +1050,14 @@
                     };
                 });
 
-                // --- Skills HTML Generation ---
-                
                 const skillsMatrixHTML = Object.values(portfolioData.skillsByCategory).flat().map(skill => `
                     <div class="skill-matrix-item">
                         <div class="skill-logo-holder !w-12 !h-12">
-                            <img src="${getLogoUrl(skill.logoUrl)}" alt="${skill.name} Logo">
+                            <img src="${portfolioData.imageUrls[skill.logoUrlKey]}" alt="${skill.name} Logo">
                         </div>
                         <h4>${skill.name}</h4>
                     </div>
                 `).join('');
-
 
                 page.innerHTML = `
                     <section class="pt-28 pb-16">
@@ -931,7 +1082,6 @@
                             <div class="text-center mt-20">
                                 <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Technical Skills</h3>
                                 
-                                <!-- Finalized Skill Matrix -->
                                 <div class="skills-matrix-container max-w-5xl mx-auto">
                                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
                                         ${skillsMatrixHTML}
@@ -952,7 +1102,7 @@
                 const educationCardsHTML = portfolioData.educations.map(edu => `
                     <div class="education-card bg-white rounded-2xl flex overflow-hidden w-full max-w-2xl mx-auto">
                         <div class="logo-holder">
-                            <img src="${getLogoUrl(edu.logoUrl)}" alt="${edu.school} Logo" onerror="this.src='https://placehold.co/120x120/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
+                            <img src="${portfolioData.imageUrls[edu.logoUrlKey]}" alt="${edu.school} Logo" onerror="this.src='https://placehold.co/120x120/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
                         </div>
                         <div class="py-6 pr-6 pl-8 relative flex-grow">
                             <h4 class="text-xl font-bold" style="color: #221C2A;">${edu.degree}</h4>
@@ -971,7 +1121,7 @@
                         <div class="accordion-header !cursor-default">
                             <div class="flex items-center gap-4">
                                 <div class="logo-holder w-10 h-10 text-sm">
-                                    <img src="${getLogoUrl(cert.logoUrl)}" alt="${cert.issuer} Logo">
+                                    <img src="${portfolioData.imageUrls[cert.logoUrlKey]}" alt="${cert.issuer} Logo">
                                 </div>
                                 <div class="text-left">
                                     <span class="font-semibold text-lg" style="color: #463863;">${cert.title}</span>
@@ -989,7 +1139,6 @@
                         </div>
                     </div>
                 `).join('');
-
 
                 page.innerHTML = `
                     <section class="pt-28 pb-16">
@@ -1016,16 +1165,6 @@
                 page.id = 'page-resume';
                 page.className = 'page';
 
-                const getLastSunday = () => {
-                    const today = new Date();
-                    const dayOfWeek = today.getDay(); // Sunday is 0, Monday is 1, ...
-                    const lastSunday = new Date(today);
-                    lastSunday.setDate(today.getDate() - dayOfWeek);
-                    return lastSunday.toLocaleDateString('en-US', {
-                        month: 'long', day: 'numeric', year: 'numeric'
-                    });
-                };
-
                 page.innerHTML = `
                     <section class="pt-28 pb-16 min-h-[90vh] flex items-center">
                         <div class="container mx-auto px-4 text-center max-w-4xl">
@@ -1039,15 +1178,13 @@
                             </div>
 
                             <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-                                 <a href="./Bala Sravani Konakalla.pdf" download="Bala Sravani Konakalla.pdf" class="btn-primary w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2" aria-label="Download Resume PDF">
+                                 <a href="./Bala_Sravani_Konakalla_Resume.pdf" download="Bala_Sravani_Konakalla_Resume.pdf" class="btn-primary w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2" aria-label="Download Resume PDF">
                                     <i class="fas fa-download"></i> Download PDF
                                 </a>
                                 <a href="https://linkedin.com/in/kbalasravani" target="_blank" class="btn-secondary w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2" aria-label="View on LinkedIn">
                                     <i class="fab fa-linkedin"></i> View on LinkedIn
                                 </a>
                             </div>
-
-                            <p id="resume-update-date" class="text-xs text-gray-400 mt-4">Last Updated on ${getLastSunday()}</p>
                         </div>
                     </section>
                 `;
@@ -1079,7 +1216,7 @@
                             <div class="md:col-span-2 text-center md:text-left">
                                 <div class="flex justify-center md:justify-start mb-6">
                                     <div class="w-24 h-24 bg-white rounded-full p-2 chipotle-logo-glow flex items-center justify-center">
-                                        <img src="${getLogoUrl('chipotle')}" alt="Chipotle Company Logo" class="rounded-full" onerror="this.src='https://placehold.co/96x96/FFFFFF/AD2F1F?text=CMG'">
+                                        <img src="${portfolioData.imageUrls.logoChipotle}" alt="Chipotle Company Logo" class="rounded-full" onerror="this.src='https://placehold.co/96x96/FFFFFF/AD2F1F?text=CMG'">
                                     </div>
                                 </div>
                                 <h1 class="text-2xl md:text-4xl font-extrabold text-gray-900 leading-tight">Chipotle Mexican Grill Financial Modeling & Valuation</h1>
@@ -1358,191 +1495,26 @@
             createEducationPage();
             createResumePage();
 
-            // --- SETUP FOR DYNAMIC PAGES/COMPONENTS ---
-            const setupProjectPage = () => {
-                const activePage = document.getElementById('page-projects');
-                if (!activePage) return;
+            // --- GLOBAL LOGIC & EVENT LISTENERS ---
+            document.getElementById('copyright-year').textContent = new Date().getFullYear();
 
-                const sections = activePage.querySelectorAll('.project-section-fade-in');
-                const sectionObserver = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.1 });
-                sections.forEach(section => sectionObserver.observe(section));
+            // Event Delegation for Experience Tab
+            mainContainer.addEventListener('click', (e) => {
+                const roleExplorerButton = e.target.closest('.exp-role-explorer-list-item');
+                if (roleExplorerButton) {
+                    const explorerList = roleExplorerButton.closest('.exp-role-explorer-list');
+                    const explorerContent = document.getElementById('exp-role-explorer-content');
+                    if (!explorerList || !explorerContent) return;
 
-                // Timeline Accordion Logic
-                const timelineAccordionItems = activePage.querySelectorAll('.timeline-accordion-item');
-                timelineAccordionItems.forEach(item => {
-                    const button = item.querySelector('button');
-                    const content = item.querySelector('.timeline-details');
-                    const icon = item.querySelector('.accordion-icon');
+                    explorerList.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                    roleExplorerButton.classList.add('active');
+                    
+                    const expId = parseInt(roleExplorerButton.dataset.id);
+                    const exp = portfolioData.experiences[expId];
 
-                    button.addEventListener('click', () => {
-                        const isActive = content.classList.contains('active');
-                        
-                        timelineAccordionItems.forEach(otherItem => {
-                             if (otherItem !== item) {
-                                otherItem.querySelector('.timeline-details').classList.remove('active');
-                                otherItem.querySelector('.accordion-icon').classList.remove('rotate-180');
-                             }
-                        });
-
-                        if (!isActive) {
-                            content.classList.add('active');
-                            icon.classList.add('rotate-180');
-                        } else {
-                            content.classList.remove('active');
-                            icon.classList.remove('rotate-180');
-                        }
-                    });
-                });
-                
-                setupHistoricalAnalysis();
-
-                // Lazy load forecast previews JS
-                const forecastSection = document.querySelector('.chipotle-forecast-section');
-                if (forecastSection) {
-                    const forecastObserver = new IntersectionObserver((entries, observer) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                setupProjectForecasts();
-                                observer.unobserve(entry.target);
-                            }
-                        });
-                    }, { threshold: 0.1 });
-                    forecastObserver.observe(forecastSection);
-                }
-            };
-
-            const setupHistoricalAnalysis = () => {
-                const historicalAnalysisContainer = document.querySelector('.historical-analysis-section');
-                if (!historicalAnalysisContainer) return;
-
-                const toggles = historicalAnalysisContainer.querySelectorAll('.mini-card-toggle');
-                const chartImg = historicalAnalysisContainer.querySelector('#historical-analysis-img');
-                const interpContainer = historicalAnalysisContainer.querySelector('#historical-analysis-interp');
-
-                const viewData = {
-                    financials: {
-                        imgSrc: portfolioData.imageUrls.chipotleHistFinancials,
-                        alt: 'Historical financials: Revenue and Net Income, 2018–2024. Key takeaway: revenue grew at [HIST_REVENUE_CAGR]% CAGR.',
-                        interpHTML: `
-                            <h3 class="font-bold text-lg mb-2">Financial Performance</h3>
-                            <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024). The chart shows a COVID-related dip in 2020 followed by digital-led recovery.</p>
-                            <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
-                                <li>Digital sales were a primary recovery driver post-2020.</li>
-                                <li>Margin pressure from commodity inflation became evident in 2022.</li>
-                                <li>Store-level profitability remains strong despite cost headwinds.</li>
-                            </ul>`
-                    },
-                    stores: {
-                        imgSrc: portfolioData.imageUrls.chipotleStoresVsSss,
-                        alt: 'Stores vs same-store-sales: 2018–2024. Key takeaway: store growth linked to SSS movement.',
-                         interpHTML: `
-                            <h3 class="font-bold text-lg mb-2">Store Expansion vs SSS</h3>
-                            <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Unit openings correlate with a modest decline in SSS growth—we model mild negative elasticity in the Base case.</p>
-                            <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
-                                <li>Aggressive store opening strategy continues to expand footprint.</li>
-                                <li>Same-store sales growth shows maturity but remains positive.</li>
-                                <li>"Chipotlanes" (drive-thrus) are a key part of the new store format.</li>
-                            </ul>`
-                    }
-                };
-
-                toggles.forEach(toggle => {
-                    toggle.addEventListener('click', () => {
-                        const view = toggle.dataset.view;
-                        
-                        toggles.forEach(t => t.setAttribute('aria-pressed', 'false'));
-                        toggle.setAttribute('aria-pressed', 'true');
-                        
-                        chartImg.style.opacity = 0;
-                        setTimeout(() => {
-                            chartImg.src = viewData[view].imgSrc;
-                            chartImg.alt = viewData[view].alt;
-                            interpContainer.innerHTML = viewData[view].interpHTML;
-                            chartImg.style.opacity = 1;
-                        }, 400);
-                    });
-                });
-            };
-
-            function setupProjectForecasts() {
-                const toggleContainer = document.querySelector('.forecast-toggle');
-                if (toggleContainer) {
-                    const toggleBtns = toggleContainer.querySelectorAll('.forecast-toggle-btn-group button');
-                    const toggleImg = document.getElementById('toggle-chart-img');
-                    const toggleInterp = document.getElementById('toggle-interp');
-                    const animationToggle = document.getElementById('animation-toggle');
-                    const chartFrame = toggleContainer.querySelector('.chart-frame');
-                    const data = {
-                         bear: { interp: '<strong>Bear Scenario:</strong> Recessionary pressures impact growth.', alt:'Forecast — Net revenue (Bear scenario), 2025–2028.', src: portfolioData.imageUrls.chipotleForecastBear },
-                         base: { interp: '<strong>Base Scenario:</strong> Continued strong SSS growth.', alt:'Forecast — Net revenue (Base scenario), 2025–2028.', src: portfolioData.imageUrls.chipotleForecastBase },
-                         bull: { interp: '<strong>Bull Scenario:</strong> International expansion succeeds.', alt:'Forecast — Net revenue (Bull scenario), 2025–2028.', src: portfolioData.imageUrls.chipotleForecastBull }
-                    };
-
-                    toggleBtns.forEach(btn => {
-                        btn.addEventListener('click', () => {
-                            const scenario = btn.dataset.scenario;
-                            toggleBtns.forEach(b => {
-                                b.setAttribute('aria-pressed', 'false');
-                                b.classList.add('btn-secondary');
-                                b.classList.remove('btn-primary');
-                            });
-                            btn.setAttribute('aria-pressed', 'true');
-                            btn.classList.remove('btn-secondary');
-                            btn.classList.add('btn-primary');
-
-                            toggleImg.src = data[scenario].src;
-                            toggleImg.alt = data[scenario].alt;
-                            toggleInterp.innerHTML = `<p class="chart-summary font-semibold text-gray-700">${data[scenario].interp}</p>`;
-                            
-                            if (animationToggle.checked) {
-                                chartFrame.classList.add('is-animating');
-                                setTimeout(() => chartFrame.classList.remove('is-animating'), 1000);
-                            }
-                        });
-                    });
-                     // Set initial active button style
-                    toggleBtns.forEach(b => {
-                        if(b.getAttribute('aria-pressed') === 'true'){
-                            b.classList.remove('btn-secondary');
-                            b.classList.add('btn-primary');
-                        }
-                    })
-                }
-            }
-
-
-            function setupExperiencePreviews() {
-                const experiencesData = portfolioData.experiences.map((exp, index) => {
-                    const dutiesHTML = exp.duties.map(duty => `<li class="mb-2">${duty}</li>`).join('');
-                    const domainHTML = exp.domain.map(d => `<li class="mb-2">${d}</li>`).join('');
-                    return {
-                        id: index,
-                        ...exp,
-                        dutiesHTML,
-                        domainHTML
-                    };
-                });
-
-                // --- Role Explorer ---
-                const explorerList = document.querySelector('.exp-role-explorer-list');
-                const explorerContent = document.getElementById('exp-role-explorer-content');
-                if (explorerList && explorerContent) {
-                    explorerList.addEventListener('click', (e) => {
-                        const button = e.target.closest('button');
-                        if (!button) return;
-
-                        explorerList.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-                        button.classList.add('active');
-                        
-                        const expId = parseInt(button.dataset.id);
-                        const exp = experiencesData.find(ex => ex.id === expId);
+                    if (exp) {
+                        const dutiesHTML = exp.duties.map(duty => `<li class="mb-2">${duty}</li>`).join('');
+                        const domainHTML = exp.domain.map(d => `<li class="mb-2">${d}</li>`).join('');
 
                         explorerContent.style.opacity = 0;
                         setTimeout(() => {
@@ -1554,17 +1526,16 @@
                                     </div>
                                     <p class="font-semibold mb-4" style="color: #463863;">${exp.companyFull}</p>
                                     <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
-                                    <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${exp.dutiesHTML}</ul>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${dutiesHTML}</ul>
                                     <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
                                     <ul class="list-disc pl-5 space-y-1 text-gray-600">${domainHTML}</ul>
                                 </div>`;
                             explorerContent.style.opacity = 1;
                         }, 300);
-                    });
+                    }
                 }
-            }
-            
-            // --- GLOBAL LOGIC ---
+            });
+
             const savedPage = sessionStorage.getItem('activePage');
             if (savedPage) {
                 showPage(savedPage);
@@ -1581,19 +1552,16 @@
                 
                 const isScrollingDown = scrollTop > lastScrollTop;
 
-                // Nav hide behavior
                 header.classList.toggle('nav-hidden', isScrollingDown && scrollTop > header.offsetHeight);
                 
                 lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 
-                // Update Progress Bar
                 const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
                 const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
                 if (progressBar) {
                     progressBar.style.width = scrollPercent + '%';
                 }
 
-                // Parallax visibility check
                 const parallaxBanners = document.querySelectorAll('.parallax-banner');
                 parallaxBanners.forEach(banner => {
                     const rect = banner.getBoundingClientRect();
@@ -1617,7 +1585,7 @@
             const successToast = document.getElementById('success-toast');
             const contactModal = document.getElementById('contact-modal');
             const contactForm = contactModal.querySelector('.contact-form');
-            contactForm.action = portfolioData.contact.formspree_url; // Set the formspree URL
+            contactForm.action = portfolioData.contact.formspree_url;
             
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -1629,7 +1597,7 @@
                         setTimeout(() => {
                            successToast.classList.add('show'); 
                             setTimeout(() => successToast.classList.remove('show'), 4000);
-                        }, 400); // show after modal fade out
+                        }, 400);
                         contactForm.reset(); 
                     } else {
                         alert("There was an error sending your message. Please try again.");
@@ -1641,17 +1609,14 @@
             });
 
 
-            function handleScrollAnimations() {
-                // This function can be used for other scroll-triggered animations if needed
-            }
+            function handleScrollAnimations() {}
 
-            // --- Certificate Lightbox Trigger ---
             const certSection = document.querySelector('.cert-section');
             if (certSection) {
                 certSection.addEventListener('click', (e) => {
                     const triggerButton = e.target.closest('.view-cert-btn');
                     if (triggerButton) {
-                        e.preventDefault(); // Prevent any default button action
+                        e.preventDefault();
                         const imgSrc = triggerButton.dataset.imgSrc;
                         if (imgSrc) {
                             openLightbox(imgSrc);
@@ -1731,7 +1696,6 @@
             window.addEventListener('resize', () => { resizeCanvas(); createParticles(); });
             resizeCanvas(); createParticles(); animate();
             
-            // --- Lightbox functionality ---
             const lightbox = document.getElementById('lightbox');
             const lightboxClose = document.getElementById('lightbox-close');
             window.openLightbox = function(src) {
@@ -1753,7 +1717,6 @@
                 lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
             }
 
-            // --- Contact FAB and Modal Logic ---
             const contactFab = document.getElementById('contact-fab');
             const modalOverlay = contactModal.querySelector('.modal-overlay');
             const modalCloseBtn = document.getElementById('modal-close-btn');
@@ -1782,7 +1745,6 @@
                 }
             });
 
-            // --- Remove FAB pulse animation after it runs ---
             const fabContent = document.querySelector('#contact-fab .fab-content');
             if (fabContent) {
                 fabContent.addEventListener('animationend', () => {
@@ -1793,7 +1755,4 @@
     </script>
 </body>
 </html>
-
-
-
 
