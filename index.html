@@ -567,7 +567,18 @@
                     title: "Analytical Finance Professional",
                     about: "A dedicated and detail-oriented finance professional with a passion for uncovering insights from data. Eager to apply my skills in a challenging and growth-oriented environment.",
                     summary: "Expertise in credit monitoring, financial modeling, and compliance. Skilled in SAP BPC and advanced Excel, with a proven track record of optimizing workflows and ensuring regulatory compliance.",
-                    imageUrl: "https://i.imgur.com/your-image-code.jpg", // <-- PASTE YOUR IMAGE LINK HERE
+                },
+                imageUrls: {
+                    profile: "https://placehold.co/224x224/F5F1EA/9C8FA7?text=Upload+Image",
+                    certFinancialModeling: 'https://placehold.co/400x250/F5F1EA/9C8FA7?text=Upload+Certificate',
+                    certBloomberg: 'https://placehold.co/400x250/F5F1EA/9C8FA7?text=Upload+Certificate',
+                    certMicrosoft: 'https://placehold.co/400x250/F5F1EA/9C8FA7?text=Upload+Certificate',
+                    resumePreview: "https://placehold.co/827x1169/ffffff/221C2A?text=Resume+Preview",
+                    chipotleHistFinancials: './assets/chipotle_hist_financials@2x.png',
+                    chipotleStoresVsSss: './assets/chipotle_stores_vs_sss@2x.png',
+                    chipotleForecastBase: './assets/chipotle_forecast_revenue_base@2x.png',
+                    chipotleForecastBear: './assets/chipotle_forecast_revenue_bear@2x.png',
+                    chipotleForecastBull: './assets/chipotle_forecast_revenue_bull@2x.png',
                 },
                  logos: {
                     tcs: 'TCS LOGO.svg.png',
@@ -593,7 +604,8 @@
                         type: 'job',
                         date: 'Jun, 2024 – Present', 
                         title: 'Financial Systems & Business Analyst', 
-                        company: 'Tata Consultancy Services | Hyderabad', 
+                        company: 'Tata Consultancy Services',
+                        companyFull: 'Tata Consultancy Services | Hyderabad',
                         logoUrl: 'tcs',
                         duties: [
                            '<strong>Financial Forecasting & Analysis:</strong> Integrated the real-time foreign exchange (FX) data into SAP BPC, enhancing the accuracy of multi-currency financial forecasts and empowering clients with robust scenario-planning and risk assessment capabilities.',
@@ -614,7 +626,8 @@
                         type: 'internship',
                         date: 'Jun 2023 – Aug 2023', 
                         title: 'Sales Trainee - Internship', 
-                        company: 'Silver Star Mercedes Benz | Hyderabad', 
+                        company: 'Silver Star Mercedes Benz', 
+                        companyFull: 'Silver Star Mercedes Benz | Hyderabad',
                         logoUrl: 'mercedes',
                         duties: [
                             '<strong>Credit & Working capital analysis:</strong> Conducted financial-statement analysis and risk scoring to assess customer creditworthiness, prioritising collections and cutting payment delays by 10%. Reviewed receivables and payables and recommended actions that tightened the cash-conversion cycle and strengthened short-term liquidity.',
@@ -668,22 +681,22 @@
                 ],
                 certifications: [
                     { 
-                        title: 'Microsoft 365 Fundamentals', issuer: 'Microsoft (Coursera)', 
-                        logoUrl: 'microsoft', issueDate: 'Apr 2023',
-                        skills: ['Cloud Computing', 'MS Office 365', 'Collaboration Tools'], category: 'Systems',
-                        certificateImageUrl: './public/certificates/MS-365-Cert.png'
-                    },
-                    { 
+                        id: 'fmva',
                         title: 'Financial Modeling & Valuation Analyst (FMVA)', issuer: 'Corporate Finance Institute (CFI)',
                         logoUrl: 'financialModeling', issueDate: 'Jun 2025',
-                        skills: ['Financial Modeling', 'Valuation', 'Excel', 'Corporate Finance'], category: 'Finance',
-                        certificateImageUrl: './public/certificates/FMVA-Cert.png'
+                        imageUrlKey: 'certFinancialModeling'
                     },
-                    { 
+                     { 
+                        id: 'bloomberg',
                         title: 'Bloomberg Market Concepts', issuer: 'Bloomberg',
                         logoUrl: 'bloomberg', issueDate: 'Sep 2025',
-                        skills: ['Market Concepts', 'Economic Indicators', 'Currencies', 'Fixed Income', 'Equities'], category: 'Finance',
-                        certificateImageUrl: './public/certificates/Bloomberg-Cert.png'
+                        imageUrlKey: 'certBloomberg'
+                    },
+                    { 
+                        id: 'microsoft',
+                        title: 'Microsoft 365 Fundamentals', issuer: 'Microsoft (Coursera)', 
+                        logoUrl: 'microsoft', issueDate: 'Apr 2023',
+                        imageUrlKey: 'certMicrosoft'
                     }
                 ],
                 contact: {
@@ -821,7 +834,7 @@
                                <div class="grid md:grid-cols-10 gap-8 items-center">
                                     <div class="md:col-span-3 flex justify-center md:justify-end">
                                         <div id="profile-image-container" class="relative profile-image-placeholder w-40 h-40 md:w-56 md:h-56">
-                                            <img id="profile-image" src="${portfolioData.home.imageUrl}" alt="Bala Sravani Konakalla" class="rounded-full w-full h-full object-cover border-4 border-white/50" onerror="this.src='https://placehold.co/224x224/F5F1EA/9C8FA7?text=Image+Not+Found'">
+                                            <img id="profile-image" src="${portfolioData.imageUrls.profile}" alt="Bala Sravani Konakalla" class="rounded-full w-full h-full object-cover border-4 border-white/50" onerror="this.onerror=null;this.src='https://placehold.co/224x224/F5F1EA/9C8FA7?text=Image+Not+Found';">
                                         </div>
                                     </div>
                                     <div class="md:col-span-7 text-center md:text-left">
@@ -879,7 +892,7 @@
                                         <h3 class="text-xl font-bold text-gray-900">${exp.title}</h3>
                                         <p class="text-sm font-medium mt-1 flex-shrink-0 ml-4" style="color: #D1A46E;">${exp.date}</p>
                                     </div>
-                                    <p class="font-semibold mb-4" style="color: #463863;">${exp.company}</p>
+                                    <p class="font-semibold mb-4" style="color: #463863;">${exp.companyFull}</p>
                                     <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
                                     <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${dutiesHTML}</ul>
                                     <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
@@ -966,22 +979,20 @@
                                 <div class="logo-holder w-10 h-10 text-sm">
                                     <img src="${getLogoUrl(cert.logoUrl)}" alt="${cert.issuer} Logo">
                                 </div>
-                                <span>${cert.title}</span>
+                                <div>
+                                    <span class="font-semibold">${cert.title}</span>
+                                    <div class="text-left">
+                                        <p class="text-sm font-normal" style="color: #463863;">${cert.issuer}</p>
+                                        <p class="text-xs font-normal text-gray-500">Issued: ${cert.issueDate}</p>
+                                    </div>
+                                </div>
                             </div>
                             <i class="fas fa-plus icon"></i>
                         </button>
                         <div class="accordion-content">
-                            <div class="accordion-content-inner grid md:grid-cols-3 gap-6 items-center">
-                                <div class="md:col-span-1">
-                                    <img src="${cert.certificateImageUrl}" alt="${cert.title} certificate" class="rounded-lg shadow-lg w-full cursor-pointer" onclick="openLightbox(this.src)" onerror="this.src='https://placehold.co/400x250/FFFFFF/463863?text=Cert';">
-                                </div>
-                                <div class="md:col-span-2">
-                                    <h5 class="font-bold text-lg mb-2" style="color: #463863;">${cert.issuer}</h5>
-                                    <p class="text-sm text-gray-500 mb-4">Issued: ${cert.issueDate}</p>
-                                    <h6 class="font-semibold mb-2">Skills Covered:</h6>
-                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
-                                        ${cert.skills.map(skill => `<li>${skill}</li>`).join('')}
-                                    </ul>
+                             <div class="accordion-content-inner flex justify-center">
+                                <div class="w-full max-w-sm">
+                                    <img src="${portfolioData.imageUrls[cert.imageUrlKey]}" alt="${cert.title} certificate" class="rounded-lg shadow-lg w-full cursor-pointer" onclick="openLightbox(this.src)" onerror="this.onerror=null;this.src='https://placehold.co/400x250/F5F1EA/9C8FA7?text=Upload+Certificate';">
                                 </div>
                             </div>
                         </div>
@@ -1032,7 +1043,7 @@
 
                             <div id="resume-viewer" class="relative bg-white rounded-2xl shadow-lg p-2 md:p-4">
                                 <div class="overflow-auto rounded-lg" style="height: 70vh;">
-                                    <img src="https://placehold.co/827x1169/ffffff/221C2A?text=Resume+Preview" alt="Preview of Bala Sravani Konakalla’s Resume" class="w-full h-auto mx-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openLightbox(this.src)">
+                                    <img src="${portfolioData.imageUrls.resumePreview}" alt="Preview of Bala Sravani Konakalla’s Resume" class="w-full h-auto mx-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openLightbox(this.src)">
                                 </div>
                             </div>
 
@@ -1134,7 +1145,7 @@
                             <!-- Chart -->
                             <div class="md:col-span-6">
                                 <div class="chart-frame">
-                                    <img id="historical-analysis-img" src="./assets/chipotle_hist_financials@2x.png" width="1280" height="720" loading="lazy" alt="Historical financials: Revenue and Net Income, 2018–2024. Key takeaway: revenue grew at [HIST_REVENUE_CAGR]% CAGR.">
+                                    <img id="historical-analysis-img" src="${portfolioData.imageUrls.chipotleHistFinancials}" width="1280" height="720" loading="lazy" alt="Historical financials: Revenue and Net Income, 2018–2024. Key takeaway: revenue grew at [HIST_REVENUE_CAGR]% CAGR.">
                                 </div>
                             </div>
                             <!-- Interpretation -->
@@ -1172,7 +1183,7 @@
                                 </div>
                                 <div class="md:col-span-9">
                                      <div class="chart-frame">
-                                        <img id="toggle-chart-img" src="./assets/chipotle_forecast_revenue_base@2x.png" width="1280" height="720" loading="lazy" alt="Forecast — Net revenue (Base scenario), 2025–2028.">
+                                        <img id="toggle-chart-img" src="${portfolioData.imageUrls.chipotleForecastBase}" width="1280" height="720" loading="lazy" alt="Forecast — Net revenue (Base scenario), 2025–2028.">
                                         <div class="reveal-mask"></div>
                                      </div>
                                      <div id="toggle-interp" class="mt-2 text-sm" aria-live="polite">
@@ -1426,7 +1437,7 @@
 
                 const viewData = {
                     financials: {
-                        imgSrc: './assets/chipotle_hist_financials@2x.png',
+                        imgSrc: portfolioData.imageUrls.chipotleHistFinancials,
                         alt: 'Historical financials: Revenue and Net Income, 2018–2024. Key takeaway: revenue grew at [HIST_REVENUE_CAGR]% CAGR.',
                         interpHTML: `
                             <h3 class="font-bold text-lg mb-2">Financial Performance</h3>
@@ -1438,7 +1449,7 @@
                             </ul>`
                     },
                     stores: {
-                        imgSrc: './assets/chipotle_stores_vs_sss@2x.png',
+                        imgSrc: portfolioData.imageUrls.chipotleStoresVsSss,
                         alt: 'Stores vs same-store-sales: 2018–2024. Key takeaway: store growth linked to SSS movement.',
                          interpHTML: `
                             <h3 class="font-bold text-lg mb-2">Store Expansion vs SSS</h3>
@@ -1478,9 +1489,9 @@
                     const animationToggle = document.getElementById('animation-toggle');
                     const chartFrame = toggleContainer.querySelector('.chart-frame');
                     const data = {
-                         bear: { interp: '<strong>Bear Scenario:</strong> Recessionary pressures impact growth.', alt:'Forecast — Net revenue (Bear scenario), 2025–2028.' },
-                         base: { interp: '<strong>Base Scenario:</strong> Continued strong SSS growth.', alt:'Forecast — Net revenue (Base scenario), 2025–2028.' },
-                         bull: { interp: '<strong>Bull Scenario:</strong> International expansion succeeds.', alt:'Forecast — Net revenue (Bull scenario), 2025–2028.' }
+                         bear: { interp: '<strong>Bear Scenario:</strong> Recessionary pressures impact growth.', alt:'Forecast — Net revenue (Bear scenario), 2025–2028.', src: portfolioData.imageUrls.chipotleForecastBear },
+                         base: { interp: '<strong>Base Scenario:</strong> Continued strong SSS growth.', alt:'Forecast — Net revenue (Base scenario), 2025–2028.', src: portfolioData.imageUrls.chipotleForecastBase },
+                         bull: { interp: '<strong>Bull Scenario:</strong> International expansion succeeds.', alt:'Forecast — Net revenue (Bull scenario), 2025–2028.', src: portfolioData.imageUrls.chipotleForecastBull }
                     };
 
                     toggleBtns.forEach(btn => {
@@ -1488,17 +1499,14 @@
                             const scenario = btn.dataset.scenario;
                             toggleBtns.forEach(b => {
                                 b.setAttribute('aria-pressed', 'false');
-                                // Make sure to restore the secondary button class
                                 b.classList.add('btn-secondary');
                                 b.classList.remove('btn-primary');
                             });
                             btn.setAttribute('aria-pressed', 'true');
-                             // Change to primary button class for active state
                             btn.classList.remove('btn-secondary');
                             btn.classList.add('btn-primary');
 
-
-                            toggleImg.src = `./assets/chipotle_forecast_revenue_${scenario}@2x.png`;
+                            toggleImg.src = data[scenario].src;
                             toggleImg.alt = data[scenario].alt;
                             toggleInterp.innerHTML = `<p class="chart-summary font-semibold text-gray-700">${data[scenario].interp}</p>`;
                             
@@ -1553,7 +1561,7 @@
                                         <h3 class="text-xl font-bold text-gray-900">${exp.title}</h3>
                                         <p class="text-sm font-medium mt-1 flex-shrink-0 ml-4" style="color: #D1A46E;">${exp.date}</p>
                                     </div>
-                                    <p class="font-semibold mb-4" style="color: #463863;">${exp.company}</p>
+                                    <p class="font-semibold mb-4" style="color: #463863;">${exp.companyFull}</p>
                                     <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
                                     <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${exp.dutiesHTML}</ul>
                                     <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
