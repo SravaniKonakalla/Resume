@@ -391,106 +391,50 @@
             transition: opacity 0.3s ease-in-out;
         }
         
-        /* --- NEW: Technical Skills Previews Styles --- */
+        /* --- NEW: Technical Skills Previews v2 Styles --- */
         
-        /* Idea 1: Categorized List */
-        .skills-categorized .skill-category {
-            background-color: #FFFFFF;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .skills-categorized .skill-category h4 {
-            color: #463863;
-            border-bottom: 2px solid #F5F1EA;
-            padding-bottom: 0.5rem;
-        }
-        .skills-categorized .skill-item {
-            transition: background-color 0.2s ease, transform 0.2s ease;
-        }
-        .skills-categorized .skill-item:hover {
-            background-color: #F5F1EA;
-            transform: translateX(4px);
-        }
-
-        /* Idea 2: Honeycomb Grid */
-        .skills-honeycomb {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-            margin: 1.732em 0;
-        }
-        .skills-honeycomb .skill-hex {
-            position: relative;
-            width: 120px;
-            height: 138.56px; /* width * sqrt(3) / 2 * 1.15 */
-            background-color: #FFFFFF;
-            margin: -17.32px 4px 0; /* height/4 */
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            transition: transform 0.2s ease, background-color 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 1rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .skills-honeycomb .skill-hex:hover {
-            background-color: #F5F1EA;
-            transform: scale(1.1);
-            z-index: 10;
-        }
-        .skills-honeycomb .skill-hex img {
-            width: 36px;
-            height: 36px;
-            object-fit: contain;
-            margin-bottom: 0.5rem;
-        }
-        .skills-honeycomb .skill-hex p {
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        /* Idea 3: Tag Cloud */
-        .skills-tag-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            justify-content: center;
-            align-items: center;
+        /* Idea 1: Interactive Skill Matrix */
+        .skills-matrix-container {
             background-color: #FFFFFF;
             border-radius: 0.75rem;
             padding: 2rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-        .skills-tag-cloud .skill-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+        .skills-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+        .skill-matrix-item {
             background-color: #F5F1EA;
-            color: #463863;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-weight: 600;
+            border-radius: 0.5rem;
+            padding: 1.5rem 1rem;
+            text-align: center;
             transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-            cursor: default;
+            border: 1px solid transparent;
         }
-        .skills-tag-cloud .skill-tag:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 6px 12px rgba(70, 56, 99, 0.15);
-            background-color: #463863;
-            color: #FFFFFF;
+        .skill-matrix-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(70, 56, 99, 0.1);
+            background-color: #FFFFFF;
+            border-color: #D1A46E;
         }
-        .skills-tag-cloud .skill-tag img {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-            background: #fff;
-            border-radius: 50%;
-            padding: 2px;
+        .skill-matrix-item .skill-logo-holder {
+            margin: 0 auto 1rem;
+        }
+        .skill-matrix-item h4 {
+            font-weight: 600;
+            color: #463863;
+        }
+
+        /* Idea 2: Skill Radar Chart */
+        .skill-radar-container {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
 
@@ -699,17 +643,7 @@
                         ]
                     }
                 ],
-                skills: [ // This is used for the Tag Cloud and Honeycomb previews
-                    { name: 'SAP BPC', logoUrl: 'sap' },
-                    { name: 'Financial Modeling', logoUrl: 'financialModeling' },
-                    { name: 'Tableau', logoUrl: 'tableau' },
-                    { name: 'Advanced Excel', logoUrl: 'excel' },
-                    { name: 'MS Office Suite', logoUrl: 'office' },
-                    { name: 'Compliance', logoUrl: 'compliance' },
-                    { name: 'Credit Monitoring', logoUrl: 'creditMonitoring' },
-                    { name: 'Data Analysis', logoUrl: 'dataAnalysis' }
-                ],
-                skillsByCategory: { // This is used for the Categorized List preview
+                skillsByCategory: { 
                     "Software & Platforms": [
                         { name: 'SAP BPC', logoUrl: 'sap' },
                         { name: 'Tableau', logoUrl: 'tableau' },
@@ -966,36 +900,12 @@
 
                 // --- Skills HTML Generation ---
                 
-                // For Categorized List
-                const skillsCategorizedHTML = Object.entries(portfolioData.skillsByCategory).map(([category, skills]) => `
-                    <div class="skill-category">
-                        <h4 class="text-lg font-bold mb-4">${category}</h4>
-                        <div class="space-y-2">
-                        ${skills.map(skill => `
-                            <div class="skill-item flex items-center gap-4 p-2 rounded-md">
-                                <div class="skill-logo-holder !w-8 !h-8 !p-1">
-                                    <img src="${getLogoUrl(skill.logoUrl)}" alt="${skill.name} Logo">
-                                </div>
-                                <span class="font-semibold text-sm">${skill.name}</span>
-                            </div>
-                        `).join('')}
+                const skillsMatrixHTML = Object.values(portfolioData.skillsByCategory).flat().map(skill => `
+                    <div class="skill-matrix-item">
+                        <div class="skill-logo-holder !w-12 !h-12">
+                            <img src="${getLogoUrl(skill.logoUrl)}" alt="${skill.name} Logo">
                         </div>
-                    </div>
-                `).join('');
-
-                // For Honeycomb Grid
-                const skillsHoneycombHTML = portfolioData.skills.map(skill => `
-                    <li class="skill-hex">
-                        <img src="${getLogoUrl(skill.logoUrl)}" alt="${skill.name} Logo">
-                        <p>${skill.name}</p>
-                    </li>
-                `).join('');
-
-                // For Tag Cloud
-                const skillsTagCloudHTML = portfolioData.skills.map(skill => `
-                    <div class="skill-tag">
-                        <img src="${getLogoUrl(skill.logoUrl)}" alt="${skill.name} Logo">
-                        <span>${skill.name}</span>
+                        <h4>${skill.name}</h4>
                     </div>
                 `).join('');
 
@@ -1022,32 +932,25 @@
                             
                             <div class="text-center mt-20">
                                 <h3 class="text-3xl md:text-4xl font-bold text-center mb-4" style="color: #221C2A;">Technical Skills</h3>
-                                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Below are a few different ways to visualize my technical skill set. Please review them and let me know which one you'd like to use.</p>
+                                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">I've prepared two new concepts for presenting your skills, focusing on a clean, professional, and unique aesthetic. Please let me know which one you prefer.</p>
                                 
-                                <!-- Idea 1: Categorized List -->
+                                <!-- New Idea 1: Interactive Skill Matrix -->
                                 <div class="exp-preview-container">
-                                    <div class="exp-preview-badge">Preview — Option 1: Categorized List</div>
-                                    <div class="skills-categorized grid md:grid-cols-3 gap-6 text-left max-w-5xl mx-auto">
-                                        ${skillsCategorizedHTML}
+                                    <div class="exp-preview-badge">Preview — Option 1: Interactive Skill Matrix</div>
+                                    <div class="skills-matrix-container max-w-5xl mx-auto">
+                                        <div class="skills-matrix">
+                                            ${skillsMatrixHTML}
+                                        </div>
                                     </div>
                                 </div>
 
-                                <!-- Idea 2: Honeycomb Grid -->
+                                <!-- New Idea 2: Skill Radar Chart -->
                                 <div class="exp-preview-container">
-                                    <div class="exp-preview-badge">Preview — Option 2: Honeycomb Grid</div>
-                                    <ul class="skills-honeycomb max-w-3xl mx-auto">
-                                        ${skillsHoneycombHTML}
-                                    </ul>
-                                </div>
-
-                                <!-- Idea 3: Tag Cloud -->
-                                <div class="exp-preview-container">
-                                    <div class="exp-preview-badge">Preview — Option 3: Tag Cloud</div>
-                                    <div class="skills-tag-cloud max-w-3xl mx-auto">
-                                        ${skillsTagCloudHTML}
+                                    <div class="exp-preview-badge">Preview — Option 2: Skill Radar Chart</div>
+                                    <div class="skill-radar-container">
+                                        <canvas id="skill-radar-chart"></canvas>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </section>
@@ -1681,6 +1584,68 @@
                         }, 300);
                     });
                 }
+                
+                // --- Skill Radar Chart ---
+                const radarCtx = document.getElementById('skill-radar-chart');
+                if (radarCtx && !Chart.getChart(radarCtx)) { // Prevent re-initialization
+                    new Chart(radarCtx, {
+                        type: 'radar',
+                        data: {
+                            labels: [
+                                'SAP BPC',
+                                'Financial Modeling',
+                                'Tableau',
+                                'Advanced Excel',
+                                'Compliance',
+                                'Credit Monitoring',
+                                'Data Analysis'
+                            ],
+                            datasets: [{
+                                label: 'Proficiency',
+                                data: [90, 95, 75, 98, 85, 80, 92], // Example proficiency levels
+                                backgroundColor: 'rgba(70, 56, 99, 0.2)',
+                                borderColor: 'rgba(70, 56, 99, 1)',
+                                pointBackgroundColor: 'rgba(70, 56, 99, 1)',
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: 'rgba(70, 56, 99, 1)'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            scales: {
+                                r: {
+                                    angleLines: {
+                                        display: true,
+                                        color: 'rgba(0, 0, 0, 0.1)'
+                                    },
+                                    suggestedMin: 0,
+                                    suggestedMax: 100,
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.1)'
+                                    },
+                                    pointLabels: {
+                                        font: {
+                                            size: 12,
+                                            family: "'Montserrat', sans-serif",
+                                        },
+                                        color: '#221C2A'
+                                    },
+                                    ticks: {
+                                        backdropColor: 'rgba(255, 255, 255, 0.75)',
+                                        color: '#9C8FA7'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            }
+                        }
+                    });
+                }
             }
             
             // --- GLOBAL LOGIC ---
@@ -1914,3 +1879,4 @@
     </script>
 </body>
 </html>
+
