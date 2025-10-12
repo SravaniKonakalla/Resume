@@ -979,15 +979,15 @@
                                 <div class="logo-holder w-10 h-10 text-sm">
                                     <img src="${getLogoUrl(cert.logoUrl)}" alt="${cert.issuer} Logo">
                                 </div>
-                                <div>
-                                    <span class="font-semibold">${cert.title}</span>
-                                    <div class="text-left">
-                                        <p class="text-sm font-normal" style="color: #463863;">${cert.issuer}</p>
-                                        <p class="text-xs font-normal text-gray-500">Issued: ${cert.issueDate}</p>
-                                    </div>
+                                <div class="text-left">
+                                    <span class="font-semibold text-lg" style="color: #463863;">${cert.title}</span>
+                                    <p class="text-sm font-normal" style="color: #D1A46E;">${cert.issuer}</p>
                                 </div>
                             </div>
-                            <i class="fas fa-plus icon"></i>
+                            <div class="flex items-center gap-4 ml-auto">
+                               <p class="text-xs font-normal text-gray-500 hidden md:block">Issued: ${cert.issueDate}</p>
+                               <i class="fas fa-plus icon"></i>
+                            </div>
                         </button>
                         <div class="accordion-content">
                              <div class="accordion-content-inner flex justify-center">
