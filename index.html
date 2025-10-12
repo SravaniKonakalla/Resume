@@ -859,6 +859,7 @@
 
                     return {
                         id: index,
+                        ...exp,
                         html: {
                             explorerListItem: `
                                 <button class="exp-role-explorer-list-item text-left p-4 rounded-lg w-full ${index === 0 ? 'active' : ''}" data-id="${index}">
@@ -876,12 +877,12 @@
                                 <div class="flex-grow">
                                     <div class="flex justify-between items-start mb-1">
                                         <h3 class="text-xl font-bold text-gray-900">${exp.title}</h3>
-                                        <p class="text-sm text-gray-500 mt-1 flex-shrink-0 ml-4">${exp.date}</p>
+                                        <p class="text-sm font-medium mt-1 flex-shrink-0 ml-4" style="color: #D1A46E;">${exp.date}</p>
                                     </div>
                                     <p class="font-semibold mb-4" style="color: #463863;">${exp.company}</p>
-                                    <h4 class="font-bold mb-2">Core Responsibilities:</h4>
+                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
                                     <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${dutiesHTML}</ul>
-                                    <h4 class="font-bold mb-2">Competencies:</h4>
+                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
                                     <ul class="list-disc pl-5 space-y-1 text-gray-600">${domainHTML}</ul>
                                 </div>`,
                         }
@@ -1550,12 +1551,12 @@
                                 <div class="flex-grow">
                                     <div class="flex justify-between items-start mb-1">
                                         <h3 class="text-xl font-bold text-gray-900">${exp.title}</h3>
-                                        <p class="text-sm text-gray-500 mt-1 flex-shrink-0 ml-4">${exp.date}</p>
+                                        <p class="text-sm font-medium mt-1 flex-shrink-0 ml-4" style="color: #D1A46E;">${exp.date}</p>
                                     </div>
                                     <p class="font-semibold mb-4" style="color: #463863;">${exp.company}</p>
-                                    <h4 class="font-bold mb-2">Core Responsibilities:</h4>
+                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
                                     <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${exp.dutiesHTML}</ul>
-                                    <h4 class="font-bold mb-2">Competencies:</h4>
+                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
                                     <ul class="list-disc pl-5 space-y-1 text-gray-600">${exp.domainHTML}</ul>
                                 </div>`;
                             explorerContent.style.opacity = 1;
