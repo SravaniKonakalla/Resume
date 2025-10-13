@@ -1137,38 +1137,42 @@
                     <div class="absolute inset-0 z-0">
                         <svg class="absolute bottom-0 right-0 h-1/2 w-1/2 text-gray-500 opacity-[0.03]" fill="currentColor" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 597.995c-113.003 0-204.8-91.797-204.8-204.8s91.797-204.8 204.8-204.8 204.8 91.797 204.8 204.8-91.797 204.8-204.8 204.8zM512 256c-79.508 0-144.37 64.862-144.37 144.37s64.862 144.37 144.37 144.37 144.37-64.862 144.37-144.37-64.862-144.37-144.37-144.37z"/><path d="M512 1024c-282.77 0-512-229.23-512-512s229.23-512 512-512 512 229.23 512 512-229.23 512-512 512zM512 61.44C264.604 61.44 61.44 264.604 61.44 512s203.164 450.56 450.56 450.56 450.56-203.164 450.56-450.56-203.164-450.56-450.56-450.56z"/><path d="M961.075 613.99c-30.822-1.946-59.597-10.138-85.3-23.757l-2.048-1.229c-10.138-6.042-19.866-12.7-28.979-20.07-8.806-6.963-16.896-14.541-24.166-22.733-1.434-1.638-2.867-3.277-4.301-4.915-28.365-32.358-49.152-70.554-59.802-112.947-3.277-13.005-5.325-26.317-6.554-39.834-0.614-10.138-0.614-20.378-0.205-30.515 1.536-25.805 6.758-50.995 15.36-74.957 14.848-41.472 40.55-78.131 74.547-107.008 33.382-28.365 73.626-47.309 117.555-55.296 5.837-1.024 11.674-1.843 17.613-2.458 35.84-3.79 72.192-0.307 106.803 10.138 34.099 10.24 65.638 27.238 93.39 49.971 2.867 2.355 5.632 4.813 8.397 7.27 34.816 30.618 60.006 70.144 72.909 114.176 15.36 52.634 15.053 108.954-0.819 161.792-12.902 43.11-37.376 81.92-69.837 114.176-32.051 31.846-70.963 56.525-114.074 71.373-35.635 12.288-73.421 18.227-111.821 17.408-10.138-0.205-20.275-0.819-30.31-1.843z"/></svg>
                     </div>
-                    <div class="container mx-auto max-w-screen-xl px-6 md:px-8 relative z-10">
-                        <div class="grid md:grid-cols-5 gap-8 md:gap-12 items-center">
-                            <div class="md:col-span-2 text-center md:text-left">
-                                <div class="flex justify-center md:justify-start mb-6">
-                                    <div class="w-24 h-24 bg-white rounded-full p-2 chipotle-logo-glow flex items-center justify-center">
-                                        <img src="${portfolioData.imageUrls.logoChipotle}" alt="Chipotle Company Logo" class="rounded-full" onerror="this.src='https://placehold.co/96x96/FFFFFF/AD2F1F?text=CMG'">
-                                    </div>
+                    <div class="container mx-auto max-w-screen-xl px-6 md:px-8 relative z-10 text-center">
+                        
+                        <!-- Project Title -->
+                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight mb-8">Chipotle Mexican Grill: Financial Modeling & Multi-Scenario Forecasting</h1>
+                        
+                        <div class="max-w-4xl mx-auto">
+                            <!-- Logo and Company Name -->
+                            <div class="flex justify-center items-center gap-4 mb-6">
+                                <div class="w-24 h-24 bg-white rounded-full p-2 chipotle-logo-glow flex items-center justify-center flex-shrink-0">
+                                    <img src="${portfolioData.imageUrls.logoChipotle}" alt="Chipotle Company Logo" class="rounded-full" onerror="this.src='https://placehold.co/96x96/FFFFFF/AD2F1F?text=CMG'">
                                 </div>
-                                <h1 class="text-2xl md:text-4xl font-extrabold leading-tight">Chipotle Mexican Grill Financial Modeling & Valuation</h1>
-                                <h2 class="text-lg md:text-xl font-semibold mt-2" style="color: #9C8FA7;">Chipotle Mexican Grill, Inc. (NYSE: CMG)</h2>
-                                <div class="flex flex-wrap justify-center md:justify-start gap-2 mt-6">
+                                <h2 class="text-xl md:text-2xl font-semibold text-left" style="color: #9C8FA7;">Chipotle Mexican Grill, Inc. (NYSE: CMG)</h2>
+                            </div>
+
+                            <!-- About Box -->
+                            <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 text-left">
+                                <h3 class="font-bold text-lg mb-2">About the Company</h3>
+                                <p class="text-sm leading-relaxed mb-6">
+                                    Chipotle Mexican Grill is an American chain of fast-casual restaurants specializing in Mission burritos and tacos. Revenue is driven by high-volume sales in company-operated stores, with a focus on fresh ingredients and a customizable menu. Key growth levers include digital sales, new restaurant openings, and menu innovation.
+                                </p>
+                                <div class="flex flex-wrap justify-start gap-2 mt-6 mb-6">
                                     <span class="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">FMVA® Techniques</span>
                                     <span class="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">Scenario Analysis</span>
                                 </div>
-                            </div>
-                            <div class="md:col-span-3">
-                                <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200">
-                                    <h3 class="font-bold text-lg mb-2">About the Company</h3>
-                                    <p class="text-sm leading-relaxed mb-6">
-                                        Chipotle Mexican Grill is an American chain of fast-casual restaurants specializing in Mission burritos and tacos. Revenue is driven by high-volume sales in company-operated stores, with a focus on fresh ingredients and a customizable menu. Key growth levers include digital sales, new restaurant openings, and menu innovation.
-                                    </p>
-                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-                                        <div><p class="font-bold">Analysis</p><p class="text-xs">Sep 2025</p></div>
-                                        <div><p class="font-bold">Historical Years</p><p class="text-xs">2021 - 2024</p></div>
-                                        <div><p class="font-bold">Forecast Years</p><p class="text-xs">2025 - 2028</p></div>
-                                        <div><p class="font-bold">Sources</p><p class="text-xs">10-K filings</p></div>
-                                    </div>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                                    <div><p class="font-bold">Analysis</p><p class="text-xs">Sep 2025</p></div>
+                                    <div><p class="font-bold">Historical Years</p><p class="text-xs">2021 - 2024</p></div>
+                                    <div><p class="font-bold">Forecast Years</p><p class="text-xs">2025 - 2028</p></div>
+                                    <div><p class="font-bold">Sources</p><p class="text-xs">10-K filings</p></div>
                                 </div>
                             </div>
                         </div>
-                         <div class="w-full border-t border-gray-300/60 my-8 md:my-12"></div>
-                         <div class="flex flex-wrap justify-center md:justify-start items-center gap-4">
+
+                         <div class="w-full border-t border-gray-300/60 my-8 md:my-12 max-w-4xl mx-auto"></div>
+                         
+                         <div class="flex flex-wrap justify-center items-center gap-4">
                             <a href="#" aria-label="Download Financial Model" class="btn-primary font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2">
                                 <i class="fas fa-download"></i> Download Model
                             </a>
@@ -1182,18 +1186,18 @@
                      <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-8">
                              <h2 class="text-3xl md:text-4xl font-bold">Historical Analysis</h2>
-                             <p class="mt-2 max-w-3xl mx-auto">An interactive view of financial performance and store expansion metrics.</p>
+                             <p class="mt-2 text-gray-600 max-w-3xl mx-auto">An interactive view of financial performance and store expansion metrics.</p>
                         </div>
                         <div class="grid md:grid-cols-12 gap-6 md:gap-8">
                             <!-- Nav -->
                             <div class="md:col-span-2 historical-analysis-nav flex md:flex-col gap-4">
                                 <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="financials" aria-pressed="true">
                                     <h4 class="font-bold text-sm">Financials</h4>
-                                    <p class="text-xs">Revenue & Profit</p>
+                                    <p class="text-xs text-gray-500">Revenue & Profit</p>
                                 </button>
                                 <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="stores" aria-pressed="false">
                                     <h4 class="font-bold text-sm">Stores vs SSS</h4>
-                                    <p class="text-xs">Units & Comps</p>
+                                    <p class="text-xs text-gray-500">Units & Comps</p>
                                 </button>
                             </div>
                             <!-- Chart -->
@@ -1205,8 +1209,8 @@
                             <!-- Interpretation -->
                             <div id="historical-analysis-interp" class="md:col-span-4">
                                 <h3 class="font-bold text-lg mb-2">Financial Performance</h3>
-                                <p class="chart-summary font-semibold text-sm mb-3">Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024). The chart shows a COVID-related dip in 2020 followed by digital-led recovery.</p>
-                                <ul class="list-disc list-inside space-y-1 text-xs">
+                                <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024). The chart shows a COVID-related dip in 2020 followed by digital-led recovery.</p>
+                                <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
                                     <li>Digital sales were a primary recovery driver post-2020.</li>
                                     <li>Margin pressure from commodity inflation became evident in 2022.</li>
                                     <li>Store-level profitability remains strong despite cost headwinds.</li>
@@ -1221,7 +1225,7 @@
                      <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-12">
                              <h2 class="text-3xl md:text-4xl font-bold">Forecast Scenarios — Bull / Base / Bear (2025–2028)</h2>
-                             <p class="mt-2 max-w-3xl mx-auto">Toggle between scenarios to see an animated reveal of the forecast and the key underlying assumptions.</p>
+                             <p class="mt-2 text-gray-600 max-w-3xl mx-auto">Toggle between scenarios to see an animated reveal of the forecast and the key underlying assumptions.</p>
                         </div>
                         <div class="forecast-toggle">
                              <div class="grid md:grid-cols-12 gap-6">
@@ -1232,7 +1236,7 @@
                                         <button data-scenario="bull" class="btn-secondary w-full text-sm py-2">Bull — Upside</button>
                                     </div>
                                     <div class="text-right mt-4">
-                                        <label class="text-xs flex items-center justify-end"><input type="checkbox" id="animation-toggle" class="mr-2" checked>Enable Animation</label>
+                                        <label class="text-xs text-gray-500 flex items-center justify-end"><input type="checkbox" id="animation-toggle" class="mr-2" checked>Enable Animation</label>
                                     </div>
                                 </div>
                                 <div class="md:col-span-9">
@@ -1241,7 +1245,7 @@
                                         <div class="reveal-mask"></div>
                                      </div>
                                      <div id="toggle-interp" class="mt-2 text-sm" aria-live="polite">
-                                        <p class="chart-summary font-semibold"><strong>Base Scenario:</strong> Continued strong SSS growth and moderate margin expansion.</p>
+                                        <p class="chart-summary font-semibold text-gray-700"><strong>Base Scenario:</strong> Continued strong SSS growth and moderate margin expansion.</p>
                                      </div>
                                 </div>
                              </div>
@@ -1265,7 +1269,7 @@
                     <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-12">
                             <h2 class="text-3xl md:text-4xl font-bold">Project Methodology</h2>
-                            <p class="mt-2 max-w-2xl mx-auto">This project follows a structured FMVA® process. Click on each step to see details.</p>
+                            <p class="mt-2 text-gray-600 max-w-2xl mx-auto">This project follows a structured FMVA® process. Click on each step to see details.</p>
                         </div>
                         
                         <div class="space-y-4">
@@ -1278,7 +1282,7 @@
                                     </span>
                                     <i class="fas fa-chevron-down accordion-icon transition-transform"></i>
                                 </button>
-                                <div class="timeline-details text-gray-600 rounded-b-lg">
+                                <div class="timeline-details bg-gray-50 text-gray-600 rounded-b-lg">
                                     <p>${item.details}</p>
                                 </div>
                             </div>
@@ -1292,30 +1296,30 @@
                     <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-12">
                             <h2 class="text-3xl md:text-4xl font-bold">Project Dashboard - Key Results</h2>
-                            <p class="mt-2">A visual-first summary of valuation outcomes, forecasts, and scenario analysis.</p>
+                            <p class="mt-2 text-gray-600">A visual-first summary of valuation outcomes, forecasts, and scenario analysis.</p>
                         </div>
                         
                         <!-- Part 1: Top Highlight Row -->
                         <div class="bg-white rounded-xl shadow-lg p-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-8">
                             <div>
                                 <p class="text-2xl md:text-3xl font-bold text-[#463863]">[Upload Value]</p>
-                                <p class="text-sm font-semibold">2028 Net Revenues Forecast</p>
-                                <p class="text-xs mt-1">Projected Revenues by 2028</p>
+                                <p class="text-sm font-semibold text-gray-500">2028 Net Revenues Forecast</p>
+                                <p class="text-xs text-gray-400 mt-1">Projected Revenues by 2028</p>
                             </div>
                             <div>
                                 <p class="text-2xl md:text-3xl font-bold text-green-600">[Upload Range]</p>
-                                <p class="text-sm font-semibold">Implied Share Price Range</p>
-                                 <p class="text-xs mt-1">Scenario-based valuation outcomes</p>
+                                <p class="text-sm font-semibold text-gray-500">Implied Share Price Range</p>
+                                 <p class="text-xs text-gray-400 mt-1">Scenario-based valuation outcomes</p>
                             </div>
                             <div>
                                 <p class="text-2xl md:text-3xl font-bold text-[#463863]">[Upload CAGR]</p>
-                                <p class="text-sm font-semibold">SSS Growth CAGR (25-28)</p>
-                                <p class="text-xs mt-1">Sustained growth in comparable sales</p>
+                                <p class="text-sm font-semibold text-gray-500">SSS Growth CAGR (25-28)</p>
+                                <p class="text-xs text-gray-400 mt-1">Sustained growth in comparable sales</p>
                             </div>
                             <div>
                                 <p class="text-2xl md:text-3xl font-bold text-[#463863]">[Upload CAGR]</p>
-                                <p class="text-sm font-semibold">Store Growth CAGR (25-28)</p>
-                                <p class="text-xs mt-1">Expansion in restaurant count</p>
+                                <p class="text-sm font-semibold text-gray-500">Store Growth CAGR (25-28)</p>
+                                <p class="text-xs text-gray-400 mt-1">Expansion in restaurant count</p>
                             </div>
                         </div>
 
@@ -1327,17 +1331,17 @@
                                     <h3 class="font-bold text-lg mb-2">Historical Financial Performance</h3>
                                     <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
                                         <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs">Graph 1: Revenues, Op Income, Net Income</p>
+                                        <p class="text-xs text-gray-500">Graph 1: Revenues, Op Income, Net Income</p>
                                     </div>
-                                    <p class="text-sm">Chipotle has delivered consistent revenue growth alongside improving margins and net income, reflecting strong operating leverage.</p>
+                                    <p class="text-sm text-gray-600">Chipotle has delivered consistent revenue growth alongside improving margins and net income, reflecting strong operating leverage.</p>
                                 </div>
                                 <div class="bg-white p-6 rounded-xl shadow-lg">
                                     <h3 class="font-bold text-lg mb-2">Store Expansion vs Same-Store Sales</h3>
                                     <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
                                          <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs">Graph 2: Store Expansion vs SSS</p>
+                                        <p class="text-xs text-gray-500">Graph 2: Store Expansion vs SSS</p>
                                     </div>
-                                    <p class="text-sm">Expansion in store count has complemented steady same-store sales, highlighting the dual drivers of Chipotle’s growth.</p>
+                                    <p class="text-sm text-gray-600">Expansion in store count has complemented steady same-store sales, highlighting the dual drivers of Chipotle’s growth.</p>
                                 </div>
                             </div>
                             <!-- Row 2: Forward Forecasts -->
@@ -1346,25 +1350,25 @@
                                     <h3 class="font-bold text-lg mb-2">Bull Case Forecast</h3>
                                     <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
                                          <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs">Graph: Bull Case Forecast</p>
+                                        <p class="text-xs text-gray-500">Graph: Bull Case Forecast</p>
                                     </div>
-                                    <p class="text-sm">In the Bull case, accelerated store expansion and stronger same-store sales drive higher revenues and valuations.</p>
+                                    <p class="text-sm text-gray-600">In the Bull case, accelerated store expansion and stronger same-store sales drive higher revenues and valuations.</p>
                                 </div>
                                 <div class="bg-white p-6 rounded-xl shadow-lg">
                                     <h3 class="font-bold text-lg mb-2">Base Case Forecast</h3>
                                     <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
                                          <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs">Graph: Base Case Forecast</p>
+                                        <p class="text-xs text-gray-500">Graph: Base Case Forecast</p>
                                     </div>
-                                    <p class="text-sm">The Base case reflects a balanced trajectory with sustainable growth in revenues and a moderate valuation outlook.</p>
+                                    <p class="text-sm text-gray-600">The Base case reflects a balanced trajectory with sustainable growth in revenues and a moderate valuation outlook.</p>
                                 </div>
                                  <div class="bg-white p-6 rounded-xl shadow-lg">
                                     <h3 class="font-bold text-lg mb-2">Bear Case Forecast</h3>
                                     <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
                                          <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs">Graph: Bear Case Forecast</p>
+                                        <p class="text-xs text-gray-500">Graph: Bear Case Forecast</p>
                                     </div>
-                                    <p class="text-sm">In the Bear case, slower store expansion and weaker sales result in downside risks to revenues and valuations.</p>
+                                    <p class="text-sm text-gray-600">In the Bear case, slower store expansion and weaker sales result in downside risks to revenues and valuations.</p>
                                 </div>
                             </div>
                         </div>
@@ -1377,17 +1381,17 @@
                     <div class="container mx-auto max-w-4xl px-6 md:px-8">
                         <div class="text-center mb-12">
                             <h2 class="text-3xl md:text-4xl font-bold">Case Study – Chipotle Mexican Grill FMVA® Project</h2>
-                            <p class="mt-2">A detailed walkthrough of the project's objective, process, and conclusions.</p>
+                            <p class="mt-2 text-gray-600">A detailed walkthrough of the project's objective, process, and conclusions.</p>
                         </div>
                         <article class="space-y-8">
                             <div>
                                 <h3 class="text-xl font-bold">Objective</h3>
-                                <p class="mt-2 leading-relaxed">Apply FMVA®-level modeling and valuation techniques to assess Chipotle's intrinsic value, validate key performance drivers, and communicate a clear, data-driven investment narrative.</p>
+                                <p class="text-gray-700 mt-2 leading-relaxed">Apply FMVA®-level modeling and valuation techniques to assess Chipotle's intrinsic value, validate key performance drivers, and communicate a clear, data-driven investment narrative.</p>
                             </div>
                             <div>
                                 <h3 class="text-xl font-bold">Methodology</h3>
-                                <p class="mt-2 leading-relaxed">The project was executed in a sequential manner, ensuring a logical flow from data gathering to final analysis:</p>
-                                <ul class="list-disc list-inside space-y-2 mt-2">
+                                <p class="text-gray-700 mt-2 leading-relaxed">The project was executed in a sequential manner, ensuring a logical flow from data gathering to final analysis:</p>
+                                <ul class="list-disc list-inside text-gray-700 space-y-2 mt-2">
                                     <li><strong>Research & Historicals:</strong> Began with a deep dive into SEC filings and industry reports to build a solid foundation.</li>
                                     <li><strong>Forecasting:</strong> Developed a granular forecast model based on key drivers like store growth, same-store sales, and margin assumptions.</li>
                                     <li><strong>3-Statement Integration:</strong> Constructed a fully integrated financial model linking the income statement, balance sheet, and cash flow statement.</li>
@@ -1397,7 +1401,7 @@
                             </div>
                             <div>
                                 <h3 class="text-xl font-bold">Key Insights</h3>
-                                <ul class="list-disc list-inside space-y-2 mt-2">
+                                <ul class="list-disc list-inside text-gray-700 space-y-2 mt-2">
                                      <li>The base-case DCF analysis indicates an intrinsic value range of <strong>$2800–$3200 per share</strong>, suggesting the stock is fairly valued at current levels.</li>
                                     <li>Upside potential is primarily driven by strong digital sales growth, successful 'Chipotlane' drive-thru implementation, and effective menu price increases.</li>
                                     <li>Key risks include rising food and labor costs, supply chain vulnerabilities for fresh ingredients, and intense competition in the fast-casual dining sector.</li>
