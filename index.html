@@ -7,6 +7,7 @@
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Montserrat -->
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1137,40 +1138,48 @@
                     <div class="absolute inset-0 z-0">
                         <svg class="absolute bottom-0 right-0 h-1/2 w-1/2 text-gray-500 opacity-[0.03]" fill="currentColor" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 597.995c-113.003 0-204.8-91.797-204.8-204.8s91.797-204.8 204.8-204.8 204.8 91.797 204.8 204.8-91.797 204.8-204.8 204.8zM512 256c-79.508 0-144.37 64.862-144.37 144.37s64.862 144.37 144.37 144.37 144.37-64.862 144.37-144.37-64.862-144.37-144.37-144.37z"/><path d="M512 1024c-282.77 0-512-229.23-512-512s229.23-512 512-512 512 229.23 512 512-229.23 512-512 512zM512 61.44C264.604 61.44 61.44 264.604 61.44 512s203.164 450.56 450.56 450.56 450.56-203.164 450.56-450.56-203.164-450.56-450.56-450.56z"/><path d="M961.075 613.99c-30.822-1.946-59.597-10.138-85.3-23.757l-2.048-1.229c-10.138-6.042-19.866-12.7-28.979-20.07-8.806-6.963-16.896-14.541-24.166-22.733-1.434-1.638-2.867-3.277-4.301-4.915-28.365-32.358-49.152-70.554-59.802-112.947-3.277-13.005-5.325-26.317-6.554-39.834-0.614-10.138-0.614-20.378-0.205-30.515 1.536-25.805 6.758-50.995 15.36-74.957 14.848-41.472 40.55-78.131 74.547-107.008 33.382-28.365 73.626-47.309 117.555-55.296 5.837-1.024 11.674-1.843 17.613-2.458 35.84-3.79 72.192-0.307 106.803 10.138 34.099 10.24 65.638 27.238 93.39 49.971 2.867 2.355 5.632 4.813 8.397 7.27 34.816 30.618 60.006 70.144 72.909 114.176 15.36 52.634 15.053 108.954-0.819 161.792-12.902 43.11-37.376 81.92-69.837 114.176-32.051 31.846-70.963 56.525-114.074 71.373-35.635 12.288-73.421 18.227-111.821 17.408-10.138-0.205-20.275-0.819-30.31-1.843z"/></svg>
                     </div>
-                    <div class="container mx-auto max-w-screen-xl px-6 md:px-8 relative z-10 text-center">
-                        
-                        <!-- Project Title -->
-                        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight mb-8">Chipotle Mexican Grill: Financial Modeling & Multi-Scenario Forecasting</h1>
-                        
-                        <div class="max-w-4xl mx-auto">
-                            <!-- Logo and Company Name -->
-                            <div class="flex justify-center items-center gap-4 mb-6">
+                    <div class="container mx-auto max-w-screen-xl px-6 md:px-8 relative z-10">
+                        <div class="grid md:grid-cols-12 gap-8 items-center text-center md:text-left">
+                            <div class="md:col-span-2 flex justify-center md:justify-start">
                                 <div class="w-24 h-24 bg-white rounded-full p-2 chipotle-logo-glow flex items-center justify-center flex-shrink-0">
                                     <img src="${portfolioData.imageUrls.logoChipotle}" alt="Chipotle Company Logo" class="rounded-full" onerror="this.src='https://placehold.co/96x96/FFFFFF/AD2F1F?text=CMG'">
                                 </div>
-                                <h2 class="text-xl md:text-2xl font-semibold text-left" style="color: #9C8FA7;">Chipotle Mexican Grill, Inc. (NYSE: CMG)</h2>
                             </div>
+                            <div class="md:col-span-10">
+                                <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Chipotle Mexican Grill: Financial Modeling & Multi-Scenario Forecasting</h1>
+                                <h2 class="text-xl md:text-2xl font-semibold mt-2" style="color: #9C8FA7;">Chipotle Mexican Grill, Inc. (NYSE: CMG)</h2>
+                            </div>
+                        </div>
 
-                            <!-- About Box -->
+                        <div class="w-full border-t border-gray-300/60 my-8 md:my-12"></div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
                             <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 text-left">
                                 <h3 class="font-bold text-lg mb-2">About the Company</h3>
-                                <p class="text-sm leading-relaxed mb-6">
+                                <p class="text-sm leading-relaxed mb-4">
                                     Chipotle Mexican Grill is an American chain of fast-casual restaurants specializing in Mission burritos and tacos. Revenue is driven by high-volume sales in company-operated stores, with a focus on fresh ingredients and a customizable menu. Key growth levers include digital sales, new restaurant openings, and menu innovation.
                                 </p>
-                                <div class="flex flex-wrap justify-start gap-2 mt-6 mb-6">
-                                    <span class="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">FMVA® Techniques</span>
-                                    <span class="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">Scenario Analysis</span>
-                                </div>
-                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center pt-4 border-t border-gray-200">
                                     <div><p class="font-bold">Analysis</p><p class="text-xs">Sep 2025</p></div>
-                                    <div><p class="font-bold">Historical Years</p><p class="text-xs">2021 - 2024</p></div>
-                                    <div><p class="font-bold">Forecast Years</p><p class="text-xs">2025 - 2028</p></div>
-                                    <div><p class="font-bold">Sources</p><p class="text-xs">10-K filings</p></div>
+                                    <div><p class="font-bold">Historical</p><p class="text-xs">2021 - 2024</p></div>
+                                    <div><p class="font-bold">Forecast</p><p class="text-xs">2025 - 2028</p></div>
+                                    <div><p class="font-bold">Sources</p><p class="text-xs">10-K Filings</p></div>
+                                </div>
+                            </div>
+                             <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 text-left">
+                                <h3 class="font-bold text-lg mb-2">About the Project</h3>
+                                <p class="text-sm leading-relaxed mb-4">
+                                   This project involves a comprehensive financial analysis and valuation of Chipotle Mexican Grill (CMG). Using FMVA® methodologies, it includes building a 3-statement financial model, forecasting future performance under multiple scenarios (Bull, Base, Bear), and deriving an intrinsic value per share through a Discounted Cash Flow (DCF) analysis.
+                                </p>
+                                <div class="flex flex-wrap justify-start gap-2 pt-4 border-t border-gray-200">
+                                     <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">3-Statement Modeling</span>
+                                     <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">DCF Valuation</span>
+                                     <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">Scenario Analysis</span>
                                 </div>
                             </div>
                         </div>
 
-                         <div class="w-full border-t border-gray-300/60 my-8 md:my-12 max-w-4xl mx-auto"></div>
+                         <div class="w-full border-t border-gray-300/60 my-8 md:my-12"></div>
                          
                          <div class="flex flex-wrap justify-center items-center gap-4">
                             <a href="#" aria-label="Download Financial Model" class="btn-primary font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2">
