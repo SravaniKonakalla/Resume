@@ -97,54 +97,6 @@
             transform: translateY(0);
         }
 
-        /* --- OVERLAY PANEL STYLES (Kept for potential future use) --- */
-        .overlay-panel-container {
-            padding: 4rem 0;
-        }
-        .overlay-panel {
-            height: 40vh;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .overlay-panel:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 30px -10px rgba(70, 56, 99, 0.15);
-        }
-        .overlay-panel .heading-underline {
-            position: relative;
-            display: inline-block;
-        }
-        .overlay-panel .heading-underline::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: #D1A46E;
-            transition: width 0.4s ease;
-        }
-        .overlay-panel:hover .heading-underline::after {
-            width: 100%;
-        }
-        .overlay-panel .cta-button {
-            position: absolute;
-            bottom: 2rem;
-            right: 2rem;
-            transform: translateX(120%);
-            transition: transform 0.4s ease;
-        }
-        .overlay-panel:hover .cta-button {
-            transform: translateX(0);
-        }
-
         /* --- LIGHTBOX STYLES --- */
         #lightbox {
             transition: opacity 0.3s ease-in-out;
@@ -229,8 +181,6 @@
         .accordion-item.active .accordion-header .icon { transform: rotate(45deg); }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; padding: 0 1.5rem; }
         .accordion-content-inner { padding-bottom: 1.5rem; }
-        .list-rtl { direction: rtl; list-style-position: inside; }
-        .list-rtl li { direction: ltr; }
         
         /* --- NEW FAB and Modal Styles --- */
         #contact-fab {
@@ -351,27 +301,6 @@
             transition: box-shadow 0.3s ease-in-out;
         }
        
-        /* --- Experience Page Preview Styles --- */
-        .exp-preview-container {
-            border: 2px dashed #D1A46E;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            margin-bottom: 2.5rem;
-            background-color: rgba(255, 255, 255, 0.5);
-        }
-        .exp-preview-badge {
-            background-color: #463863;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            border: 2px solid #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
         /* --- Role Explorer --- */
         .exp-role-explorer-list button {
             transition: all 0.3s ease;
@@ -392,8 +321,6 @@
         }
         
         /* --- Finalized Technical Skills Styles --- */
-        
-        /* Interactive Skill Matrix */
         .skills-matrix-container {
             background-color: #FFFFFF;
             border-radius: 0.75rem;
@@ -528,7 +455,7 @@
     </div>
     
     <!-- Contact Modal -->
-    <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-70 z-[100] hidden items-center justify-center p-4">
+    <div id="contact-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
         <div class="modal-overlay absolute inset-0"></div>
         <div class="modal-content relative bg-white rounded-lg shadow-2xl p-8 w-full max-w-lg">
              <button id="modal-close-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl transition-colors">
@@ -537,9 +464,9 @@
             <h3 class="text-2xl md:text-3xl font-bold mb-6 text-center" style="color: #221C2A;">Let’s talk — I’m open to new opportunities</h3>
              <form class="contact-form w-full" action="" method="POST">
                 <div class="space-y-4 text-left">
-                    <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
-                    <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;">
-                    <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="color: #221C2A; --tw-ring-color: #463863;"></textarea>
+                    <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="--tw-ring-color: #463863;">
+                    <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="--tw-ring-color: #463863;">
+                    <textarea name="message" rows="4" placeholder="Your Message" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="--tw-ring-color: #463863;"></textarea>
                 </div>
                 <div class="mt-6">
                     <button type="submit" class="btn-primary font-bold py-3 px-6 rounded-lg transition-all duration-300 w-full">
@@ -963,7 +890,7 @@
                         <div class="parallax-overlay"></div>
                         <div class="parallax-content p-8">
                             <h2 class="text-3xl md:text-4xl font-bold mb-4">${section.title}</h2>
-                            <div class="max-w-2xl mx-auto mb-6 space-y-2 text-base md:text-lg text-center md:text-left">
+                            <div class="max-w-2xl mx-auto mb-6 space-y-2 text-base md:text-lg">
                                 <p>${section.lines[0]}</p>
                                 <p>${section.lines[1]}</p>
                             </div>
@@ -1001,8 +928,7 @@
                         </section>
                     </div>
                     
-                    <!-- Redesigned Parallax Section -->
-                    <div class="bg-gray-800 relative z-10">
+                    <div class="relative z-10">
                         ${parallaxBannersHTML}
                     </div>
                 `;
@@ -1037,14 +963,14 @@
                             explorerContent: `
                                 <div class="flex-grow">
                                     <div class="flex justify-between items-start mb-1">
-                                        <h3 class="text-xl font-bold text-gray-900">${exp.title}</h3>
+                                        <h3 class="text-xl font-bold">${exp.title}</h3>
                                         <p class="text-sm font-medium mt-1 flex-shrink-0 ml-4" style="color: #D1A46E;">${exp.date}</p>
                                     </div>
                                     <p class="font-semibold mb-4" style="color: #463863;">${exp.companyFull}</p>
                                     <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
-                                    <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${dutiesHTML}</ul>
+                                    <ul class="list-disc pl-5 space-y-1 mb-4">${dutiesHTML}</ul>
                                     <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
-                                    <ul class="list-disc pl-5 space-y-1 text-gray-600">${domainHTML}</ul>
+                                    <ul class="list-disc pl-5 space-y-1">${domainHTML}</ul>
                                 </div>`,
                         }
                     };
@@ -1063,17 +989,17 @@
                     <section class="pt-28 pb-16">
                         <div class="container mx-auto px-6">
                             <h2 class="text-3xl md:text-4xl font-bold text-center mb-4" style="color: #221C2A;">Work Experience</h2>
-                            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">A detailed overview of my professional roles and responsibilities. Use the interactive menu on the left to switch between positions.</p>
+                            <p class="text-center max-w-3xl mx-auto mb-12" style="color: #9C8FA7;">A detailed overview of my professional roles and responsibilities. Use the interactive menu on the left to switch between positions.</p>
 
                             <!-- Interactive Role Explorer -->
-                            <div class="bg-white/70 p-4 rounded-lg shadow-inner">
+                            <div class="bg-white/50 p-4 rounded-lg shadow-inner">
                                 <div class="grid md:grid-cols-12 gap-6">
                                     <div class="md:col-span-4 lg:col-span-3">
                                         <div class="exp-role-explorer-list space-y-2">
                                             ${experiencesHTML.map(exp => exp.html.explorerListItem).join('')}
                                         </div>
                                     </div>
-                                    <div class="md:col-span-8 lg:col-span-9 bg-white p-6 rounded-lg shadow-md">
+                                    <div class="md:col-span-8 lg:col-span-9 bg-white p-6 rounded-lg shadow-md card-effect">
                                         <div id="exp-role-explorer-content">${experiencesHTML[0].html.explorerContent}</div>
                                     </div>
                                 </div>
@@ -1207,11 +1133,11 @@
 
                 page.innerHTML = `
                 <!-- 1. Project Header Section -->
-                <div id="project-header" class="project-section-fade-in relative overflow-hidden">
+                <div id="project-header" class="project-section-fade-in relative overflow-hidden pt-28 pb-16">
                     <div class="absolute inset-0 z-0">
                         <svg class="absolute bottom-0 right-0 h-1/2 w-1/2 text-gray-500 opacity-[0.03]" fill="currentColor" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 597.995c-113.003 0-204.8-91.797-204.8-204.8s91.797-204.8 204.8-204.8 204.8 91.797 204.8 204.8-91.797 204.8-204.8 204.8zM512 256c-79.508 0-144.37 64.862-144.37 144.37s64.862 144.37 144.37 144.37 144.37-64.862 144.37-144.37-64.862-144.37-144.37-144.37z"/><path d="M512 1024c-282.77 0-512-229.23-512-512s229.23-512 512-512 512 229.23 512 512-229.23 512-512 512zM512 61.44C264.604 61.44 61.44 264.604 61.44 512s203.164 450.56 450.56 450.56 450.56-203.164 450.56-450.56-203.164-450.56-450.56-450.56z"/><path d="M961.075 613.99c-30.822-1.946-59.597-10.138-85.3-23.757l-2.048-1.229c-10.138-6.042-19.866-12.7-28.979-20.07-8.806-6.963-16.896-14.541-24.166-22.733-1.434-1.638-2.867-3.277-4.301-4.915-28.365-32.358-49.152-70.554-59.802-112.947-3.277-13.005-5.325-26.317-6.554-39.834-0.614-10.138-0.614-20.378-0.205-30.515 1.536-25.805 6.758-50.995 15.36-74.957 14.848-41.472 40.55-78.131 74.547-107.008 33.382-28.365 73.626-47.309 117.555-55.296 5.837-1.024 11.674-1.843 17.613-2.458 35.84-3.79 72.192-0.307 106.803 10.138 34.099 10.24 65.638 27.238 93.39 49.971 2.867 2.355 5.632 4.813 8.397 7.27 34.816 30.618 60.006 70.144 72.909 114.176 15.36 52.634 15.053 108.954-0.819 161.792-12.902 43.11-37.376 81.92-69.837 114.176-32.051 31.846-70.963 56.525-114.074 71.373-35.635 12.288-73.421 18.227-111.821 17.408-10.138-0.205-20.275-0.819-30.31-1.843z"/></svg>
                     </div>
-                    <div class="container mx-auto max-w-screen-xl px-6 md:px-8 py-10 md:py-16 relative z-10">
+                    <div class="container mx-auto max-w-screen-xl px-6 md:px-8 relative z-10">
                         <div class="grid md:grid-cols-5 gap-8 md:gap-12 items-center">
                             <div class="md:col-span-2 text-center md:text-left">
                                 <div class="flex justify-center md:justify-start mb-6">
@@ -1219,8 +1145,8 @@
                                         <img src="${portfolioData.imageUrls.logoChipotle}" alt="Chipotle Company Logo" class="rounded-full" onerror="this.src='https://placehold.co/96x96/FFFFFF/AD2F1F?text=CMG'">
                                     </div>
                                 </div>
-                                <h1 class="text-2xl md:text-4xl font-extrabold text-gray-900 leading-tight">Chipotle Mexican Grill Financial Modeling & Valuation</h1>
-                                <h2 class="text-lg md:text-xl font-semibold text-gray-600 mt-2">Chipotle Mexican Grill, Inc. (NYSE: CMG)</h2>
+                                <h1 class="text-2xl md:text-4xl font-extrabold leading-tight">Chipotle Mexican Grill Financial Modeling & Valuation</h1>
+                                <h2 class="text-lg md:text-xl font-semibold mt-2" style="color: #9C8FA7;">Chipotle Mexican Grill, Inc. (NYSE: CMG)</h2>
                                 <div class="flex flex-wrap justify-center md:justify-start gap-2 mt-6">
                                     <span class="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">FMVA® Techniques</span>
                                     <span class="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">Scenario Analysis</span>
@@ -1228,15 +1154,15 @@
                             </div>
                             <div class="md:col-span-3">
                                 <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200">
-                                    <h3 class="font-bold text-lg mb-2 text-gray-800">About the Company</h3>
-                                    <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                                    <h3 class="font-bold text-lg mb-2">About the Company</h3>
+                                    <p class="text-sm leading-relaxed mb-6">
                                         Chipotle Mexican Grill is an American chain of fast-casual restaurants specializing in Mission burritos and tacos. Revenue is driven by high-volume sales in company-operated stores, with a focus on fresh ingredients and a customizable menu. Key growth levers include digital sales, new restaurant openings, and menu innovation.
                                     </p>
                                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-                                        <div><p class="font-bold text-gray-800">Analysis</p><p class="text-xs text-gray-500">Sep 2025</p></div>
-                                        <div><p class="font-bold text-gray-800">Historical Years</p><p class="text-xs text-gray-500">2021 - 2024</p></div>
-                                        <div><p class="font-bold text-gray-800">Forecast Years</p><p class="text-xs text-gray-500">2025 - 2028</p></div>
-                                        <div><p class="font-bold text-gray-800">Sources</p><p class="text-xs text-gray-500">10-K filings</p></div>
+                                        <div><p class="font-bold">Analysis</p><p class="text-xs">Sep 2025</p></div>
+                                        <div><p class="font-bold">Historical Years</p><p class="text-xs">2021 - 2024</p></div>
+                                        <div><p class="font-bold">Forecast Years</p><p class="text-xs">2025 - 2028</p></div>
+                                        <div><p class="font-bold">Sources</p><p class="text-xs">10-K filings</p></div>
                                     </div>
                                 </div>
                             </div>
@@ -1256,18 +1182,18 @@
                      <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-8">
                              <h2 class="text-3xl md:text-4xl font-bold">Historical Analysis</h2>
-                             <p class="mt-2 text-gray-600 max-w-3xl mx-auto">An interactive view of financial performance and store expansion metrics.</p>
+                             <p class="mt-2 max-w-3xl mx-auto">An interactive view of financial performance and store expansion metrics.</p>
                         </div>
                         <div class="grid md:grid-cols-12 gap-6 md:gap-8">
                             <!-- Nav -->
                             <div class="md:col-span-2 historical-analysis-nav flex md:flex-col gap-4">
                                 <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="financials" aria-pressed="true">
                                     <h4 class="font-bold text-sm">Financials</h4>
-                                    <p class="text-xs text-gray-500">Revenue & Profit</p>
+                                    <p class="text-xs">Revenue & Profit</p>
                                 </button>
                                 <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="stores" aria-pressed="false">
                                     <h4 class="font-bold text-sm">Stores vs SSS</h4>
-                                    <p class="text-xs text-gray-500">Units & Comps</p>
+                                    <p class="text-xs">Units & Comps</p>
                                 </button>
                             </div>
                             <!-- Chart -->
@@ -1279,8 +1205,8 @@
                             <!-- Interpretation -->
                             <div id="historical-analysis-interp" class="md:col-span-4">
                                 <h3 class="font-bold text-lg mb-2">Financial Performance</h3>
-                                <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024). The chart shows a COVID-related dip in 2020 followed by digital-led recovery.</p>
-                                <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
+                                <p class="chart-summary font-semibold text-sm mb-3">Key takeaway: Revenue grew at [HIST_REVENUE_CAGR]% CAGR (2018–2024). The chart shows a COVID-related dip in 2020 followed by digital-led recovery.</p>
+                                <ul class="list-disc list-inside space-y-1 text-xs">
                                     <li>Digital sales were a primary recovery driver post-2020.</li>
                                     <li>Margin pressure from commodity inflation became evident in 2022.</li>
                                     <li>Store-level profitability remains strong despite cost headwinds.</li>
@@ -1295,7 +1221,7 @@
                      <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-12">
                              <h2 class="text-3xl md:text-4xl font-bold">Forecast Scenarios — Bull / Base / Bear (2025–2028)</h2>
-                             <p class="mt-2 text-gray-600 max-w-3xl mx-auto">Toggle between scenarios to see an animated reveal of the forecast and the key underlying assumptions.</p>
+                             <p class="mt-2 max-w-3xl mx-auto">Toggle between scenarios to see an animated reveal of the forecast and the key underlying assumptions.</p>
                         </div>
                         <div class="forecast-toggle">
                              <div class="grid md:grid-cols-12 gap-6">
@@ -1306,7 +1232,7 @@
                                         <button data-scenario="bull" class="btn-secondary w-full text-sm py-2">Bull — Upside</button>
                                     </div>
                                     <div class="text-right mt-4">
-                                        <label class="text-xs text-gray-500 flex items-center justify-end"><input type="checkbox" id="animation-toggle" class="mr-2" checked>Enable Animation</label>
+                                        <label class="text-xs flex items-center justify-end"><input type="checkbox" id="animation-toggle" class="mr-2" checked>Enable Animation</label>
                                     </div>
                                 </div>
                                 <div class="md:col-span-9">
@@ -1315,7 +1241,7 @@
                                         <div class="reveal-mask"></div>
                                      </div>
                                      <div id="toggle-interp" class="mt-2 text-sm" aria-live="polite">
-                                        <p class="chart-summary font-semibold text-gray-700"><strong>Base Scenario:</strong> Continued strong SSS growth and moderate margin expansion.</p>
+                                        <p class="chart-summary font-semibold"><strong>Base Scenario:</strong> Continued strong SSS growth and moderate margin expansion.</p>
                                      </div>
                                 </div>
                              </div>
@@ -1339,7 +1265,7 @@
                     <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-12">
                             <h2 class="text-3xl md:text-4xl font-bold">Project Methodology</h2>
-                            <p class="mt-2 text-gray-600 max-w-2xl mx-auto">This project follows a structured FMVA® process. Click on each step to see details.</p>
+                            <p class="mt-2 max-w-2xl mx-auto">This project follows a structured FMVA® process. Click on each step to see details.</p>
                         </div>
                         
                         <div class="space-y-4">
@@ -1352,7 +1278,7 @@
                                     </span>
                                     <i class="fas fa-chevron-down accordion-icon transition-transform"></i>
                                 </button>
-                                <div class="timeline-details bg-gray-50 text-gray-600 rounded-b-lg">
+                                <div class="timeline-details text-gray-600 rounded-b-lg">
                                     <p>${item.details}</p>
                                 </div>
                             </div>
@@ -1366,30 +1292,30 @@
                     <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-12">
                             <h2 class="text-3xl md:text-4xl font-bold">Project Dashboard - Key Results</h2>
-                            <p class="mt-2 text-gray-600">A visual-first summary of valuation outcomes, forecasts, and scenario analysis.</p>
+                            <p class="mt-2">A visual-first summary of valuation outcomes, forecasts, and scenario analysis.</p>
                         </div>
                         
                         <!-- Part 1: Top Highlight Row -->
                         <div class="bg-white rounded-xl shadow-lg p-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-8">
                             <div>
                                 <p class="text-2xl md:text-3xl font-bold text-[#463863]">[Upload Value]</p>
-                                <p class="text-sm font-semibold text-gray-500">2028 Net Revenues Forecast</p>
-                                <p class="text-xs text-gray-400 mt-1">Projected Revenues by 2028</p>
+                                <p class="text-sm font-semibold">2028 Net Revenues Forecast</p>
+                                <p class="text-xs mt-1">Projected Revenues by 2028</p>
                             </div>
                             <div>
                                 <p class="text-2xl md:text-3xl font-bold text-green-600">[Upload Range]</p>
-                                <p class="text-sm font-semibold text-gray-500">Implied Share Price Range</p>
-                                 <p class="text-xs text-gray-400 mt-1">Scenario-based valuation outcomes</p>
+                                <p class="text-sm font-semibold">Implied Share Price Range</p>
+                                 <p class="text-xs mt-1">Scenario-based valuation outcomes</p>
                             </div>
                             <div>
                                 <p class="text-2xl md:text-3xl font-bold text-[#463863]">[Upload CAGR]</p>
-                                <p class="text-sm font-semibold text-gray-500">SSS Growth CAGR (25-28)</p>
-                                <p class="text-xs text-gray-400 mt-1">Sustained growth in comparable sales</p>
+                                <p class="text-sm font-semibold">SSS Growth CAGR (25-28)</p>
+                                <p class="text-xs mt-1">Sustained growth in comparable sales</p>
                             </div>
                             <div>
                                 <p class="text-2xl md:text-3xl font-bold text-[#463863]">[Upload CAGR]</p>
-                                <p class="text-sm font-semibold text-gray-500">Store Growth CAGR (25-28)</p>
-                                <p class="text-xs text-gray-400 mt-1">Expansion in restaurant count</p>
+                                <p class="text-sm font-semibold">Store Growth CAGR (25-28)</p>
+                                <p class="text-xs mt-1">Expansion in restaurant count</p>
                             </div>
                         </div>
 
@@ -1401,17 +1327,17 @@
                                     <h3 class="font-bold text-lg mb-2">Historical Financial Performance</h3>
                                     <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
                                         <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs text-gray-500">Graph 1: Revenues, Op Income, Net Income</p>
+                                        <p class="text-xs">Graph 1: Revenues, Op Income, Net Income</p>
                                     </div>
-                                    <p class="text-sm text-gray-600">Chipotle has delivered consistent revenue growth alongside improving margins and net income, reflecting strong operating leverage.</p>
+                                    <p class="text-sm">Chipotle has delivered consistent revenue growth alongside improving margins and net income, reflecting strong operating leverage.</p>
                                 </div>
                                 <div class="bg-white p-6 rounded-xl shadow-lg">
                                     <h3 class="font-bold text-lg mb-2">Store Expansion vs Same-Store Sales</h3>
                                     <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
                                          <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs text-gray-500">Graph 2: Store Expansion vs SSS</p>
+                                        <p class="text-xs">Graph 2: Store Expansion vs SSS</p>
                                     </div>
-                                    <p class="text-sm text-gray-600">Expansion in store count has complemented steady same-store sales, highlighting the dual drivers of Chipotle’s growth.</p>
+                                    <p class="text-sm">Expansion in store count has complemented steady same-store sales, highlighting the dual drivers of Chipotle’s growth.</p>
                                 </div>
                             </div>
                             <!-- Row 2: Forward Forecasts -->
@@ -1420,25 +1346,25 @@
                                     <h3 class="font-bold text-lg mb-2">Bull Case Forecast</h3>
                                     <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
                                          <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs text-gray-500">Graph: Bull Case Forecast</p>
+                                        <p class="text-xs">Graph: Bull Case Forecast</p>
                                     </div>
-                                    <p class="text-sm text-gray-600">In the Bull case, accelerated store expansion and stronger same-store sales drive higher revenues and valuations.</p>
+                                    <p class="text-sm">In the Bull case, accelerated store expansion and stronger same-store sales drive higher revenues and valuations.</p>
                                 </div>
                                 <div class="bg-white p-6 rounded-xl shadow-lg">
                                     <h3 class="font-bold text-lg mb-2">Base Case Forecast</h3>
                                     <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
                                          <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs text-gray-500">Graph: Base Case Forecast</p>
+                                        <p class="text-xs">Graph: Base Case Forecast</p>
                                     </div>
-                                    <p class="text-sm text-gray-600">The Base case reflects a balanced trajectory with sustainable growth in revenues and a moderate valuation outlook.</p>
+                                    <p class="text-sm">The Base case reflects a balanced trajectory with sustainable growth in revenues and a moderate valuation outlook.</p>
                                 </div>
                                  <div class="bg-white p-6 rounded-xl shadow-lg">
                                     <h3 class="font-bold text-lg mb-2">Bear Case Forecast</h3>
                                     <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
                                          <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs text-gray-500">Graph: Bear Case Forecast</p>
+                                        <p class="text-xs">Graph: Bear Case Forecast</p>
                                     </div>
-                                    <p class="text-sm text-gray-600">In the Bear case, slower store expansion and weaker sales result in downside risks to revenues and valuations.</p>
+                                    <p class="text-sm">In the Bear case, slower store expansion and weaker sales result in downside risks to revenues and valuations.</p>
                                 </div>
                             </div>
                         </div>
@@ -1451,17 +1377,17 @@
                     <div class="container mx-auto max-w-4xl px-6 md:px-8">
                         <div class="text-center mb-12">
                             <h2 class="text-3xl md:text-4xl font-bold">Case Study – Chipotle Mexican Grill FMVA® Project</h2>
-                            <p class="mt-2 text-gray-600">A detailed walkthrough of the project's objective, process, and conclusions.</p>
+                            <p class="mt-2">A detailed walkthrough of the project's objective, process, and conclusions.</p>
                         </div>
                         <article class="space-y-8">
                             <div>
                                 <h3 class="text-xl font-bold">Objective</h3>
-                                <p class="text-gray-700 mt-2 leading-relaxed">Apply FMVA®-level modeling and valuation techniques to assess Chipotle's intrinsic value, validate key performance drivers, and communicate a clear, data-driven investment narrative.</p>
+                                <p class="mt-2 leading-relaxed">Apply FMVA®-level modeling and valuation techniques to assess Chipotle's intrinsic value, validate key performance drivers, and communicate a clear, data-driven investment narrative.</p>
                             </div>
                             <div>
                                 <h3 class="text-xl font-bold">Methodology</h3>
-                                <p class="text-gray-700 mt-2 leading-relaxed">The project was executed in a sequential manner, ensuring a logical flow from data gathering to final analysis:</p>
-                                <ul class="list-disc list-inside text-gray-700 space-y-2 mt-2">
+                                <p class="mt-2 leading-relaxed">The project was executed in a sequential manner, ensuring a logical flow from data gathering to final analysis:</p>
+                                <ul class="list-disc list-inside space-y-2 mt-2">
                                     <li><strong>Research & Historicals:</strong> Began with a deep dive into SEC filings and industry reports to build a solid foundation.</li>
                                     <li><strong>Forecasting:</strong> Developed a granular forecast model based on key drivers like store growth, same-store sales, and margin assumptions.</li>
                                     <li><strong>3-Statement Integration:</strong> Constructed a fully integrated financial model linking the income statement, balance sheet, and cash flow statement.</li>
@@ -1471,7 +1397,7 @@
                             </div>
                             <div>
                                 <h3 class="text-xl font-bold">Key Insights</h3>
-                                <ul class="list-disc list-inside text-gray-700 space-y-2 mt-2">
+                                <ul class="list-disc list-inside space-y-2 mt-2">
                                      <li>The base-case DCF analysis indicates an intrinsic value range of <strong>$2800–$3200 per share</strong>, suggesting the stock is fairly valued at current levels.</li>
                                     <li>Upside potential is primarily driven by strong digital sales growth, successful 'Chipotlane' drive-thru implementation, and effective menu price increases.</li>
                                     <li>Key risks include rising food and labor costs, supply chain vulnerabilities for fresh ingredients, and intense competition in the fast-casual dining sector.</li>
@@ -1521,14 +1447,14 @@
                             explorerContent.innerHTML = `
                                 <div class="flex-grow">
                                     <div class="flex justify-between items-start mb-1">
-                                        <h3 class="text-xl font-bold text-gray-900">${exp.title}</h3>
+                                        <h3 class="text-xl font-bold">${exp.title}</h3>
                                         <p class="text-sm font-medium mt-1 flex-shrink-0 ml-4" style="color: #D1A46E;">${exp.date}</p>
                                     </div>
                                     <p class="font-semibold mb-4" style="color: #463863;">${exp.companyFull}</p>
                                     <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
-                                    <ul class="list-disc pl-5 space-y-1 text-gray-600 mb-4">${dutiesHTML}</ul>
+                                    <ul class="list-disc pl-5 space-y-1 mb-4">${dutiesHTML}</ul>
                                     <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
-                                    <ul class="list-disc pl-5 space-y-1 text-gray-600">${domainHTML}</ul>
+                                    <ul class="list-disc pl-5 space-y-1">${domainHTML}</ul>
                                 </div>`;
                             explorerContent.style.opacity = 1;
                         }, 300);
@@ -1755,6 +1681,4 @@
     </script>
 </body>
 </html>
-
-
 
