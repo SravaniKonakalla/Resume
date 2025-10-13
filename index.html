@@ -488,6 +488,12 @@
                     chipotleForecastBase: 'Chip Graph 4 Base.png',
                     chipotleForecastBear: 'Chip Graph 5 worst.png',
                     chipotleForecastBull: 'Chip Graph 3 Best.png',
+                    // New Dashboard Graph URLs
+                    dashboardHistFinancials: 'Chip graph 1.png',
+                    dashboardStoresVsSss: 'Chip Graph 2.png',
+                    dashboardBull: 'Chip Graph 3 Best.png',
+                    dashboardBase: 'Chip Graph 4 Base.png',
+                    dashboardBear: 'Chip Graph 5 worst.png',
                     // Logos
                     logoTcs: 'TCS LOGO.svg.png',
                     logoMercedes: 'Benz Logo.svg.png',
@@ -1257,17 +1263,15 @@
                             <div class="grid md:grid-cols-2 gap-8">
                                 <div class="bg-white p-6 rounded-xl shadow-lg">
                                     <h3 class="font-bold text-lg mb-2">Historical Financial Performance</h3>
-                                    <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
-                                        <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs text-gray-500">Graph 1: Revenues, Op Income, Net Income</p>
+                                    <div class="w-full h-48 rounded-lg overflow-hidden mb-3 bg-gray-50">
+                                        <img src="${portfolioData.imageUrls.dashboardHistFinancials}" alt="Graph of Historical Financial Performance" class="w-full h-full object-cover">
                                     </div>
                                     <p class="text-sm text-gray-600">Chipotle has delivered consistent revenue growth alongside improving margins and net income, reflecting strong operating leverage.</p>
                                 </div>
                                 <div class="bg-white p-6 rounded-xl shadow-lg">
                                     <h3 class="font-bold text-lg mb-2">Store Expansion vs Same-Store Sales</h3>
-                                    <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
-                                         <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs text-gray-500">Graph 2: Store Expansion vs SSS</p>
+                                    <div class="w-full h-48 rounded-lg overflow-hidden mb-3 bg-gray-50">
+                                        <img src="${portfolioData.imageUrls.dashboardStoresVsSss}" alt="Graph of Store Expansion vs Same-Store Sales" class="w-full h-full object-cover">
                                     </div>
                                     <p class="text-sm text-gray-600">Expansion in store count has complemented steady same-store sales, highlighting the dual drivers of Chipotle’s growth.</p>
                                 </div>
@@ -1276,25 +1280,22 @@
                             <div class="grid md:grid-cols-3 gap-8 mt-8">
                                <div class="bg-white p-6 rounded-xl shadow-lg">
                                     <h3 class="font-bold text-lg mb-2">Bull Case Forecast</h3>
-                                    <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
-                                         <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs text-gray-500">Graph: Bull Case Forecast</p>
+                                    <div class="w-full h-48 rounded-lg overflow-hidden mb-3 bg-gray-50">
+                                         <img src="${portfolioData.imageUrls.dashboardBull}" alt="Graph of Bull Case Forecast" class="w-full h-full object-cover">
                                     </div>
                                     <p class="text-sm text-gray-600">In the Bull case, accelerated store expansion and stronger same-store sales drive higher revenues and valuations.</p>
                                 </div>
                                 <div class="bg-white p-6 rounded-xl shadow-lg">
                                     <h3 class="font-bold text-lg mb-2">Base Case Forecast</h3>
-                                    <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
-                                         <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs text-gray-500">Graph: Base Case Forecast</p>
+                                    <div class="w-full h-48 rounded-lg overflow-hidden mb-3 bg-gray-50">
+                                         <img src="${portfolioData.imageUrls.dashboardBase}" alt="Graph of Base Case Forecast" class="w-full h-full object-cover">
                                     </div>
                                     <p class="text-sm text-gray-600">The Base case reflects a balanced trajectory with sustainable growth in revenues and a moderate valuation outlook.</p>
                                 </div>
                                  <div class="bg-white p-6 rounded-xl shadow-lg">
                                     <h3 class="font-bold text-lg mb-2">Bear Case Forecast</h3>
-                                    <div class="w-full h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 mb-3">
-                                         <i class="fas fa-upload text-2xl text-gray-400 mb-2"></i>
-                                        <p class="text-xs text-gray-500">Graph: Bear Case Forecast</p>
+                                    <div class="w-full h-48 rounded-lg overflow-hidden mb-3 bg-gray-50">
+                                         <img src="${portfolioData.imageUrls.dashboardBear}" alt="Graph of Bear Case Forecast" class="w-full h-full object-cover">
                                     </div>
                                     <p class="text-sm text-gray-600">In the Bear case, slower store expansion and weaker sales result in downside risks to revenues and valuations.</p>
                                 </div>
@@ -1598,6 +1599,4 @@
     </script>
 </body>
 </html>
-
-
 
