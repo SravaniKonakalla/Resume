@@ -172,8 +172,20 @@
         .education-card.visible, .certification-card.visible { opacity: 1; transform: translateY(0); }
         .education-card:hover, .certification-card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px -4px rgba(70, 56, 99, 0.15), 0 0 30px rgba(209, 164, 110, 0.7); }
         .education-card .logo-holder, .certification-card .logo-holder { width: 120px; height: auto; align-self: stretch; border-radius: 0; padding: 0; box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); overflow: hidden; }
-        .education-card .logo-holder img, .certification-card .logo-holder img { border-radius: 0; width: 100%; height: 100%; object-fit: cover; }
+        .education-card .logo-holder img { border-radius: 0; width: 100%; height: 100%; object-fit: cover; }
+        .certification-card .logo-holder img { border-radius: 0; width: 100%; height: 100%; object-fit: contain; padding: 0.75rem; background-color: white; }
         .cgpa-badge { background-color: #463863; color: #FFFFFF; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .cert-view-btn {
+            background-color: #463863; color: #FFFFFF; border-radius: 9999px;
+            width: 2.25rem; height: 2.25rem; display: inline-flex;
+            align-items: center; justify-content: center;
+            font-size: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .cert-view-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(70, 56, 99, 0.3);
+        }
         
         /* --- NEW FAB and Modal Styles --- */
         #contact-fab {
@@ -357,11 +369,8 @@
             border-radius: 0.25rem;
             transition: opacity 0.4s ease-in-out;
         }
-        .historical-analysis-section .chart-summary,
-        .chipotle-forecast-section .chart-summary {
-            padding-top: 0.5rem;
-            font-size: 0.8rem;
-            color: #9C8FA7;
+        .justified-text, .justified-text p, .justified-text li {
+            text-align: justify;
         }
         .scenario-selector .mini-card-toggle {
             background-color: #fff;
@@ -469,12 +478,6 @@
                     chipotleForecastBase: 'Chip Graph 4 Base.jpg',
                     chipotleForecastBear: 'Chip Graph 5 Worst.jpg',
                     chipotleForecastBull: 'Chip Graph 3 Best.jpg',
-                    // New Dashboard Graph URLs
-                    dashboardHistFinancials: 'https://placehold.co/600x400/FFFFFF/463863?text=Upload+Graph',
-                    dashboardStoresVsSss: 'https://placehold.co/600x400/FFFFFF/463863?text=Upload+Graph',
-                    dashboardBull: 'https://placehold.co/600x400/FFFFFF/463863?text=Upload+Graph',
-                    dashboardBase: 'https://placehold.co/600x400/FFFFFF/463863?text=Upload+Graph',
-                    dashboardBear: 'https://placehold.co/600x400/FFFFFF/463863?text=Upload+Graph',
                     // Logos
                     logoTcs: 'TCS LOGO.svg.png',
                     logoMercedes: 'Benz Logo.svg.png',
@@ -595,7 +598,6 @@
                 contact: {
                     email: 'sravikonakalla@gmail.com',
                     linkedin: 'https://linkedin.com/in/kbalasravani',
-                    // --- CHANGE 5: Update Formspree URL ---
                     formspree_url: 'https://formspree.io/f/myznbzer'
                 },
                  chipotleProject: {
@@ -635,7 +637,7 @@
                 const container = document.querySelector('.historical-analysis-section');
                 if (!container) return;
 
-                const toggles = container.querySelectorAll('.mini-card-toggle');
+                const toggles = container.querySelectorAll('.scenario-selector .mini-card-toggle');
                 const chartImg = container.querySelector('#historical-analysis-img');
                 const interpContainer = container.querySelector('#historical-analysis-interp');
 
@@ -644,15 +646,31 @@
                         imgSrc: portfolioData.imageUrls.chipotleHistFinancials,
                         alt: 'Historical financials: Revenue and Net Income, 2018–2024.',
                         interpHTML: `
-                            <h3 class="font-bold text-lg mb-2">Operating Leverage Unlocked — Growth with Margin Expansion</h3>
-                            <p class="text-sm text-gray-600 leading-relaxed">The company demonstrates a clear trajectory of profitable growth, with revenues expanding from $7.5 billion in 2021 to $11.3 billion in 2024, while profitability has scaled even faster. Operating income and net income have more than doubled over the period, reflecting not just topline expansion but also strong operating leverage. Margins have steadily improved from 10.7% to 16.9%, underscoring disciplined cost management, economies of scale, and possibly enhanced pricing power. Importantly, the growth in net income closely tracks operating performance, suggesting gains are sustainable and not eroded by financing or tax pressures. Overall, the business is converting growth into higher-quality earnings, strengthening its competitive position and signaling resilience. The ability to drive both scale and efficiency simultaneously points to a maturing business model that is increasingly well-positioned to deliver long-term shareholder value.</p>`
+                            <h3 class="font-bold text-lg mb-2">Operating Leverage Unlocked</h3>
+                            <div class="text-sm text-gray-600 leading-relaxed justified-text space-y-3">
+                                <p>The company demonstrates a clear trajectory of profitable growth, with revenues expanding from $7.5 billion in 2021 to $11.3 billion in 2024, while profitability has scaled even faster. </p>
+                                <ul class="list-disc list-inside space-y-2 pl-2">
+                                    <li>Operating income and net income have more than doubled, reflecting strong operating leverage alongside topline expansion.</li>
+                                    <li>Margins steadily improved from 10.7% to 16.9%, underscoring disciplined cost management and economies of scale.</li>
+                                    <li>Growth in net income closely tracks operating performance, suggesting gains are sustainable and not eroded by financing or tax pressures.</li>
+                                </ul>
+                                <p>Overall, the business is converting growth into higher-quality earnings, strengthening its competitive position and signaling resilience.</p>
+                            </div>`
                     },
                     stores: {
                         imgSrc: portfolioData.imageUrls.chipotleStoresVsSss,
                         alt: 'Stores vs same-store-sales: 2018–2024.',
                          interpHTML: `
-                            <h3 class="font-bold text-lg mb-2">Strategic Evolution—From Recovery Surge to Sustainable Growth</h3>
-                            <p class="text-sm text-gray-600 leading-relaxed">This chart visualizes Chipotle's successful transition from a period of anomalous, recovery-driven growth to a more mature and sustainable growth algorithm. The dramatic 19.3% same-store sales growth (SSSG) in 2021 represents a post-pandemic rebound, a one-time event driven by the normalization of consumer behavior and strong digital sales. The key strategic insight is not the subsequent decline in the SSSG percentage, but its stabilization at a best-in-class level of 7.4% to 8.0% from 2022 to 2024. Maintaining comps in the high-single-digits is a sign of exceptional brand health and operational execution. As this intensive growth normalized, Chipotle strategically accelerated its extensive growth, expanding its physical footprint from approximately 3,000 to over 3,700 stores. This demonstrates a sophisticated, dual-engine strategy. The company is no longer reliant on post-COVID tailwinds but is now firing on two cylinders: a highly productive and stable existing store base, complemented by an aggressive and accelerating new unit development pipeline. This is the hallmark of a business that has successfully evolved to a durable, long-term growth phase.</p>`
+                            <h3 class="font-bold text-lg mb-2">Strategic Evolution to Sustainable Growth</h3>
+                            <div class="text-sm text-gray-600 leading-relaxed justified-text space-y-3">
+                                <p>This chart visualizes Chipotle's successful transition from a period of anomalous, recovery-driven growth to a more mature and sustainable growth algorithm.</p>
+                                <ul class="list-disc list-inside space-y-2 pl-2">
+                                    <li>The dramatic 19.3% same-store sales growth (SSSG) in 2021 represents a one-time post-pandemic rebound.</li>
+                                    <li>The key insight is the stabilization of SSSG at a best-in-class level of 7.4% to 8.0% from 2022 to 2024, a sign of exceptional brand health.</li>
+                                    <li>As intensive growth normalized, Chipotle strategically accelerated extensive growth, expanding its footprint from ~3,000 to over 3,700 stores.</li>
+                                </ul>
+                                <p>This demonstrates a sophisticated, dual-engine strategy, evolving to a durable, long-term growth phase.</p>
+                            </div>`
                     }
                 };
 
@@ -664,21 +682,25 @@
                         toggle.setAttribute('aria-pressed', 'true');
                         
                         chartImg.style.opacity = 0;
+                        interpContainer.style.opacity = 0;
                         setTimeout(() => {
                             chartImg.src = viewData[view].imgSrc;
                             chartImg.alt = viewData[view].alt;
                             interpContainer.innerHTML = viewData[view].interpHTML;
                             chartImg.style.opacity = 1;
-                        }, 400);
+                            interpContainer.style.opacity = 1;
+                        }, 300);
                     });
                 });
+                 // Set initial state
+                if(toggles.length > 0) toggles[0].click();
             };
 
             function setupProjectForecasts() {
                 const container = document.querySelector('.chipotle-forecast-section');
                 if (!container) return;
                 
-                const toggles = container.querySelectorAll('.mini-card-toggle');
+                const toggles = container.querySelectorAll('.scenario-selector .mini-card-toggle');
                 const chartImg = container.querySelector('#forecast-analysis-img');
                 const interpContainer = container.querySelector('#forecast-analysis-interp');
                 
@@ -688,33 +710,39 @@
                         alt:'Forecast — Net revenue (Bear scenario), 2025–2028.',
                         interpHTML: `
                             <h3 class="font-bold text-lg mb-2">Bear Scenario</h3>
-                            <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Recessionary pressures and increased competition lead to slower SSS growth and margin compression.</p>
-                            <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
-                                <li>Lower consumer discretionary spending impacts visit frequency.</li>
-                                <li>Inability to fully pass on inflationary costs to consumers.</li>
-                            </ul>`
+                             <div class="text-sm text-gray-600 leading-relaxed justified-text">
+                                <p class="font-semibold text-gray-700 mb-2">Recessionary pressures and increased competition lead to slower SSS growth and margin compression.</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Lower consumer discretionary spending impacts visit frequency.</li>
+                                    <li>Inability to fully pass on inflationary costs to consumers.</li>
+                                </ul>
+                            </div>`
                      },
                      base: { 
                         imgSrc: portfolioData.imageUrls.chipotleForecastBase,
                         alt:'Forecast — Net revenue (Base scenario), 2025–2028.',
                         interpHTML: `
                             <h3 class="font-bold text-lg mb-2">Base Scenario</h3>
-                            <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Assumes continued strong SSS growth, driven by menu innovation and digital channel strength, with moderate margin expansion.</p>
-                            <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
-                                <li>Steady new unit development, including Chipotlanes.</li>
-                                <li>Effective management of food and labor costs.</li>
-                            </ul>`
+                            <div class="text-sm text-gray-600 leading-relaxed justified-text">
+                                <p class="font-semibold text-gray-700 mb-2">Assumes continued strong SSS growth, driven by menu innovation and digital channel strength, with moderate margin expansion.</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Steady new unit development, including Chipotlanes.</li>
+                                    <li>Effective management of food and labor costs.</li>
+                                </ul>
+                            </div>`
                      },
                      bull: { 
                         imgSrc: portfolioData.imageUrls.chipotleForecastBull,
                         alt:'Forecast — Net revenue (Bull scenario), 2025–2028.',
                         interpHTML: `
                             <h3 class="font-bold text-lg mb-2">Bull Scenario</h3>
-                            <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Successful international expansion and accelerated new unit growth in the U.S. drive higher-than-expected revenue.</p>
-                             <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
-                                <li>Significant market share gains in new international markets.</li>
-                                <li>Higher-than-expected price realization from premium offerings.</li>
-                            </ul>`
+                            <div class="text-sm text-gray-600 leading-relaxed justified-text">
+                                <p class="font-semibold text-gray-700 mb-2">Successful international expansion and accelerated new unit growth in the U.S. drive higher-than-expected revenue.</p>
+                                 <ul class="list-disc list-inside space-y-1">
+                                    <li>Significant market share gains in new international markets.</li>
+                                    <li>Higher-than-expected price realization from premium offerings.</li>
+                                </ul>
+                            </div>`
                      }
                 };
 
@@ -726,14 +754,21 @@
                         toggle.setAttribute('aria-pressed', 'true');
                         
                         chartImg.style.opacity = 0;
+                        interpContainer.style.opacity = 0;
                         setTimeout(() => {
                             chartImg.src = viewData[view].imgSrc;
                             chartImg.alt = viewData[view].alt;
                             interpContainer.innerHTML = viewData[view].interpHTML;
                             chartImg.style.opacity = 1;
-                        }, 400);
+                            interpContainer.style.opacity = 1;
+                        }, 300);
                     });
                 });
+                // Set initial state
+                if(toggles.length > 0) {
+                    const baseCaseButton = Array.from(toggles).find(t => t.dataset.view === 'base');
+                    if(baseCaseButton) baseCaseButton.click();
+                }
             }
 
 
@@ -980,7 +1015,6 @@
                     </div>
                 `).join('');
 
-                // --- CHANGE 2: Create title cards for certifications ---
                 const certificationCardsHTML = portfolioData.certifications.map(cert => `
                     <div class="certification-card bg-white rounded-2xl flex overflow-hidden w-full max-w-3xl mx-auto">
                         <div class="logo-holder !w-24 md:!w-32">
@@ -992,10 +1026,10 @@
                                 <p class="font-semibold text-sm mb-1" style="color: #463863;">${cert.issuer}</p>
                                 <p class="text-xs font-medium" style="color: #D1A46E;">Issued: ${cert.issueDate}</p>
                             </div>
-                            <button class="view-cert-btn btn-secondary !py-2 !px-4 !rounded-lg !text-sm flex-shrink-0"
+                            <button class="view-cert-btn cert-view-btn flex-shrink-0"
                                     data-img-src="${portfolioData.imageUrls[cert.imageUrlKey]}" 
                                     aria-label="View ${cert.title} certificate">
-                                View
+                                <i class="fas fa-plus"></i>
                             </button>
                         </div>
                     </div>
@@ -1027,11 +1061,11 @@
                 page.id = 'page-resume';
                 page.className = 'page';
 
-                // --- CHANGE 1: Replace resume viewer with a single image and remove descriptive text ---
                 page.innerHTML = `
                     <section class="pt-28 pb-16 min-h-[90vh] flex items-center">
                         <div class="container mx-auto px-4 text-center max-w-4xl">
-                            <h2 class="text-3xl md:text-4xl font-bold mb-8" style="color: #221C2A;">Resume</h2>
+                            <h2 class="text-3xl md:text-4xl font-bold mb-2" style="color: #221C2A;">Resume</h2>
+                            <p id="resume-last-updated" class="text-sm text-gray-500 mb-6"></p>
                             
                             <div class="bg-white rounded-2xl shadow-lg p-2 md:p-4 mb-8">
                                 <img src="${portfolioData.imageUrls.resumePreview}" 
@@ -1052,6 +1086,20 @@
                     </section>
                 `;
                 mainContainer.appendChild(page);
+
+                // Set last updated date
+                const lastUpdatedEl = page.querySelector('#resume-last-updated');
+                if (lastUpdatedEl) {
+                    const today = new Date();
+                    const dayOfWeek = today.getDay(); // Sunday = 0, Monday = 1, etc.
+                    const lastSunday = new Date(today.setDate(today.getDate() - dayOfWeek));
+                    const formattedDate = lastSunday.toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric'
+                    });
+                    lastUpdatedEl.textContent = `Last updated on ${formattedDate}`;
+                }
             };
             
             const createProjectsPage = () => {
@@ -1083,7 +1131,7 @@
                         <div class="max-w-6xl mx-auto space-y-8">
                             <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 text-left">
                                 <h3 class="font-bold text-lg mb-2">About the Company</h3>
-                                <p class="text-sm leading-relaxed mb-4">
+                                <p class="text-sm leading-relaxed mb-4 justified-text">
                                     Chipotle Mexican Grill is an American chain of fast-casual restaurants specializing in Mission burritos and tacos. Revenue is driven by high-volume sales in company-operated stores, with a focus on fresh ingredients and a customizable menu. Key growth levers include digital sales, new restaurant openings, and menu innovation.
                                 </p>
                                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center pt-4 border-t border-gray-200">
@@ -1095,7 +1143,7 @@
                             </div>
                              <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 text-left">
                                 <h3 class="font-bold text-lg mb-2">About the Project</h3>
-                                <p class="text-sm leading-relaxed mb-4">
+                                <p class="text-sm leading-relaxed mb-4 justified-text">
                                    This project involves a comprehensive financial analysis and valuation of Chipotle Mexican Grill (CMG). Using FMVA® methodologies, it includes building a 3-statement financial model, forecasting future performance under multiple scenarios (Bull, Base, Bear), and deriving an intrinsic value per share through a Discounted Cash Flow (DCF) analysis.
                                 </p>
                                 <div class="flex flex-wrap justify-start gap-2 pt-4 border-t border-gray-200">
@@ -1115,29 +1163,26 @@
                              <h2 class="text-3xl md:text-4xl font-bold">Historical Analysis</h2>
                         </div>
                         
-                        <!-- CHANGE 4: Centered Horizontal Selectors -->
-                        <div class="scenario-selector flex justify-center items-center gap-4 mb-8">
-                            <button class="mini-card-toggle text-left p-3 rounded-lg w-40" data-view="financials" aria-pressed="true">
-                                <h4 class="font-bold text-sm">Financials</h4>
-                                <p class="text-xs text-gray-500">Revenue & Profit</p>
-                            </button>
-                            <button class="mini-card-toggle text-left p-3 rounded-lg w-40" data-view="stores" aria-pressed="false">
-                                <h4 class="font-bold text-sm">Stores vs SSS</h4>
-                                <p class="text-xs text-gray-500">Units & Comps</p>
-                            </button>
-                        </div>
-                        
                         <div class="grid md:grid-cols-12 gap-6 md:gap-8 items-center">
                             <!-- Chart -->
                             <div class="md:col-span-7">
+                                <div class="scenario-selector flex justify-center items-center gap-4 mb-6">
+                                    <button class="mini-card-toggle text-left p-3 rounded-lg w-40" data-view="financials" aria-pressed="true">
+                                        <h4 class="font-bold text-sm">Financials</h4>
+                                        <p class="text-xs text-gray-500">Revenue & Profit</p>
+                                    </button>
+                                    <button class="mini-card-toggle text-left p-3 rounded-lg w-40" data-view="stores" aria-pressed="false">
+                                        <h4 class="font-bold text-sm">Stores vs SSS</h4>
+                                        <p class="text-xs text-gray-500">Units & Comps</p>
+                                    </button>
+                                </div>
                                 <div class="chart-frame">
                                     <img id="historical-analysis-img" src="${portfolioData.imageUrls.chipotleHistFinancials}" width="1280" height="720" loading="lazy" alt="Historical financials: Revenue and Net Income, 2018–2024.">
                                 </div>
                             </div>
                             <!-- Interpretation -->
-                            <div id="historical-analysis-interp" class="md:col-span-5">
-                                <h3 class="font-bold text-lg mb-2">Operating Leverage Unlocked — Growth with Margin Expansion</h3>
-                                <p class="text-sm text-gray-600 leading-relaxed">The company demonstrates a clear trajectory of profitable growth, with revenues expanding from $7.5 billion in 2021 to $11.3 billion in 2024, while profitability has scaled even faster. Operating income and net income have more than doubled over the period, reflecting not just topline expansion but also strong operating leverage. Margins have steadily improved from 10.7% to 16.9%, underscoring disciplined cost management, economies of scale, and possibly enhanced pricing power. Importantly, the growth in net income closely tracks operating performance, suggesting gains are sustainable and not eroded by financing or tax pressures. Overall, the business is converting growth into higher-quality earnings, strengthening its competitive position and signaling resilience. The ability to drive both scale and efficiency simultaneously points to a maturing business model that is increasingly well-positioned to deliver long-term shareholder value.</p>
+                            <div id="historical-analysis-interp" class="md:col-span-5 transition-opacity duration-300">
+                                <!-- Content will be injected by JS -->
                             </div>
                         </div>
                     </div>
@@ -1147,40 +1192,33 @@
                 <section class="chipotle-forecast-section py-12 md:py-16 project-section-fade-in">
                      <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="text-center mb-12">
-                             <h2 class="text-3xl md:text-4xl font-bold">Historical Analysis & Forecast Scenarios — Bull / Base / Bear (2025–2028)</h2>
-                        </div>
-
-                        <!-- CHANGE 4: Centered Horizontal Selectors -->
-                        <div class="scenario-selector flex flex-wrap justify-center items-center gap-4 mb-8">
-                            <button class="mini-card-toggle text-left p-3 rounded-lg w-40" data-view="bull" aria-pressed="false">
-                                <h4 class="font-bold text-sm">Bull Case</h4>
-                                <p class="text-xs text-gray-500">Upside Scenario</p>
-                            </button>
-                            <button class="mini-card-toggle text-left p-3 rounded-lg w-40" data-view="base" aria-pressed="true">
-                                <h4 class="font-bold text-sm">Base Case</h4>
-                                <p class="text-xs text-gray-500">Central Scenario</p>
-                            </button>
-                            <button class="mini-card-toggle text-left p-3 rounded-lg w-40" data-view="bear" aria-pressed="false">
-                                <h4 class="font-bold text-sm">Bear Case</h4>
-                                <p class="text-xs text-gray-500">Downside Scenario</p>
-                            </button>
+                             <h2 class="text-3xl md:text-4xl font-bold">Forecast Scenarios — Bull / Base / Bear (2025–2028)</h2>
                         </div>
                         
                         <div class="grid md:grid-cols-12 gap-6 md:gap-8 items-center">
                             <!-- Chart -->
                             <div class="md:col-span-7">
+                                <div class="scenario-selector flex flex-wrap justify-center items-center gap-4 mb-6">
+                                    <button class="mini-card-toggle text-left p-3 rounded-lg w-40" data-view="bull" aria-pressed="false">
+                                        <h4 class="font-bold text-sm">Bull Case</h4>
+                                        <p class="text-xs text-gray-500">Upside Scenario</p>
+                                    </button>
+                                    <button class="mini-card-toggle text-left p-3 rounded-lg w-40" data-view="base" aria-pressed="true">
+                                        <h4 class="font-bold text-sm">Base Case</h4>
+                                        <p class="text-xs text-gray-500">Central Scenario</p>
+                                    </button>
+                                    <button class="mini-card-toggle text-left p-3 rounded-lg w-40" data-view="bear" aria-pressed="false">
+                                        <h4 class="font-bold text-sm">Bear Case</h4>
+                                        <p class="text-xs text-gray-500">Downside Scenario</p>
+                                    </button>
+                                </div>
                                 <div class="chart-frame">
                                     <img id="forecast-analysis-img" src="${portfolioData.imageUrls.chipotleForecastBase}" width="1280" height="720" loading="lazy" alt="Forecast — Net revenue (Base scenario), 2025–2028.">
                                 </div>
                             </div>
                             <!-- Interpretation -->
-                            <div id="forecast-analysis-interp" class="md:col-span-5">
-                               <h3 class="font-bold text-lg mb-2">Base Scenario</h3>
-                                <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Assumes continued strong SSS growth, driven by menu innovation and digital channel strength, with moderate margin expansion.</p>
-                                <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
-                                    <li>Steady new unit development, including Chipotlanes.</li>
-                                    <li>Effective management of food and labor costs.</li>
-                                </ul>
+                            <div id="forecast-analysis-interp" class="md:col-span-5 transition-opacity duration-300">
+                               <!-- Content will be injected by JS -->
                             </div>
                         </div>
                     </div>
@@ -1194,9 +1232,8 @@
                             <p class="mt-2 text-gray-600">A visual-first summary of valuation outcomes, forecasts, and scenario analysis.</p>
                         </div>
                         
-                        <!-- Part 1: Top Highlight Row -->
-                        <div class="bg-white rounded-xl shadow-lg p-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center mb-8">
-                            <div>
+                        <div class="bg-white rounded-xl shadow-lg p-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center mb-8">
+                             <div>
                                 <p class="text-2xl md:text-3xl font-bold text-[#463863]">[Upload Value]</p>
                                 <p class="text-sm font-semibold text-gray-500">2028 Net Revenues Forecast</p>
                                 <p class="text-xs text-gray-400 mt-1">Projected Revenues by 2028</p>
@@ -1218,48 +1255,26 @@
                             </div>
                         </div>
 
-                        <!-- Part 2: Five Analysis Boxes -->
-                        <div>
-                            <!-- Row 1: Historical Context -->
-                            <div class="grid md:grid-cols-2 gap-8">
-                                <div class="bg-white p-6 rounded-xl shadow-lg">
-                                    <h3 class="font-bold text-lg mb-2">Historical Financial Performance</h3>
-                                    <div class="w-full h-48 rounded-lg overflow-hidden mb-3 bg-gray-50">
-                                        <img src="${portfolioData.imageUrls.dashboardHistFinancials}" alt="Graph of Historical Financial Performance" class="w-full h-full object-cover">
-                                    </div>
-                                    <p class="text-sm text-gray-600">Chipotle has delivered consistent revenue growth alongside improving margins and net income, reflecting strong operating leverage.</p>
-                                </div>
-                                <div class="bg-white p-6 rounded-xl shadow-lg">
-                                    <h3 class="font-bold text-lg mb-2">Store Expansion vs Same-Store Sales</h3>
-                                    <div class="w-full h-48 rounded-lg overflow-hidden mb-3 bg-gray-50">
-                                        <img src="${portfolioData.imageUrls.dashboardStoresVsSss}" alt="Graph of Store Expansion vs Same-Store Sales" class="w-full h-full object-cover">
-                                    </div>
-                                    <p class="text-sm text-gray-600">Expansion in store count has complemented steady same-store sales, highlighting the dual drivers of Chipotle’s growth.</p>
-                                </div>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+                            <div class="bg-white p-6 rounded-xl shadow-lg lg:col-span-2">
+                                <h3 class="font-bold text-lg mb-2">Historical Financial Performance</h3>
+                                <p class="text-sm text-gray-600 justified-text">Chipotle has delivered consistent revenue growth alongside improving margins and net income, reflecting strong operating leverage.</p>
                             </div>
-                            <!-- Row 2: Forward Forecasts -->
-                            <div class="grid md:grid-cols-3 gap-8 mt-8">
-                               <div class="bg-white p-6 rounded-xl shadow-lg">
-                                    <h3 class="font-bold text-lg mb-2">Bull Case Forecast</h3>
-                                    <div class="w-full h-48 rounded-lg overflow-hidden mb-3 bg-gray-50">
-                                         <img src="${portfolioData.imageUrls.dashboardBull}" alt="Graph of Bull Case Forecast" class="w-full h-full object-cover">
-                                    </div>
-                                    <p class="text-sm text-gray-600">In the Bull case, accelerated store expansion and stronger same-store sales drive higher revenues and valuations.</p>
-                                </div>
-                                <div class="bg-white p-6 rounded-xl shadow-lg">
-                                    <h3 class="font-bold text-lg mb-2">Base Case Forecast</h3>
-                                    <div class="w-full h-48 rounded-lg overflow-hidden mb-3 bg-gray-50">
-                                         <img src="${portfolioData.imageUrls.dashboardBase}" alt="Graph of Base Case Forecast" class="w-full h-full object-cover">
-                                    </div>
-                                    <p class="text-sm text-gray-600">The Base case reflects a balanced trajectory with sustainable growth in revenues and a moderate valuation outlook.</p>
-                                </div>
-                                 <div class="bg-white p-6 rounded-xl shadow-lg">
-                                    <h3 class="font-bold text-lg mb-2">Bear Case Forecast</h3>
-                                    <div class="w-full h-48 rounded-lg overflow-hidden mb-3 bg-gray-50">
-                                         <img src="${portfolioData.imageUrls.dashboardBear}" alt="Graph of Bear Case Forecast" class="w-full h-full object-cover">
-                                    </div>
-                                    <p class="text-sm text-gray-600">In the Bear case, slower store expansion and weaker sales result in downside risks to revenues and valuations.</p>
-                                </div>
+                            <div class="bg-white p-6 rounded-xl shadow-lg lg:col-span-3">
+                                <h3 class="font-bold text-lg mb-2">Store Expansion vs Same-Store Sales</h3>
+                                <p class="text-sm text-gray-600 justified-text">Expansion in store count has complemented steady same-store sales, highlighting the dual drivers of Chipotle’s growth.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl shadow-lg">
+                                <h3 class="font-bold text-lg mb-2">Bull Case</h3>
+                                <p class="text-sm text-gray-600 justified-text">Accelerated store expansion and stronger SSS drive higher revenues and valuations.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl shadow-lg">
+                                <h3 class="font-bold text-lg mb-2">Base Case</h3>
+                                <p class="text-sm text-gray-600 justified-text">A balanced trajectory with sustainable growth in revenues and a moderate valuation outlook.</p>
+                            </div>
+                             <div class="bg-white p-6 rounded-xl shadow-lg">
+                                <h3 class="font-bold text-lg mb-2">Bear Case</h3>
+                                <p class="text-sm text-gray-600 justified-text">Slower store expansion and weaker sales result in downside risks to revenues and valuations.</p>
                             </div>
                         </div>
 
@@ -1269,7 +1284,7 @@
                 <section id="investment-thesis" class="py-12 md:py-20 project-section-fade-in">
                     <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
                         <div class="bg-white/70 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-gray-200">
-                             <h2 class="text-3xl font-bold mb-8 text-center">Chipotle's Growth Trajectory: An Investment Perspective</h2>
+                             <h2 class="text-3xl font-bold mb-8 text-center">Investment Perspective</h2>
                             <div class="grid md:grid-cols-12 gap-8 items-center">
                                 <div class="md:col-span-4">
                                     <div class="p-6 bg-gray-100 rounded-lg flex items-center justify-center">
@@ -1283,14 +1298,20 @@
                                     </div>
                                 </div>
                                 <div class="md:col-span-8">
-                                    <p class="text-gray-600 leading-relaxed">The base-case DCF analysis suggests an intrinsic value range of <strong>$2,800–$3,200 per share</strong>, indicating that the stock is fairly valued at current levels. Upside potential is primarily driven by strong digital sales growth, the successful implementation of 'Chipotlane' drive-thrus, and effective menu price increases. However, key risks include rising food and labor costs, supply chain vulnerabilities, and intense competition in the fast-casual dining sector. The company's ability to manage these risks while capitalizing on growth opportunities will be decisive for future shareholder value.</p>
+                                    <div class="text-gray-600 leading-relaxed justified-text space-y-3">
+                                        <p>The base-case DCF analysis suggests an intrinsic value range of <strong>$2,800–$3,200 per share</strong>, indicating that the stock is fairly valued at current levels.</p>
+                                        <ul class="list-disc list-inside space-y-2 pl-2">
+                                            <li><strong>Upside Potential:</strong> Primarily driven by strong digital sales growth, the successful implementation of 'Chipotlane' drive-thrus, and effective menu price increases.</li>
+                                            <li><strong>Key Risks:</strong> Include rising food and labor costs, supply chain vulnerabilities, and intense competition in the fast-casual dining sector.</li>
+                                        </ul>
+                                        <p>The company's ability to manage these risks while capitalizing on growth opportunities will be decisive for future shareholder value.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
                 
-                <!-- CHANGE 3: Moved Download Model button to the bottom -->
                 <section class="py-12 project-section-fade-in">
                     <div class="container mx-auto px-6 md:px-8 text-center">
                         <a href="#" aria-label="Download Financial Model" class="btn-primary font-bold py-3 px-8 rounded-lg inline-flex items-center gap-2">
@@ -1575,3 +1596,4 @@
     </script>
 </body>
 </html>
+
