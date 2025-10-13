@@ -168,16 +168,11 @@
         .skill-logo-holder { width: 48px; height: 48px; background: #FFFFFF; border-radius: 50%; padding: 4px; box-shadow: 0 0 8px rgba(100, 150, 255, 0.6), 0 0 15px rgba(100, 150, 255, 0.4); }
         .skill-logo-holder img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
         
-        .education-card, .certification-card { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease; }
-        .education-card.visible, .certification-card.visible { opacity: 1; transform: translateY(0); }
-        .education-card:hover, .certification-card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px -4px rgba(70, 56, 99, 0.15), 0 0 30px rgba(209, 164, 110, 0.7); }
-        
+        .education-card { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease; }
+        .education-card.visible { opacity: 1; transform: translateY(0); }
+        .education-card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px -4px rgba(70, 56, 99, 0.15), 0 0 30px rgba(209, 164, 110, 0.7); }
         .education-card .logo-holder { width: 120px; height: auto; align-self: stretch; border-radius: 0; padding: 0; box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); overflow: hidden; }
         .education-card .logo-holder img { border-radius: 0; width: 100%; height: 100%; object-fit: cover; }
-        
-        .certification-card { background-color: white; border-radius: 1rem; display: flex; overflow: hidden; width: 100%; max-width: 42rem; margin-left: auto; margin-right: auto; }
-        .certification-card .logo-holder { width: 100px; height: 100px; padding: 0.5rem; align-self: center; margin-left: 1rem; }
-        
         .cgpa-badge { background-color: #463863; color: #FFFFFF; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         
         /* --- NEW FAB and Modal Styles --- */
@@ -362,28 +357,40 @@
             border-radius: 0.25rem;
             transition: opacity 0.4s ease-in-out;
         }
-        
-        .mini-card-toggle {
+        .historical-analysis-section .chart-summary,
+        .chipotle-forecast-section .chart-summary {
+            padding-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #9C8FA7;
+        }
+        .historical-analysis-section .mini-card-toggle,
+        .chipotle-forecast-section .mini-card-toggle {
             background-color: #fff;
             border: 2px solid transparent;
             transition: all 0.2s ease-in-out;
         }
-        .mini-card-toggle[aria-pressed="true"] {
+        .historical-analysis-section .mini-card-toggle[aria-pressed="true"],
+        .chipotle-forecast-section .mini-card-toggle[aria-pressed="true"] {
             border-color: #463863;
             box-shadow: 0 4px 12px rgba(70, 56, 99, 0.2);
             transform: scale(1.03);
         }
-        .horizontal-scroller {
-            display: flex;
-            overflow-x: auto;
-            padding-bottom: 1rem;
-            scrollbar-width: none;
-        }
-        .horizontal-scroller::-webkit-scrollbar {
-            display: none;
-        }
-        .horizontal-scroller .mini-card-toggle {
-            flex-shrink: 0;
+        @media (max-width: 767px) {
+            .historical-analysis-nav,
+            .chipotle-forecast-nav {
+                display: flex;
+                overflow-x: auto;
+                padding-bottom: 1rem;
+                scrollbar-width: none;
+            }
+             .historical-analysis-nav::-webkit-scrollbar,
+             .chipotle-forecast-nav::-webkit-scrollbar {
+                display: none;
+            }
+            .historical-analysis-nav .mini-card-toggle,
+            .chipotle-forecast-nav .mini-card-toggle {
+                flex-shrink: 0;
+            }
         }
 
     </style>
@@ -418,7 +425,7 @@
     <!-- Lightbox for resume and certificates -->
     <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 z-[100] hidden items-center justify-center p-4">
         <button id="lightbox-close" class="absolute top-4 right-4 text-white text-4xl opacity-80 hover:opacity-100 transition-opacity">&times;</button>
-        <img id="lightbox-img" src="" alt="Full view" class="max-w-full max-h-full rounded-lg shadow-2xl">
+        <img id="lightbox-img" src="" alt="Resume full view" class="max-w-full max-h-full rounded-lg shadow-2xl">
     </div>
 
     <!-- Floating Action Button -->
@@ -481,11 +488,13 @@
                     chipotleForecastBase: 'Chip Graph 4 Base.png',
                     chipotleForecastBear: 'Chip Graph 5 worst.png',
                     chipotleForecastBull: 'Chip Graph 3 Best.png',
+                    // New Dashboard Graph URLs
                     dashboardHistFinancials: 'https://placehold.co/600x400/FFFFFF/463863?text=Upload+Graph',
                     dashboardStoresVsSss: 'https://placehold.co/600x400/FFFFFF/463863?text=Upload+Graph',
                     dashboardBull: 'https://placehold.co/600x400/FFFFFF/463863?text=Upload+Graph',
                     dashboardBase: 'https://placehold.co/600x400/FFFFFF/463863?text=Upload+Graph',
                     dashboardBear: 'https://placehold.co/600x400/FFFFFF/463863?text=Upload+Graph',
+                    // Logos
                     logoTcs: 'TCS LOGO.svg.png',
                     logoMercedes: 'Benz Logo.svg.png',
                     logoGitam: 'Gitam Logo.svg.png',
@@ -605,7 +614,7 @@
                 contact: {
                     email: 'sravikonakalla@gmail.com',
                     linkedin: 'https://linkedin.com/in/kbalasravani',
-                    formspree_url: 'https://formspree.io/f/myznbzer'
+                    formspree_url: 'https://formspree.io/f/your_unique_id'
                 },
                  chipotleProject: {
                     dashboardData: {
@@ -664,10 +673,6 @@
                             <p class="text-sm text-gray-600 leading-relaxed">This chart visualizes Chipotle's successful transition from a period of anomalous, recovery-driven growth to a more mature and sustainable growth algorithm. The dramatic 19.3% same-store sales growth (SSSG) in 2021 represents a post-pandemic rebound, a one-time event driven by the normalization of consumer behavior and strong digital sales. The key strategic insight is not the subsequent decline in the SSSG percentage, but its stabilization at a best-in-class level of 7.4% to 8.0% from 2022 to 2024. Maintaining comps in the high-single-digits is a sign of exceptional brand health and operational execution. As this intensive growth normalized, Chipotle strategically accelerated its extensive growth, expanding its physical footprint from approximately 3,000 to over 3,700 stores. This demonstrates a sophisticated, dual-engine strategy. The company is no longer reliant on post-COVID tailwinds but is now firing on two cylinders: a highly productive and stable existing store base, complemented by an aggressive and accelerating new unit development pipeline. This is the hallmark of a business that has successfully evolved to a durable, long-term growth phase.</p>`
                     }
                 };
-                
-                // Set initial content
-                interpContainer.innerHTML = viewData.financials.interpHTML;
-
 
                 toggles.forEach(toggle => {
                     toggle.addEventListener('click', () => {
@@ -677,15 +682,12 @@
                         toggle.setAttribute('aria-pressed', 'true');
                         
                         chartImg.style.opacity = 0;
-                        interpContainer.style.opacity = 0;
-
                         setTimeout(() => {
                             chartImg.src = viewData[view].imgSrc;
                             chartImg.alt = viewData[view].alt;
                             interpContainer.innerHTML = viewData[view].interpHTML;
                             chartImg.style.opacity = 1;
-                            interpContainer.style.opacity = 1;
-                        }, 300);
+                        }, 400);
                     });
                 });
             };
@@ -704,7 +706,7 @@
                         alt:'Forecast — Net revenue (Bear scenario), 2025–2028.',
                         interpHTML: `
                             <h3 class="font-bold text-lg mb-2">Bear Scenario</h3>
-                            <p class="text-sm text-gray-600 leading-relaxed mb-3">Recessionary pressures and increased competition lead to slower SSS growth and margin compression.</p>
+                            <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Recessionary pressures and increased competition lead to slower SSS growth and margin compression.</p>
                             <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
                                 <li>Lower consumer discretionary spending impacts visit frequency.</li>
                                 <li>Inability to fully pass on inflationary costs to consumers.</li>
@@ -715,7 +717,7 @@
                         alt:'Forecast — Net revenue (Base scenario), 2025–2028.',
                         interpHTML: `
                             <h3 class="font-bold text-lg mb-2">Base Scenario</h3>
-                            <p class="text-sm text-gray-600 leading-relaxed mb-3">Assumes continued strong SSS growth, driven by menu innovation and digital channel strength, with moderate margin expansion.</p>
+                            <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Assumes continued strong SSS growth, driven by menu innovation and digital channel strength, with moderate margin expansion.</p>
                             <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
                                 <li>Steady new unit development, including Chipotlanes.</li>
                                 <li>Effective management of food and labor costs.</li>
@@ -726,16 +728,13 @@
                         alt:'Forecast — Net revenue (Bull scenario), 2025–2028.',
                         interpHTML: `
                             <h3 class="font-bold text-lg mb-2">Bull Scenario</h3>
-                            <p class="text-sm text-gray-600 leading-relaxed mb-3">Successful international expansion and accelerated new unit growth in the U.S. drive higher-than-expected revenue.</p>
+                            <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Successful international expansion and accelerated new unit growth in the U.S. drive higher-than-expected revenue.</p>
                              <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
                                 <li>Significant market share gains in new international markets.</li>
                                 <li>Higher-than-expected price realization from premium offerings.</li>
                             </ul>`
                      }
                 };
-                 
-                // Set initial content
-                interpContainer.innerHTML = viewData.base.interpHTML;
 
                 toggles.forEach(toggle => {
                     toggle.addEventListener('click', () => {
@@ -745,15 +744,12 @@
                         toggle.setAttribute('aria-pressed', 'true');
                         
                         chartImg.style.opacity = 0;
-                        interpContainer.style.opacity = 0;
-
                         setTimeout(() => {
                             chartImg.src = viewData[view].imgSrc;
                             chartImg.alt = viewData[view].alt;
                             interpContainer.innerHTML = viewData[view].interpHTML;
                             chartImg.style.opacity = 1;
-                             interpContainer.style.opacity = 1;
-                        }, 300);
+                        }, 400);
                     });
                 });
             }
@@ -1002,22 +998,26 @@
                     </div>
                 `).join('');
 
-                const certificationCardsHTML = portfolioData.certifications.map(cert => `
-                    <div class="certification-card">
-                        <div class="logo-holder">
-                            <img src="${portfolioData.imageUrls[cert.logoUrlKey]}" alt="${cert.issuer} Logo">
-                        </div>
-                        <div class="py-4 pr-4 pl-6 relative flex-grow flex items-center justify-between">
-                            <div>
-                                <h4 class="text-lg font-bold" style="color: #221C2A;">${cert.title}</h4>
-                                <p class="font-semibold text-sm mb-1" style="color: #463863;">${cert.issuer}</p>
-                                <p class="text-xs font-medium" style="color: #D1A46E;">Issued: ${cert.issueDate}</p>
+                const accordionHTML = portfolioData.certifications.map(cert => `
+                    <div class="accordion-item">
+                        <div class="accordion-header !cursor-default">
+                            <div class="flex items-center gap-4">
+                                <div class="logo-holder w-10 h-10 text-sm">
+                                    <img src="${portfolioData.imageUrls[cert.logoUrlKey]}" alt="${cert.issuer} Logo">
+                                </div>
+                                <div class="text-left">
+                                    <span class="font-semibold text-lg" style="color: #463863;">${cert.title}</span>
+                                    <p class="text-sm font-normal" style="color: #D1A46E;">${cert.issuer}</p>
+                                </div>
                             </div>
-                            <button class="view-cert-btn p-3 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#463863] transition-all"
-                                   data-img-src="${portfolioData.imageUrls[cert.imageUrlKey]}"
-                                   aria-label="View ${cert.title} certificate">
-                               <i class="fas fa-external-link-alt text-[#463863]"></i>
-                           </button>
+                            <div class="flex items-center gap-4 ml-auto">
+                               <p class="text-xs font-normal text-gray-500 hidden md:block">Issued: ${cert.issueDate}</p>
+                               <button class="view-cert-btn p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#463863] transition-all" 
+                                       data-img-src="${portfolioData.imageUrls[cert.imageUrlKey]}" 
+                                       aria-label="View ${cert.title} certificate">
+                                   <i class="fas fa-plus text-[#463863]"></i>
+                               </button>
+                            </div>
                         </div>
                     </div>
                 `).join('');
@@ -1032,8 +1032,8 @@
                             
                             <div class="cert-section mt-20">
                                 <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Certifications</h3>
-                                <div class="space-y-8">
-                                    ${certificationCardsHTML}
+                                <div class="max-w-4xl mx-auto">
+                                    ${accordionHTML}
                                 </div>
                             </div>
                         </div>
@@ -1050,19 +1050,20 @@
                 page.innerHTML = `
                     <section class="pt-28 pb-16 min-h-[90vh] flex items-center">
                         <div class="container mx-auto px-4 text-center max-w-4xl">
-                            <h2 class="text-3xl md:text-4xl font-bold mb-8" style="color: #221C2A;">Resume</h2>
+                            <h2 class="text-3xl md:text-4xl font-bold mb-2" style="color: #221C2A;">Resume</h2>
+                            <p class="max-w-xl mx-auto mb-8" style="color: #9C8FA7;">Preview my resume below or download the PDF version.</p>
 
-                            <div class="bg-white rounded-2xl shadow-lg p-2 md:p-4">
+                            <div id="resume-viewer" class="relative bg-white rounded-2xl shadow-lg p-2 md:p-4">
                                 <div class="overflow-auto rounded-lg" style="height: 70vh;">
-                                    <img src="${portfolioData.imageUrls.resumePreview}" alt="Preview of Bala Sravani Konakalla’s Resume" class="w-full h-auto mx-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openLightbox(this.src, 'Bala Sravani Konakalla’s Resume')">
+                                    <img src="${portfolioData.imageUrls.resumePreview}" alt="Preview of Bala Sravani Konakalla’s Resume" class="w-full h-auto mx-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openLightbox(this.src)">
                                 </div>
                             </div>
 
-                            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
                                  <a href="./Bala_Sravani_Konakalla_Resume.pdf" download="Bala_Sravani_Konakalla_Resume.pdf" class="btn-primary w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2" aria-label="Download Resume PDF">
                                     <i class="fas fa-download"></i> Download PDF
                                 </a>
-                                <a href="${portfolioData.contact.linkedin}" target="_blank" class="btn-secondary w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2" aria-label="View on LinkedIn">
+                                <a href="https://linkedin.com/in/kbalasravani" target="_blank" class="btn-secondary w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2" aria-label="View on LinkedIn">
                                     <i class="fab fa-linkedin"></i> View on LinkedIn
                                 </a>
                             </div>
@@ -1123,6 +1124,15 @@
                                 </div>
                             </div>
                         </div>
+
+                         <div class="w-full border-t border-gray-300/60 my-8 md:my-12"></div>
+                         
+                         <div class="flex flex-wrap justify-center items-center gap-4">
+                            <a href="#" aria-label="Download Financial Model" class="btn-primary font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2">
+                                <i class="fas fa-download"></i> Download Model
+                            </a>
+                            <a aria-label="View project on GitHub (coming soon)" class="btn-icon text-2xl opacity-50 cursor-not-allowed"><i class="fab fa-github"></i></a>
+                        </div>
                     </div>
                 </div>
 
@@ -1132,24 +1142,28 @@
                         <div class="text-center mb-8">
                              <h2 class="text-3xl md:text-4xl font-bold">Historical Analysis</h2>
                         </div>
-                        <div class="flex justify-center gap-2 md:gap-4 mb-8 horizontal-scroller px-4">
-                            <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-auto" data-view="financials" aria-pressed="true">
-                                <h4 class="font-bold text-sm">Financials</h4>
-                                <p class="text-xs text-gray-500">Revenue & Profit</p>
-                            </button>
-                            <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-auto" data-view="stores" aria-pressed="false">
-                                <h4 class="font-bold text-sm">Stores vs SSS</h4>
-                                <p class="text-xs text-gray-500">Units & Comps</p>
-                            </button>
-                        </div>
-                        <div class="grid md:grid-cols-10 gap-6 md:gap-8 items-center">
+                        <div class="grid md:grid-cols-12 gap-6 md:gap-8">
+                            <!-- Nav -->
+                            <div class="md:col-span-2 historical-analysis-nav flex md:flex-col gap-4">
+                                <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="financials" aria-pressed="true">
+                                    <h4 class="font-bold text-sm">Financials</h4>
+                                    <p class="text-xs text-gray-500">Revenue & Profit</p>
+                                </button>
+                                <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="stores" aria-pressed="false">
+                                    <h4 class="font-bold text-sm">Stores vs SSS</h4>
+                                    <p class="text-xs text-gray-500">Units & Comps</p>
+                                </button>
+                            </div>
+                            <!-- Chart -->
                             <div class="md:col-span-6">
                                 <div class="chart-frame">
                                     <img id="historical-analysis-img" src="${portfolioData.imageUrls.chipotleHistFinancials}" width="1280" height="720" loading="lazy" alt="Historical financials: Revenue and Net Income, 2018–2024.">
                                 </div>
                             </div>
-                            <div id="historical-analysis-interp" class="md:col-span-4 transition-opacity duration-300">
-                                <!-- JS will inject content here -->
+                            <!-- Interpretation -->
+                            <div id="historical-analysis-interp" class="md:col-span-4">
+                                <h3 class="font-bold text-lg mb-2">Operating Leverage Unlocked — Growth with Margin Expansion</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">The company demonstrates a clear trajectory of profitable growth, with revenues expanding from $7.5 billion in 2021 to $11.3 billion in 2024, while profitability has scaled even faster. Operating income and net income have more than doubled over the period, reflecting not just topline expansion but also strong operating leverage. Margins have steadily improved from 10.7% to 16.9%, underscoring disciplined cost management, economies of scale, and possibly enhanced pricing power. Importantly, the growth in net income closely tracks operating performance, suggesting gains are sustainable and not eroded by financing or tax pressures. Overall, the business is converting growth into higher-quality earnings, strengthening its competitive position and signaling resilience. The ability to drive both scale and efficiency simultaneously points to a maturing business model that is increasingly well-positioned to deliver long-term shareholder value.</p>
                             </div>
                         </div>
                     </div>
@@ -1161,28 +1175,36 @@
                         <div class="text-center mb-12">
                              <h2 class="text-3xl md:text-4xl font-bold">Forecast Scenarios — Bull / Base / Bear (2025–2028)</h2>
                         </div>
-                         <div class="flex justify-center gap-2 md:gap-4 mb-8 horizontal-scroller px-4">
-                            <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-auto" data-view="bull" aria-pressed="false">
-                                <h4 class="font-bold text-sm">Bull Case</h4>
-                                <p class="text-xs text-gray-500">Upside Scenario</p>
-                            </button>
-                            <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-auto" data-view="base" aria-pressed="true">
-                                <h4 class="font-bold text-sm">Base Case</h4>
-                                <p class="text-xs text-gray-500">Central Scenario</p>
-                            </button>
-                            <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-auto" data-view="bear" aria-pressed="false">
-                                <h4 class="font-bold text-sm">Bear Case</h4>
-                                <p class="text-xs text-gray-500">Downside Scenario</p>
-                            </button>
-                        </div>
-                        <div class="grid md:grid-cols-10 gap-6 md:gap-8 items-center">
+                        <div class="grid md:grid-cols-12 gap-6 md:gap-8">
+                            <!-- Nav -->
+                            <div class="md:col-span-2 chipotle-forecast-nav flex md:flex-col gap-4">
+                                <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="bull" aria-pressed="false">
+                                    <h4 class="font-bold text-sm">Bull Case</h4>
+                                    <p class="text-xs text-gray-500">Upside Scenario</p>
+                                </button>
+                                <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="base" aria-pressed="true">
+                                    <h4 class="font-bold text-sm">Base Case</h4>
+                                    <p class="text-xs text-gray-500">Central Scenario</p>
+                                </button>
+                                <button class="mini-card-toggle text-left p-3 rounded-lg w-40 md:w-full" data-view="bear" aria-pressed="false">
+                                    <h4 class="font-bold text-sm">Bear Case</h4>
+                                    <p class="text-xs text-gray-500">Downside Scenario</p>
+                                </button>
+                            </div>
+                            <!-- Chart -->
                             <div class="md:col-span-6">
                                 <div class="chart-frame">
                                     <img id="forecast-analysis-img" src="${portfolioData.imageUrls.chipotleForecastBase}" width="1280" height="720" loading="lazy" alt="Forecast — Net revenue (Base scenario), 2025–2028.">
                                 </div>
                             </div>
-                            <div id="forecast-analysis-interp" class="md:col-span-4 transition-opacity duration-300">
-                                <!-- JS will inject content here -->
+                            <!-- Interpretation -->
+                            <div id="forecast-analysis-interp" class="md:col-span-4">
+                               <h3 class="font-bold text-lg mb-2">Base Scenario</h3>
+                                <p class="chart-summary font-semibold text-gray-700 text-sm mb-3">Assumes continued strong SSS growth, driven by menu innovation and digital channel strength, with moderate margin expansion.</p>
+                                <ul class="list-disc list-inside space-y-1 text-xs text-gray-600">
+                                    <li>Steady new unit development, including Chipotlanes.</li>
+                                    <li>Effective management of food and labor costs.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -1291,13 +1313,6 @@
                         </div>
                     </div>
                 </section>
-                <section class="py-12 md:py-16 project-section-fade-in">
-                    <div class="container mx-auto px-6 text-center">
-                         <a href="#" aria-label="Download Financial Model" class="btn-primary font-bold py-3 px-6 rounded-lg inline-flex items-center gap-2">
-                            <i class="fas fa-download"></i> Download Model
-                        </a>
-                    </div>
-                </section>
                 `;
                 mainContainer.appendChild(page);
             };
@@ -1386,19 +1401,14 @@
                 handleScrollAnimations();
             }, false);
 
-            function handleScrollAnimations() {
-                 const elementsToAnimate = document.querySelectorAll('.education-card, .certification-card');
-                 if (elementsToAnimate.length > 0) {
-                     const observer = new IntersectionObserver((entries) => {
-                         entries.forEach(entry => {
-                             if (entry.isIntersecting) {
-                                 entry.target.classList.add('visible');
-                                 observer.unobserve(entry.target);
-                             }
-                         });
-                     }, { threshold: 0.2 });
-                     elementsToAnimate.forEach(element => observer.observe(element));
-                 }
+            const educationCards = document.querySelectorAll('.education-card');
+            if (educationCards.length > 0) {
+                const eduObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    });
+                }, { threshold: 0.2 });
+                educationCards.forEach(card => eduObserver.observe(card));
             }
             
             const successToast = document.getElementById('success-toast');
@@ -1419,19 +1429,16 @@
                         }, 400);
                         contactForm.reset(); 
                     } else {
-                        response.json().then(data => {
-                             if (Object.hasOwn(data, 'errors')) {
-                                alert(data["errors"].map(error => error["message"]).join(", "))
-                             } else {
-                                alert("There was an error sending your message. Please try again.");
-                             }
-                        })
+                        alert("There was an error sending your message. Please try again.");
                     }
                 }).catch(error => {
                     console.error("Form submission error.", error);
                     alert("There was an error sending your message. Please try again.");
                 }); 
             });
+
+
+            function handleScrollAnimations() {}
 
             const certSection = document.querySelector('.cert-section');
             if (certSection) {
@@ -1440,9 +1447,8 @@
                     if (triggerButton) {
                         e.preventDefault();
                         const imgSrc = triggerButton.dataset.imgSrc;
-                        const imgAlt = triggerButton.getAttribute('aria-label').replace('View', '').trim();
                         if (imgSrc) {
-                            openLightbox(imgSrc, imgAlt);
+                            openLightbox(imgSrc);
                         }
                     }
                 });
@@ -1521,12 +1527,10 @@
             
             const lightbox = document.getElementById('lightbox');
             const lightboxClose = document.getElementById('lightbox-close');
-            const lightboxImg = document.getElementById('lightbox-img');
-
-            window.openLightbox = function(src, alt) {
+            window.openLightbox = function(src) {
+                const lightboxImg = document.getElementById('lightbox-img');
                 if (lightbox && lightboxImg) {
                     lightboxImg.src = src;
-                    lightboxImg.alt = alt;
                     lightbox.classList.remove('hidden');
                     lightbox.classList.add('flex');
                 }
@@ -1543,7 +1547,6 @@
             }
 
             const contactFab = document.getElementById('contact-fab');
-            const contactModal = document.getElementById('contact-modal');
             const modalOverlay = contactModal.querySelector('.modal-overlay');
             const modalCloseBtn = document.getElementById('modal-close-btn');
 
