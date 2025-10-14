@@ -378,6 +378,15 @@
             box-shadow: 0 4px 12px rgba(70, 56, 99, 0.2);
             transform: scale(1.03);
         }
+        
+        /* --- NEW: Project Neon Highlight Effect --- */
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px -4px rgba(70, 56, 99, 0.15), 0 0 30px rgba(209, 164, 110, 0.7);
+        }
 
     </style>
 </head>
@@ -1119,10 +1128,10 @@
                         <div class="w-full border-t border-gray-300/60 my-8 md:my-12"></div>
                         
                         <div class="max-w-6xl mx-auto space-y-8">
-                            <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 text-left">
+                            <div class="project-card bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 text-left">
                                 <h3 class="font-bold text-lg mb-2">About the Company</h3>
                                 <p class="text-sm leading-relaxed mb-4 justified-text">
-                                    Chipotle Mexican Grill is an American chain of fast-casual restaurants specializing in Mission burritos and tacos. Revenue is driven by high-volume sales in company-operated stores, with a focus on fresh ingredients and a customizable menu. Key growth levers include digital sales, new restaurant openings, and menu innovation.
+                                    Chipotle Mexican Grill is a company-owned fast-casual restaurant chain built around customizable burritos and bowls. As of 2024 it operates roughly 3,700+ restaurants and has scaled its Chipotlane drive-thru format to meet rising digital demand. The brand’s “Food With Integrity” sourcing, a streamlined menu, and centralized operations support consistent unit economics and quality control. Primary growth drivers are disciplined unit expansion, Chipotlane penetration, digital ordering & loyalty, and menu innovation — all backed by tight cost control that has driven margin expansion. Together, these factors position Chipotle to convert new store growth and higher digital penetration into durable, higher-quality earnings.
                                 </p>
                                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center pt-4 border-t border-gray-200">
                                     <div><p class="font-bold">Analysis</p><p class="text-xs">Sep 2025</p></div>
@@ -1131,15 +1140,16 @@
                                     <div><p class="font-bold">Sources</p><p class="text-xs">10-K Filings</p></div>
                                 </div>
                             </div>
-                             <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 text-left">
+                             <div class="project-card bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 text-left">
                                 <h3 class="font-bold text-lg mb-2">About the Project</h3>
                                 <p class="text-sm leading-relaxed mb-4 justified-text">
-                                   This project involves a comprehensive financial analysis and valuation of Chipotle Mexican Grill (CMG). Using FMVA® methodologies, it includes building a 3-statement financial model, forecasting future performance under multiple scenarios (Bull, Base, Bear), and deriving an intrinsic value per share through a Discounted Cash Flow (DCF) analysis.
+                                   Leveraging a comprehensive financial modeling skill set, this project delivers a detailed assessment of Chipotle's financial performance and a forward-looking valuation through FY28. The core of the analysis deconstructs revenue growth into its primary drivers of store expansion and same-store sales, and then traces the impact through margin evolution down to earnings per share. To quantify a range of potential outcomes, the model utilizes Bull, Base, and Bear scenarios to test how Chipotle's intrinsic value responds to shifts in key business assumptions. More than just a final number, this analysis provides a strategic framework for evaluating how operational decisions translate into financial returns.
                                 </p>
                                 <div class="flex flex-wrap justify-start gap-2 pt-4 border-t border-gray-200">
-                                     <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">3-Statement Modeling</span>
-                                     <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">DCF Valuation</span>
-                                     <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">Scenario Analysis</span>
+                                     <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Scenario Analysis</span>
+                                     <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Forecasting</span>
+                                     <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">Financial Modeling & Forecasting</span>
+                                     <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-3 py-1 rounded-full">Valuation Analysis</span>
                                 </div>
                             </div>
                         </div>
@@ -1166,12 +1176,12 @@
                                         <p class="text-xs text-gray-500">Units & Comps</p>
                                     </button>
                                 </div>
-                                <div class="chart-frame">
+                                <div class="chart-frame project-card">
                                     <img id="historical-analysis-img" src="${portfolioData.imageUrls.chipotleHistFinancials}" width="1280" height="720" loading="lazy" alt="Historical financials: Revenue and Net Income, 2018–2024.">
                                 </div>
                             </div>
                             <!-- Interpretation -->
-                            <div id="historical-analysis-interp" class="md:col-span-5 transition-opacity duration-300">
+                            <div id="historical-analysis-interp" class="md:col-span-5 transition-opacity duration-300 project-card p-4 rounded-lg">
                                 <!-- Content will be injected by JS -->
                             </div>
                         </div>
@@ -1202,12 +1212,12 @@
                                         <p class="text-xs text-gray-500">Downside Scenario</p>
                                     </button>
                                 </div>
-                                <div class="chart-frame">
+                                <div class="chart-frame project-card">
                                     <img id="forecast-analysis-img" src="${portfolioData.imageUrls.chipotleForecastBase}" width="1280" height="720" loading="lazy" alt="Forecast — Net revenue (Base scenario), 2025–2028.">
                                 </div>
                             </div>
                             <!-- Interpretation -->
-                            <div id="forecast-analysis-interp" class="md:col-span-5 transition-opacity duration-300">
+                            <div id="forecast-analysis-interp" class="md:col-span-5 transition-opacity duration-300 project-card p-4 rounded-lg">
                                <!-- Content will be injected by JS -->
                             </div>
                         </div>
@@ -1222,7 +1232,7 @@
                             <p class="mt-2 text-gray-600">A visual-first summary of valuation outcomes, forecasts, and scenario analysis.</p>
                         </div>
                         
-                        <div class="bg-white rounded-xl shadow-lg p-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center mb-8">
+                        <div class="bg-white rounded-xl shadow-lg p-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center mb-8 project-card">
                              <div>
                                 <p class="text-2xl md:text-3xl font-bold text-[#463863]">[Upload Value]</p>
                                 <p class="text-sm font-semibold text-gray-500">2028 Net Revenues Forecast</p>
@@ -1250,7 +1260,7 @@
                  <!-- 5. Investment Thesis Section -->
                 <section id="investment-thesis" class="py-12 md:py-20 project-section-fade-in">
                     <div class="container mx-auto max-w-screen-xl px-6 md:px-8">
-                        <div class="bg-white/70 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-gray-200">
+                        <div class="bg-white/70 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-gray-200 project-card">
                              <h2 class="text-3xl font-bold mb-8 text-center">Investment Perspective</h2>
                             <div class="grid md:grid-cols-12 gap-8 items-center">
                                 <div class="md:col-span-4">
