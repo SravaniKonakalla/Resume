@@ -165,7 +165,7 @@
         
         .logo-holder { width: 60px; height: 60px; background: #FFFFFF; border-radius: 50%; padding: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); transition: box-shadow 0.3s ease; }
         .logo-holder img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
-        .skill-logo-holder { width: 48px; height: 48px; background: #FFFFFF; border-radius: 50%; padding: 4px; box-shadow: 0 0 8px rgba(100, 150, 255, 0.6), 0 0 15px rgba(100, 150, 255, 0.4); }
+        .skill-logo-holder { width: 48px; height: 48px; background: #FFFFFF; border-radius: 50%; padding: 4px; box-shadow: 0 0 8px rgba(100, 150, 255, 0.6), 0 0 15px rgba(100, 150, 255, 0.4); display: flex; align-items: center; justify-content: center; }
         .skill-logo-holder img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
         
         .education-card, .certification-card { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease; }
@@ -483,14 +483,7 @@
                     logoMercedes: 'Benz Logo.svg.png',
                     logoGitam: 'Gitam Logo.svg.png',
                     logoVishnu: 'Vishnu Logo.svg.png',
-                    logoSap: 'https://placehold.co/60x60/FFFFFF/463863?text=SAP',
                     logoFinancialModeling: 'CFI Logo.jpg',
-                    logoTableau: 'https://placehold.co/60x60/FFFFFF/463863?text=Tableau',
-                    logoExcel: 'https://placehold.co/60x60/FFFFFF/463863?text=Excel',
-                    logoOffice: 'https://placehold.co/60x60/FFFFFF/463863?text=Office',
-                    logoCompliance: 'https://placehold.co/60x60/FFFFFF/463863?text=Comp',
-                    logoCreditMonitoring: 'https://placehold.co/60x60/FFFFFF/463863?text=CM',
-                    logoDataAnalysis: 'https://placehold.co/60x60/FFFFFF/463863?text=DA',
                     logoMicrosoft: 'Microsoft Logo.jpg',
                     logoChipotle: 'chipotle logo.png',
                     logoBloomberg: 'Bloomberg Logo.jpg'
@@ -541,18 +534,18 @@
                 ],
                 skillsByCategory: { 
                     "Software & Platforms": [
-                        { name: 'SAP BPC', logoUrlKey: 'logoSap' },
-                        { name: 'Tableau', logoUrlKey: 'logoTableau' },
-                        { name: 'MS Office Suite', logoUrlKey: 'logoOffice' },
+                        { name: 'SAP BPC' },
+                        { name: 'Tableau' },
+                        { name: 'MS Office Suite' },
                     ],
                     "Core Competencies": [
-                        { name: 'Financial Modeling', logoUrlKey: 'logoFinancialModeling' },
-                        { name: 'Data Analysis', logoUrlKey: 'logoDataAnalysis' },
-                        { name: 'Compliance', logoUrlKey: 'logoCompliance' },
-                        { name: 'Credit Monitoring', logoUrlKey: 'logoCreditMonitoring' },
+                        { name: 'Financial Modeling' },
+                        { name: 'Data Analysis' },
+                        { name: 'Compliance' },
+                        { name: 'Credit Monitoring' },
                     ],
                     "Technical Skills": [
-                         { name: 'Advanced Excel', logoUrlKey: 'logoExcel' },
+                         { name: 'Advanced Excel' },
                     ]
                 },
                 educations: [
@@ -863,7 +856,7 @@
                         <div class="parallax-overlay"></div>
                         <div class="parallax-content p-8">
                             <h2 class="text-3xl md:text-4xl font-bold mb-4">${section.title}</h2>
-                            <div class="max-w-2xl mx-auto mb-6 space-y-2 text-base md:text-lg">
+                            <div class="max-w-2xl mx-auto mb-6 space-y-2 text-base md:text-lg justified-text text-left">
                                 <p>${section.lines[0]}</p>
                                 <p>${section.lines[1]}</p>
                             </div>
@@ -949,10 +942,24 @@
                     };
                 });
 
+                const getSkillIcon = (skillName) => {
+                    const iconMap = {
+                        'SAP BPC': 'fas fa-cogs',
+                        'Tableau': 'fas fa-chart-bar',
+                        'MS Office Suite': 'fab fa-microsoft',
+                        'Financial Modeling': 'fas fa-calculator',
+                        'Data Analysis': 'fas fa-search-dollar',
+                        'Compliance': 'fas fa-check-double',
+                        'Credit Monitoring': 'fas fa-credit-card',
+                        'Advanced Excel': 'fas fa-file-excel',
+                    };
+                    return iconMap[skillName] || 'fas fa-star';
+                };
+
                 const skillsMatrixHTML = Object.values(portfolioData.skillsByCategory).flat().map(skill => `
                     <div class="skill-matrix-item">
                         <div class="skill-logo-holder !w-12 !h-12">
-                            <img src="${portfolioData.imageUrls[skill.logoUrlKey]}" alt="${skill.name} Logo">
+                            <i class="${getSkillIcon(skill.name)} text-2xl" style="color: #463863;"></i>
                         </div>
                         <h4>${skill.name}</h4>
                     </div>
@@ -1064,15 +1071,15 @@
                 page.innerHTML = `
                     <section class="pt-28 pb-16 min-h-[90vh] flex items-center">
                         <div class="container mx-auto px-4 text-center max-w-4xl">
-                            <h2 class="text-3xl md:text-4xl font-bold mb-2" style="color: #221C2A;">Resume</h2>
-                            <p id="resume-last-updated" class="text-sm text-gray-500 mb-6"></p>
+                            <h2 class="text-3xl md:text-4xl font-bold mb-6" style="color: #221C2A;">Resume</h2>
                             
-                            <div class="bg-white rounded-2xl shadow-lg p-2 md:p-4 mb-8">
+                            <div class="bg-white rounded-2xl shadow-lg p-2 md:p-4 mb-2">
                                 <img src="${portfolioData.imageUrls.resumePreview}" 
                                      alt="Preview of Bala Sravani Konakalla’s Resume" 
                                      class="w-full h-auto rounded-lg mx-auto cursor-pointer hover:opacity-90 transition-opacity" 
                                      onclick="openLightbox(this.src)">
                             </div>
+                            <p id="resume-last-updated" class="text-sm text-gray-500 text-right italic mb-8"></p>
 
                             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                                  <a href="./Bala Sravani Konakalla.pdf" download="Bala_Sravani_Konakalla_Resume.pdf" class="btn-primary w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2" aria-label="Download Resume PDF">
@@ -1252,29 +1259,6 @@
                                 <p class="text-2xl md:text-3xl font-bold text-[#463863]">[Upload CAGR]</p>
                                 <p class="text-sm font-semibold text-gray-500">Store Growth CAGR (25-28)</p>
                                 <p class="text-xs text-gray-400 mt-1">Expansion in restaurant count</p>
-                            </div>
-                        </div>
-
-                        <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
-                            <div class="bg-white p-6 rounded-xl shadow-lg lg:col-span-2">
-                                <h3 class="font-bold text-lg mb-2">Historical Financial Performance</h3>
-                                <p class="text-sm text-gray-600 justified-text">Chipotle has delivered consistent revenue growth alongside improving margins and net income, reflecting strong operating leverage.</p>
-                            </div>
-                            <div class="bg-white p-6 rounded-xl shadow-lg lg:col-span-3">
-                                <h3 class="font-bold text-lg mb-2">Store Expansion vs Same-Store Sales</h3>
-                                <p class="text-sm text-gray-600 justified-text">Expansion in store count has complemented steady same-store sales, highlighting the dual drivers of Chipotle’s growth.</p>
-                            </div>
-                            <div class="bg-white p-6 rounded-xl shadow-lg">
-                                <h3 class="font-bold text-lg mb-2">Bull Case</h3>
-                                <p class="text-sm text-gray-600 justified-text">Accelerated store expansion and stronger SSS drive higher revenues and valuations.</p>
-                            </div>
-                            <div class="bg-white p-6 rounded-xl shadow-lg">
-                                <h3 class="font-bold text-lg mb-2">Base Case</h3>
-                                <p class="text-sm text-gray-600 justified-text">A balanced trajectory with sustainable growth in revenues and a moderate valuation outlook.</p>
-                            </div>
-                             <div class="bg-white p-6 rounded-xl shadow-lg">
-                                <h3 class="font-bold text-lg mb-2">Bear Case</h3>
-                                <p class="text-sm text-gray-600 justified-text">Slower store expansion and weaker sales result in downside risks to revenues and valuations.</p>
                             </div>
                         </div>
 
@@ -1596,4 +1580,3 @@
     </script>
 </body>
 </html>
-
