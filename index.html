@@ -191,7 +191,7 @@
         #contact-fab {
             position: fixed;
             bottom: 1.5rem; /* bottom-6 */
-            left: 1.5rem;  /* left-6 */
+            right: 1.5rem;  /* right-6 */
             z-index: 50;
         }
 
@@ -231,7 +231,7 @@
         }
         
         #contact-fab:hover .fab-icon {
-            transform: translateX(-4.5rem);
+            transform: translateX(4rem);
         }
 
         #contact-fab .fab-text {
@@ -239,23 +239,12 @@
             opacity: 0;
             font-weight: 600;
             position: absolute;
-            transform: translateX(1rem);
+            transform: translateX(-1rem);
             transition: opacity 0.2s ease-in-out 0.1s; /* Delayed fade-in */
         }
         
         #contact-fab:hover .fab-text {
             opacity: 1;
-        }
-        
-        /* Desktop and larger screens */
-        @media (min-width: 768px) {
-            #contact-fab {
-                bottom: auto;
-                left: auto;
-                right: 1.5rem; /* right-6 */
-                top: 50%;
-                transform: translateY(-50%);
-            }
         }
         
         #contact-modal {
@@ -873,7 +862,7 @@
                                     </div>
                                     <div class="md:col-span-7 text-center md:text-left">
                                         <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
-                                        <p class="text-base md:text-lg max-w-2xl mx-auto md:mx-0" style="color: #463863;">${portfolioData.home.about}</p>
+                                        <p class="text-sm md:text-base max-w-2xl md:mx-0 justified-text" style="color: #463863;">${portfolioData.home.about}</p>
                                     </div>
                                 </div>
                             </div>
@@ -882,7 +871,7 @@
                             <div class="container mx-auto px-6">
                                <div class="profile-summary-box max-w-4xl mx-auto bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200">
                                     <h3 class="text-2xl md:text-3xl font-bold mb-4 text-center" style="color: #221C2A;">Profile Summary</h3>
-                                    <p class="text-sm md:text-base leading-relaxed justified-text" style="color: #463863;">${portfolioData.home.summary}</p>
+                                    <p class="text-xs md:text-sm leading-relaxed justified-text" style="color: #463863;">${portfolioData.home.summary}</p>
                                </div>
                             </div>
                         </section>
