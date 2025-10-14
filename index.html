@@ -463,9 +463,8 @@
                 ],
                 home: {
                     name: "Bala Sravani Konakalla",
-                    title: "Analytical Finance Professional",
-                    about: "A dedicated and detail-oriented finance professional with a passion for uncovering insights from data. Eager to apply my skills in a challenging and growth-oriented environment.",
-                    summary: "Expertise in credit monitoring, financial modeling, and compliance. Skilled in SAP BPC and advanced Excel, with a proven track record of optimizing workflows and ensuring regulatory compliance.",
+                    about: "A strategic corporate finance professional at Tata Consultancy Services, who builds AI-augmented, scalable financial models and dashboards that surface actionable insights for forecasting, budgeting, and executive decision-making.",
+                    summary: "As a Business Analyst at Tata Consultancy Services, I leverage corporate-finance expertise and modern analytics to build automated reporting solutions using advanced Excel, SAP BPC and vibe-coding, and to integrate AI tools, Tableau and market-data platforms such as S&P Capital IQ and Refinitiv to accelerate insight generation. I develop scalable models and dashboards to support forecasting, budgeting and scenario analysis. Moving forward, I am focused on applying this blend of financial acumen and technical skill to address complex valuation and market challenges and to transition into strategic roles that deliver measurable business impact.",
                 },
                 imageUrls: {
                     profile: "Profile pic.svg.png",
@@ -812,41 +811,29 @@
                     { 
                         id: 'experience', 
                         title: 'Work Experience', 
-                        lines: [
-                            'Hands-on experience across management, sales, and financial analysis roles.',
-                            'Developing expertise through progressive responsibilities and real-world problem-solving.'
-                        ],
+                        description: 'Hands-on experience across management and financial analysis roles, developing expertise through progressive responsibilities and real-world problem-solving.',
                         bg: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1920&auto=format&fit=crop',
                         buttonPageId: 'experience'
                     },
                     { 
                         id: 'education', 
                         title: 'Academic Background', 
-                        lines: [
-                            'Academic foundation in business and technology, strengthened by an MBA.',
-                            'Blending quantitative skills with strategic thinking.'
-                        ],
+                        description: 'A strong academic foundation with an MBA in Finance and a Bachelor\'s in Technology, providing a robust blend of quantitative and strategic expertise.',
                         bg: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=1920&auto=format&fit=crop',
                         buttonPageId: 'education'
                     },
                     { 
                         id: 'projects', 
                         title: 'Key Projects', 
-                        lines: [
-                            'Real-time financial modeling and valuation projects, including Chipotle Mexican Grill FMVA® analysis.',
-                            'Transforming theory into practical, data-driven insights.'
-                        ],
+                        description: 'Real-time financial modeling and valuation projects, including Chipotle Mexican Grill FMVA® analysis. Transforming theory into practical, data-driven insights.',
                         bg: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1920&auto=format&fit=crop',
                         buttonPageId: 'projects'
                     },
                     { 
                         id: 'resume', 
                         title: 'Resume', 
-                        lines: [
-                            'Certified in financial modeling and valuation, continuously upskilling in finance.',
-                            'Explore my resume to see detailed experience and qualifications.'
-                        ],
-                         bg: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=1920&auto-format&fit=crop',
+                        description: 'Certified in financial modeling and valuation, continuously upskilling in finance. Explore my resume to see detailed experience and qualifications.',
+                        bg: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=1920&auto-format&fit=crop',
                         buttonPageId: 'resume'
                     }
                 ];
@@ -856,9 +843,8 @@
                         <div class="parallax-overlay"></div>
                         <div class="parallax-content p-8">
                             <h2 class="text-3xl md:text-4xl font-bold mb-4">${section.title}</h2>
-                            <div class="max-w-2xl mx-auto mb-6 space-y-2 text-base md:text-lg justified-text text-left">
-                                <p>${section.lines[0]}</p>
-                                <p>${section.lines[1]}</p>
+                            <div class="max-w-2xl mx-auto mb-6 text-base md:text-lg justified-text">
+                                <p>${section.description}</p>
                             </div>
                             <button onclick="document.getElementById('main-nav').querySelector('[data-page-id=${section.buttonPageId}]').click()" class="explore-btn font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center gap-2" aria-label="Explore ${section.title}">
                                 Explore <i class="fas fa-arrow-right"></i>
@@ -880,16 +866,17 @@
                                     </div>
                                     <div class="md:col-span-7 text-center md:text-left">
                                         <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight" style="color: #221C2A;">${portfolioData.home.name}</h1>
-                                        <h2 class="text-2xl md:text-3xl mb-4" style="color: #463863;">${portfolioData.home.title}</h2>
-                                        <p class="text-lg" style="color: #9C8FA7;">${portfolioData.home.about}</p>
+                                        <p class="text-lg md:text-xl" style="color: #463863;">${portfolioData.home.about}</p>
                                     </div>
                                 </div>
                             </div>
                         </section>
                         <section class="pb-16 md:pb-24">
-                            <div class="container mx-auto px-6 text-center">
-                                <h3 class="text-3xl md:text-4xl font-bold mb-6" style="color: #221C2A;">Profile Summary</h3>
-                                <p class="text-lg md:text-xl max-w-4xl mx-auto leading-relaxed" style="color: #463863;">${portfolioData.home.summary}</p>
+                            <div class="container mx-auto px-6">
+                               <div class="max-w-4xl mx-auto bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200">
+                                    <h3 class="text-2xl md:text-3xl font-bold mb-4 text-center" style="color: #221C2A;">Profile Summary</h3>
+                                    <p class="text-base md:text-lg leading-relaxed justified-text" style="color: #463863;">${portfolioData.home.summary}</p>
+                               </div>
                             </div>
                         </section>
                     </div>
@@ -1580,3 +1567,4 @@
     </script>
 </body>
 </html>
+
