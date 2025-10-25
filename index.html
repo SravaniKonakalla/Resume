@@ -3,19 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Basic Content Security Policy (CSP) Meta Tag -->
+    <!-- NOTE: 'unsafe-inline' is used for styles and scripts due to existing inline handlers/styles. -->
+    <!-- For stricter security, refactor inline styles/scripts and configure CSP via HTTP headers if possible. -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self'; 
+        script-src 'self' https://cdn.tailwindcss.com https://cdn.jsdelivr.net/npm/chart.js https://cdnjs.cloudflare.com 'unsafe-inline'; 
+        style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; 
+        img-src 'self' https://images.unsplash.com https://placehold.co data:; 
+        font-src 'self' https://cdnjs.cloudflare.com; 
+        connect-src 'self' https://formspree.io; 
+        frame-src 'none'; 
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self' https://formspree.io;
+    ">
+
     <title>Bala Sravani Konakalla | Finance Professional</title>
     <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Montserrat -->
+    <script src="https://cdn.tailwindcss.com" defer></script> <!-- Added defer -->
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Removed Google Fonts Links -->
     
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Chart.js for dashboard charts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Removed Font Awesome Link -->
+    
+    <!-- Chart.js for dashboard charts - Added defer and SRI -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" 
+            integrity="sha256-eI7lnkWhE+LXSMN3AXxBTIHHR0VoN6NzA3clC+H6izU=" 
+            crossorigin="anonymous" defer></script>
     
     <style>
         /* --- COLOR PALETTE --- */
@@ -26,13 +42,16 @@
             scroll-behavior: smooth;
         }
         body {
-            font-family: 'Montserrat', sans-serif;
+            /* Updated Font Stack: System UI fonts */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             background-color: #F5F1EA;
             color: #221C2A;
             overflow-x: hidden;
         }
         #finance-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+            /* Ensure canvas doesn't block interactions with content */
+            pointer-events: none; 
         }
         .card-effect {
             background: #FFFFFF; border: 1px solid #e2e8f0;
@@ -67,6 +86,7 @@
         /* --- PARALLAX BANNER STYLES --- */
         .parallax-banner {
             height: 100vh; /* UPDATED: Make banner full screen height */
+            /* Background images applied via inline style for potential JS optimization later */
             background-attachment: fixed;
             background-position: center;
             background-repeat: no-repeat;
@@ -166,14 +186,77 @@
         .logo-holder { width: 60px; height: 60px; background: #FFFFFF; border-radius: 50%; padding: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); transition: box-shadow 0.3s ease; }
         .logo-holder img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
         .skill-logo-holder { width: 48px; height: 48px; background: #FFFFFF; border-radius: 50%; padding: 4px; box-shadow: 0 0 8px rgba(100, 150, 255, 0.6), 0 0 15px rgba(100, 150, 255, 0.4); display: flex; align-items: center; justify-content: center; }
-        .skill-logo-holder img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
+        .skill-logo-holder svg { width: 60%; height: 60%; object-fit: contain; } /* Adjusted for SVG */
         
         .education-card, .certification-card { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease; }
         .education-card.visible, .certification-card.visible { opacity: 1; transform: translateY(0); }
         .education-card:hover, .certification-card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px -4px rgba(70, 56, 99, 0.15), 0 0 30px rgba(209, 164, 110, 0.7); }
-        .education-card .logo-holder, .certification-card .logo-holder { width: 120px; height: auto; align-self: stretch; border-radius: 0; padding: 0; box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); overflow: hidden; }
+        
+        /* Adjusted logo holder - default rectangular */
+        .education-card .logo-holder, .certification-card .logo-holder { 
+            width: 120px; /* Default width */
+            height: auto; align-self: stretch; border-radius: 0; 
+            padding: 0; 
+            box-shadow: 0 0 10px rgba(100, 150, 255, 0.7), 0 0 20px rgba(100, 150, 255, 0.5); 
+            overflow: hidden; 
+        }
+         /* Image fit */
         .education-card .logo-holder img { border-radius: 0; width: 100%; height: 100%; object-fit: cover; }
         .certification-card .logo-holder img { border-radius: 0; width: 100%; height: 100%; object-fit: contain; padding: 0.75rem; background-color: white; }
+
+        /* Mobile specific styles for Education logos */
+        @media (max-width: 767px) {
+            .education-card .logo-holder {
+                width: 80px;  /* Smaller width on mobile */
+                height: 80px; /* Fixed height to ensure circle */
+                border-radius: 50%; /* Make it circular */
+                align-self: center; /* Center it vertically if flex */
+                margin: 1rem; /* Add some margin */
+                padding: 4px; /* Adjust padding if needed */
+                background-color: white; /* Ensure bg for contain */
+            }
+             .education-card .logo-holder img {
+                object-fit: contain; /* Use contain for circular logos */
+                 border-radius: 50%; /* Ensure image is also clipped */
+            }
+            .education-card {
+                flex-direction: column; /* Stack vertically on mobile */
+                align-items: center; /* Center items */
+                text-align: center; /* Center text */
+            }
+             .education-card > div:last-child { /* Target the text content div */
+                 padding: 1rem; /* Adjust padding */
+                 padding-bottom: 3rem; /* Add space for badge */
+             }
+            .education-card .cgpa-badge {
+                position: absolute;
+                bottom: 1rem; /* Position badge at bottom */
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            /* Adjust certification logo size on mobile too for consistency */
+             .certification-card .logo-holder {
+                 width: 80px;
+                 height: 80px;
+                 padding: 0.5rem; /* Adjust padding */
+             }
+             .certification-card {
+                 flex-direction: column;
+                 align-items: center;
+                 text-align: center;
+             }
+             .certification-card > div:last-child { /* Text content */
+                 padding: 1rem;
+                 width: 100%; /* Ensure button container takes width */
+             }
+            .cert-view-btn { /* Reposition button */
+                 position: absolute;
+                 bottom: 1rem;
+                 right: 1rem;
+             }
+        }
+
+
         .cgpa-badge { background-color: #463863; color: #FFFFFF; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .cert-view-btn {
             background-color: #463863; color: #FFFFFF; border-radius: 9999px;
@@ -186,6 +269,17 @@
             transform: scale(1.1);
             box-shadow: 0 4px 10px rgba(70, 56, 99, 0.3);
         }
+        /* Style for SVG icons */
+        .svg-icon { 
+             display: inline-block;
+             width: 1em;
+             height: 1em;
+             stroke-width: 0;
+             stroke: currentColor;
+             fill: currentColor;
+             vertical-align: middle;
+             margin-right: 0.25em; /* Space between icon and text */
+         }
         
         /* --- NEW FAB and Modal Styles --- */
         #contact-fab {
@@ -226,7 +320,9 @@
         }
 
         #contact-fab .fab-icon {
-            font-size: 1.375rem; /* ~22px */
+            font-size: 1.375rem; /* ~22px */ /* Keep size for SVG */
+             width: 1.375rem;
+             height: 1.375rem;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
@@ -283,6 +379,10 @@
         #contact-modal.visible .modal-content {
             transform: scale(1);
         }
+         #contact-modal .modal-close-icon { /* Style for SVG close button */
+             width: 1.5rem;
+             height: 1.5rem;
+         }
 
         /* --- NEW: Profile Image Placeholder --- */
         .profile-image-placeholder {
@@ -337,6 +437,7 @@
         }
         .skill-matrix-item .skill-logo-holder {
             margin: 0 auto 1rem;
+             color: #463863; /* Set SVG color */
         }
         .skill-matrix-item h4 {
             font-weight: 600;
@@ -398,7 +499,11 @@
 
     <canvas id="finance-canvas"></canvas>
     <div id="success-toast">
-        <i class="fas fa-check-circle mr-2"></i> Message sent successfully! I'll get back to you soon.
+        <!-- Checkmark SVG Icon -->
+        <svg class="svg-icon mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        Message sent successfully! I'll get back to you soon.
     </div>
 
     <header class="fixed top-0 left-0 right-0 z-50 py-4">
@@ -420,13 +525,16 @@
     <!-- Lightbox for resume and certificates -->
     <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 z-[100] hidden items-center justify-center p-4">
         <button id="lightbox-close" class="absolute top-4 right-4 text-white text-4xl opacity-80 hover:opacity-100 transition-opacity">&times;</button>
-        <img id="lightbox-img" src="" alt="Resume full view" class="max-w-full max-h-full rounded-lg shadow-2xl">
+        <img id="lightbox-img" src="" alt="Resume full view" class="max-w-full max-h-full rounded-lg shadow-2xl" loading="lazy"> <!-- Added lazy loading -->
     </div>
 
     <!-- Floating Action Button -->
     <div id="contact-fab">
         <div class="fab-content fab-pulse">
-            <i class="fab-icon fas fa-comments"></i>
+            <!-- Comments SVG Icon -->
+             <svg class="fab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+               <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.083-3.25A9.006 9.006 0 012 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd" />
+             </svg>
             <span class="fab-text">Let's discuss</span>
         </div>
     </div>
@@ -436,7 +544,10 @@
         <div class="modal-overlay absolute inset-0"></div>
         <div class="modal-content relative bg-white rounded-lg shadow-2xl p-8 w-full max-w-lg">
              <button id="modal-close-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl transition-colors">
-                <i class="fas fa-times"></i>
+                 <!-- Times/Close SVG Icon -->
+                 <svg class="modal-close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                 </svg>
             </button>
             <h3 class="text-2xl md:text-3xl font-bold mb-6 text-center" style="color: #221C2A;">Let’s talk — I’m open to new opportunities</h3>
              <form class="contact-form w-full" action="" method="POST">
@@ -536,7 +647,7 @@
                         ]
                     }
                 ],
-                skillsByCategory: { 
+                skillsByCategory: { // This structure is kept but potentially unused if only using the new list
                     "Software & Platforms": [
                         { name: 'SAP BPC' },
                         { name: 'Tableau' },
@@ -610,6 +721,30 @@
             const mainContainer = document.querySelector('main');
             const navContainer = document.getElementById('main-nav');
             
+            // --- SVG Icon Definitions ---
+            // Simple replacement SVGs. More complex icons might require specific SVG paths.
+            const svgIcons = {
+                'fa-calculator': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2h6v2H7V4zm0 3h6v2H7V7zm0 3h6v2H7v-2zm0 3h6v2H7v-2z" clip-rule="evenodd" /></svg>',
+                'fa-sitemap': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v4H5a1 1 0 100 2h4v4H5a1 1 0 100 2h4v1a1 1 0 102 0v-1h4a1 1 0 100-2h-4v-4h4a1 1 0 100-2h-4V3a1 1 0 00-1-1zm0 8a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" /></svg>',
+                'fa-chart-line': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11h1v5H2v-5zM4 5h1v11H4V5zm2 4h1v7H6V9zm1.707 3.707l3-3 1.414 1.414L10.828 15H17v-2h-4.172l-1.121-1.121 2.828-2.828 1.414 1.414L18.414 8 20 9.586l-6.293 6.293a1 1 0 01-1.414 0L9 12.586l-1.293 1.293a1 1 0 01-1.414-1.414l3-3zM10 3h1v13h-1V3zm2-2h1v15h-1V1zm2 3h1v12h-1V4zm2 5h1v7h-1V9z"/></svg>',
+                'fa-search-dollar': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M8.433 7.418c.158-.103.34-.153.532-.153.428 0 .788.306.88.724l.084.397.74.315A7.001 7.001 0 008 4c-3.866 0-7 3.134-7 7s3.134 7 7 7a6.999 6.999 0 004.582-1.727l.249.106a1.006 1.006 0 00.998-.05l.16-.079a1.006 1.006 0 00.41-.266l.245-.306.012-.016a1 1 0 00.082-.164l.044-.1.028-.07.019-.058a1 1 0 00-.01-.115l-.03-.105-.034-.117-.042-.127a1 1 0 00-.06-.15l-.049-.115-.06-.112a1 1 0 00-.08-.12l-.066-.095-.078-.1-.082-.09a1 1 0 00-.18-.17l-.11-.08-.12-.07a1.01 1.01 0 00-.21-.09l-.13-.05a1 1 0 00-.28-.05l-.11-.01H10a1 1 0 00-.11.01l-.11.01-.13.03-.14.04-.15.05-.16.06-.16.07-.17.08-.17.09-.17.1-.16.1-.15.11-.14.12-.13.12-.12.13-.1.13-.09.13-.08.13a1 1 0 00-.19.38l-.01.06-.01.07-.01.08a7.003 7.003 0 00-5.433-2.582zM15.5 10a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z"/><path d="M12.94 10.94a1.5 1.5 0 11-2.12-2.12 1.5 1.5 0 012.12 2.12z"/></svg>',
+                'fa-cogs': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01-.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" /></svg>',
+                'fa-check-double': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /><path d="M12.293 7.293a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 8.414l-1.293 1.293a1 1 0 01-1.414-1.414l4-4z"/></svg>',
+                'fa-code': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>',
+                'fa-robot': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zM6 9a1 1 0 00-1 1v1a1 1 0 102 0v-1a1 1 0 00-1-1zm8 0a1 1 0 00-1 1v1a1 1 0 102 0v-1a1 1 0 00-1-1zm-4 4a1.5 1.5 0 01-1.5 1.5h-1a1.5 1.5 0 010-3h1A1.5 1.5 0 0110 13zm5.5 1.5a1.5 1.5 0 00-1.5-1.5h-1a1.5 1.5 0 000 3h1a1.5 1.5 0 001.5-1.5z" clip-rule="evenodd" /></svg>',
+                'fa-plus': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" /></svg>',
+                'fa-download': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>',
+                'fa-linkedin': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>',
+                'fa-arrow-right': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>'
+            };
+
+            // Helper function to get SVG markup
+            const getSvgIcon = (iconClass) => {
+                 // Find the relevant class (e.g., 'fa-calculator')
+                 const iconName = iconClass; // Assumes iconClass is just the name like 'fa-calculator'
+                 return svgIcons[iconName] || ''; // Return SVG string or empty string
+            };
+
             // --- SETUP FUNCTIONS ---
             const setupProjectPage = () => {
                 const activePage = document.getElementById('page-projects');
@@ -683,6 +818,7 @@
                         setTimeout(() => {
                             chartImg.src = viewData[view].imgSrc;
                             chartImg.alt = viewData[view].alt;
+                            chartImg.loading = 'lazy'; // Add lazy loading here too
                             interpContainer.innerHTML = viewData[view].interpHTML;
                             chartImg.style.opacity = 1;
                             interpContainer.style.opacity = 1;
@@ -756,6 +892,7 @@
                         setTimeout(() => {
                             chartImg.src = viewData[view].imgSrc;
                             chartImg.alt = viewData[view].alt;
+                            chartImg.loading = 'lazy'; // Add lazy loading here too
                             interpContainer.innerHTML = viewData[view].interpHTML;
                             chartImg.style.opacity = 1;
                             interpContainer.style.opacity = 1;
@@ -780,6 +917,8 @@
                             setupProjectPage();
                         }, 50);
                     }
+                     // Trigger lazy loading check when page changes
+                     window.dispatchEvent(new Event('scroll')); 
                 }
                 
                 document.querySelectorAll('.nav-link').forEach(link => {
@@ -794,6 +933,9 @@
 
                 if (pageId !== 'home') {
                     window.scrollTo(0, 0);
+                } else {
+                     // Ensure parallax visibility check runs on home page load
+                     setTimeout(() => window.dispatchEvent(new Event('scroll')), 50);
                 }
                 handleScrollAnimations(); 
             };
@@ -804,7 +946,11 @@
                 if (page.id === 'home') link.classList.add('active');
                 link.textContent = page.label;
                 link.dataset.pageId = page.id;
-                link.onclick = () => showPage(page.id);
+                 // Use click event listener instead of inline onclick for CSP
+                 link.addEventListener('click', (e) => {
+                     e.preventDefault(); // Prevent default link behavior if needed
+                     showPage(page.id);
+                 });
                 navContainer.appendChild(link);
             });
             
@@ -818,7 +964,7 @@
                         id: 'experience', 
                         title: 'Work Experience', 
                         description: 'Hands-on experience across management and financial analysis roles, developing expertise through progressive responsibilities and real-world problem-solving.',
-                        bg: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1920&auto=format&fit=crop',
+                        bg: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1920&auto=format&fit=crop', // Low quality initially? Needs JS logic
                         buttonPageId: 'experience'
                     },
                     { 
@@ -844,6 +990,15 @@
                     }
                 ];
 
+                 // Create button click handlers dynamically to avoid inline JS
+                 const bannerButtonClickHandlers = {};
+                 parallaxBanners.forEach(section => {
+                     bannerButtonClickHandlers[section.buttonPageId] = () => {
+                         const navLink = document.getElementById('main-nav').querySelector(`[data-page-id=${section.buttonPageId}]`);
+                         if(navLink) navLink.click();
+                     };
+                 });
+
                 const parallaxBannersHTML = parallaxBanners.map(section => `
                     <div class="parallax-banner" style="background-image: url('${section.bg}')">
                         <div class="parallax-overlay"></div>
@@ -852,8 +1007,12 @@
                             <div class="max-w-2xl mx-auto mb-6 text-base md:text-lg justified-text">
                                 <p>${section.description}</p>
                             </div>
-                            <button onclick="document.getElementById('main-nav').querySelector('[data-page-id=${section.buttonPageId}]').click()" class="explore-btn font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center gap-2" aria-label="Explore ${section.title}">
-                                Explore <i class="fas fa-arrow-right"></i>
+                             <button data-target-page="${section.buttonPageId}" class="explore-btn font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center gap-2" aria-label="Explore ${section.title}">
+                                Explore 
+                                <!-- Arrow Right SVG -->
+                                <svg class="svg-icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
                             </button>
                         </div>
                     </div>
@@ -867,7 +1026,8 @@
                                <div class="grid md:grid-cols-10 gap-8 items-center">
                                     <div class="md:col-span-3 flex justify-center md:justify-end">
                                         <div id="profile-image-container" class="relative profile-image-placeholder w-40 h-40 md:w-56 md:h-56">
-                                            <img id="profile-image" src="${portfolioData.imageUrls.profile}" alt="Bala Sravani Konakalla" class="rounded-full w-full h-full object-cover border-4 border-white/50" onerror="this.onerror=null;this.src='https://placehold.co/224x224/F5F1EA/9C8FA7?text=Image+Not+Found';">
+                                            <!-- Added width/height for layout stability -->
+                                            <img id="profile-image" src="${portfolioData.imageUrls.profile}" alt="Bala Sravani Konakalla" class="rounded-full w-full h-full object-cover border-4 border-white/50" width="224" height="224" onerror="this.onerror=null;this.src='https://placehold.co/224x224/F5F1EA/9C8FA7?text=Image+Not+Found';">
                                         </div>
                                     </div>
                                     <div class="md:col-span-7 text-center md:text-left">
@@ -892,110 +1052,113 @@
                     </div>
                 `;
                 mainContainer.appendChild(page);
+
+                 // Add event listeners for parallax buttons
+                 page.querySelectorAll('.explore-btn[data-target-page]').forEach(button => {
+                     const targetPageId = button.dataset.targetPage;
+                     if (bannerButtonClickHandlers[targetPageId]) {
+                         button.addEventListener('click', bannerButtonClickHandlers[targetPageId]);
+                     }
+                 });
             };
 
-            // const createExperiencePage = () => {
-            //     const page = document.createElement('div');
-            //     page.id = 'page-experience';
-            //     page.className = 'page';
+            const createExperiencePage = () => { // Changed back to a normal function
+                const page = document.createElement('div');
+                page.id = 'page-experience';
+                page.className = 'page';
 
-            //     const experiencesHTML = portfolioData.experiences.map((exp, index) => {
-            //         const dutiesHTML = exp.duties.map(duty => `<li class="mb-2">${duty}</li>`).join('');
-            //         const domainHTML = exp.domain.map(d => `<li class="mb-2">${d}</li>`).join('');
+                const experiencesHTML = portfolioData.experiences.map((exp, index) => {
+                    const dutiesHTML = exp.duties.map(duty => `<li class="mb-2">${duty}</li>`).join('');
+                    const domainHTML = exp.domain.map(d => `<li class="mb-2">${d}</li>`).join('');
 
-            //         return {
-            //             id: index,
-            //             ...exp,
-            //             html: {
-            //                 explorerListItem: `
-            //                     <button class="exp-role-explorer-list-item text-left p-4 rounded-lg w-full ${index === 0 ? 'active' : ''}" data-id="${index}">
-            //                         <div class="flex items-center gap-3">
-            //                             <div class="logo-holder !w-10 !h-10">
-            //                                 <img src="${portfolioData.imageUrls[exp.logoUrlKey]}" alt="${exp.company} Logo">
-            //                             </div>
-            //                             <div>
-            //                                 <h4 class="font-bold text-sm">${exp.title}</h4>
-            //                                 <p class="text-xs text-gray-500">${exp.company}</p>
-            //                             </div>
-            //                         </div>
-            //                     </button>`,
-            //                 explorerContent: `
-            //                     <div class="flex-grow">
-            //                         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
-            //                             <h3 class="text-xl font-bold mb-1 sm:mb-0">${exp.title}</h3>
-            //                             <!-- On mobile, this will be the third item. On desktop, it's the second. -->
-            //                             <p class="text-sm font-medium sm:mt-1 sm:flex-shrink-0 sm:ml-4 order-3 sm:order-2" style="color: #D1A46E;">${exp.date}</p>
-            //                             <!-- This is the second item on mobile, but it's outside the flex on desktop. -->
-            //                             <p class="font-semibold mb-0 sm:mb-4 order-2 sm:hidden" style="color: #463863;">${exp.companyFull}</p>
-            //                         </div>
-            //                         <!-- This is hidden on mobile and shown on desktop -->
-            //                         <p class="font-semibold mb-4 hidden sm:block" style="color: #463863;">${exp.companyFull}</p>
-            //                         <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
-            //                         <ul class="list-disc pl-5 space-y-1 mb-4">${dutiesHTML}</ul>
-            //                         <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
-            //                         <ul class="list-disc pl-5 space-y-1">${domainHTML}</ul>
-            //                     </div>`,
-            //             }
-            //         };
-            //     });
+                    return {
+                        id: index,
+                        ...exp,
+                        html: {
+                            explorerListItem: `
+                                <button class="exp-role-explorer-list-item text-left p-4 rounded-lg w-full ${index === 0 ? 'active' : ''}" data-id="${index}">
+                                    <div class="flex items-center gap-3">
+                                        <div class="logo-holder !w-10 !h-10">
+                                            <img src="${portfolioData.imageUrls[exp.logoUrlKey]}" alt="${exp.company} Logo" loading="lazy" width="40" height="40">
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-sm">${exp.title}</h4>
+                                            <p class="text-xs text-gray-500">${exp.company}</p>
+                                        </div>
+                                    </div>
+                                </button>`,
+                            explorerContent: `
+                                <div class="flex-grow">
+                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
+                                        <h3 class="text-xl font-bold mb-1 sm:mb-0">${exp.title}</h3>
+                                        <p class="text-sm font-medium sm:mt-1 sm:flex-shrink-0 sm:ml-4 order-3 sm:order-2" style="color: #D1A46E;">${exp.date}</p>
+                                        <p class="font-semibold mb-0 sm:mb-4 order-2 sm:hidden" style="color: #463863;">${exp.companyFull}</p>
+                                    </div>
+                                    <p class="font-semibold mb-4 hidden sm:block" style="color: #463863;">${exp.companyFull}</p>
+                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
+                                    <ul class="list-disc pl-5 space-y-1 mb-4">${dutiesHTML}</ul>
+                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
+                                    <ul class="list-disc pl-5 space-y-1">${domainHTML}</ul>
+                                </div>`,
+                        }
+                    };
+                });
+                
+                // New Skills List & Icons
+                const strategicCapabilities = [
+                    { name: 'Financial Modeling & Valuation', iconClass: 'fa-calculator' },
+                    { name: 'Scenario Analysis', iconClass: 'fa-sitemap' },
+                    { name: 'Advanced Excel & Tableau', iconClass: 'fa-chart-line' },
+                    { name: 'S&P Capital IQ', iconClass: 'fa-search-dollar' },
+                    { name: 'SAP BPC', iconClass: 'fa-cogs' },
+                    { name: 'Data Integrity & Validation', iconClass: 'fa-check-double' },
+                    { name: 'Vibe Coding', iconClass: 'fa-code' },
+                    { name: 'Power BI & Automation', iconClass: 'fa-robot' }
+                ];
 
-            //     const getSkillIcon = (skillName) => {
-            //         const iconMap = {
-            //             'SAP BPC': 'fas fa-cogs',
-            //             'Tableau': 'fas fa-chart-bar',
-            //             'MS Office Suite': 'fab fa-microsoft',
-            //             'Financial Modeling': 'fas fa-calculator',
-            //             'Data Analysis': 'fas fa-search-dollar',
-            //             'Compliance': 'fas fa-check-double',
-            //             'Credit Monitoring': 'fas fa-credit-card',
-            //             'Advanced Excel': 'fas fa-file-excel',
-            //         };
-            //         return iconMap[skillName] || 'fas fa-star';
-            //     };
+                const skillsMatrixHTML = strategicCapabilities.map(skill => `
+                    <div class="skill-matrix-item">
+                        <div class="skill-logo-holder !w-12 !h-12">
+                            ${getSvgIcon(skill.iconClass)}
+                        </div>
+                        <h4>${skill.name}</h4>
+                    </div>
+                `).join('');
 
-            //     const skillsMatrixHTML = Object.values(portfolioData.skillsByCategory).flat().map(skill => `
-            //         <div class="skill-matrix-item">
-            //             <div class="skill-logo-holder !w-12 !h-12">
-            //                 <i class="${getSkillIcon(skill.name)} text-2xl" style="color: #463863;"></i>
-            //             </div>
-            //             <h4>${skill.name}</h4>
-            //         </div>
-            //     `).join('');
 
-            //     page.innerHTML = `
-            //         <section class="pt-28 pb-16">
-            //             <div class="container mx-auto px-6">
-            //                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-4" style="color: #221C2A;">Work Experience</h2>
-            //                 <p class="text-center max-w-3xl mx-auto mb-12" style="color: #9C8FA7;">A detailed overview of my professional roles and responsibilities. Use the interactive menu on the left to switch between positions.</p>
+                page.innerHTML = `
+                    <section class="pt-28 pb-16">
+                        <div class="container mx-auto px-6">
+                            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4" style="color: #221C2A;">Work Experience</h2>
+                            <p class="text-center max-w-3xl mx-auto mb-12" style="color: #9C8FA7;">A detailed overview of my professional roles and responsibilities. Use the interactive menu on the left to switch between positions.</p>
 
-            //                 <!-- Interactive Role Explorer -->
-            //                 <div class="bg-white/50 p-4 rounded-lg shadow-inner">
-            //                     <div class="grid md:grid-cols-12 gap-6">
-            //                         <div class="md:col-span-4 lg:col-span-3">
-            //                             <div class="exp-role-explorer-list space-y-2">
-            //                                 ${experiencesHTML.map(exp => exp.html.explorerListItem).join('')}
-            //                             </div>
-            //                         </div>
-            //                         <div class="md:col-span-8 lg:col-span-9 bg-white p-6 rounded-lg shadow-md card-effect">
-            //                             <div id="exp-role-explorer-content">${experiencesHTML[0].html.explorerContent}</div>
-            //                         </div>
-            //                     </div>
-            //                 </div>
+                            <div class="bg-white/50 p-4 rounded-lg shadow-inner">
+                                <div class="grid md:grid-cols-12 gap-6">
+                                    <div class="md:col-span-4 lg:col-span-3">
+                                        <div class="exp-role-explorer-list space-y-2">
+                                            ${experiencesHTML.map(exp => exp.html.explorerListItem).join('')}
+                                        </div>
+                                    </div>
+                                    <div class="md:col-span-8 lg:col-span-9 bg-white p-6 rounded-lg shadow-md card-effect">
+                                        <div id="exp-role-explorer-content">${experiencesHTML[0].html.explorerContent}</div>
+                                    </div>
+                                </div>
+                            </div>
                             
-            //                 <div class="text-center mt-20">
-            //                     <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Technical Skills</h3>
+                            <div class="text-center mt-20">
+                                <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Strategic Capabilities</h3>
                                 
-            //                     <div class="skills-matrix-container max-w-5xl mx-auto">
-            //                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
-            //                             ${skillsMatrixHTML}
-            //                         </div>
-            //                     </div>
-            //                 </div>
-            //             </div>
-            //         </section>
-            //     `;
-            //     mainContainer.appendChild(page);
-            // };
+                                <div class="skills-matrix-container max-w-5xl mx-auto">
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6"> <!-- Adjusted grid cols -->
+                                        ${skillsMatrixHTML}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+                mainContainer.appendChild(page);
+            }; // End createExperiencePage
 
             const createEducationPage = () => {
                 const page = document.createElement('div');
@@ -1003,16 +1166,16 @@
                 page.className = 'page';
 
                 const educationCardsHTML = portfolioData.educations.map(edu => `
-                    <div class="education-card bg-white rounded-2xl flex overflow-hidden w-full max-w-2xl mx-auto">
-                        <div class="logo-holder !w-24 md:!w-32">
-                            <img src="${portfolioData.imageUrls[edu.logoUrlKey]}" alt="${edu.school} Logo" onerror="this.src='https://placehold.co/120x120/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
+                    <div class="education-card bg-white rounded-2xl flex flex-col md:flex-row overflow-hidden w-full max-w-2xl mx-auto"> <!-- Ensure flex-col for mobile default -->
+                        <div class="logo-holder !w-24 md:!w-32"> <!-- Adjusted base width -->
+                            <img src="${portfolioData.imageUrls[edu.logoUrlKey]}" alt="${edu.school} Logo" loading="lazy" width="128" height="128" onerror="this.src='https://placehold.co/128x128/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
                         </div>
-                        <div class="p-4 md:p-6 md:pl-8 relative flex-grow">
+                        <div class="p-4 md:p-6 md:pl-8 relative flex-grow text-center md:text-left"> <!-- Center text on mobile -->
                             <h4 class="text-xl font-bold" style="color: #221C2A;">${edu.degree}</h4>
                             <p class="font-semibold text-md mb-1" style="color: #463863;">${edu.specialization}</p>
                             <p class="text-sm" style="color: #9C8FA7;">${edu.school}, ${edu.location}</p>
-                            <p class="text-sm font-medium" style="color: #D1A46E;">${edu.date}</p>
-                            <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6">
+                            <p class="text-sm font-medium mb-10 md:mb-0" style="color: #D1A46E;">${edu.date}</p> <!-- Add bottom margin on mobile -->
+                            <div class="absolute bottom-4 left-1/2 md:left-auto md:right-4 transform -translate-x-1/2 md:transform-none md:bottom-6 md:right-6"> <!-- Positioning -->
                                 <span class="cgpa-badge">${edu.details}</span>
                             </div>
                         </div>
@@ -1020,20 +1183,21 @@
                 `).join('');
 
                 const certificationCardsHTML = portfolioData.certifications.map(cert => `
-                    <div class="certification-card bg-white rounded-2xl flex overflow-hidden w-full max-w-3xl mx-auto">
-                        <div class="logo-holder !w-24 md:!w-32">
-                             <img src="${portfolioData.imageUrls[cert.logoUrlKey]}" alt="${cert.issuer} Logo" onerror="this.src='https://placehold.co/120x120/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
+                    <div class="certification-card bg-white rounded-2xl flex flex-col md:flex-row overflow-hidden w-full max-w-3xl mx-auto"> <!-- flex-col for mobile -->
+                        <div class="logo-holder !w-24 md:!w-32"> <!-- Adjusted width -->
+                             <img src="${portfolioData.imageUrls[cert.logoUrlKey]}" alt="${cert.issuer} Logo" loading="lazy" width="128" height="128" onerror="this.src='https://placehold.co/128x128/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
                         </div>
-                        <div class="p-4 md:p-6 flex-grow flex flex-col sm:flex-row justify-between items-start sm:items-center relative">
-                            <div class="mb-4 sm:mb-0">
+                        <div class="p-4 md:p-6 flex-grow flex flex-col justify-between items-center md:flex-row md:items-center relative text-center md:text-left min-h-[120px] md:min-h-0"> <!-- Added min-height for mobile button space -->
+                            <div class="mb-10 sm:mb-4 md:mb-0">
                                 <h4 class="text-lg font-bold" style="color: #221C2A;">${cert.title}</h4>
                                 <p class="font-semibold text-sm mb-1" style="color: #463863;">${cert.issuer}</p>
                                 <p class="text-xs font-medium" style="color: #D1A46E;">Issued: ${cert.issueDate}</p>
                             </div>
-                            <button class="view-cert-btn cert-view-btn flex-shrink-0 absolute bottom-4 right-4 sm:relative sm:bottom-auto sm:right-auto"
+                            <button class="view-cert-btn cert-view-btn flex-shrink-0 absolute bottom-4 right-4 md:relative md:bottom-auto md:right-auto" 
                                     data-img-src="${portfolioData.imageUrls[cert.imageUrlKey]}" 
                                     aria-label="View ${cert.title} certificate">
-                                <i class="fas fa-plus"></i>
+                                <!-- Plus SVG -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" /></svg>
                             </button>
                         </div>
                     </div>
@@ -1058,6 +1222,15 @@
                     </section>
                     `;
                 mainContainer.appendChild(page);
+
+                 // Add event listeners for certificate buttons
+                 page.querySelectorAll('.view-cert-btn[data-img-src]').forEach(button => {
+                     button.addEventListener('click', (e) => {
+                         const imgSrc = e.currentTarget.dataset.imgSrc;
+                         if (imgSrc) openLightbox(imgSrc);
+                     });
+                 });
+
             };
 
             const createResumePage = () => {
@@ -1070,20 +1243,26 @@
                         <div class="container mx-auto px-4 text-center max-w-4xl">
                             <h2 class="text-3xl md:text-4xl font-bold mb-6" style="color: #221C2A;">Resume</h2>
                             
-                            <div class="bg-white rounded-2xl shadow-lg p-2 md:p-4 mb-2">
+                            <div class="bg-white rounded-2xl shadow-lg p-2 md:p-4 mb-2 cursor-pointer hover:opacity-90 transition-opacity" id="resume-preview-container">
                                 <img src="${portfolioData.imageUrls.resumePreview}" 
                                      alt="Preview of Bala Sravani Konakalla’s Resume" 
-                                     class="w-full h-auto rounded-lg mx-auto cursor-pointer hover:opacity-90 transition-opacity" 
-                                     onclick="openLightbox(this.src)">
+                                     class="w-full h-auto rounded-lg mx-auto" 
+                                     loading="lazy" width="816" height="1056"> <!-- Added lazy loading, width/height -->
                             </div>
                             <p id="resume-last-updated" class="text-sm text-gray-500 text-right italic mb-8"></p>
 
                             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                                  <a href="./Bala Sravani Konakalla.pdf" download="Bala_Sravani_Konakalla_Resume.pdf" class="btn-primary w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2" aria-label="Download Resume PDF">
-                                    <i class="fas fa-download"></i> Download PDF
+                                     <!-- Download SVG -->
+                                     <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                       <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                     </svg>
+                                     Download PDF
                                 </a>
-                                <a href="https://linkedin.com/in/kbalasravani" target="_blank" class="btn-secondary w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2" aria-label="View on LinkedIn">
-                                    <i class="fab fa-linkedin"></i> View on LinkedIn
+                                <a href="https://linkedin.com/in/kbalasravani" target="_blank" rel="noopener noreferrer" class="btn-secondary w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2" aria-label="View on LinkedIn">
+                                     <!-- LinkedIn SVG -->
+                                     <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                                     View on LinkedIn
                                 </a>
                             </div>
                         </div>
@@ -1091,12 +1270,30 @@
                 `;
                 mainContainer.appendChild(page);
 
+                // Add click listener for resume preview
+                const resumePreviewContainer = page.querySelector('#resume-preview-container');
+                const resumeImage = resumePreviewContainer.querySelector('img');
+                 if(resumePreviewContainer && resumeImage) {
+                    resumePreviewContainer.addEventListener('click', () => {
+                         openLightbox(resumeImage.src);
+                    });
+                 }
+
+
                 // Set last updated date
                 const lastUpdatedEl = page.querySelector('#resume-last-updated');
                 if (lastUpdatedEl) {
                     const today = new Date();
-                    const dayOfWeek = today.getDay(); // Sunday = 0, Monday = 1, etc.
-                    const lastSunday = new Date(today.setDate(today.getDate() - dayOfWeek));
+                    // Simple approximation: Set to the previous Sunday
+                    const dayOfWeek = today.getDay(); // Sunday = 0
+                    const diff = today.getDate() - dayOfWeek;
+                    const lastSunday = new Date(today.setDate(diff));
+
+                    // Avoid showing future dates if today is Sunday
+                    if (lastSunday > new Date()) { 
+                         lastSunday.setDate(lastSunday.getDate() - 7);
+                    }
+
                     const formattedDate = lastSunday.toLocaleDateString('en-US', {
                         month: 'long',
                         day: 'numeric',
@@ -1115,13 +1312,14 @@
                 <!-- 1. Project Header Section -->
                 <div id="project-header" class="project-section-fade-in relative overflow-hidden pt-40 pb-16">
                     <div class="absolute inset-0 z-0">
-                        <svg class="absolute bottom-0 right-0 h-1/2 w-1/2 text-gray-500 opacity-[0.03]" fill="currentColor" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 597.995c-113.003 0-204.8-91.797-204.8-204.8s91.797-204.8 204.8-204.8 204.8 91.797 204.8 204.8-91.797 204.8-204.8 204.8zM512 256c-79.508 0-144.37 64.862-144.37 144.37s64.862 144.37 144.37 144.37 144.37-64.862 144.37-144.37-64.862-144.37-144.37-144.37z"/><path d="M512 1024c-282.77 0-512-229.23-512-512s229.23-512 512-512 512 229.23 512 512-229.23 512-512 512zM512 61.44C264.604 61.44 61.44 264.604 61.44 512s203.164 450.56 450.56 450.56 450.56-203.164 450.56-450.56-203.164-450.56-450.56-450.56z"/><path d="M961.075 613.99c-30.822-1.946-59.597-10.138-85.3-23.757l-2.048-1.229c-10.138-6.042-19.866-12.7-28.979-20.07-8.806-6.963-16.896-14.541-24.166-22.733-1.434-1.638-2.867-3.277-4.301-4.915-28.365-32.358-49.152-70.554-59.802-112.947-3.277-13.005-5.325-26.317-6.554-39.834-0.614-10.138-0.614-20.378-0.205-30.515 1.536-25.805 6.758-50.995 15.36-74.957 14.848-41.472 40.55-78.131 74.547-107.008 33.382-28.365 73.626-47.309 117.555-55.296 5.837-1.024 11.674-1.843 17.613-2.458 35.84-3.79 72.192-0.307 106.803 10.138 34.099 10.24 65.638 27.238 93.39 49.971 2.867 2.355 5.632 4.813 8.397 7.27 34.816 30.618 60.006 70.144 72.909 114.176 15.36 52.634 15.053 108.954-0.819 161.792-12.902 43.11-37.376 81.92-69.837 114.176-32.051 31.846-70.963 56.525-114.074 71.373-35.635 12.288-73.421 18.227-111.821 17.408-10.138-0.205-20.275-0.819-30.31-1.843z"/></svg>
+                        <!-- Decorative SVG -->
+                         <svg class="absolute bottom-0 right-0 h-1/2 w-1/2 text-gray-500 opacity-[0.03]" fill="currentColor" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M512 597.995c-113.003 0-204.8-91.797-204.8-204.8s91.797-204.8 204.8-204.8 204.8 91.797 204.8 204.8-91.797 204.8-204.8 204.8zM512 256c-79.508 0-144.37 64.862-144.37 144.37s64.862 144.37 144.37 144.37 144.37-64.862 144.37-144.37-64.862-144.37-144.37-144.37z"/><path d="M512 1024c-282.77 0-512-229.23-512-512s229.23-512 512-512 512 229.23 512 512-229.23 512-512 512zM512 61.44C264.604 61.44 61.44 264.604 61.44 512s203.164 450.56 450.56 450.56 450.56-203.164 450.56-450.56-203.164-450.56-450.56-450.56z"/><path d="M961.075 613.99c-30.822-1.946-59.597-10.138-85.3-23.757l-2.048-1.229c-10.138-6.042-19.866-12.7-28.979-20.07-8.806-6.963-16.896-14.541-24.166-22.733-1.434-1.638-2.867-3.277-4.301-4.915-28.365-32.358-49.152-70.554-59.802-112.947-3.277-13.005-5.325-26.317-6.554-39.834-0.614-10.138-0.614-20.378-0.205-30.515 1.536-25.805 6.758-50.995 15.36-74.957 14.848-41.472 40.55-78.131 74.547-107.008 33.382-28.365 73.626-47.309 117.555-55.296 5.837-1.024 11.674-1.843 17.613-2.458 35.84-3.79 72.192-0.307 106.803 10.138 34.099 10.24 65.638 27.238 93.39 49.971 2.867 2.355 5.632 4.813 8.397 7.27 34.816 30.618 60.006 70.144 72.909 114.176 15.36 52.634 15.053 108.954-0.819 161.792-12.902 43.11-37.376 81.92-69.837 114.176-32.051 31.846-70.963 56.525-114.074 71.373-35.635 12.288-73.421 18.227-111.821 17.408-10.138-0.205-20.275-0.819-30.31-1.843z"/></svg>
                     </div>
                     <div class="container mx-auto max-w-screen-xl px-6 md:px-8 relative z-10">
                         <div class="grid md:grid-cols-12 gap-x-4 items-center text-center md:text-left">
                              <div class="md:col-span-2 flex justify-center md:justify-end">
                                 <div class="w-28 h-28 md:w-32 md:h-32 bg-white rounded-full chipotle-logo-glow flex items-center justify-center flex-shrink-0 overflow-hidden">
-                                    <img src="${portfolioData.imageUrls.logoChipotle}" alt="Chipotle Company Logo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/128x128/FFFFFF/AD2F1F?text=CMG'">
+                                    <img src="${portfolioData.imageUrls.logoChipotle}" alt="Chipotle Company Logo" class="w-full h-full object-cover" loading="lazy" width="128" height="128" onerror="this.src='https://placehold.co/128x128/FFFFFF/AD2F1F?text=CMG'">
                                 </div>
                             </div>
                             <div class="md:col-span-10">
@@ -1237,6 +1435,7 @@
                             <div class="grid md:grid-cols-12 gap-8 items-center">
                                 <div class="md:col-span-4">
                                     <div class="p-6 bg-gray-100 rounded-lg flex items-center justify-center">
+                                         <!-- Investment Perspective SVG -->
                                         <svg class="w-full h-auto max-w-[200px] text-[#463863]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M4 4h4v16H4V4zm6 6h4v10h-4V10zm6-4h4v14h-4V6z" fill-opacity="0.3"/>
                                             <path d="M5 20V7h2v13H5zm6-10v10h2V10h-2zm6-3v13h2V7h-2z"/>
@@ -1264,7 +1463,11 @@
                 <section class="py-12 project-section-fade-in">
                     <div class="container mx-auto px-6 md:px-8 text-center">
                         <a href="#" aria-label="Download Financial Model" class="btn-primary font-bold py-3 px-8 rounded-lg inline-flex items-center gap-2">
-                            <i class="fas fa-download"></i> Download Financial Model
+                             <!-- Download SVG -->
+                             <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                               <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                             </svg>
+                             Download Financial Model
                         </a>
                     </div>
                 </section>
@@ -1274,108 +1477,7 @@
             
             // --- INITIALIZE ALL PAGES ---
             createHomePage();
-            // createExperiencePage();
-            (function createExperiencePage() {
-                const page = document.createElement('div');
-                page.id = 'page-experience';
-                page.className = 'page';
-
-                const experiencesHTML = portfolioData.experiences.map((exp, index) => {
-                    const dutiesHTML = exp.duties.map(duty => `<li class="mb-2">${duty}</li>`).join('');
-                    const domainHTML = exp.domain.map(d => `<li class="mb-2">${d}</li>`).join('');
-
-                    return {
-                        id: index,
-                        ...exp,
-                        html: {
-                            explorerListItem: `
-                                <button class="exp-role-explorer-list-item text-left p-4 rounded-lg w-full ${index === 0 ? 'active' : ''}" data-id="${index}">
-                                    <div class="flex items-center gap-3">
-                                        <div class="logo-holder !w-10 !h-10">
-                                            <img src="${portfolioData.imageUrls[exp.logoUrlKey]}" alt="${exp.company} Logo">
-                                        </div>
-                                        <div>
-                                            <h4 class="font-bold text-sm">${exp.title}</h4>
-                                            <p class="text-xs text-gray-500">${exp.company}</p>
-                                        </div>
-                                    </div>
-                                </button>`,
-                            explorerContent: `
-                                <div class="flex-grow">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
-                                        <h3 class="text-xl font-bold mb-1 sm:mb-0">${exp.title}</h3>
-                                        <!-- On mobile, this will be the third item. On desktop, it's the second. -->
-                                        <p class="text-sm font-medium sm:mt-1 sm:flex-shrink-0 sm:ml-4 order-3 sm:order-2" style="color: #D1A46E;">${exp.date}</p>
-                                        <!-- This is the second item on mobile, but it's outside the flex on desktop. -->
-                                        <p class="font-semibold mb-0 sm:mb-4 order-2 sm:hidden" style="color: #463863;">${exp.companyFull}</p>
-                                    </div>
-                                    <!-- This is hidden on mobile and shown on desktop -->
-                                    <p class="font-semibold mb-4 hidden sm:block" style="color: #463863;">${exp.companyFull}</p>
-                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
-                                    <ul class="list-disc pl-5 space-y-1 mb-4">${dutiesHTML}</ul>
-                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
-                                    <ul class="list-disc pl-5 space-y-1">${domainHTML}</ul>
-                                </div>`,
-                        }
-                    };
-                });
-                
-                // New Skills List
-                const strategicCapabilities = [
-                    { name: 'Financial Modeling & Valuation', icon: 'fas fa-calculator' },
-                    { name: 'Scenario Analysis', icon: 'fas fa-sitemap' },
-                    { name: 'Advanced Excel & Tableau', icon: 'fas fa-chart-line' },
-                    { name: 'S&P Capital IQ', icon: 'fas fa-search-dollar' },
-                    { name: 'SAP BPC', icon: 'fas fa-cogs' },
-                    { name: 'Data Integrity & Validation', icon: 'fas fa-check-double' },
-                    { name: 'Vibe Coding', icon: 'fas fa-code' },
-                    { name: 'Power BI & Automation', icon: 'fas fa-robot' }
-                ];
-
-                const skillsMatrixHTML = strategicCapabilities.map(skill => `
-                    <div class="skill-matrix-item">
-                        <div class="skill-logo-holder !w-12 !h-12">
-                            <i class="${skill.icon} text-2xl" style="color: #463863;"></i>
-                        </div>
-                        <h4>${skill.name}</h4>
-                    </div>
-                `).join('');
-
-
-                page.innerHTML = `
-                    <section class="pt-28 pb-16">
-                        <div class="container mx-auto px-6">
-                            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4" style="color: #221C2A;">Work Experience</h2>
-                            <p class="text-center max-w-3xl mx-auto mb-12" style="color: #9C8FA7;">A detailed overview of my professional roles and responsibilities. Use the interactive menu on the left to switch between positions.</p>
-
-                            <!-- Interactive Role Explorer -->
-                            <div class="bg-white/50 p-4 rounded-lg shadow-inner">
-                                <div class="grid md:grid-cols-12 gap-6">
-                                    <div class="md:col-span-4 lg:col-span-3">
-                                        <div class="exp-role-explorer-list space-y-2">
-                                            ${experiencesHTML.map(exp => exp.html.explorerListItem).join('')}
-                                        </div>
-                                    </div>
-                                    <div class="md:col-span-8 lg:col-span-9 bg-white p-6 rounded-lg shadow-md card-effect">
-                                        <div id="exp-role-explorer-content">${experiencesHTML[0].html.explorerContent}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="text-center mt-20">
-                                <h3 class="text-3xl md:text-4xl font-bold text-center mb-12" style="color: #221C2A;">Strategic Capabilities</h3>
-                                
-                                <div class="skills-matrix-container max-w-5xl mx-auto">
-                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
-                                        ${skillsMatrixHTML}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                `;
-                mainContainer.appendChild(page);
-            })();
+            createExperiencePage(); // Now calls the regular function
             createProjectsPage();
             createEducationPage();
             createResumePage();
@@ -1395,11 +1497,11 @@
                     roleExplorerButton.classList.add('active');
                     
                     const expId = parseInt(roleExplorerButton.dataset.id);
-                    const exp = portfolioData.experiences[expId]; // FIX: Re-added this line
+                    const exp = portfolioData.experiences[expId]; 
 
-                    if (exp) { // FIX: Re-added this block
-                        const dutiesHTML = exp.duties.map(duty => `<li class="mb-2">${duty}</li>`).join(''); // FIX: Re-added this line
-                        const domainHTML = exp.domain.map(d => `<li class="mb-2">${d}</li>`).join(''); // FIX: Corrected 'classm' to 'class'
+                    if (exp) { 
+                        const dutiesHTML = exp.duties.map(duty => `<li class="mb-2">${duty}</li>`).join(''); 
+                        const domainHTML = exp.domain.map(d => `<li class="mb-2">${d}</li>`).join(''); 
 
                         explorerContent.style.opacity = 0;
                         setTimeout(() => {
@@ -1407,21 +1509,18 @@
                                 <div class="flex-grow">
                                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
                                         <h3 class="text-xl font-bold mb-1 sm:mb-0">${exp.title}</h3>
-                                        <!-- On mobile, this will be the third item. On desktop, it's the second. -->
                                         <p class="text-sm font-medium sm:mt-1 sm:flex-shrink-0 sm:ml-4 order-3 sm:order-2" style="color: #D1A46E;">${exp.date}</p>
-                                        <!-- This is the second item on mobile, but it's outside the flex on desktop. -->
                                         <p class="font-semibold mb-0 sm:mb-4 order-2 sm:hidden" style="color: #463863;">${exp.companyFull}</p>
                                     </div>
-                                    <!-- This is hidden on mobile and shown on desktop -->
                                     <p class="font-semibold mb-4 hidden sm:block" style="color: #463863;">${exp.companyFull}</p>
                                     <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
                                     <ul class="list-disc pl-5 space-y-1 mb-4">${dutiesHTML}</ul>
-                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4> <!-- FIX: Corrected color code -->
+                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4> 
                                     <ul class="list-disc pl-5 space-y-1">${domainHTML}</ul>
                                 </div>`;
                             explorerContent.style.opacity = 1;
                         }, 300);
-                    } // FIX: Re-added this closing brace
+                    } 
                 }
             });
 
@@ -1436,40 +1535,55 @@
             const progressBar = document.getElementById('progress-bar');
             let lastScrollTop = 0;
             
-            window.addEventListener('scroll', function() {
-                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                
-                const isScrollingDown = scrollTop > lastScrollTop;
+            // Debounce scroll handler for performance
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                 if (scrollTimeout) {
+                    window.cancelAnimationFrame(scrollTimeout);
+                 }
+                scrollTimeout = window.requestAnimationFrame(() => {
+                    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    const isScrollingDown = scrollTop > lastScrollTop;
+                    header.classList.toggle('nav-hidden', isScrollingDown && scrollTop > header.offsetHeight);
+                    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 
-                header.classList.toggle('nav-hidden', isScrollingDown && scrollTop > header.offsetHeight);
-                
-                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-
-                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-                if (progressBar) {
-                    progressBar.style.width = scrollPercent + '%';
-                }
-
-                const parallaxBanners = document.querySelectorAll('.parallax-banner');
-                parallaxBanners.forEach(banner => {
-                    const rect = banner.getBoundingClientRect();
-                    if (rect.top < window.innerHeight && rect.bottom >= 0) {
-                        banner.classList.add('visible');
+                    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+                    if (progressBar) {
+                        progressBar.style.width = scrollPercent + '%';
                     }
-                });
-                handleScrollAnimations();
-            }, false);
 
-            const educationCards = document.querySelectorAll('.education-card, .certification-card');
-            if (educationCards.length > 0) {
-                const eduObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    // Optimized visibility checks
+                    const parallaxBanners = document.querySelectorAll('.parallax-banner:not(.visible)');
+                    parallaxBanners.forEach(banner => {
+                        const rect = banner.getBoundingClientRect();
+                        if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                            banner.classList.add('visible');
+                        }
                     });
-                }, { threshold: 0.2 });
-                educationCards.forEach(card => eduObserver.observe(card));
-            }
+
+                    const educationCards = document.querySelectorAll('.education-card:not(.visible), .certification-card:not(.visible)');
+                     educationCards.forEach(card => {
+                         const rect = card.getBoundingClientRect();
+                         if (rect.top < window.innerHeight * 0.85 && rect.bottom >= 0) { // Trigger earlier
+                             card.classList.add('visible');
+                         }
+                     });
+                     
+                     const projectSections = document.querySelectorAll('.project-section-fade-in:not(.visible)');
+                     projectSections.forEach(section => {
+                          const rect = section.getBoundingClientRect();
+                          if (rect.top < window.innerHeight * 0.8 && rect.bottom >= 0) {
+                               section.classList.add('visible');
+                          }
+                     });
+
+                    handleScrollAnimations(); // Keep for potential future use
+                });
+            }, { passive: true }); // Use passive listener
+
+            // Initial check on load
+             setTimeout(() => window.dispatchEvent(new Event('scroll')), 100);
             
             const successToast = document.getElementById('success-toast');
             const contactModal = document.getElementById('contact-modal');
@@ -1489,75 +1603,88 @@
                         }, 400);
                         contactForm.reset(); 
                     } else {
-                        response.json().then(data => {
-                            if (Object.hasOwn(data, 'errors')) {
-                                alert(data["errors"].map(error => error["message"]).join(", "));
-                            } else {
-                                alert("There was an error sending your message. Please try again.");
-                            }
-                        })
+                         // Improved error handling (avoids blocking alerts)
+                         console.error("Form submission failed:", response.status);
+                         response.json().then(data => {
+                             if (Object.hasOwn(data, 'errors')) {
+                                console.error("Form errors:", data["errors"].map(error => error["message"]).join(", "));
+                                // Display error to user in a non-blocking way (e.g., append to form)
+                             } else {
+                                console.error("Unknown form submission error.");
+                             }
+                         }).catch(() => console.error("Could not parse form error response."));
                     }
                 }).catch(error => {
-                    console.error("Form submission error.", error);
-                    alert("There was an error sending your message. Please try again.");
+                    console.error("Form submission fetch error:", error);
+                    // Display error to user
                 }); 
             });
 
 
-            function handleScrollAnimations() {}
+            function handleScrollAnimations() {} // Placeholder
 
-            const certSection = document.querySelector('.cert-section');
-            if (certSection) {
-                certSection.addEventListener('click', (e) => {
-                    const triggerButton = e.target.closest('.view-cert-btn');
-                    if (triggerButton) {
-                        e.preventDefault();
-                        const imgSrc = triggerButton.dataset.imgSrc;
-                        if (imgSrc) {
-                            openLightbox(imgSrc);
-                        }
-                    }
-                });
-            }
+            // Replaced certificate section delegation with direct listeners during creation
 
             const canvas = document.getElementById('finance-canvas');
             const ctx = canvas.getContext('2d');
             let particles = [];
             const symbols = ['$', '%', '▲', '▼', '📈', '📉'];
-            const mouse = { x: null, y: null, radius: 180 };
+            const mouse = { x: null, y: null, radius: 150 }; // Slightly smaller radius
 
-            window.addEventListener('mousemove', (event) => { mouse.x = event.x; mouse.y = event.y; });
-            window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+            // --- Canvas Animation Functions ---
+            // Keep track if animation is running
+            let animationFrameId = null; 
+
+            // Throttle mousemove listener
+             let mouseMoveTimeout;
+             window.addEventListener('mousemove', (event) => {
+                 if (mouseMoveTimeout) cancelAnimationFrame(mouseMoveTimeout);
+                 mouseMoveTimeout = requestAnimationFrame(() => {
+                    mouse.x = event.clientX;
+                    mouse.y = event.clientY;
+                 });
+             }, { passive: true });
+
+            window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; }, { passive: true });
 
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
+                // Recreate particles on resize ONLY if animation is running
+                if (animationFrameId) createParticles(); 
             }
 
             function createParticles() {
                 particles = [];
-                let numberOfParticles = (canvas.width * canvas.height) / 20000;
+                // Reduce particle density slightly
+                let numberOfParticles = Math.min((canvas.width * canvas.height) / 25000, 100); 
                 for (let i = 0; i < numberOfParticles; i++) {
                     particles.push({
                         x: Math.random() * canvas.width,
                         y: Math.random() * canvas.height,
-                        vx: (Math.random() - 0.5) * 0.3,
-                        vy: (Math.random() - 0.5) * 0.3,
-                        size: Math.random() * 2 + 10,
-                        symbol: symbols[Math.floor(Math.random() * symbols.length)]
+                        vx: (Math.random() - 0.5) * 0.2, // Slower speed
+                        vy: (Math.random() - 0.5) * 0.2,
+                        size: Math.random() * 1.5 + 9, // Slightly smaller size range
+                        symbol: symbols[Math.floor(Math.random() * symbols.length)],
+                        opacity: Math.random() * 0.4 + 0.1 // Add opacity
                     });
                 }
             }
 
             function connectParticles() {
-                for (let a = 0; a < particles.length; a++) {
-                    for (let b = a; b < particles.length; b++) {
+                let particleCount = particles.length;
+                for (let a = 0; a < particleCount; a++) {
+                    for (let b = a + 1; b < particleCount; b++) { // Start b from a + 1
                         let dx = particles[a].x - particles[b].x;
                         let dy = particles[a].y - particles[b].y;
-                        let distance = Math.sqrt(dx * dx + dy * dy);
-                        if (distance < 120) {
-                            ctx.strokeStyle = 'rgba(209, 164, 110, ' + (1 - distance/120) + ')';
-                            ctx.lineWidth = 0.6;
+                        let distanceSq = dx * dx + dy * dy; // Use squared distance
+                        let connectDistanceSq = 100 * 100; // Squared connect distance (100px)
+
+                        if (distanceSq < connectDistanceSq) {
+                             let distance = Math.sqrt(distanceSq); // Calculate sqrt only when needed
+                            let opacity = 1 - distance / 100;
+                            ctx.strokeStyle = `rgba(209, 164, 110, ${opacity * 0.5})`; // Use particle opacity too? Maybe later.
+                            ctx.lineWidth = 0.4; // Thinner lines
                             ctx.beginPath();
                             ctx.moveTo(particles[a].x, particles[a].y);
                             ctx.lineTo(particles[b].x, particles[b].y);
@@ -1569,49 +1696,91 @@
 
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < particles.length; i++) {
+                let particleCount = particles.length;
+                for (let i = 0; i < particleCount; i++) {
                     let p = particles[i];
-                    p.x += p.vx; p.y += p.vy;
+                    p.x += p.vx; 
+                    p.y += p.vy;
+
+                    // Boundary checks
                     if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
                     if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                    // Mouse interaction
                     if (mouse.x && mouse.y) {
                         let dx = mouse.x - p.x;
                         let dy = mouse.y - p.y;
-                        let distance = Math.sqrt(dx * dx + dy * dy);
-                        if (distance < mouse.radius) { p.x -= dx / 18; p.y -= dy / 18; }
+                        let distanceSq = dx * dx + dy * dy;
+                        let mouseRadiusSq = mouse.radius * mouse.radius;
+                        if (distanceSq < mouseRadiusSq) { 
+                             let force = 1 - Math.sqrt(distanceSq) / mouse.radius;
+                             p.x -= dx * force * 0.05; // Less aggressive push
+                             p.y -= dy * force * 0.05;
+                             p.opacity = Math.min(p.opacity + 0.1, 0.7); // Increase opacity on interaction
+                        } else {
+                             p.opacity = Math.max(p.opacity - 0.01, 0.1); // Fade out slightly
+                        }
+                    } else {
+                         p.opacity = Math.max(p.opacity - 0.005, 0.1); // Fade slowly when mouse out
                     }
-                    ctx.fillStyle = `rgba(70, 56, 99, 0.5)`;
-                    ctx.font = `${p.size}px Montserrat`;
+
+                    // Draw particle
+                    ctx.fillStyle = `rgba(70, 56, 99, ${p.opacity})`; 
+                    ctx.font = `${p.size}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`; // Use system font
                     ctx.fillText(p.symbol, p.x, p.y);
                 }
                 connectParticles();
-                requestAnimationFrame(animate);
+                animationFrameId = requestAnimationFrame(animate); // Store frame ID
             }
-
-            window.addEventListener('resize', () => { resizeCanvas(); createParticles(); });
-            resizeCanvas(); createParticles(); animate();
             
+            // --- Start/Stop Animation based on visibility ---
+             const observer = new IntersectionObserver((entries) => {
+                 entries.forEach(entry => {
+                     if (entry.isIntersecting) {
+                         if (!animationFrameId) { // Start if not already running
+                             resizeCanvas(); // Ensure size is correct
+                             // createParticles(); // Create particles only if needed (e.g., first time)
+                             if(particles.length === 0) createParticles();
+                             animate();
+                         }
+                     } else {
+                         if (animationFrameId) { // Stop if running
+                             cancelAnimationFrame(animationFrameId);
+                             animationFrameId = null;
+                         }
+                     }
+                 });
+             }, { threshold: 0 }); // Trigger as soon as any part is visible/hidden
+
+             observer.observe(canvas); // Observe the canvas element
+
+            // --- Lightbox ---
             const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
             const lightboxClose = document.getElementById('lightbox-close');
             window.openLightbox = function(src) {
-                const lightboxImg = document.getElementById('lightbox-img');
                 if (lightbox && lightboxImg) {
                     lightboxImg.src = src;
                     lightbox.classList.remove('hidden');
                     lightbox.classList.add('flex');
+                    // Consider adding focus management and ARIA attributes for accessibility
                 }
             }
             function closeLightbox() {
                 if (lightbox) {
                     lightbox.classList.add('hidden');
                     lightbox.classList.remove('flex');
+                    lightboxImg.src = ''; // Clear src
                 }
             }
             if (lightbox && lightboxClose) {
                 lightboxClose.addEventListener('click', closeLightbox);
-                lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+                lightbox.addEventListener('click', (e) => { 
+                    if (e.target === lightbox) closeLightbox(); 
+                });
             }
 
+            // --- Contact FAB / Modal ---
             const contactFab = document.getElementById('contact-fab');
             const modalOverlay = contactModal.querySelector('.modal-overlay');
             const modalCloseBtn = document.getElementById('modal-close-btn');
@@ -1620,12 +1789,14 @@
                  contactModal.classList.remove('hidden');
                  contactModal.classList.add('flex');
                  setTimeout(() => contactModal.classList.add('visible'), 10);
+                 // Consider focus management: move focus into the modal
             }
             function closeContactModal() {
                 contactModal.classList.remove('visible');
                 setTimeout(() => {
                     contactModal.classList.add('hidden');
                     contactModal.classList.remove('flex');
+                    // Consider focus management: return focus to FAB or previous element
                 }, 300);
             }
 
@@ -1635,18 +1806,45 @@
 
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
-                    closeLightbox();
-                    closeContactModal();
+                    if (!lightbox.classList.contains('hidden')) {
+                         closeLightbox();
+                    } else if (!contactModal.classList.contains('hidden')) {
+                         closeContactModal();
+                    }
                 }
             });
 
+            // --- FAB Pulse Animation ---
             const fabContent = document.querySelector('#contact-fab .fab-content');
             if (fabContent) {
-                fabContent.addEventListener('animationend', () => {
-                    fabContent.classList.remove('fab-pulse');
-                }, { once: true });
+                // Ensure animation only runs once after load
+                 const animationPlayed = sessionStorage.getItem('fabAnimationPlayed');
+                 if (!animationPlayed) {
+                     fabContent.classList.add('fab-pulse');
+                     fabContent.addEventListener('animationend', () => {
+                         fabContent.classList.remove('fab-pulse');
+                         try { // Use try-catch for sessionStorage
+                            sessionStorage.setItem('fabAnimationPlayed', 'true');
+                         } catch (e) {
+                             console.warn("Session storage not available for FAB animation state.");
+                         }
+                     }, { once: true });
+                 } else {
+                      fabContent.classList.remove('fab-pulse'); // Remove class if already played
+                 }
             }
-        });
+
+             // --- Service Worker Check ---
+             // Note: A full implementation requires a separate sw.js file and cannot be done here.
+             // This is just a placeholder to inform about the limitation.
+             if ('serviceWorker' in navigator) {
+                 console.log("Service Workers are supported, but registration is skipped due to single-file constraint.");
+                 // navigator.serviceWorker.register('/sw.js').then(...).catch(...); 
+             } else {
+                 console.log("Service Workers not supported by this browser.");
+             }
+
+        }); // End DOMContentLoaded
     </script>
 </body>
 </html>
