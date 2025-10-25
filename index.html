@@ -19,15 +19,15 @@
     -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self'; 
-        script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net/npm/chart.js@4.4.1; 
+        script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net/npm/chart.js@4.4.1 /_vercel/insights/script.js; 
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; 
         font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; 
         img-src 'self' https://images.unsplash.com https://placehold.co; 
-        connect-src 'self' https://formspree.io; 
+        connect-src 'self' https://api.web3forms.com; 
         frame-src 'none'; 
         object-src 'none'; 
         base-uri 'self'; 
-        form-action 'self' https://formspree.io;">
+        form-action 'self' https://api.web3forms.com;">
 
     <title>Bala Sravani Konakalla | Finance Professional</title>
     
@@ -68,6 +68,12 @@
     <!-- Chart.js for dashboard charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha256-RffRfatvQd3/LGaDVO1MTOsNfMvQPnSATemEuGsdMog=" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
     
+    <!-- ADDED: Vercel Insights Scripts -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script src="/_vercel/insights/script.js"></script>
+
     <style>
         /* --- COLOR PALETTE --- */
         /* BG #F5F1EA • Surface #FFFFFF • Text #221C2A */
@@ -490,7 +496,17 @@
                 <i class="fas fa-times"></i>
             </button>
             <h3 class="text-2xl md:text-3xl font-bold mb-6 text-center" style="color: #221C2A;">Let’s talk — I’m open to new opportunities</h3>
-             <form class="contact-form w-full" action="" method="POST">
+             
+             <!-- UPDATED: Form now submits to Web3Forms -->
+             <form class="contact-form w-full" action="https://api.web3forms.com/submit" method="POST">
+                
+                <!-- Web3Forms Access Key -->
+                <input type="hidden" name="access_key" value="5a71102a-83d9-4ae7-bffe-2d19f92ddca9">
+                <!-- Redirect on Success -->
+                <input type="hidden" name="redirect" id="form-redirect-url">
+                <!-- Optional: Subject Line -->
+                <input type="hidden" name="from_name" value="Sravani's Portfolio Contact">
+                
                 <div class="space-y-4 text-left">
                     <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="--tw-ring-color: #463863;">
                     <input type="email" name="email" placeholder="Your Email" required class="w-full bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-all" style="--tw-ring-color: #463863;">
@@ -658,7 +674,8 @@
                 contact: {
                     email: 'sravikonakalla@gmail.com',
                     linkedin: 'https://linkedin.com/in/kbalasravani',
-                    formspree_url: 'https://formspree.io/f/myznbzer'
+                    // REMOVED: formspree_url is no longer needed
+                    // formspree_url: 'https://formspree.io/f/myznbzer'
                 },
                  chipotleProject: {
                     dashboardData: {
@@ -1436,40 +1453,35 @@
             }
             
             const successToast = document.getElementById('success-toast');
+
+            // --- NEW: Form Success Handling (for Web3Forms) ---
+            // Check if we've been redirected back with a success flag
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('form_success') === 'true') {
+                if (successToast) {
+                    successToast.classList.add('show');
+                    setTimeout(() => successToast.classList.remove('show'), 4000);
+                }
+                // Clean up the URL so it doesn't show again on refresh
+                if (window.history.replaceState) {
+                    history.replaceState(null, '', window.location.pathname);
+                }
+            }
+            
+            // --- NEW: Set dynamic redirect URL for Web3Forms ---
+            const redirectInput = document.getElementById('form-redirect-url');
+            if(redirectInput) {
+                // We construct the URL to redirect back to, adding our success flag
+                const redirectUrl = window.location.origin + window.location.pathname + '?form_success=true';
+                redirectInput.value = redirectUrl;
+            }
+            // --- END: Form Logic Changes ---
+            
             const contactModal = document.getElementById('contact-modal');
             const contactForm = contactModal.querySelector('.contact-form');
-            contactForm.action = portfolioData.contact.formspree_url;
             
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const formData = new FormData(this);
-                fetch(this.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
-                .then(response => { 
-                    if (response.ok) { 
-                        closeContactModal();
-                        setTimeout(() => {
-                           successToast.classList.add('show'); 
-                            setTimeout(() => successToast.classList.remove('show'), 4000);
-                        }, 400);
-                        contactForm.reset(); 
-                    } else {
-                        response.json().then(data => {
-                            if (Object.hasOwn(data, 'errors')) {
-                                // Re-enable this if you need alerts, but per instructions,
-                                // a custom modal would be better. For now, logging to console.
-                                console.error("Form errors:", data["errors"]);
-                                // alert(data["errors"].map(error => error["message"]).join(", "));
-                            } else {
-                                console.error("Form submission error.");
-                                // alert("There was an error sending your message. Please try again.");
-                            }
-                        })
-                    }
-                }).catch(error => {
-                    console.error("Form submission error.", error);
-                    // alert("There was an error sending your message. Please try again.");
-                }); 
-            });
+            // REMOVED: The custom formspree 'submit' event listener is no longer needed.
+            // Web3Forms will handle the submission as a standard form POST.
 
 
             function handleScrollAnimations() {}
@@ -1618,5 +1630,3 @@
     </script>
 </body>
 </html>
-
-
