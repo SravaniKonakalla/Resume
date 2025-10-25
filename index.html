@@ -205,56 +205,7 @@
         .certification-card .logo-holder img { border-radius: 0; width: 100%; height: 100%; object-fit: contain; padding: 0.75rem; background-color: white; }
 
         /* Mobile specific styles for Education logos */
-        @media (max-width: 767px) {
-            .education-card .logo-holder {
-                width: 80px;  /* Smaller width on mobile */
-                height: 80px; /* Fixed height to ensure circle */
-                border-radius: 50%; /* Make it circular */
-                align-self: center; /* Center it vertically if flex */
-                margin: 1rem; /* Add some margin */
-                padding: 4px; /* Adjust padding if needed */
-                background-color: white; /* Ensure bg for contain */
-            }
-             .education-card .logo-holder img {
-                object-fit: contain; /* Use contain for circular logos */
-                 border-radius: 50%; /* Ensure image is also clipped */
-            }
-            .education-card {
-                flex-direction: column; /* Stack vertically on mobile */
-                align-items: center; /* Center items */
-                text-align: center; /* Center text */
-            }
-             .education-card > div:last-child { /* Target the text content div */
-                 padding: 1rem; /* Adjust padding */
-                 padding-bottom: 3rem; /* Add space for badge */
-             }
-            .education-card .cgpa-badge {
-                position: absolute;
-                bottom: 1rem; /* Position badge at bottom */
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            /* Adjust certification logo size on mobile too for consistency */
-             .certification-card .logo-holder {
-                 width: 80px;
-                 height: 80px;
-                 padding: 0.5rem; /* Adjust padding */
-             }
-             .certification-card {
-                 flex-direction: column;
-                 align-items: center;
-                 text-align: center;
-             }
-             .certification-card > div:last-child { /* Text content */
-                 padding: 1rem;
-                 width: 100%; /* Ensure button container takes width */
-             }
-            .cert-view-btn { /* Reposition button */
-                 position: absolute;
-                 bottom: 1rem;
-                 right: 1rem;
-             }
-        }
+        /* REMOVED: Entire @media (max-width: 767px) block */
 
 
         .cgpa-badge { background-color: #463863; color: #FFFFFF; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
@@ -1166,16 +1117,16 @@
                 page.className = 'page';
 
                 const educationCardsHTML = portfolioData.educations.map(edu => `
-                    <div class="education-card bg-white rounded-2xl flex flex-col md:flex-row overflow-hidden w-full max-w-2xl mx-auto"> <!-- Ensure flex-col for mobile default -->
-                        <div class="logo-holder !w-24 md:!w-32"> <!-- Adjusted base width -->
+                    <div class="education-card bg-white rounded-2xl flex overflow-hidden w-full max-w-2xl mx-auto"> <!-- REVERTED: Removed flex-col md:flex-row -->
+                        <div class="logo-holder"> <!-- REVERTED: Removed !w-24 md:!w-32 -->
                             <img src="${portfolioData.imageUrls[edu.logoUrlKey]}" alt="${edu.school} Logo" loading="lazy" width="128" height="128" onerror="this.src='https://placehold.co/128x128/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
                         </div>
-                        <div class="p-4 md:p-6 md:pl-8 relative flex-grow text-center md:text-left"> <!-- Center text on mobile -->
+                        <div class="py-6 pr-6 pl-8 relative flex-grow"> <!-- REVERTED: Restored padding, removed text-center -->
                             <h4 class="text-xl font-bold" style="color: #221C2A;">${edu.degree}</h4>
                             <p class="font-semibold text-md mb-1" style="color: #463863;">${edu.specialization}</p>
                             <p class="text-sm" style="color: #9C8FA7;">${edu.school}, ${edu.location}</p>
-                            <p class="text-sm font-medium mb-10 md:mb-0" style="color: #D1A46E;">${edu.date}</p> <!-- Add bottom margin on mobile -->
-                            <div class="absolute bottom-4 left-1/2 md:left-auto md:right-4 transform -translate-x-1/2 md:transform-none md:bottom-6 md:right-6"> <!-- Positioning -->
+                            <p class."text-sm font-medium" style="color: #D1A46E;">${edu.date}</p> <!-- REVERTED: Removed mb-10 -->
+                            <div class="absolute bottom-6 right-6"> <!-- REVERTED: Restored positioning -->
                                 <span class="cgpa-badge">${edu.details}</span>
                             </div>
                         </div>
@@ -1183,17 +1134,17 @@
                 `).join('');
 
                 const certificationCardsHTML = portfolioData.certifications.map(cert => `
-                    <div class="certification-card bg-white rounded-2xl flex flex-col md:flex-row overflow-hidden w-full max-w-3xl mx-auto"> <!-- flex-col for mobile -->
-                        <div class="logo-holder !w-24 md:!w-32"> <!-- Adjusted width -->
+                    <div class="certification-card bg-white rounded-2xl flex overflow-hidden w-full max-w-3xl mx-auto"> <!-- REVERTED: Removed flex-col md:flex-row -->
+                        <div class="logo-holder !w-24 md:!w-32"> <!-- REVERTED: This class was correct -->
                              <img src="${portfolioData.imageUrls[cert.logoUrlKey]}" alt="${cert.issuer} Logo" loading="lazy" width="128" height="128" onerror="this.src='https://placehold.co/128x128/FFFFFF/463863?text=Logo'; this.parentElement.style.boxShadow='none';">
                         </div>
-                        <div class="p-4 md:p-6 flex-grow flex flex-col justify-between items-center md:flex-row md:items-center relative text-center md:text-left min-h-[120px] md:min-h-0"> <!-- Added min-height for mobile button space -->
-                            <div class="mb-10 sm:mb-4 md:mb-0">
+                        <div class="p-4 md:p-6 flex-grow flex flex-col sm:flex-row justify-between items-start sm:items-center"> <!-- REVERTED: Back to original classes -->
+                            <div class="mb-4 sm:mb-0"> <!-- REVERTED: Back to original classes -->
                                 <h4 class="text-lg font-bold" style="color: #221C2A;">${cert.title}</h4>
                                 <p class="font-semibold text-sm mb-1" style="color: #463863;">${cert.issuer}</p>
                                 <p class="text-xs font-medium" style="color: #D1A46E;">Issued: ${cert.issueDate}</p>
                             </div>
-                            <button class="view-cert-btn cert-view-btn flex-shrink-0 absolute bottom-4 right-4 md:relative md:bottom-auto md:right-auto" 
+                            <button class="view-cert-btn cert-view-btn flex-shrink-0" <!-- REVERTED: Removed absolute/relative positioning classes -->
                                     data-img-src="${portfolioData.imageUrls[cert.imageUrlKey]}" 
                                     aria-label="View ${cert.title} certificate">
                                 <!-- Plus SVG -->
@@ -1848,5 +1799,6 @@
     </script>
 </body>
 </html>
+
 
 
