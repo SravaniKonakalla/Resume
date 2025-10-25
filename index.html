@@ -549,6 +549,12 @@
                     logoChipotle: 'chipotle logo.webp',
                     logoBloomberg: 'Bloomberg Logo.webp'
                 },
+                // NEW SECTION: Added to store file paths for downloads
+                fileUrls: {
+                    // TODO: Upload your financial model file and update this path if needed.
+                    // e.g., './Chipotle_Financial_Model.xlsx'
+                    financialModel: './Chipotle_Financial_Model.xlsx' 
+                },
                 experiences: [
                     { 
                         type: 'job',
@@ -1324,7 +1330,7 @@
                 
                 <section class="py-12 project-section-fade-in">
                     <div class="container mx-auto px-6 md:px-8 text-center">
-                        <a href="#" aria-label="Download Financial Model" class="btn-primary font-bold py-3 px-8 rounded-lg inline-flex items-center gap-2">
+                        <a href="${portfolioData.fileUrls.financialModel}" download="Chipotle_Financial_Model_Bala_Sravani_Konakalla.xlsx" aria-label="Download Financial Model" class="btn-primary font-bold py-3 px-8 rounded-lg inline-flex items-center gap-2">
                             <i class="fas fa-download"></i> Download Financial Model
                         </a>
                     </div>
@@ -1612,4 +1618,5 @@
     </script>
 </body>
 </html>
+
 
