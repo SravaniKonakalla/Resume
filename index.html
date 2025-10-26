@@ -533,11 +533,10 @@
                     logoChipotle: 'chipotle logo.webp',
                     logoBloomberg: 'Bloomberg Logo.webp'
                 },
-                // NEW SECTION: Added to store file paths for downloads
+                // UPDATED: File URLs for new download buttons
                 fileUrls: {
-                    // TODO: Upload your financial model file and update this path if needed.
-                    // e.g., './Chipotle_Financial_Model.xlsx'
-                    financialModel: './Chipotle_Financial_Model.xlsx' 
+                    summaryPdf: './Starbucks_Financial_Summary_Report.pdf',
+                    analysisWorkbook: './Starbucks_Financial_Analysis_Workbook.xlsx'
                 },
                 experiences: [
                     { 
@@ -1313,11 +1312,19 @@
                     </div>
                 </section>
                 
+                <!-- UPDATED: Download button section -->
                 <section class="py-12 project-section-fade-in">
                     <div class="container mx-auto px-6 md:px-8 text-center">
-                        <a href="${portfolioData.fileUrls.financialModel}" download="Chipotle_Financial_Model_Bala_Sravani_Konakalla.xlsx" aria-label="Download Financial Model" class="btn-primary font-bold py-3 px-8 rounded-lg inline-flex items-center gap-2">
-                            <i class="fas fa-download"></i> Download Financial Model
-                        </a>
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <!-- Button 1: PDF Summary -->
+                            <a href="${portfolioData.fileUrls.summaryPdf}" download="Starbucks_Financial_Summary_Report.pdf" aria-label="Download Executive Summary" class="btn-primary w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2">
+                                <i class="fas fa-file-pdf"></i> Download Executive Summary
+                            </a>
+                            <!-- Button 2: Excel Model -->
+                            <a href="${portfolioData.fileUrls.analysisWorkbook}" download="Starbucks_Financial_Analysis_Workbook.xlsx" aria-label="Download Financial Model" class="btn-primary w-full sm:w-auto font-bold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2">
+                                <i class="fas fa-file-excel"></i> Download Financial Model
+                            </a>
+                        </div>
                     </div>
                 </section>
                 `;
