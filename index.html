@@ -498,7 +498,11 @@
             // (function registerServiceWorker() { ... })();
             // --- END OF SERVICE WORKER ---
             
-            // --- DATA SOURCE ---
+            // ================================================================
+            // EDIT YOUR PORTFOLIO HERE
+            // The content/data you are most likely to change lives in portfolioData.
+            // The website engine below reads this data and builds the design for you.
+            // ================================================================
             const portfolioData = {
                 pages: [
                     { id: 'home', label: 'Home' },
@@ -542,34 +546,74 @@
                     summaryPdf: './Chipotle_Financial_Summary_Report.pdf',
                     analysisWorkbook: './Chipotle_Financial_Analysis_Workbook.xlsx'
                 },
+                // ================================================================
+                // EDITABLE CONTENT — EXPERIENCE
+                // Update the TCS client assignments and competencies here.
+                // Both Deutsche Börse and PepsiCo are intentionally grouped under
+                // the single Tata Consultancy Services role.
+                // ================================================================
                 experiences: [
-                    { 
+                    {
                         type: 'job',
-                        date: 'Jun, 2024 – Present', 
-                        title: 'Financial Systems & Business Analyst', 
+                        date: 'Jun, 2024 – Present',
+                        title: 'Financial Systems & Business Analyst',
                         company: 'Tata Consultancy Services',
                         companyFull: 'Tata Consultancy Services | Hyderabad',
                         logoUrlKey: 'logoTcs',
-                        duties: [
-                           '<strong>Financial Forecasting & Analysis:</strong> Integrated the real-time foreign exchange (FX) data into SAP BPC, enhancing the accuracy of multi-currency financial forecasts and empowering clients with robust scenario-planning and risk assessment capabilities.',
-                           '<strong>Data Integrity & Financial Close:</strong> Executed critical Role Forward activities with 100% accuracy by transferring prior-period closing balances into new periods for month-end and quarter-end closes safeguarding data integrity for regulatory reporting.',
-                           '<strong>Advanced Financial Modeling & Automation:</strong> Re-engineered logic scripts to automate complex financial calculations and currency translations, directly improving the speed and reliability of the core consolidation process.',
-                           '<strong>Functional Testing & Controls Validation:</strong> Led comprehensive functional checkouts of the environment, validating system integrity across all financial planning, budgeting, and consolidation modules to ensure unwavering system reliability for stakeholders.',
-                           '<strong>Role ID Administration & Access Controls:</strong> Created and updated Role IDs and “cost-center mappings” within the BPC security model, applying Excel automation to accelerate provisioning and audit readiness.',
-                           '<strong>Strategic Innovation:</strong> Proposed a pioneering "Finance Digital Twin" concept—an AI-driven, real-time virtual replica of a company\'s financial ecosystem—to enable dynamic what-if analysis.'
+                        clients: [
+                            {
+                                name: 'Deutsche Börse',
+                                responsibilities: [
+                                    '<strong>Financial Institution & Investment Data:</strong> Built and validated structured financial profiles including banks, trading institutions, broker-dealers, and other counterparties, capturing business activities, institutional relationships, investments, and financial-product exposure to support downstream financial and regulatory processes.',
+                                    '<strong>Financial Data Quality & Controls:</strong> Analyzed complex entity and related party relationship data to identify inconsistencies, gaps, and data-quality issues, strengthening the reliability and traceability of information used across financial-services workflows.',
+                                    '<strong>Enterprise Data Migration:</strong> Supported the migration of critical business data from SAP to Fenergo by validating records, investigating discrepancies, and resolving data-quality issues to preserve information integrity during a large-scale system transition.',
+                                    '<strong>System Testing & Product Delivery:</strong> Drove functional testing scenarios of new workflows, integrations, and system enhancements by translating business scenarios into test cases, identifying defects, and working with business and technology teams to comply with the regulatory & client requirements.'
+                                ]
+                            },
+                            {
+                                name: 'PepsiCo',
+                                responsibilities: [
+                                    '<strong>Financial Forecasting & FX Analysis:</strong> Developed multi-currency financial forecasting and FX analysis, improving the reliability of financial inputs used for budgeting, planning, and business decision-making.',
+                                    '<strong>Financial Close & Reporting:</strong> Validated financial data and balance roll-forward activities supporting month-end and quarter-end close, helping maintain consistency and accuracy across reporting periods.',
+                                    '<strong>Finance Process Automation:</strong> Automated cost-center and Role ID mapping activities, reducing manual effort by over 40% while improving process efficiency and control within finance operations.',
+                                    '<strong>Financial Systems & Validation:</strong> Validated financial planning, budgeting, and consolidation processes to ensure system outputs aligned with business requirements and supported reliable finance operations.'
+                                ]
+                            }
                         ],
-                        domain: [
-                           '<strong>Tools & platforms:</strong> SAP BPC; Excel (Advanced)',
-                           '<strong>Finance & Analytics:</strong> Financial forecasting; Multi-currency (FX) forecasting; Financial consolidation; Currency translation',
-                           '<strong>Data & automation:</strong> Script automation; Role-forward activities; Data integrity; Functional Checkouts, Cost-center mapping',
-                           '<strong>Strategy & innovation:</strong> Scenario planning; Finance Digital Twin'
+                        coreCompetencies: [
+                            {
+                                heading: 'Tools & Platforms',
+                                items: ['Fenergo', 'SAP BPC', 'Advanced Excel', 'SQL', 'Power BI']
+                            },
+                            {
+                                heading: 'Finance & Analytics',
+                                items: ['Financial Forecasting', 'Financial Planning & Analysis (FP&A)', 'FX Analysis']
+                            },
+                            {
+                                heading: 'Data & Automation',
+                                items: ['Data Validation', 'Enterprise Data Migration', 'Process Automation', 'Data Reconciliation']
+                            },
+                            {
+                                heading: 'Strategy & Innovation',
+                                items: ['Scenario planning', 'Enterprise Data Migration', 'Finance Digital Twin']
+                            }
+                        ],
+                        strategicCapabilities: [
+                            { name: 'Financial Modeling & Valuation', icon: 'fas fa-calculator' },
+                            { name: 'Scenario Analysis', icon: 'fas fa-sitemap' },
+                            { name: 'Advanced Excel & Tableau', icon: 'fas fa-chart-line' },
+                            { name: 'S&P Capital IQ', icon: 'fas fa-search-dollar' },
+                            { name: 'SAP BPC', icon: 'fas fa-cogs' },
+                            { name: 'Data Integrity & Validation', icon: 'fas fa-check-double' },
+                            { name: 'Vibe Coding', icon: 'fas fa-code' },
+                            { name: 'Power BI & Automation', icon: 'fas fa-robot' }
                         ]
                     },
-                    { 
+                    {
                         type: 'internship',
-                        date: 'Jun 2023 – Aug 2023', 
-                        title: 'Sales Trainee - Internship', 
-                        company: 'Silver Star Mercedes Benz', 
+                        date: 'Jun 2023 – Aug 2023',
+                        title: 'Sales Trainee - Internship',
+                        company: 'Silver Star Mercedes Benz',
                         companyFull: 'Silver Star Mercedes Benz | Hyderabad',
                         logoUrlKey: 'logoMercedes',
                         duties: [
@@ -586,22 +630,6 @@
                         ]
                     }
                 ],
-                skillsByCategory: { 
-                    "Software & Platforms": [
-                        { name: 'SAP BPC' },
-                        { name: 'Tableau' },
-                        { name: 'MS Office Suite' },
-                    ],
-                    "Core Competencies": [
-                        { name: 'Financial Modeling' },
-                        { name: 'Data Analysis' },
-                        { name: 'Compliance' },
-                        { name: 'Credit Monitoring' },
-                    ],
-                    "Technical Skills": [
-                         { name: 'Advanced Excel' },
-                    ]
-                },
                 educations: [
                     { 
                         degree: 'Masters of Business Administration', 
@@ -964,54 +992,79 @@
                 page.id = 'page-experience';
                 page.className = 'page';
 
-                const experiencesHTML = portfolioData.experiences.map((exp, index) => {
-                    const dutiesHTML = exp.duties.map(duty => `<li class="mb-2">${duty}</li>`).join('');
-                    const domainHTML = exp.domain.map(d => `<li class="mb-2">${d}</li>`).join('');
+                // Render experience content from the editable data above.
+                // This keeps the visual layout separate from the content you edit.
+                const renderExperienceContent = (exp) => {
+                    const headerHTML = `
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
+                            <h3 class="text-xl font-bold mb-1 sm:mb-0">${exp.title}</h3>
+                            <p class="text-sm font-medium sm:mt-1 sm:flex-shrink-0 sm:ml-4 order-3 sm:order-2" style="color: #D1A46E;">${exp.date}</p>
+                            <p class="font-semibold mb-0 sm:mb-4 order-2 sm:hidden" style="color: #463863;">${exp.companyFull}</p>
+                        </div>
+                        <p class="font-semibold mb-6 hidden sm:block" style="color: #463863;">${exp.companyFull}</p>
+                    `;
 
-                    return {
-                        id: index,
-                        ...exp,
-                        html: {
-                            explorerListItem: `
-                                <button class="exp-role-explorer-list-item text-left p-4 rounded-lg w-full ${index === 0 ? 'active' : ''}" data-id="${index}">
-                                    <div class="flex items-center gap-3">
-                                        <div class="logo-holder !w-10 !h-10">
-                                            <!-- SECTION 1: Lazy load images -->
-                                            <img src="${portfolioData.imageUrls[exp.logoUrlKey]}" alt="${exp.company} Logo" loading="lazy">
-                                        </div>
-                                        <div>
-                                            <h4 class="font-bold text-sm">${exp.title}</h4>
-                                            <p class="text-xs text-gray-500">${exp.company}</p>
-                                        </div>
+                    if (exp.clients) {
+                        const clientsHTML = exp.clients.map(client => `
+                            <div class="mb-8 last:mb-0">
+                                <h4 class="text-lg font-bold mb-3" style="color: #463863;">Client: ${client.name}</h4>
+                                <ul class="list-disc pl-5 space-y-2">
+                                    ${client.responsibilities.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `).join('');
+
+                        const competenciesHTML = (exp.coreCompetencies || []).map(group => `
+                            <li class="mb-2"><strong>${group.heading}:</strong> ${group.items.join(', ')}.</li>
+                        `).join('');
+
+                        return `
+                            <div class="flex-grow">
+                                ${headerHTML}
+                                <h4 class="font-bold mb-4" style="color: #D1A46E;">Client Assignments:</h4>
+                                ${clientsHTML}
+                                <div class="mt-8 pt-6 border-t border-gray-200">
+                                    <h4 class="font-bold mb-3" style="color: #D1A46E;">Core Competencies</h4>
+                                    <ul class="list-disc pl-5 space-y-1">${competenciesHTML}</ul>
+                                </div>
+                            </div>`;
+                    }
+
+                    const dutiesHTML = (exp.duties || []).map(duty => `<li class="mb-2">${duty}</li>`).join('');
+                    const domainHTML = (exp.domain || []).map(d => `<li class="mb-2">${d}</li>`).join('');
+
+                    return `
+                        <div class="flex-grow">
+                            ${headerHTML}
+                            <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
+                            <ul class="list-disc pl-5 space-y-1 mb-4">${dutiesHTML}</ul>
+                            <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
+                            <ul class="list-disc pl-5 space-y-1">${domainHTML}</ul>
+                        </div>`;
+                };
+
+                const experiencesHTML = portfolioData.experiences.map((exp, index) => ({
+                    id: index,
+                    ...exp,
+                    html: {
+                        explorerListItem: `
+                            <button class="exp-role-explorer-list-item text-left p-4 rounded-lg w-full ${index === 0 ? 'active' : ''}" data-id="${index}">
+                                <div class="flex items-center gap-3">
+                                    <div class="logo-holder !w-10 !h-10">
+                                        <!-- SECTION 1: Lazy load images -->
+                                        <img src="${portfolioData.imageUrls[exp.logoUrlKey]}" alt="${exp.company} Logo" loading="lazy">
                                     </div>
-                                </button>`,
-                            explorerContent: `
-                                <div class="flex-grow">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
-                                        <h3 class="text-xl font-bold mb-1 sm:mb-0">${exp.title}</h3>
-                                        <p class="text-sm font-medium sm:mt-1 sm:flex-shrink-0 sm:ml-4 order-3 sm:order-2" style="color: #D1A46E;">${exp.date}</p>
-                                        <p class="font-semibold mb-0 sm:mb-4 order-2 sm:hidden" style="color: #463863;">${exp.companyFull}</p>
+                                    <div>
+                                        <h4 class="font-bold text-sm">${exp.title}</h4>
+                                        <p class="text-xs text-gray-500">${exp.company}</p>
                                     </div>
-                                    <p class="font-semibold mb-4 hidden sm:block" style="color: #463863;">${exp.companyFull}</p>
-                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
-                                    <ul class="list-disc pl-5 space-y-1 mb-4">${dutiesHTML}</ul>
-                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
-                                    <ul class="list-disc pl-5 space-y-1">${domainHTML}</ul>
-                                </div>`,
-                        }
-                    };
-                });
-                
-                const strategicCapabilities = [
-                    { name: 'Financial Modeling & Valuation', icon: 'fas fa-calculator' },
-                    { name: 'Scenario Analysis', icon: 'fas fa-sitemap' },
-                    { name: 'Advanced Excel & Tableau', icon: 'fas fa-chart-line' },
-                    { name: 'S&P Capital IQ', icon: 'fas fa-search-dollar' },
-                    { name: 'SAP BPC', icon: 'fas fa-cogs' },
-                    { name: 'Data Integrity & Validation', icon: 'fas fa-check-double' },
-                    { name: 'Vibe Coding', icon: 'fas fa-code' },
-                    { name: 'Power BI & Automation', icon: 'fas fa-robot' }
-                ];
+                                </div>
+                            </button>`,
+                        explorerContent: renderExperienceContent(exp)
+                    }
+                }));
+
+                const strategicCapabilities = portfolioData.experiences[0].strategicCapabilities || [];
 
                 const skillsMatrixHTML = strategicCapabilities.map(skill => `
                     <div class="skill-matrix-item">
@@ -1021,7 +1074,6 @@
                         <h4>${skill.name}</h4>
                     </div>
                 `).join('');
-
 
                 page.innerHTML = `
                     <section class="pt-28 pb-16">
@@ -1372,28 +1424,13 @@
                     const expId = parseInt(roleExplorerButton.dataset.id);
                     const exp = portfolioData.experiences[expId]; 
 
-                    if (exp) { 
-                        const dutiesHTML = exp.duties.map(duty => `<li class="mb-2">${duty}</li>`).join(''); 
-                        const domainHTML = exp.domain.map(d => `<li class="mb-2">${d}</li>`).join(''); 
-
+                    if (exp) {
                         explorerContent.style.opacity = 0;
                         setTimeout(() => {
-                            explorerContent.innerHTML = `
-                                <div class="flex-grow">
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
-                                        <h3 class="text-xl font-bold mb-1 sm:mb-0">${exp.title}</h3>
-                                        <p class="text-sm font-medium sm:mt-1 sm:flex-shrink-0 sm:ml-4 order-3 sm:order-2" style="color: #D1A46E;">${exp.date}</p>
-                                        <p class="font-semibold mb-0 sm:mb-4 order-2 sm:hidden" style="color: #463863;">${exp.companyFull}</p>
-                                    </div>
-                                    <p class="font-semibold mb-4 hidden sm:block" style="color: #463863;">${exp.companyFull}</p>
-                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Core Responsibilities:</h4>
-                                    <ul class="list-disc pl-5 space-y-1 mb-4">${dutiesHTML}</ul>
-                                    <h4 class="font-bold mb-2" style="color: #D1A46E;">Competencies:</h4>
-                                    <ul class="list-disc pl-5 space-y-1">${domainHTML}</ul>
-                                </div>`;
+                            explorerContent.innerHTML = renderExperienceContent(exp);
                             explorerContent.style.opacity = 1;
                         }, 300);
-                    } 
+                    }
                 }
             });
 
