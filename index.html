@@ -1427,7 +1427,7 @@
                     if (exp) {
                         explorerContent.style.opacity = 0;
                         setTimeout(() => {
-                            explorerContent.innerHTML = renderExperienceContent(exp);
+                            explorerContent.innerHTML = window.renderExperienceContent(exp);
                             explorerContent.style.opacity = 1;
                         }, 300);
                     }
